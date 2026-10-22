@@ -1,0 +1,26 @@
+{
+ "_ghi_chu": "Lich thi dau Taekwondo tai Viet Nam. Moi nam mot muc trong 'lich' (nam moi nhat hien truoc). Chi dua thong tin tu van ban chinh thuc cua Lien doan va ghi nguon. 'thang' dang yyyy-mm de nhom va sap xep; 'cap' la 'Quốc gia' hoac 'Quốc tế'; 'ghiChu' de \"\" neu van ban de trong. Sau khi sua: node build.mjs (doi nam/so giai thi chay them node tools/og.mjs).",
+ "vietTat": {
+  "TTHLTTQG": "Trung tâm Huấn luyện thể thao quốc gia"
+ },
+ "lich": [
+  {
+   "nam": 2027,
+   "trangThai": "Dự kiến",
+   "nguon": {
+    "so": "178/VTF-VP",
+    "ngay": "19/10/2026",
+    "trichYeu": "V/v lịch thi đấu Taekwondo năm 2027",
+    "kinhGui": "Cục Thể dục thể thao Việt Nam"
+   },
+   "giai": [
+    { "tt": "01", "ten": "Giải Taekwondo các Câu lạc bộ quốc gia", "cap": "Quốc gia", "thoiGian": "Tháng 6/2027", "thang": "2027-06", "diaDiem": "Vĩnh Long", "ghiChu": "Đã có văn bản" },
+    { "tt": "02", "ten": "Giải Taekwondo thiếu niên, nhi đồng quốc tế mở rộng", "cap": "Quốc tế", "thoiGian": "Tháng 6/2027", "thang": "2027-06", "diaDiem": "Tp. Hồ Chí Minh", "ghiChu": "VTF" },
+    { "tt": "03", "ten": "Giải Taekwondo quốc tế hữu nghị Việt Nam - Trung Quốc", "cap": "Quốc tế", "thoiGian": "Tháng 8/2027", "thang": "2027-08", "diaDiem": "Quảng Ninh", "ghiChu": "Địa phương phối hợp VTF" },
+    { "tt": "04", "ten": "Giải Vô địch Taekwondo trẻ quốc gia - CJ 2027", "cap": "Quốc gia", "thoiGian": "Tháng 8/2027", "thang": "2027-08", "diaDiem": "Tp. Hồ Chí Minh", "ghiChu": "" },
+    { "tt": "05", "ten": "Giải Taekwondo quốc tế Việt Nam mở rộng - CJ 2027", "cap": "Quốc tế", "thoiGian": "Tháng 8/2027", "thang": "2027-08", "diaDiem": "Tp. Hồ Chí Minh", "ghiChu": "" },
+    { "tt": "06", "ten": "Giải Vô địch Taekwondo quốc gia", "cap": "Quốc gia", "thoiGian": "Tháng 10/2027", "thang": "2027-10", "diaDiem": "Đà Lạt (TTHLTTQG)", "ghiChu": "Đã có văn bản" }
+   ]
+  }
+ ]
+}

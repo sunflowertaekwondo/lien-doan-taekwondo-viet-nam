@@ -1,0 +1,339 @@
+{
+ "_ghi_chu": "Trang Dai hoi The thao toan quoc lan thu X nam 2026 - mon Taekwondo. Noi dung chep dung chu tu: Dieu le mon Taekwondo (QD 9/QD-BTCDHTTTQ ngay 30/3/2026) va So tay Check-in Dai hoi cua Ban To chuc. Ngay dang yyyy-mm-dd. Sau khi sua: node build.mjs",
+ "ten": "Đại hội Thể thao toàn quốc lần thứ X năm 2026",
+ "tenNgan": "Đại hội Thể thao toàn quốc lần thứ X",
+ "mon": "Taekwondo",
+ "batDau": "2026-11-23",
+ "ketThuc": "2026-11-30",
+ "diaDiem": "Nhà thi đấu TDTT phường An Hội Đông, Tp. Hồ Chí Minh",
+ "diaDiemTen": "Nhà thi đấu TDTT phường An Hội Đông",
+ "diaChi": "5A đường Nguyễn Văn Lượng, phường An Hội Đông, TP. HCM",
+ "nguon": {
+  "dieuLe": {
+   "so": "9/QĐ-BTCĐHTTTQ",
+   "ngay": "30/03/2026",
+   "coQuan": "Trưởng Ban Tổ chức Đại hội Thể thao toàn quốc lần thứ X năm 2026",
+   "trichYeu": "Ban hành Điều lệ Đại hội Thể thao toàn quốc lần thứ X năm 2026 môn Taekwondo",
+   "pdf": "/docs/dai-hoi-x-2026-dieu-le-taekwondo.pdf",
+   "kb": 1032
+  },
+  "soTay": {
+   "ten": "Sổ tay Check-in Đại hội Thể thao toàn quốc lần X - 2026, môn Taekwondo",
+   "coQuan": "Ban Tổ chức",
+   "pdf": "/docs/dai-hoi-x-2026-so-tay-check-in-taekwondo.pdf",
+   "kb": 1780
+  }
+ },
+ "doiTuong": [
+  "Theo quy định tại Điều 4, Chương I của Điều lệ Đại hội Thể thao toàn quốc lần thứ X năm 2026 (sau đây viết tắt là Điều lệ Đại hội).",
+  "Các thành viên tham dự Đại hội phải có thẻ do Ban tổ chức cấp; thẻ vận động viên do Liên đoàn Taekwondo Việt Nam cấp, có mã GAL (Global Athletes License) trên phần mềm quản lý trực tuyến GMS (Global Member System) của Taekwondo thế giới.",
+  "Các đoàn tham dự Đại hội phải chịu trách nhiệm mua bảo hiểm cho các thành viên đơn vị mình, mua trang phục thi đấu theo đúng qui định và các trang thiết bị thi đấu, găng tay thi đấu điện tử, tất thi đấu điện tử KP&P K2, đồ bảo hộ cá nhân.",
+  "Vận động viên tham dự phải từ 17 tuổi trở lên (sinh năm 2009 trở về trước) đối với các nội dung đối kháng và 18 tuổi trở lên (sinh năm 2008 trở về trước) đối với các nội dung quyền."
+ ],
+ "dangKy": {
+  "quyDinh": [
+   "Mỗi vận động viên chỉ được phép đăng ký tham dự thi đấu một nội dung.",
+   "Mỗi đơn vị được phép đăng ký: sáu trên tám (6/8) nội dung đối kháng cá nhân của nam; sáu trên tám (6/8) nội dung đối kháng cá nhân của nữ; một trên ba (1/3) nội dung đối kháng đồng đội; ba trên năm (3/5) nội dung quyền."
+  ],
+  "soBo": "2026-07-01",
+  "chinhThuc": "2026-09-01",
+  "noiNhan": "Bộ môn Taekwondo, Phòng Thể thao thành tích cao, Cục Thể dục thể thao Việt Nam, số 36 Trần Phú, Ba Đình, Hà Nội",
+  "email": "thutrangtkd1981@gmail.com",
+  "dienThoai": "0243.7245561"
+ },
+ "doiKhangCaNhan": {
+  "Nữ": [
+   "Không quá 46kg",
+   "49kg",
+   "53kg",
+   "57kg",
+   "62kg",
+   "67kg",
+   "73kg",
+   "Trên 73kg"
+  ],
+  "Nam": [
+   "Không quá 54kg",
+   "58kg",
+   "63kg",
+   "68kg",
+   "74kg",
+   "80kg",
+   "87kg",
+   "Trên 87kg"
+  ]
+ },
+ "doiKhangThietBi": "Thi đấu đối kháng: sử dụng giáp thi đấu điện tử KP&P thế hệ mới K2 và găng tay thi đấu điện tử.",
+ "doiKhangDongDoi": [
+  {
+   "noiDung": "Đội Nữ",
+   "thanhPhan": "4 VĐV nữ",
+   "gioiHan": "Không quá 260kg"
+  },
+  {
+   "noiDung": "Đội Nam",
+   "thanhPhan": "4 VĐV nam",
+   "gioiHan": "Không quá 300kg"
+  },
+  {
+   "noiDung": "Đội hỗn hợp nam nữ",
+   "thanhPhan": "2 VĐV nam và 2 VĐV nữ",
+   "gioiHan": "Không quá 135kg/2 VĐV nữ; không quá 160kg/2 VĐV nam"
+  }
+ ],
+ "doiKhangDongDoiLuat": [
+  "Mỗi đội phải có đủ số vận động viên trong suốt thời gian tham gia thi đấu. Các vận động viên được phép cân một lần nữa (nếu có yêu cầu).",
+  "Trong một hiệp, đội nào đạt 30 điểm trước là thắng. Vận động viên phải thi đấu tối thiểu 15 giây mới được đổi người.",
+  "Ở nội dung đối kháng đồng đội hỗn hợp nam nữ: nam thi đấu với nam, nữ thi đấu với nữ. Hiệp 1 xanh cử vận động viên nữ ra trước. Hiệp 2 đỏ cử vận động viên nữ ra trước. Nếu có hiệp 3 thì 2 đội cử vận động viên nam thi đấu trước; sau khi một vận động viên được thay vào, phải ở lại trong trận đấu ít nhất 15 giây trước khi đủ điều kiện thay người lần nữa. Ngoài ra, sau khi thay người, đội đối phương không được thay vận động viên của mình trong 10 giây tiếp theo."
+ ],
+ "quyen": [
+  "Quyền cá nhân nam",
+  "Quyền cá nhân nữ",
+  "Quyền đồng đội nam",
+  "Quyền đồng đội nữ",
+  "Quyền đôi nam nữ"
+ ],
+ "theThuc": [
+  "Nội dung đối kháng: thi đấu theo thể thức “Best of Three system” theo Luật của Liên đoàn Taekwondo thế giới.",
+  "Thời gian thi đấu các nội dung đối kháng đồng đội: 3 hiệp x 3 phút/hiệp, nghỉ giữa hiệp 60 giây.",
+  "Thời gian thi đấu các nội dung đối kháng cá nhân: 3 hiệp x 2 phút/hiệp, nghỉ giữa hiệp 60 giây.",
+  "Nội dung quyền: Nếu có trên 6 vận động viên/đội sẽ thi 2 vòng là vòng loại và vòng chung kết.",
+  "Vòng loại thi 02 bài quyền tiêu chuẩn: bốc thăm 02 trong 08 bài quyền (Taekeuk 7, 8, Koryo, Keumgang, Taebaek, Pyongwon, Shipjin, Jitae).",
+  "Vòng chung kết thi 02 bài quyền: gồm 1 bài quyền sáng tạo và 1 bài quyền tiêu chuẩn (bốc thăm 1 trong 4 bài: Koryo, Keumgang, Taebaek, Pyongwon)."
+ ],
+ "luat": "Áp dụng Luật thi đấu của Liên đoàn Taekwondo thế giới (WT).",
+ "doping": "Vận động viên phải được giáo dục phòng chống doping trước khi tham dự Đại hội do Trung tâm Phòng chống doping Việt Nam tổ chức và xác nhận với Ban tổ chức (Quyết định số 1177/QĐ-TDTTVN ngày 12 tháng 9 năm 2025 của Cục Thể dục thể thao Việt Nam phê duyệt Kế hoạch giáo dục phòng, chống doping trước Đại hội thể thao toàn quốc lần thứ X năm 2026).",
+ "khenThuong": "Ban tổ chức trao huy chương vàng, huy chương bạc, đồng huy chương đồng và giấy chứng nhận cho các vận động viên đạt thành tích nhất, nhì, đồng hạng ba trong các nội dung thi đấu.",
+ "khieuNai": [
+  "Theo quy định tại Điều 14, Chương III của Điều lệ Đại hội.",
+  "Mọi cá nhân, đơn vị phải tuyệt đối chấp hành các quyết định của Ban tổ chức về việc khiếu nại.",
+  "Quyết định của Ban Trọng tài sau khi đã tham khảo ý kiến của Ban Tổ chức môn thi đấu là quyết định cuối cùng về chuyên môn."
+ ],
+ "chuongTrinh": [
+  {
+   "ngay": "2026-11-23",
+   "muc": [
+    [
+     "8h30 – 12h00",
+     "Đón quan chức, trọng tài và các đoàn tham dự."
+    ],
+    [
+     "17h00 – 18h30",
+     "Họp và tập huấn Trọng tài"
+    ]
+   ]
+  },
+  {
+   "ngay": "2026-11-24",
+   "muc": [
+    [
+     "08h00 – 12h00",
+     "Tập huấn Trọng tài"
+    ],
+    [
+     "8h30 – 12h00",
+     "Họp Lãnh đội, bốc thăm xếp lịch"
+    ]
+   ]
+  },
+  {
+   "ngay": "2026-11-25",
+   "muc": [
+    [
+     "09h00 – 18h30",
+     "Thi đấu các nội dung quyền"
+    ],
+    [
+     "10h00 – 12h00",
+     "Cân chính thức các VĐV thi đấu ngày 26/11"
+    ],
+    [
+     "18h30 – 19h30",
+     "Phát khen thưởng"
+    ]
+   ]
+  },
+  {
+   "ngay": "2026-11-26",
+   "muc": [
+    [
+     "08h00 – 8h30",
+     "Cân kiểm tra vận động viên"
+    ],
+    [
+     "9h00 – 18h00",
+     "Thi đấu vòng loại đối kháng các hạng cân: Nam: 54kg, 68kg, trên 87kg; Nữ: 46kg, 57kg, 73kg"
+    ],
+    [
+     "10h00 – 12h00",
+     "Cân chính thức các VĐV thi đấu ngày 27/11"
+    ],
+    [
+     "18h00 – 20h00",
+     "Thi đấu bán kết, chung kết"
+    ],
+    [
+     "20h15",
+     "Phát khen thưởng"
+    ]
+   ]
+  },
+  {
+   "ngay": "2026-11-27",
+   "muc": [
+    [
+     "08h00 – 8h30",
+     "Cân kiểm tra vận động viên"
+    ],
+    [
+     "9h00 – 18h00",
+     "Thi đấu vòng loại đối kháng các hạng cân: Nam: 58kg, 74kg, 80kg; Nữ: 49kg, 67kg"
+    ],
+    [
+     "10h00 – 12h00",
+     "Cân chính thức các VĐV thi đấu ngày 28/11"
+    ],
+    [
+     "18h00 – 20h00",
+     "Thi đấu bán kết, chung kết"
+    ],
+    [
+     "20h15",
+     "Phát khen thưởng"
+    ]
+   ]
+  },
+  {
+   "ngay": "2026-11-28",
+   "muc": [
+    [
+     "08h00 – 8h30",
+     "Cân kiểm tra vận động viên"
+    ],
+    [
+     "9h00 – 18h00",
+     "Thi đấu vòng loại đối kháng các hạng cân: Nam: 63kg, 87kg; Nữ: 53kg, 62kg, trên 73kg"
+    ],
+    [
+     "10h00 – 11h30",
+     "Cân chính thức các VĐV thi đấu ngày 29/11"
+    ],
+    [
+     "18h00 – 20h00",
+     "Thi đấu bán kết, chung kết"
+    ],
+    [
+     "20h15",
+     "Phát khen thưởng"
+    ]
+   ]
+  },
+  {
+   "ngay": "2026-11-29",
+   "muc": [
+    [
+     "08h00 – 18h00",
+     "Thi đấu đối kháng đồng [đội]"
+    ],
+    [
+     "18h30 – 20h00",
+     "Thi đấu bán kết, chung kết"
+    ],
+    [
+     "20h15",
+     "Phát khen thưởng"
+    ]
+   ]
+  },
+  {
+   "ngay": "2026-11-30",
+   "muc": [
+    [
+     "",
+     "Các đoàn ra về"
+    ]
+   ]
+  }
+ ],
+ "chuongTrinhGhiChu": "Lịch thi đấu có thể thay đổi tùy theo tình hình thực tế",
+ "checkIn": {
+  "gioiThieu": "Nhằm chuẩn bị tốt nhất công tác tổ chức và tiếp đón các đoàn tham dự môn Taekwondo tại Đại hội Thể thao toàn quốc lần X - 2026, Ban Tổ chức triển khai biểu mẫu đăng ký lịch check-in dành cho các đơn vị. Trong quá trình check-in, các đơn vị sẽ nhận thẻ thi đấu và kiểm tra schema, truy cập thử theo các email đã đăng ký và nộp nhạc thi quyền sáng tạo.",
+  "luuY": "Đề nghị các đơn vị đăng ký đầy đủ, chính xác thông tin và đúng HLV theo thông tin đăng ký đến check-in. (BTC sẽ đối chiếu thông tin đã Đăng ký khi đến check-in, không đúng HLV đến theo thông tin đăng ký sẽ không được nhận thẻ thi đấu).",
+  "thayDoi": "Trường hợp đơn vị đã đăng ký nhưng vì lý do khách quan cần thay đổi thông tin vui lòng liên hệ theo thông tin sau:",
+  "ngay": "2026-11-23",
+  "gio": "Từ 08:00 đến 15:00 ngày 23/11",
+  "phong": "Phòng họp lầu 1 - Nhà thi đấu TDTT phường An Hội Đông, TP. HCM",
+  "quyTrinh": [
+   [
+    "Đăng ký đại diện",
+    "Mỗi đơn vị đăng ký thông tin 01 Huấn luyện viên (HLV) đại diện chính thức. HLV này bắt buộc phải có mặt trực tiếp để đối chiếu thông tin và ký nhận Thẻ Đại hội cho toàn đoàn."
+   ],
+   [
+    "Nhân sự đi cùng hỗ trợ",
+    "Đơn vị có thể cử thêm từ 1 – 2 HLV/Cán bộ đi cùng để phối hợp nộp file và kiểm tra âm thanh (đặc biệt đối với các đơn vị tham gia thi đấu nội dung Quyền sáng tạo)."
+   ],
+   [
+    "Thời lượng tiếp nhận",
+    "Mỗi đơn vị có 10 phút để hoàn tất toàn bộ quy trình: Check-in nhận thẻ, rà soát Schema chuyên môn, kiểm tra quyền truy cập hệ thống và nộp/test nhạc thi đấu theo đúng khung giờ đã đăng ký trước."
+   ]
+  ],
+  "canhBao": "Để tránh ảnh hưởng đến các đoàn tiếp theo, đề nghị các đơn vị chuẩn bị sẵn sàng file nhạc (USB) và có mặt đúng khung giờ đã đăng ký.",
+  "khungGio": "Các khung giờ đã hiển thị thông tin nghĩa là đã có đơn vị đăng ký. Quý đơn vị vui lòng chỉ chọn các khung giờ còn trống."
+ },
+ "nhac": {
+  "gioiThieu": "Các đơn vị có nội dung thi đấu quyền chuẩn bị file nhạc để nộp theo thông tin sau:",
+  "muc": [
+   [
+    "Định dạng file",
+    "File chuẩn MP3, nộp bằng thiết bị USB cho BTC. (sau khi lưu file nhạc, BTC sẽ gửi trả lại USB)"
+   ],
+   [
+    "Cú pháp đặt tên file",
+    "[Tên đơn vị]_[Nội dung thi đấu]. Ví dụ: TPHCM_Cá Nhân Nam"
+   ],
+   [
+    "Chất lượng nội dung",
+    "Đảm bảo âm thanh rõ ràng, đúng thời lượng quy định và đúng bài nhạc sử dụng thi đấu chính thức."
+   ],
+   [
+    "Bàn giao & Kiểm tra",
+    "Nộp và test âm thanh trực tiếp cùng bộ phận kỹ thuật tại Bàn Check-in."
+   ]
+  ]
+ },
+ "schema": {
+  "muc": [
+   "Để truy cập hệ thống schema thi đấu, mỗi đơn vị đăng ký 5 địa chỉ email. (Đơn vị kiểm tra kỹ các ký tự đặc biệt, và chữ cái viết hoa viết thường)",
+   "Trường hợp đơn vị có số lượng VĐV đông, cần thêm lượt truy cập, vui lòng liên hệ thông tin sau để BTC bổ sung:"
+  ],
+  "hanChot": "2026-11-08T17:00",
+  "hanChotChu": "17:00 ngày 08/11"
+ },
+ "lienHeBtc": [
+  {
+   "ten": "Yến Ly",
+   "dienThoai": "0836459113"
+  },
+  {
+   "ten": "Hoàng Hảo",
+   "dienThoai": "0896619147"
+  }
+ ],
+ "sanTap": {
+  "lienHe": {
+   "ten": "Anh Chiến",
+   "vaiTro": "quản lý NTĐ",
+   "dienThoai": "090 678 6196"
+  },
+  "luuY": "Các đơn vị trao đổi trực tiếp với anh Chiến - quản lý NTĐ về các thông tin đăng ký, thời gian, chi phí, hoá đơn,..."
+ },
+ "hopLanhDoi": {
+  "ngay": "2026-11-24",
+  "gio": "14:00",
+  "noi": "Phòng họp Lầu 1, Nhà thi đấu TDTT phường An Hội Đông, TP. HCM"
+ },
+ "lienKet": {
+  "dangKy": "https://docs.google.com/forms/d/e/1FAIpQLSfWPDyo_JmEs7v8LFhUITD9rWCC11cxE6PVPA9jdutMP3IDlg/viewform",
+  "khungGio": "https://docs.google.com/spreadsheets/d/1il-aEu2-id8FnGEbMgHwt8IImpnZl94-RRgR6trbVBk/edit?gid=0#gid=0"
+ }
+}

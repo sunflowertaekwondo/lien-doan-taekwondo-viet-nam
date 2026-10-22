@@ -1,0 +1,1222 @@
+{
+ "ten": "Điều lệ (sửa đổi, bổ sung) Liên đoàn Taekwondo Việt Nam",
+ "pheDuyet": {
+  "so": "2/QĐ-BNV",
+  "ngay": "03/01/2023",
+  "coQuan": "Bộ Nội vụ",
+  "nguoiKy": "KT. Bộ trưởng – Thứ trưởng Vũ Chiến Thắng"
+ },
+ "daiHoiThongQua": {
+  "nhiemKy": "VI (2022 – 2026)",
+  "ngay": "19/08/2022",
+  "diaDiem": "Thành phố Hồ Chí Minh"
+ },
+ "thayThe": {
+  "so": "1897/QĐ-BNV",
+  "ngay": "04/12/2013"
+ },
+ "tepPdf": {
+  "dieuLe": "/docs/vtf/dieu-le-vtf-nhiem-ky-vi.pdf",
+  "quyetDinh": "/docs/vtf/qd-2-qd-bnv-phe-duyet-dieu-le.pdf"
+ },
+ "chuong": [
+  {
+   "so": "I",
+   "tieuDe": "QUY ĐỊNH CHUNG",
+   "dieu": [
+    {
+     "so": 1,
+     "tieuDe": "Tên gọi, biểu tượng",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Tên tiếng Việt: Liên đoàn Taekwondo Việt Nam."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Tên tiếng Anh: Viet Nam Taekwondo Federation."
+      },
+      {
+       "loai": "khoan",
+       "so": "3",
+       "text": "Tên viết tắt: VTF."
+      },
+      {
+       "loai": "khoan",
+       "so": "4",
+       "text": "Biểu trưng: Liên đoàn có biểu trưng riêng, được đăng ký bản quyền theo quy định của pháp luật."
+      }
+     ]
+    },
+    {
+     "so": 2,
+     "tieuDe": "Tôn chỉ, mục đích",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Liên đoàn Taekwondo Việt Nam (sau đây gọi tắt là Liên đoàn) là tổ chức xã hội - nghề nghiệp tự nguyện của tổ chức, công dân Việt Nam hoạt động trong lĩnh vực môn thể thao Taekwondo; yêu thích tập luyện và đóng góp cho sự phát triển môn thể thao Taekwondo tại Việt Nam."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Mục đích hoạt động của Liên đoàn là tập hợp, đoàn kết hội viên, bảo vệ quyền và lợi ích hợp pháp của hội viên, hỗ trợ nhau hoạt động có hiệu quả nhằm thúc đẩy phong trào tập luyện, thi đấu môn thể thao Taekwondo; giáo dục thể chất, rèn luyện ý chí, phẩm chất đạo đức, nâng cao sức khỏe, phát triển tài năng Taekwondo; nâng cao thành tích và vị thế của môn thể thao Taekwondo Việt Nam trong khu vực và thế giới, góp phần phát triển nền thể dục, thể thao của Việt Nam; phục vụ các nhiệm vụ chính trị, kinh tế, xã hội, an ninh quốc phòng, thể thao và đối ngoại của quốc gia."
+      }
+     ]
+    },
+    {
+     "so": 3,
+     "tieuDe": "Địa vị pháp lý, trụ sở",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Liên đoàn có tư cách pháp nhân, con dấu, tài khoản riêng; hoạt động theo quy định pháp luật Việt Nam và Điều lệ Liên đoàn được Bộ trưởng Bộ Nội vụ phê duyệt."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Trụ sở của Liên đoàn đặt tại Thành phố Hồ Chí Minh. Việc thành lập văn phòng đại diện của Liên đoàn tại các tỉnh, thành phố trực thuộc Trung ương theo quy định của pháp luật."
+      }
+     ]
+    },
+    {
+     "so": 4,
+     "tieuDe": "Lĩnh vực và phạm vi hoạt động",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Liên đoàn hoạt động trên phạm vi cả nước trong lĩnh vực môn thể thao Taekwondo theo quy định của pháp luật."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Liên đoàn chịu sự quản lý nhà nước của Bộ Nội vụ, sự quản lý về lĩnh vực thể dục thể thao của Bộ Văn hóa, Thể thao và Du lịch và các bộ, ngành khác có liên quan đến lĩnh vực hoạt động của Liên đoàn theo quy định của pháp luật."
+      },
+      {
+       "loai": "khoan",
+       "so": "3",
+       "text": "Liên đoàn Taekwondo Việt Nam là thành viên của Ủy ban Olympic Việt Nam, Liên đoàn Taekwondo Thế giới (WT), Hiệp hội Taekwondo Châu Á (ATU), Liên đoàn Taekwondo các nước ASEAN (ATF) và được gia nhập các tổ chức Taekwondo quốc tế khác theo quy định của pháp luật."
+      }
+     ]
+    },
+    {
+     "so": 5,
+     "tieuDe": "Nguyên tắc tổ chức và hoạt động",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Tự nguyện, tự quản."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Dân chủ, bình đẳng, công khai, minh bạch."
+      },
+      {
+       "loai": "khoan",
+       "so": "3",
+       "text": "Tự bảo đảm kinh phí hoạt động."
+      },
+      {
+       "loai": "khoan",
+       "so": "4",
+       "text": "Không vì mục đích lợi nhuận."
+      },
+      {
+       "loai": "khoan",
+       "so": "5",
+       "text": "Tuân thủ Hiến pháp, pháp luật và Điều lệ Liên đoàn."
+      }
+     ]
+    },
+    {
+     "so": 6,
+     "tieuDe": "Tính pháp lý của ngôn ngữ",
+     "noiDung": [
+      {
+       "loai": "doan",
+       "text": "Ngôn ngữ chính thức của Liên đoàn là tiếng Việt, ngôn ngữ giao dịch quốc tế chính thức là tiếng Anh. Các văn kiện, văn bản chính thức được soạn thảo bằng tiếng Việt và tiếng Anh có giá trị pháp lý như nhau."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "so": "II",
+   "tieuDe": "QUYỀN HẠN, NHIỆM VỤ",
+   "dieu": [
+    {
+     "so": 7,
+     "tieuDe": "Quyền hạn",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Tuyên truyền tôn chỉ, mục đích hoạt động của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Đại diện cho hội viên trong mối quan hệ đối nội, đối ngoại có liên quan đến chức năng, nhiệm vụ của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "3",
+       "text": "Phát triển, bảo vệ quyền, lợi ích hợp pháp của Liên đoàn và hội viên phù hợp với tôn chỉ, mục đích của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "4",
+       "text": "Tham gia chương trình, dự án, đề tài nghiên cứu, tư vấn, phản biện và giám định xã hội theo đề nghị của cơ quan nhà nước; cung cấp dịch vụ về các vấn đề thuộc lĩnh vực, phạm vi hoạt động của Liên đoàn theo quy định của pháp luật."
+      },
+      {
+       "loai": "khoan",
+       "so": "5",
+       "text": "Tham gia ý kiến vào các văn bản quy phạm pháp luật có liên quan đến nội dung hoạt động của Liên đoàn theo quy định của pháp luật. Kiến nghị với cơ quan nhà nước có thẩm quyền đối với các vấn đề liên quan tới sự phát triển và lĩnh vực Liên đoàn hoạt động. Được phối hợp với cơ quan nhà nước có thẩm quyền tổ chức đào tạo, bồi dưỡng, tổ chức các hoạt động dịch vụ khác theo quy định của pháp luật."
+      },
+      {
+       "loai": "khoan",
+       "so": "6",
+       "text": "Phối hợp với cơ quan, tổ chức có liên quan để thực hiện nhiệm vụ của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "7",
+       "text": "Tổ chức, quản lý, điều hành các giải thi đấu, biểu diễn Taekwondo quốc gia và giải thi đấu, biểu diễn Taekwondo quốc tế được tổ chức tại Việt Nam khi được cấp có thẩm quyền phê duyệt đảm bảo tuân thủ Điều lệ, các quy định chuyên môn và quy định của pháp luật."
+      },
+      {
+       "loai": "khoan",
+       "so": "8",
+       "text": "Trao quyền cho một thành viên hoặc đơn vị, tổ chức khác đăng cai giải thi đấu, biểu diễn Taekwondo thuộc quyền quản lý, tổ chức của Liên đoàn trên cơ sở Điều lệ giải được Liên đoàn thông qua và quy định của pháp luật."
+      },
+      {
+       "loai": "khoan",
+       "so": "9",
+       "text": "Hỗ trợ các tổ chức, câu lạc bộ Taekwondo ở các địa phương, các ngành về chuyên môn, nghiệp vụ."
+      },
+      {
+       "loai": "khoan",
+       "so": "10",
+       "text": "Thành lập pháp nhân và các tổ chức thuộc Liên đoàn phù hợp với tôn chỉ, mục đích và theo quy định của pháp luật."
+      },
+      {
+       "loai": "khoan",
+       "so": "11",
+       "text": "Được gây quỹ Liên đoàn trên cơ sở hội phí của hội viên và các nguồn thu từ hoạt động kinh doanh, dịch vụ theo quy định của pháp luật để tự trang trải về kinh phí hoạt động."
+      },
+      {
+       "loai": "khoan",
+       "so": "12",
+       "text": "Được nhận các nguồn tài trợ hợp pháp của các tổ chức, cá nhân trong và ngoài nước theo quy định của pháp luật. Được Nhà nước hỗ trợ kinh phí đối với những hoạt động gắn với nhiệm vụ của Nhà nước giao."
+      },
+      {
+       "loai": "khoan",
+       "so": "13",
+       "text": "Được gia nhập là tổ chức thành viên của Ủy ban Olympic Việt Nam, các liên đoàn Taekwondo quốc tế và khu vực; được tham gia ký kết và thực hiện thỏa thuận quốc tế theo quy định của pháp luật và báo cáo cơ quan quản lý nhà nước về ngành, lĩnh vực Liên đoàn hoạt động, cơ quan quyết định cho phép thành lập Liên đoàn về việc gia nhập tổ chức quốc tế tương ứng, ký kết, thực hiện thỏa thuận quốc tế."
+      },
+      {
+       "loai": "khoan",
+       "so": "14",
+       "text": "Thực hiện các quyền khác theo quy định pháp luật về hội và thể dục, thể thao."
+      }
+     ]
+    },
+    {
+     "so": 8,
+     "tieuDe": "Nhiệm vụ",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Tổ chức, hoạt động theo Điều lệ Liên đoàn đã được Bộ trưởng Bộ Nội vụ phê duyệt. Không lợi dụng hoạt động của Liên đoàn để làm phương hại đến an ninh quốc gia, trật tự xã hội, đạo đức, thuần phong mỹ tục, truyền thống của dân tộc, quyền và lợi ích hợp pháp của cá nhân, tổ chức."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Tập hợp, đoàn kết hội viên; tổ chức, phối hợp hoạt động giữa các hội viên vì lợi ích chung của Liên đoàn; thực hiện đúng tôn chỉ, mục đích của Liên đoàn nhằm tham gia phát triển lĩnh vực liên quan đến hoạt động của Liên đoàn, góp phần xây dựng và phát triển đất nước."
+      },
+      {
+       "loai": "khoan",
+       "so": "3",
+       "text": "Phổ biến kiến thức, giáo dục hướng dẫn hội viên tuân thủ pháp luật, chế độ, chính sách của Nhà nước và Điều lệ, quy chế, quy định của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "4",
+       "text": "Đại diện hội viên tham gia kiến nghị và đề xuất với cơ quan quản lý nhà nước về thể dục, thể thao và các cơ quan nhà nước có thẩm quyền khác về chủ trương, chế độ, chính sách, biện pháp nhằm động viên, khuyến khích phát triển phong trào tập luyện và thi đấu Taekwondo."
+      },
+      {
+       "loai": "khoan",
+       "so": "5",
+       "text": "Phối hợp với các cơ quan chuyên ngành của Nhà nước tổ chức phổ biến kiến thức, phương pháp tập luyện, tổ chức thi đấu; xây dựng và hoàn thiện hệ thống thi đấu môn Taekwondo từ cơ sở đến toàn quốc theo quy định của pháp luật. Phối hợp tổ chức, quản lý huấn luyện, giảng dạy, ban hành và thực hiện thống nhất trong toàn quốc Luật thi đấu và điều lệ giải thi đấu Taekwondo; điều hành các giải thi đấu Taekwondo quốc gia và quốc tế mà Việt Nam đăng cai theo quy định của pháp luật."
+      },
+      {
+       "loai": "khoan",
+       "so": "6",
+       "text": "Xây dựng và thực hiện chương trình đào tạo, bồi dưỡng các huấn luyện viên, hướng dẫn viên, trọng tài. Tổ chức tập huấn, cấp giấy chứng nhận cho các thành viên tham gia vào các lớp chuyên môn, nghiệp vụ; cấp thẻ thi đấu, thẻ trọng tài, giấy chứng nhận kết quả thi đấu theo quy định của pháp luật."
+      },
+      {
+       "loai": "khoan",
+       "so": "7",
+       "text": "Phối hợp với cơ quan quản lý nhà nước về thể dục thể thao trong công tác tuyển chọn vận động viên đội dự tuyển, đội tuyển quốc gia làm nhiệm vụ thi đấu quốc tế."
+      },
+      {
+       "loai": "khoan",
+       "so": "8",
+       "text": "Căn cứ tiêu chuẩn phong đẳng cấp cho vận động viên, huấn luyện viên, trọng tài của môn thể thao Taekwondo đã được Bộ trưởng Bộ Văn hóa, Thể thao và Du lịch ban hành, Liên đoàn tổ chức xét và phong cấp cho vận động viên, huấn luyện viên, trọng tài môn thể thao Taekwondo theo quy định của pháp luật."
+      },
+      {
+       "loai": "khoan",
+       "so": "9",
+       "text": "Phối hợp với cơ quan quản lý nhà nước, tổ chức nghiên cứu khoa học, nâng cao trình độ chuyên môn, hiện đại hóa theo hướng phát triển của Taekwondo thế giới."
+      },
+      {
+       "loai": "khoan",
+       "so": "10",
+       "text": "Phối hợp với cơ quan quản lý nhà nước, cùng với các địa phương, đơn vị, tổ chức khảo sát, tư vấn, thiết kế xây dựng các trung tâm, các cơ sở tổ chức tập luyện, phục vụ cho phát triển phong trào, nâng cao thành tích thi đấu, đảm bảo đúng tiêu chuẩn theo quy định của pháp luật về môn Taekwondo quốc gia, quốc tế và đảm bảo giữ gìn vệ sinh, môi trường theo đúng quy định của pháp luật."
+      },
+      {
+       "loai": "khoan",
+       "so": "11",
+       "text": "Xây dựng và triển khai kế hoạch hợp tác quốc tế với các tổ chức Taekwondo quốc tế tương ứng theo quy định của pháp luật."
+      },
+      {
+       "loai": "khoan",
+       "so": "12",
+       "text": "Xây dựng và ban hành quy tắc đạo đức, ứng xử trong hoạt động Taekwondo của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "13",
+       "text": "Hòa giải tranh chấp, giải quyết phản ánh, kiến nghị, khiếu nại, tố cáo trong nội bộ Liên đoàn theo quy định của pháp luật."
+      },
+      {
+       "loai": "khoan",
+       "so": "14",
+       "text": "Huy động các nguồn lực xã hội theo quy định của pháp luật để thúc đẩy, phát triển môn Taekwondo."
+      },
+      {
+       "loai": "khoan",
+       "so": "15",
+       "text": "Quản lý và sử dụng các nguồn kinh phí của Liên đoàn theo quy định của pháp luật."
+      },
+      {
+       "loai": "khoan",
+       "so": "16",
+       "text": "Thực hiện các nhiệm vụ theo quy định của pháp luật về thể dục, thể thao và các nhiệm vụ khác khi cơ quan có thẩm quyền yêu cầu."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "so": "III",
+   "tieuDe": "HỘI VIÊN",
+   "dieu": [
+    {
+     "so": 9,
+     "tieuDe": "Hội viên, tiêu chuẩn hội viên",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Hội viên của Liên đoàn gồm hội viên chính thức và hội viên danh dự."
+      },
+      {
+       "loai": "diem",
+       "so": "a",
+       "text": "Hội viên chính thức: công dân, tổ chức Việt Nam có đủ tiêu chuẩn theo quy định tại Khoản 2 Điều này, tán thành Điều lệ Liên đoàn, tự nguyện gia nhập Liên đoàn, có thể trở thành hội viên chính thức của Liên đoàn;"
+      },
+      {
+       "loai": "diem",
+       "so": "b",
+       "text": "Hội viên danh dự: công dân, tổ chức Việt Nam có nhiều thành tích, công lao đóng góp cho Liên đoàn nhưng không có đủ điều kiện gia nhập Liên đoàn hoặc không đủ tiêu chuẩn trở thành hội viên chính thức của Liên đoàn, tán thành Điều lệ Liên đoàn, tự nguyện gia nhập Liên đoàn thì có thể được công nhận là hội viên danh dự của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Tiêu chuẩn hội viên chính thức:"
+      },
+      {
+       "loai": "diem",
+       "so": "a",
+       "text": "Hội viên tổ chức: các liên đoàn, hiệp hội, tổ chức Taekwondo của các tỉnh, thành phố trực thuộc Trung ương và các tổ chức có hoạt động liên quan đến môn thể thao Taekwondo được thành lập hợp pháp theo quy định của pháp luật. Người đại diện hội viên tổ chức phải là công dân Việt Nam;"
+      },
+      {
+       "loai": "diem",
+       "so": "b",
+       "text": "Hội viên cá nhân: công dân Việt Nam là huấn luyện viên, vận động viên và các cá nhân khác có đủ năng lực hành vi dân sự hoạt động trong lĩnh vực môn thể thao Taekwondo, yêu thích tập luyện, ủng hộ cho sự phát triển môn thể thao Taekwondo."
+      }
+     ]
+    },
+    {
+     "so": 10,
+     "tieuDe": "Quyền của hội viên",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Được Liên đoàn bảo vệ quyền, lợi ích hợp pháp theo quy định của pháp luật."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Được Liên đoàn cung cấp thông tin liên quan đến lĩnh vực hoạt động của Liên đoàn, được tham gia các hoạt động do Liên đoàn tổ chức."
+      },
+      {
+       "loai": "khoan",
+       "so": "3",
+       "text": "Được tham gia thảo luận, quyết định các chủ trương công tác của Liên đoàn theo quy định của Liên đoàn; được kiến nghị, đề xuất ý kiến với cơ quan có thẩm quyền về những vấn đề có liên quan đến lĩnh vực hoạt động của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "4",
+       "text": "Được dự Đại hội, ứng cử, đề cử, bầu cử các cơ quan, các chức danh lãnh đạo và Ban Kiểm tra Liên đoàn theo quy định của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "5",
+       "text": "Giám sát hoạt động của Ban Chấp hành, Ban Kiểm tra Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "6",
+       "text": "Được giới thiệu hội viên mới."
+      },
+      {
+       "loai": "khoan",
+       "so": "7",
+       "text": "Được cấp thẻ hội viên của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "8",
+       "text": "Được khen thưởng khi có thành tích xuất sắc theo quy định của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "9",
+       "text": "Có quyền xin ra khỏi Liên đoàn khi xét thấy không thể tiếp tục là hội viên của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "10",
+       "text": "Hội viên danh dự được hưởng quyền và nghĩa vụ như hội viên chính thức, trừ quyền biểu quyết các vấn đề của Liên đoàn và quyền ứng cử, đề cử, bầu cử Ban lãnh đạo, Ban kiểm tra Liên đoàn."
+      }
+     ]
+    },
+    {
+     "so": 11,
+     "tieuDe": "Nghĩa vụ của hội viên",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Nghiêm chỉnh chấp hành chủ trương, đường lối của Đảng, chính sách, pháp luật của Nhà nước; chấp hành Điều lệ, nghị quyết, các quy định và quy chế của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Tham gia các hoạt động và sinh hoạt của Liên đoàn, hợp tác với các hội viên khác để tích cực đóng góp vào sự phát triển của môn Taekwondo Việt Nam."
+      },
+      {
+       "loai": "khoan",
+       "so": "3",
+       "text": "Bảo vệ uy tín của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "4",
+       "text": "Thực hiện chế độ thông tin, báo cáo theo quy định của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "5",
+       "text": "Đóng niên liễm, phí và hội phí đầy đủ và đúng hạn theo quy định của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "6",
+       "text": "Không duy trì quan hệ thể thao với các tổ chức không được công nhận hoặc với các thành viên đã bị đình chỉ hoặc khai trừ."
+      },
+      {
+       "loai": "khoan",
+       "so": "7",
+       "text": "Không được đồng thời là thành viên của một Liên đoàn Taekwondo quốc gia khác và không được phép tham gia các hoạt động Taekwondo trên lãnh thổ của Liên đoàn Taekwondo quốc gia khác nếu không được sự cho phép của Liên đoàn Taekwondo quốc gia đó, Liên đoàn Taekwondo Việt Nam, Liên đoàn Taekwondo Thế giới (WT), Hiệp hội Taekwondo Châu Á (ATU), Liên đoàn Taekwondo các nước ASEAN (ATF)."
+      },
+      {
+       "loai": "khoan",
+       "so": "8",
+       "text": "Không tự ý nhân danh Liên đoàn trong các quan hệ giao dịch; chỉ nhân danh Liên đoàn khi được lãnh đạo Liên đoàn phân công bằng văn bản."
+      },
+      {
+       "loai": "khoan",
+       "so": "9",
+       "text": "Thực hiện đầy đủ các nghĩa vụ khác theo quy định của Điều lệ này và các quy định có liên quan của Liên đoàn Taekwondo Việt Nam."
+      },
+      {
+       "loai": "khoan",
+       "so": "10",
+       "text": "Phải bàn giao lại công việc và tài chính, tài sản có liên quan, khi không còn hoạt động ở Liên đoàn (nếu có)."
+      }
+     ]
+    },
+    {
+     "so": 12,
+     "tieuDe": "Thủ tục, thẩm quyền kết nạp hội viên",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Tổ chức và công dân Việt Nam có đủ điều kiện theo quy định tại Điều 9 của Điều lệ này nếu có nguyện vọng trở thành hội viên của Liên đoàn phải nộp hồ sơ xin gia nhập Liên đoàn tại Văn phòng Liên đoàn theo quy định tại Khoản 2, Khoản 3 Điều này."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Đối với hội viên tổ chức, hồ sơ xin gia nhập Liên đoàn gồm:"
+      },
+      {
+       "loai": "diem",
+       "so": "a",
+       "text": "Đơn xin gia nhập Liên đoàn;"
+      },
+      {
+       "loai": "diem",
+       "so": "b",
+       "text": "Bản sao Điều lệ, các quy định của tổ chức xin gia nhập và quyết định cho phép thành lập của cơ quan nhà nước có thẩm quyền;"
+      },
+      {
+       "loai": "diem",
+       "so": "c",
+       "text": "Danh sách lãnh đạo chủ chốt của tổ chức và công văn cử đại diện của tổ chức tham gia Liên đoàn;"
+      },
+      {
+       "loai": "diem",
+       "so": "d",
+       "text": "Văn bản cam kết tuân thủ Điều lệ Liên đoàn, Luật thi đấu, các quy định khác của Liên đoàn;"
+      },
+      {
+       "loai": "diem",
+       "so": "đ",
+       "text": "Đóng niên liễm, phí và hội phí theo quy định của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "3",
+       "text": "Đối với hội viên cá nhân, hồ sơ xin gia nhập Liên đoàn gồm:"
+      },
+      {
+       "loai": "diem",
+       "so": "a",
+       "text": "Đơn xin gia nhập Liên đoàn;"
+      },
+      {
+       "loai": "diem",
+       "so": "b",
+       "text": "Văn bản cam kết tuân thủ Điều lệ Liên đoàn, Luật thi đấu, các quy định khác của Liên đoàn;"
+      },
+      {
+       "loai": "diem",
+       "so": "c",
+       "text": "Nộp hội phí theo quy định của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "4",
+       "text": "Việc công nhận hội viên của Liên đoàn do Ban Chấp hành Liên đoàn xem xét, quyết định."
+      }
+     ]
+    },
+    {
+     "so": 13,
+     "tieuDe": "Thể thức ra khỏi Liên đoàn",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Hội viên muốn ra khỏi Liên đoàn phải có đơn gửi Ban Chấp hành Liên đoàn, Ban Chấp hành xem xét, quyết định. Quyền và nghĩa vụ hội viên sẽ chấm dứt sau khi Ban Chấp hành Liên đoàn thông báo chấp thuận."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Ban Chấp hành Liên đoàn xem xét, quyết định khai trừ hội viên ra khỏi Liên đoàn trong các trường hợp sau:"
+      },
+      {
+       "loai": "diem",
+       "so": "a",
+       "text": "Vi phạm pháp luật, vi phạm đạo đức nghề nghiệp, vi phạm nghiêm trọng Điều lệ và các quy định của Liên đoàn, làm tổn hại đến quyền lợi, uy tín và sự đoàn kết của Liên đoàn;"
+      },
+      {
+       "loai": "diem",
+       "so": "b",
+       "text": "Đối với hội viên tổ chức: bị đình chỉ hoạt động theo quy định của pháp luật;"
+      },
+      {
+       "loai": "diem",
+       "so": "c",
+       "text": "Đối với hội viên cá nhân: bị tước quyền công dân theo quy định của pháp luật."
+      },
+      {
+       "loai": "khoan",
+       "so": "3",
+       "text": "Ủy viên Ban Chấp hành Liên đoàn xin ra khỏi Liên đoàn phải có đơn và được đưa ra cuộc họp Ban Chấp hành xem xét, quyết định. Trước khi ra khỏi Liên đoàn, ủy viên Ban Chấp hành phải bàn giao công việc, cơ sở vật chất, tài chính mà mình phụ trách cho tổ chức, cá nhân được Ban Chấp hành Liên đoàn uỷ nhiệm (nếu có)."
+      },
+      {
+       "loai": "khoan",
+       "so": "4",
+       "text": "Hội viên không sinh hoạt liên tục trong 06 (sáu) tháng mà không có lý do chính đáng mặc nhiên bị xoá tên trong danh sách hội viên. Các ủy viên Ban Chấp hành bỏ sinh hoạt hai kỳ họp liên tục mà không có lý do chính đáng sẽ bị xóa tên trong danh sách Ban Chấp hành Liên đoàn. Trước khi bị xóa tên, ra khỏi Liên đoàn, cá nhân đó phải có trách nhiệm bàn giao công việc, cơ sở vật chất, tài chính cho Liên đoàn (nếu có)."
+      },
+      {
+       "loai": "khoan",
+       "so": "5",
+       "text": "Sau khi Ban Chấp hành Liên đoàn xem xét, quyết định, Chủ tịch Liên đoàn có trách nhiệm ra quyết định chấm dứt tư cách hội viên."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "so": "IV",
+   "tieuDe": "TỔ CHỨC, HOẠT ĐỘNG",
+   "dieu": [
+    {
+     "so": 14,
+     "tieuDe": "Cơ cấu tổ chức của Liên đoàn",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Đại hội."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Ban Chấp hành."
+      },
+      {
+       "loai": "khoan",
+       "so": "3",
+       "text": "Ban Thường vụ."
+      },
+      {
+       "loai": "khoan",
+       "so": "4",
+       "text": "Ban Kiểm tra."
+      },
+      {
+       "loai": "khoan",
+       "so": "5",
+       "text": "Văn phòng và các ban chức năng."
+      },
+      {
+       "loai": "khoan",
+       "so": "6",
+       "text": "Các tổ chức trực thuộc Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "7",
+       "text": "Hội đồng kỹ thuật."
+      }
+     ]
+    },
+    {
+     "so": 15,
+     "tieuDe": "Đại hội",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Cơ quan lãnh đạo cao nhất của Liên đoàn là Đại hội nhiệm kỳ hoặc Đại hội bất thường. Đại hội nhiệm kỳ được tổ chức 04 (bốn) năm một lần. Đại hội bất thường được triệu tập khi ít nhất có 2/3 (hai phần ba) tổng số ủy viên Ban Chấp hành trở lên yêu cầu bằng văn bản hoặc có ít nhất 1/2 (một phần hai) tổng số hội viên chính thức đề nghị."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Đại hội nhiệm kỳ hoặc Đại hội bất thường được tổ chức dưới hình thức Đại hội đại biểu. Đại hội đại biểu được tổ chức khi có trên 1/2 (một phần hai) số đại biểu chính thức có mặt."
+      },
+      {
+       "loai": "khoan",
+       "so": "3",
+       "text": "Nhiệm vụ của Đại hội:"
+      },
+      {
+       "loai": "diem",
+       "so": "a",
+       "text": "Thảo luận và thông qua Báo cáo tổng kết nhiệm kỳ; Phương hướng, nhiệm vụ nhiệm kỳ mới của Liên đoàn;"
+      },
+      {
+       "loai": "diem",
+       "so": "b",
+       "text": "Thảo luận và thông qua Điều lệ (sửa đổi, bổ sung); đổi tên, chia, tách, sáp nhập, hợp nhất, giải thể Liên đoàn (nếu có);"
+      },
+      {
+       "loai": "diem",
+       "so": "c",
+       "text": "Thảo luận, góp ý kiến vào Báo cáo kiểm điểm của Ban Chấp hành và Báo cáo tài chính của Liên đoàn;"
+      },
+      {
+       "loai": "diem",
+       "so": "d",
+       "text": "Quyết định số lượng và bầu Ban Chấp hành, Ban Kiểm tra;"
+      },
+      {
+       "loai": "diem",
+       "so": "đ",
+       "text": "Các nội dung khác (nếu có);"
+      },
+      {
+       "loai": "diem",
+       "so": "e",
+       "text": "Thông qua Nghị quyết Đại hội."
+      },
+      {
+       "loai": "khoan",
+       "so": "4",
+       "text": "Nguyên tắc biểu quyết tại Đại hội:"
+      },
+      {
+       "loai": "diem",
+       "so": "a",
+       "text": "Đại hội có thể biểu quyết bằng hình thức giơ tay hoặc bỏ phiếu kín. Việc quy định hình thức biểu quyết do Đại hội quyết định;"
+      },
+      {
+       "loai": "diem",
+       "so": "b",
+       "text": "Việc biểu quyết thông qua các quyết định của Đại hội phải được trên 1/2 (một phần hai) đại biểu chính thức có mặt tại Đại hội biểu quyết tán thành."
+      },
+      {
+       "loai": "khoan",
+       "so": "5",
+       "text": "Hội nghị thường niên: căn cứ vào tình hình hoạt động cụ thể, Liên đoàn có thể tổ chức Hội nghị thường niên của Liên đoàn 01 (một) năm một lần để tổng kết, đánh giá hoạt động của Liên đoàn trong năm và thông qua phương hướng hoạt động của năm tới."
+      }
+     ]
+    },
+    {
+     "so": 16,
+     "tieuDe": "Ban Chấp hành Liên đoàn",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Ban Chấp hành Liên đoàn do Đại hội bầu trong số các hội viên của Liên đoàn, là cơ quan lãnh đạo của Liên đoàn giữa hai nhiệm kỳ Đại hội. Số lượng, cơ cấu, tiêu chuẩn ủy viên Ban Chấp hành do Đại hội quyết định. Nhiệm kỳ của Ban Chấp hành cùng với nhiệm kỳ của Đại hội."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Quyền hạn, nhiệm vụ của Ban Chấp hành Liên đoàn:"
+      },
+      {
+       "loai": "diem",
+       "so": "a",
+       "text": "Tổ chức triển khai thực hiện Nghị quyết Đại hội, Điều lệ Liên đoàn, lãnh đạo mọi hoạt động của Liên đoàn giữa hai kỳ Đại hội;"
+      },
+      {
+       "loai": "diem",
+       "so": "b",
+       "text": "Chuẩn bị và quyết định triệu tập Đại hội, Hội nghị thường niên của Liên đoàn;"
+      },
+      {
+       "loai": "diem",
+       "so": "c",
+       "text": "Quyết định chương trình, kế hoạch công tác hàng năm của Liên đoàn;"
+      },
+      {
+       "loai": "diem",
+       "so": "d",
+       "text": "Quyết định cơ cấu tổ chức bộ máy của Liên đoàn. Ban hành Quy chế hoạt động của Ban Chấp hành, Ban Thường vụ; Quy chế quản lý, sử dụng tài chính, tài sản của Liên đoàn; Quy chế quản lý, sử dụng con dấu của Liên đoàn; Quy chế khen thưởng, kỷ luật; các quy định trong nội bộ Liên đoàn phù hợp với quy định của Điều lệ Liên đoàn và quy định của pháp luật;"
+      },
+      {
+       "loai": "diem",
+       "so": "đ",
+       "text": "Bầu, miễn nhiệm Chủ tịch, các Phó Chủ tịch, Tổng thư ký và ủy viên Ban Thường vụ, bầu bổ sung ủy viên Ban Chấp hành, Ban Kiểm tra. Số ủy viên Ban Chấp hành bầu bổ sung không được quá 1/4 (một phần tư) so với số lượng ủy viên Ban Chấp hành đã được Đại hội quyết định."
+      },
+      {
+       "loai": "khoan",
+       "so": "3",
+       "text": "Nguyên tắc hoạt động của Ban Chấp hành:"
+      },
+      {
+       "loai": "diem",
+       "so": "a",
+       "text": "Ban Chấp hành hoạt động theo Quy chế của Ban Chấp hành, tuân thủ quy định của pháp luật và Điều lệ Liên đoàn;"
+      },
+      {
+       "loai": "diem",
+       "so": "b",
+       "text": "Ban Chấp hành mỗi năm họp 02 (hai) lần, có thể họp bất thường khi có yêu cầu của Ban Thường vụ hoặc trên 2/3 (hai phần ba) tổng số ủy viên Ban Chấp hành;"
+      },
+      {
+       "loai": "diem",
+       "so": "c",
+       "text": "Các cuộc họp của Ban Chấp hành là hợp lệ khi có trên 2/3 (hai phần ba) ủy viên Ban Chấp hành tham gia dự họp. Ban Chấp hành có thể biểu quyết bằng hình thức giơ tay hoặc bỏ phiếu kín. Việc quy định hình thức biểu quyết do Ban Chấp hành quyết định;"
+      },
+      {
+       "loai": "diem",
+       "so": "d",
+       "text": "Các nghị quyết, quyết định của Ban Chấp hành được thông qua khi có trên 2/3 (hai phần ba) tổng số ủy viên Ban Chấp hành dự họp biểu quyết tán thành."
+      },
+      {
+       "loai": "diem",
+       "so": "đ",
+       "text": "Tất cả các quyết định đều được ghi lại trong biên bản cuộc họp và nghị quyết của Ban Chấp hành. Các quyết định sẽ có hiệu lực ngay sau khi người có thẩm quyền ký văn bản hoặc vào một thời điểm theo quyết định của Ban Chấp hành và phải được gửi tới các ủy viên Ban Chấp hành, các tổ chức, cá nhân thuộc Liên đoàn có liên quan, báo cáo cơ quan nhà nước có thẩm quyền theo quy định."
+      }
+     ]
+    },
+    {
+     "so": 17,
+     "tieuDe": "Ban Thường vụ Liên đoàn",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Ban Thường vụ Liên đoàn do Ban Chấp hành bầu trong số các ủy viên Ban Chấp hành. Ban Thường vụ gồm có: Chủ tịch, các Phó Chủ tịch, Tổng thư ký và một số ủy viên. Số lượng, cơ cấu, tiêu chuẩn ủy viên Ban Thường vụ do Ban Chấp hành quyết định. Số lượng ủy viên Ban Thường vụ không quá 1/3 (một phần ba) số lượng ủy viên Ban Chấp hành. Nhiệm kỳ của Ban Thường vụ cùng với nhiệm kỳ của Đại hội."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Ban Thường vụ có quyền hạn và nhiệm vụ:"
+      },
+      {
+       "loai": "diem",
+       "so": "a",
+       "text": "Giúp Ban Chấp hành triển khai thực hiện Nghị quyết Đại hội, Điều lệ Liên đoàn; tổ chức thực hiện nghị quyết, quyết định của Ban Chấp hành; lãnh đạo hoạt động của Liên đoàn giữa hai kỳ họp Ban Chấp hành;"
+      },
+      {
+       "loai": "diem",
+       "so": "b",
+       "text": "Chuẩn bị nội dung và quyết định triệu tập họp Ban Chấp hành;"
+      },
+      {
+       "loai": "diem",
+       "so": "c",
+       "text": "Quyết định thành lập các tổ chức, đơn vị thuộc Liên đoàn theo Nghị quyết của Ban Chấp hành; quy định chức năng, nhiệm vụ, quyền hạn cơ cấu tổ chức; quyết định bổ nhiệm, miễn nhiệm lãnh đạo các tổ chức, đơn vị thuộc Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "3",
+       "text": "Nguyên tắc hoạt động của Ban Thường vụ:"
+      },
+      {
+       "loai": "diem",
+       "so": "a",
+       "text": "Ban Thường vụ hoạt động theo Quy chế do Ban Chấp hành ban hành, tuân thủ quy định của pháp luật và Điều lệ Liên đoàn;"
+      },
+      {
+       "loai": "diem",
+       "so": "b",
+       "text": "Ban Thường vụ họp định kỳ 04 (bốn) tháng một lần, có thể họp bất thường khi có yêu cầu của Chủ tịch hoặc trên 2/3 (hai phần ba) tổng số ủy viên Ban Thường vụ;"
+      },
+      {
+       "loai": "diem",
+       "so": "c",
+       "text": "Các cuộc họp của Ban Thường vụ là hợp lệ khi có trên 2/3 (hai phần ba) ủy viên Ban Thường vụ tham gia dự họp. Ban Thường vụ có thể biểu quyết bằng hình thức giơ tay hoặc bỏ phiếu kín. Việc quy định hình thức biểu quyết do Ban Thường vụ quyết định;"
+      },
+      {
+       "loai": "diem",
+       "so": "d",
+       "text": "Các nghị quyết, quyết định của Ban Thường vụ được thông qua khi có trên 2/3 (hai phần ba) tổng số ủy viên Ban Thường vụ biểu quyết tán thành."
+      },
+      {
+       "loai": "khoan",
+       "so": "4",
+       "text": "Tùy theo tình hình thực tế, Ban Thường vụ cử ra Thường trực để giúp việc Ban Thường vụ. Thường trực chịu trách nhiệm trước Ban Thường vụ về nhiệm vụ được giao."
+      }
+     ]
+    },
+    {
+     "so": 18,
+     "tieuDe": "Ban Kiểm tra Liên đoàn",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Ban Kiểm tra do Đại hội bầu. Ban Kiểm tra Liên đoàn gồm Trưởng ban, Phó trưởng ban và một số ủy viên. Số lượng, cơ cấu, tiêu chuẩn ủy viên Ban Kiểm tra do Đại hội quyết định. Thành viên Ban Kiểm tra không đồng thời là ủy viên Ban Chấp hành. Nhiệm kỳ của Ban Kiểm tra cùng với nhiệm kỳ Đại hội."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Nhiệm vụ và quyền hạn của Ban Kiểm tra:"
+      },
+      {
+       "loai": "diem",
+       "so": "a",
+       "text": "Kiểm tra, giám sát việc thực hiện Điều lệ Liên đoàn, Nghị quyết Đại hội; nghị quyết, quyết định của Ban Chấp hành, Ban Thường vụ, các quy chế của Liên đoàn trong hoạt động của các tổ chức, đơn vị trực thuộc Liên đoàn, hội viên;"
+      },
+      {
+       "loai": "diem",
+       "so": "b",
+       "text": "Xem xét, giải quyết đơn, thư phản ánh, kiến nghị, khiếu nại, tố cáo của tổ chức, hội viên và công dân gửi đến Liên đoàn;"
+      },
+      {
+       "loai": "diem",
+       "so": "c",
+       "text": "Tuỳ tính chất của từng vụ việc, sau khi có kết quả kiểm tra, Ban Kiểm tra đề nghị Ban Thường vụ, Ban Chấp hành Liên đoàn xem xét, giải quyết theo quy định của Điều lệ Liên đoàn và quy định của pháp luật."
+      },
+      {
+       "loai": "khoan",
+       "so": "3",
+       "text": "Nguyên tắc hoạt động của Ban Kiểm tra: Ban Kiểm tra hoạt động độc lập, theo Quy chế do Ban Chấp hành ban hành, tuân thủ quy định của pháp luật và Điều lệ Liên đoàn."
+      }
+     ]
+    },
+    {
+     "so": 19,
+     "tieuDe": "Chủ tịch, Phó Chủ tịch Liên đoàn",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Chủ tịch Liên đoàn là người đại diện trước pháp luật về mọi hoạt động của Liên đoàn. Chủ tịch Liên đoàn do Ban Chấp hành bầu trong số các ủy viên Ban Thường vụ Liên đoàn. Tiêu chuẩn Chủ tịch Liên đoàn do Ban Chấp hành quy định."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Nhiệm vụ, quyền hạn của Chủ tịch Liên đoàn:"
+      },
+      {
+       "loai": "diem",
+       "so": "a",
+       "text": "Thực hiện nhiệm vụ, quyền hạn theo Quy chế hoạt động của Ban Chấp hành, Ban Thường vụ Liên đoàn;"
+      },
+      {
+       "loai": "diem",
+       "so": "b",
+       "text": "Chịu trách nhiệm toàn diện trước cơ quan có thẩm quyền cho phép thành lập Liên đoàn, cơ quan quản lý nhà nước về lĩnh vực hoạt động chính của Liên đoàn, trước Ban Chấp hành, Ban Thường vụ về mọi hoạt động của Liên đoàn. Chỉ đạo, điều hành mọi hoạt động của Liên đoàn theo quy định của Điều lệ Liên đoàn; Nghị quyết Đại hội; nghị quyết; quyết định của Ban Chấp hành, Ban Thường vụ;"
+      },
+      {
+       "loai": "diem",
+       "so": "c",
+       "text": "Chủ trì các phiên họp của Ban Chấp hành; chỉ đạo chuẩn bị, triệu tập và chủ trì các cuộc họp của Ban Thường vụ;"
+      },
+      {
+       "loai": "diem",
+       "so": "d",
+       "text": "Chủ tài khoản của Liên đoàn; thay mặt Ban Chấp hành, Ban Thường vụ ký các văn bản của Liên đoàn;"
+      },
+      {
+       "loai": "diem",
+       "so": "đ",
+       "text": "Đại diện cho Liên đoàn trong mối quan hệ với các tổ chức khác trong nước và quốc tế; quyết định ban hành luật thi đấu, phê duyệt điều lệ giải môn Taekwondo theo thẩm quyền và quy định của pháp luật."
+      },
+      {
+       "loai": "diem",
+       "so": "e",
+       "text": "Chịu trách nhiệm trước Ban Chấp hành, Ban Thường vụ và toàn thể hội viên về các hoạt động của Liên đoàn;"
+      },
+      {
+       "loai": "diem",
+       "so": "g",
+       "text": "Khi Chủ tịch Liên đoàn vắng mặt, việc chỉ đạo, điều hành giải quyết công việc của Liên đoàn được ủy quyền bằng văn bản cho một Phó Chủ tịch Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "3",
+       "text": "Phó Chủ tịch Liên đoàn do Ban Chấp hành bầu trong số các ủy viên Ban Thường vụ. Tiêu chuẩn Phó Chủ tịch do Ban Chấp hành Liên đoàn quy định, có nhiệm vụ và quyền hạn sau:"
+      },
+      {
+       "loai": "diem",
+       "so": "a",
+       "text": "Phó Chủ tịch giúp Chủ tịch chỉ đạo, điều hành công tác của Liên đoàn theo sự phân công của Chủ tịch; chịu trách nhiệm trước Chủ tịch và trước pháp luật về lĩnh vực công việc được Chủ tịch phân công hoặc ủy quyền;"
+      },
+      {
+       "loai": "diem",
+       "so": "b",
+       "text": "Phó Chủ tịch thực hiện nhiệm vụ, quyền hạn theo Quy chế hoạt động của Ban Chấp hành, Ban Thường vụ Liên đoàn phù hợp với Điều lệ Liên đoàn và quy định của pháp luật."
+      }
+     ]
+    },
+    {
+     "so": 20,
+     "tieuDe": "Tổng thư ký",
+     "noiDung": [
+      {
+       "loai": "doan",
+       "text": "Tổng thư ký do Chủ tịch Liên đoàn giới thiệu trong số các ủy viên Ban Thường vụ và được Ban Chấp hành bầu, có quyền hạn và nhiệm vụ như sau:"
+      },
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Tổng thư ký chịu trách nhiệm trước Chủ tịch, Ban Chấp hành, Ban Thường vụ về điều hành công việc của Liên đoàn khi được Chủ tịch giao;"
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Tổng thư ký là người điều hành văn phòng, phối hợp hoạt động với các ban chức năng của Liên đoàn nhưng không kiêm là thành viên của bất kỳ ban chức năng nào; chuẩn bị nội dung các cuộc họp của Ban Chấp hành và Ban Thường vụ, định kỳ báo cáo cho Ban Thường vụ và Ban Chấp hành về các hoạt động của Liên đoàn;"
+      },
+      {
+       "loai": "khoan",
+       "so": "3",
+       "text": "Được ủy quyền thứ nhất chủ tài khoản của Liên đoàn;"
+      },
+      {
+       "loai": "khoan",
+       "so": "4",
+       "text": "Chịu trách nhiệm về công tác chuyên môn, hành chính, kế hoạch, tổng hợp của Liên đoàn; chuẩn bị các báo cáo hàng năm, báo cáo nhiệm kỳ của Ban Chấp hành;"
+      },
+      {
+       "loai": "khoan",
+       "so": "5",
+       "text": "Là đầu mối phối hợp, liên hệ công tác với các tổ chức Taekwondo quốc tế, các liên đoàn quốc gia, các tổ chức thể thao khác theo quy định của pháp luật và thông lệ quốc tế;"
+      },
+      {
+       "loai": "khoan",
+       "so": "6",
+       "text": "Tổng thư ký được thay mặt thường trực để giải quyết các công việc thường xuyên của Liên đoàn, điều hành các công việc, ký văn bản do Chủ tịch Liên đoàn uỷ nhiệm."
+      }
+     ]
+    },
+    {
+     "so": 21,
+     "tieuDe": "Văn phòng, ban chuyên môn, tổ chức có tư cách pháp nhân và chi hội thuộc Liên đoàn",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Văn phòng là bộ phận tham mưu, giúp việc Ban Chấp hành, Ban Thường vụ và Lãnh đạo Liên đoàn để triển khai các hoạt động của Liên đoàn. Việc bổ nhiệm, miễn nhiệm, cách chức cấp trưởng, cấp phó của Văn phòng và các ban chuyên môn thực hiện theo quy định của pháp luật, Điều lệ, quy chế của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Các ban chuyên môn của Liên đoàn được thành lập theo quy định của Điều lệ Liên đoàn và quy định của pháp luật, có nhiệm vụ đề xuất tham mưu cho Ban Chấp hành, Ban Thường vụ, lãnh đạo Liên đoàn về hoạt động chuyên môn của Liên đoàn hoạt động theo Quy chế do Ban Chấp hành ban hành."
+      },
+      {
+       "loai": "khoan",
+       "so": "3",
+       "text": "Ban Chấp hành quy định cụ thể về nhiệm vụ, nhân sự, quy chế hoạt động của Văn phòng, các ban chuyên môn của Liên đoàn theo quy định của Điều lệ Liên đoàn và quy định của pháp luật."
+      },
+      {
+       "loai": "khoan",
+       "so": "4",
+       "text": "Căn cứ Nghị quyết của Ban Chấp hành, Ban Thường vụ xem xét, quyết định thành lập tổ chức có tư cách pháp nhân thuộc Liên đoàn để thực hiện các nhiệm vụ của Liên đoàn. Hồ sơ, điều kiện, trình tự, thủ tục thành lập các tổ chức có tư cách pháp nhân thuộc Liên đoàn được thực hiện theo quy định của pháp luật và Điều lệ này."
+      },
+      {
+       "loai": "khoan",
+       "so": "5",
+       "text": "Chi hội thuộc Liên đoàn là tổ chức thuộc Liên đoàn không có tư cách pháp nhân, con dấu, tài khoản riêng. Ban Thường vụ xem xét quyết định thành lập Chi hội thuộc Liên đoàn và quy định về tổ chức, hoạt động của Chi hội phù hợp với Điều lệ Liên đoàn và quy định của pháp luật."
+      }
+     ]
+    },
+    {
+     "so": 22,
+     "tieuDe": "Hội đồng kỹ thuật",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Hội đồng kỹ thuật gồm Chủ tịch, các Phó Chủ tịch (nếu có) và một số ủy viên. Số lượng, cơ cấu, tiêu chuẩn thành viên Hội đồng kỹ thuật do Chủ tịch Liên đoàn Taekwondo Việt Nam đề nghị và được Ban Chấp hành thông qua."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Hội đồng kỹ thuật làm việc theo chế độ tập thể và theo sự chỉ đạo của Ban Chấp hành."
+      },
+      {
+       "loai": "khoan",
+       "so": "3",
+       "text": "Nhiệm vụ của Hội đồng kỹ thuật là xem xét, quyết định và quản lý những nội dung quan trọng về chuyên môn kỹ thuật; Xây dựng kế hoạch đào tạo, bồi dưỡng trọng tài, huấn luyện viên, hướng dẫn viên trình Ban Chấp hành thông qua; Cập nhật, phổ biến các kỹ thuật để nâng cao chất lượng phong trào và thành tích Taekwondo Việt Nam; Thực hiện việc giám sát, chấm thi thăng đẳng cho các hội viên theo phân công của Ban Chấp hành; Nghiên cứu, dịch thuật, biên soạn chương trình kỹ thuật, tài liệu chuyên môn; thông tin những vấn đề về chuyên môn kỹ thuật đến các hội viên."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "so": "V",
+   "tieuDe": "CHIA, TÁCH; SÁP NHẬP; HỢP NHẤT; ĐỔI TÊN VÀ GIẢI THỂ",
+   "dieu": [
+    {
+     "so": 23,
+     "tieuDe": "Chia, tách; sáp nhập; hợp nhất; đổi tên và giải thể Liên đoàn",
+     "noiDung": [
+      {
+       "loai": "doan",
+       "text": "Việc chia, tách; sáp nhập; hợp nhất; đổi tên và giải thể Liên đoàn thực hiện theo quy định của Bộ luật Dân sự, quy định của pháp luật về hội, Nghị quyết Đại hội và các quy định pháp luật có liên quan."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "so": "VI",
+   "tieuDe": "TÀI SẢN, TÀI CHÍNH",
+   "dieu": [
+    {
+     "so": 24,
+     "tieuDe": "Tài chính, tài sản của Liên đoàn",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Tài chính của Liên đoàn:"
+      },
+      {
+       "loai": "diem",
+       "so": "a",
+       "text": "Nguồn thu của Liên đoàn:"
+      },
+      {
+       "loai": "gach",
+       "text": "Lệ phí gia nhập Liên đoàn, hội phí hàng năm của hội viên;"
+      },
+      {
+       "loai": "gach",
+       "text": "Thu từ các hoạt động của Liên đoàn theo quy định của pháp luật;"
+      },
+      {
+       "loai": "gach",
+       "text": "Tiền tài trợ, ủng hộ của tổ chức, cá nhân trong và ngoài nước theo quy định của pháp luật;"
+      },
+      {
+       "loai": "gach",
+       "text": "Hỗ trợ của Nhà nước gắn với nhiệm vụ được giao (nếu có);"
+      },
+      {
+       "loai": "gach",
+       "text": "Các khoản thu hợp pháp khác."
+      },
+      {
+       "loai": "diem",
+       "so": "b",
+       "text": "Các khoản chi của Liên đoàn:"
+      },
+      {
+       "loai": "gach",
+       "text": "Chi hoạt động thực hiện nhiệm vụ của Liên đoàn;"
+      },
+      {
+       "loai": "gach",
+       "text": "Chi thuê trụ sở làm việc, mua sắm phương tiện làm việc;"
+      },
+      {
+       "loai": "gach",
+       "text": "Chi thực hiện nhiệm vụ Nhà nước giao (nếu có);"
+      },
+      {
+       "loai": "gach",
+       "text": "Chi thực hiện chế độ, chính sách đối với những người làm việc tại Liên đoàn theo quy định của Ban Chấp hành Liên đoàn phù hợp với quy định của pháp luật;"
+      },
+      {
+       "loai": "gach",
+       "text": "Chi khen thưởng và các khoản chi khác theo quy định của Ban Chấp hành."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Tài sản của Liên đoàn:"
+      },
+      {
+       "loai": "doan",
+       "con": true,
+       "text": "Tài sản của Liên đoàn gồm trụ sở (nếu có đứng tên chủ sở hữu), trang thiết bị, phương tiện phục vụ hoạt động của Liên đoàn. Tài sản của Liên đoàn được hình thành từ nguồn kinh phí của Liên đoàn; do các tổ chức, cá nhân trong và ngoài nước hiến, tặng theo quy định của pháp luật."
+      }
+     ]
+    },
+    {
+     "so": 25,
+     "tieuDe": "Quản lý, sử dụng tài chính, tài sản của Liên đoàn",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Tài chính, tài sản của Liên đoàn chỉ được sử dụng cho các hoạt động của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Tài chính, tài sản của Liên đoàn khi chia, tách; sáp nhập; hợp nhất và giải thể được giải quyết theo quy định của pháp luật."
+      },
+      {
+       "loai": "khoan",
+       "so": "3",
+       "text": "Ban Chấp hành Liên đoàn ban hành Quy chế quản lý, sử dụng tài chính, tài sản của Liên đoàn đảm bảo nguyên tắc công khai, minh bạch, tiết kiệm phù hợp với quy định của pháp luật và tôn chỉ, mục đích hoạt động của Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "4",
+       "text": "Việc quản lý, sử dụng tài sản của Liên đoàn thực hiện theo quy định của pháp luật dân sự, pháp luật có liên quan và Điều lệ Liên đoàn. Đối với tài sản công thực hiện theo quy định của pháp luật về quản lý, sử dụng tài sản công."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "so": "VII",
+   "tieuDe": "KHEN THƯỞNG, KỶ LUẬT",
+   "dieu": [
+    {
+     "so": 26,
+     "tieuDe": "Khen thưởng",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Tổ chức, đơn vị, hội viên thuộc Liên đoàn có thành tích xuất sắc được Liên đoàn khen thưởng hoặc được Liên đoàn đề nghị cơ quan, tổ chức có thẩm quyền khen thưởng theo quy định của pháp luật."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Ban Chấp hành Liên đoàn quy định cụ thể hình thức, thẩm quyền, thủ tục khen thưởng trong nội bộ Liên đoàn theo quy định của pháp luật và Điều lệ Liên đoàn."
+      }
+     ]
+    },
+    {
+     "so": 27,
+     "tieuDe": "Kỷ luật",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Tổ chức, đơn vị, hội viên thuộc Liên đoàn vi phạm pháp luật; vi phạm Điều lệ, quy định, quy chế hoạt động của Liên đoàn thì bị xem xét, thi hành kỷ luật bằng các hình thức: khiển trách, cảnh cáo, tước quyền sinh hoạt, tước, hạ đẳng, cấp hiện có hoặc khai trừ ra khỏi Liên đoàn."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Ban Chấp hành Liên đoàn quy định cụ thể thẩm quyền, quy trình xem xét kỷ luật trong nội bộ Liên đoàn theo quy định của pháp luật và Điều lệ Liên đoàn."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "so": "VIII",
+   "tieuDe": "ĐIỀU KHOẢN THI HÀNH",
+   "dieu": [
+    {
+     "so": 28,
+     "tieuDe": "Sửa đổi, bổ sung Điều lệ Liên đoàn",
+     "noiDung": [
+      {
+       "loai": "doan",
+       "text": "Chỉ có Đại hội đại biểu toàn quốc Liên đoàn Taekwondo Việt Nam mới có quyền sửa đổi, bổ sung Điều lệ này, để cơ quan nhà nước có thẩm quyền phê duyệt. Việc sửa đổi, bổ sung Điều lệ Liên đoàn phải được trên 1/2 (một phần hai) số đại biểu chính thức có mặt tại Đại hội biểu quyết tán thành."
+      }
+     ]
+    },
+    {
+     "so": 29,
+     "tieuDe": "Hiệu lực thi hành",
+     "noiDung": [
+      {
+       "loai": "khoan",
+       "so": "1",
+       "text": "Điều lệ Liên đoàn Taekwondo Việt Nam gồm 08 (tám) Chương, 29 (hai mươi chín) Điều đã được Đại hội nhiệm kỳ VI (2022 - 2026) Liên đoàn Taekwondo Việt Nam thông qua ngày 19 tháng 8 năm 2022 tại Thành phố Hồ Chí Minh và có hiệu lực thi hành theo Quyết định phê duyệt của Bộ trưởng Bộ Nội vụ."
+      },
+      {
+       "loai": "khoan",
+       "so": "2",
+       "text": "Điều lệ (sửa đổi, bổ sung) này thay thế cho Điều lệ Liên đoàn đã được phê duyệt kèm theo Quyết định số 1897/QĐ-BNV ngày 04 tháng 12 năm 2013 của Bộ trưởng Bộ Nội vụ."
+      },
+      {
+       "loai": "khoan",
+       "so": "3",
+       "text": "Căn cứ quy định pháp luật về hội và Điều lệ Liên đoàn, Ban Chấp hành Liên đoàn Taekwondo Việt Nam có trách nhiệm hướng dẫn và tổ chức thực hiện Điều lệ này./."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

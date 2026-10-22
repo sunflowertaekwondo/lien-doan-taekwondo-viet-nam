@@ -1,0 +1,53 @@
+# Build -> kiem tra tu dong (check.mjs) dung ban se dua len -> GitHub Pages. Kiem tra hong thi KHONG deploy.
+# Dia chi va duong dan con lay tu cau hinh GitHub Pages (doi ten repo, ten mien rieng deu tu dung).
+name: Build, kiểm tra và đưa lên GitHub Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Cài công cụ kiểm tra
+        run: npm ci --no-audit --no-fund
+      - id: pages
+        uses: actions/configure-pages@v5
+      - name: Build (ngày theo giờ Việt Nam)
+        env:
+          SITE_BASE: ${{ steps.pages.outputs.base_path }}
+          SITE_URL: ${{ steps.pages.outputs.base_url }}
+        run: BUILD_DATE=$(TZ=Asia/Ho_Chi_Minh date +%F) node build.mjs
+      - name: Kiểm tra toàn bộ đúng bản sẽ đưa lên (giao diện, liên kết, SEO, ngoại tuyến, Điều lệ khớp PDF...)
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          EXPECT_SITE_URL: ${{ steps.pages.outputs.base_url }}
+          CHROME_PATH: /usr/bin/google-chrome
+        run: |
+          SERVE_DIR=dist SERVE_BASE="$BASE_PATH" node serve.mjs &
+          for i in $(seq 1 30); do curl -sf "http://localhost:8700$BASE_PATH/" > /dev/null && break; sleep 1; done
+          node check.mjs "http://localhost:8700$BASE_PATH"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

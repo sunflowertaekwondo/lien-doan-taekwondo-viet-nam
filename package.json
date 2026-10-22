@@ -1,0 +1,16 @@
+{
+  "name": "lien-doan-taekwondo-viet-nam",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Website Liên đoàn Taekwondo Việt Nam (VTF) – trang tĩnh, nội dung theo Điều lệ nhiệm kỳ VI",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "serve": "node serve.mjs",
+    "check": "node check.mjs",
+    "og": "node tools/og.mjs"
+  },
+  "devDependencies": {
+    "playwright-core": "1.48.2"
+  }
+}

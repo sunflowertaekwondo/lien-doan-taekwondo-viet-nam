@@ -1,0 +1,41 @@
+{
+ "_ghi_chu": "Thong tin website VTF. Truong de null/[] se hien 'Dang cap nhat'. KHONG dien thong tin chua xac minh. Sau khi sua: node build.mjs",
+ "tenTiengViet": "Liên đoàn Taekwondo Việt Nam",
+ "tenTiengAnh": "Viet Nam Taekwondo Federation",
+ "tenVietTat": "VTF",
+ "nhiemKy": "Nhiệm kỳ VI (2022 – 2026)",
+ "truSoThanhPho": "Thành phố Hồ Chí Minh",
+ "diaChi": "Số 219 Lý Thường Kiệt, phường Phú Thọ, Thành phố Hồ Chí Minh, Việt Nam",
+ "diaChiTiengAnh": "No. 219 Ly Thuong Kiet Street, Phu Tho Ward, Ho Chi Minh City, Viet Nam",
+ "diaChiDuong": "Số 219 Lý Thường Kiệt, phường Phú Thọ",
+ "_diaChiDuong_ghi_chu": "So nha, duong, phuong (khong gom thanh pho) - dung cho du lieu cau truc gui Google",
+ "dienThoai": "+84 812040357",
+ "email": "tkdvn1996@gmail.com",
+ "website": null,
+ "facebook": null,
+ "youtube": null,
+ "logo": "/img/VTF-logo-transparent.png",
+ "logoNenToi": "/img/VTF-logo-light-white-text.png",
+ "_logo_ghi_chu": "Tep logo dat trong src/. logo = ban chu mau toi (nen sang); logoNenToi = ban chu trang (chan trang, giao dien toi). Ghi dang /img/<ten-tep>. Sau khi doi logo: node tools/og.mjs (anh chia se, icon) roi node build.mjs. De null se dung chu VTF tam thoi.",
+ "banLanhDao": [],
+ "_banLanhDao_mau": [
+  {
+   "chucDanh": "Chủ tịch",
+   "hoTen": "..."
+  },
+  {
+   "chucDanh": "Phó Chủ tịch",
+   "hoTen": "..."
+  },
+  {
+   "chucDanh": "Tổng thư ký",
+   "hoTen": "..."
+  }
+ ],
+ "siteUrl": "https://sunflowertaekwondo.github.io/lien-doan-taekwondo-viet-nam",
+ "_siteUrl_ghi_chu": "Dia chi goc cua website (khong co / cuoi). Doi khi co ten mien rieng, vd https://vtf.org.vn",
+ "ngayRaSoatVanBan": "2026-10-22",
+ "_ngayRaSoatVanBan_ghi_chu": "Ngay (yyyy-mm-dd) ra soat tinh trang hieu luc cua cac van ban tren trang /van-ban. Khi Dai hoi nhiem ky moi thong qua Dieu le moi: cap nhat van ban va ngay nay.",
+ "ngayCapNhatNoiDung": "2026-10-23",
+ "_ngayCapNhatNoiDung_ghi_chu": "Ngay (yyyy-mm-dd) sua noi dung trang gan nhat: hien o chan trang 'Cap nhat' va gui Google (sitemap). Doi ngay nay moi khi sua noi dung (khong can doi khi chi dang tin)."
+}
