@@ -72,6 +72,8 @@ fs.writeFileSync(path.join(DIST, CSS_FILE), css, 'utf8');
 fs.writeFileSync(path.join(DIST, JS_FILE), js, 'utf8');
 for (const f of fs.readdirSync(path.join(HERE, 'src', 'fonts'))) if (/\.woff2$|OFL\.txt$/.test(f)) fs.copyFileSync(path.join(HERE, 'src', 'fonts', f), path.join(DIST, 'fonts', f));
 for (const f of fs.readdirSync(path.join(HERE, 'src', 'generated'))) fs.copyFileSync(path.join(HERE, 'src', 'generated', f), path.join(DIST, 'img', f));
+// anh noi dung (vd ky niem chuong trang chu) dat trong src/img/
+for (const f of fs.readdirSync(path.join(HERE, 'src', 'img'))) if (/\.(jpe?g|png|webp|svg)$/i.test(f)) fs.copyFileSync(path.join(HERE, 'src', 'img', f), path.join(DIST, 'img', f));
 for (const f of fs.readdirSync(path.join(HERE, 'data', 'docs'))) fs.copyFileSync(path.join(HERE, 'data', 'docs', f), path.join(DIST, 'docs', f));
 fs.copyFileSync(path.join(HERE, 'src', 'favicon.svg'), path.join(DIST, 'favicon.svg'));
 // Logo chinh thuc (tep dat trong src/): logo = ban chu toi cho nen sang, logoNenToi = ban chu trang cho nen toi (chan trang, giao dien toi)
@@ -241,7 +243,7 @@ ${body}
 </body>
 </html>
 `;
-  const out = BASE ? html.replace(/(href|src)="\/(?!\/)/g, `$1="${BASE}/`) : html;
+  const out = BASE ? html.replace(/(href|src|srcset)="\/(?!\/)/g, `$1="${BASE}/`) : html; // srcset: anh <picture> (chi mot duong dan)
   const dest = path.join(DIST, file);
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.writeFileSync(dest, out, 'utf8');
@@ -340,6 +342,14 @@ const dhRange = `${viDate(DH.batDau).slice(0, 5)}–${viDate(DH.ketThuc)}`;
 const dhLive = BUILD_DATE <= DH.ketThuc; // het Dai hoi thi bo bang thong bao o trang chu
 
 // ===== Trang chu =====
+// Anh ky niem chuong do Lien doan cung cap (content/anh-goc/ky-niem-chuong-30-nam.jpg), tach 3 tam bang tools/anh-trang-chu.py (Pillow)
+const KY_NIEM = '30 năm Liên đoàn Taekwondo Việt Nam (1996 – 2026)';
+const TROPHY = [
+  { file: 'ky-niem-chuong-10-nam', w: 380, h: 530, alt: 'Kỷ niệm chương pha lê hình giọt nước in biểu trưng 30 năm Liên đoàn Taekwondo Việt Nam 1996 – 2026, dòng chữ “Tri ân 10 năm cống hiến”, đế khắc VTF' },
+  { file: 'ky-niem-chuong-20-nam', w: 518, h: 530, alt: 'Kỷ niệm chương pha lê hình thoi in biểu trưng 30 năm Liên đoàn Taekwondo Việt Nam, dòng chữ “Tôn vinh 20 năm cống hiến”, đế khắc VTF' },
+  { file: 'ky-niem-chuong-30-nam', w: 529, h: 530, alt: 'Kỷ niệm chương pha lê hình bát giác in biểu trưng 30 năm Liên đoàn Taekwondo Việt Nam, dòng chữ “Vinh danh 30 năm cống hiến”, đế khắc VTF' },
+];
+const trophyPic = (t, big = false) => `<picture class="t${big ? ' t-big' : ''}"><source type="image/webp" srcset="/img/${t.file}.webp"><img src="/img/${t.file}.jpg" width="${t.w}" height="${t.h}" alt="${esc(t.alt)}"${big ? ' fetchpriority="high"' : ''}></picture>`;
 const purposes = [
   ['users', 'Đoàn kết hội viên', 'Tập hợp, đoàn kết hội viên, hỗ trợ nhau hoạt động có hiệu quả.'],
   ['shield', 'Bảo vệ quyền lợi', 'Bảo vệ quyền và lợi ích hợp pháp của hội viên.'],
@@ -355,17 +365,19 @@ const purposes = [
     hero: `    <section class="home-hero">
       <div class="container home-hero-in">
         <div class="hh-text">
+          <p class="hh-badge"><span>30 năm</span>1996 – 2026</p>
           <p class="eyebrow">${esc(cfg.tenTiengAnh)} · ${esc(cfg.tenVietTat)}</p>
           <h1>${esc(cfg.tenTiengViet)}</h1>
           <p class="lead">Tổ chức xã hội - nghề nghiệp tự nguyện của tổ chức, công dân Việt Nam hoạt động trong lĩnh vực môn thể thao Taekwondo, góp phần nâng cao thành tích và vị thế của Taekwondo Việt Nam trong khu vực và thế giới.</p>
           <div class="btns"><a class="btn btn-red" href="/gioi-thieu">Giới thiệu Liên đoàn ${icon('arrow-right')}</a><a class="btn btn-ghost" href="/dieu-le">Điều lệ nhiệm kỳ VI</a></div>
         </div>
-        <ul class="facts">
-          <li><b>VI</b><span>${esc(cfg.nhiemKy)}</span></li>
-          <li><b>${DL.daiHoiThongQua.ngay}</b><span>Đại hội thông qua Điều lệ (sửa đổi, bổ sung)</span></li>
-          <li><b>${nw(DL.pheDuyet.so)}</b><span>Bộ Nội vụ phê duyệt Điều lệ, ngày ${DL.pheDuyet.ngay}</span></li>
-          <li><b>8 · 29</b><span>Điều lệ gồm 8 chương, 29 điều</span></li>
-        </ul>
+        <figure class="hh-media">
+          <div class="trophies">
+            <div class="t-col">${TROPHY.slice(0, 2).map(t => trophyPic(t)).join('')}</div>
+            ${trophyPic(TROPHY[2], true)}
+          </div>
+          <figcaption>Kỷ niệm chương tri ân, tôn vinh, vinh danh 10 – 20 – 30 năm cống hiến · ${esc(KY_NIEM)}</figcaption>
+        </figure>
       </div>
     </section>`,
     // nen cac muc xen ke trang/xam tu dong (muc Tin moi chi co khi da dang tin)
