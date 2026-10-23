@@ -32,7 +32,7 @@ body{width:1200px;height:630px;font-family:"Be Vietnam Pro",sans-serif;color:#ff
 .lg{height:118px;width:auto;display:block}
 .mark{width:96px;height:80px;border-radius:18px;background:#DA251D;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:34px;letter-spacing:2px;box-shadow:inset 0 -5px 0 rgba(0,0,0,.15)}
 .name strong{display:block;font-size:30px;font-weight:800}.name span{font-size:20px;font-weight:700;letter-spacing:4px;color:#ffb4ae;text-transform:uppercase}
-h1{margin-top:auto;font-size:${title.length > 22 ? 76 : 92}px;line-height:1.08;font-weight:800;letter-spacing:-2px;max-width:960px}
+h1{margin-top:auto;font-size:${title.length > 22 ? 76 : 92}px;line-height:1.2;font-weight:800;letter-spacing:-2px;max-width:960px}
 .foot{margin-top:28px;font-size:22px;color:#c7d4ff;font-weight:600;letter-spacing:1px}
 .bar{position:absolute;left:0;bottom:0;height:12px;width:100%;background:linear-gradient(90deg,#DA251D 0 70%,#F4B400 70%)}
 </style></head><body><div class="grid"></div><div class="ring"></div><div class="in">

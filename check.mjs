@@ -42,6 +42,7 @@ for (const [vp, size] of [['desktop', { width: 1440, height: 900 }], ['tablet', 
         fontOk: document.fonts.check('700 20px "Be Vietnam Pro"', 'Đội tuyển Việt Nam Ữ Ặ ỹ'),
         lang: document.documentElement.lang, h1: document.querySelectorAll('h1').length, jump,
         imgNoAlt: [...document.querySelectorAll('img:not([alt])')].length,
+        dupIds: (ids => ids.filter((x, i) => ids.indexOf(x) !== i))([...document.querySelectorAll('[id]')].map(e => e.id)),
         btnNoName: [...document.querySelectorAll('button')].filter(x => !(x.getAttribute('aria-label') || x.textContent.trim())).length,
         links: [...document.querySelectorAll('a[href]')].map(a => a.getAttribute('href')),
         canonical: (document.querySelector('link[rel=canonical]') || {}).href || null,
@@ -52,7 +53,7 @@ for (const [vp, size] of [['desktop', { width: 1440, height: 900 }], ['tablet', 
     if (r.sw > r.iw) overflow.push(`${p} (${r.sw}>${r.iw})`);
     if (vp === 'desktop') {
       if (!r.fontOk || !/Be Vietnam Pro/.test(r.font) || r.lang !== 'vi') bad.push(`font/lang ${p}: ${r.font} ok=${r.fontOk} lang=${r.lang}`);
-      if (r.h1 !== 1 || r.jump || r.imgNoAlt || r.btnNoName) structure.push(`${p}: h1=${r.h1}${r.jump ? ' nhảy ' + r.jump : ''}${r.imgNoAlt ? ' ảnh thiếu alt=' + r.imgNoAlt : ''}${r.btnNoName ? ' nút không tên=' + r.btnNoName : ''}`);
+      if (r.h1 !== 1 || r.jump || r.imgNoAlt || r.btnNoName || r.dupIds.length) structure.push(`${p}: h1=${r.h1}${r.jump ? ' nhảy ' + r.jump : ''}${r.imgNoAlt ? ' ảnh thiếu alt=' + r.imgNoAlt : ''}${r.btnNoName ? ' nút không tên=' + r.btnNoName : ''}${r.dupIds.length ? ' trùng id=' + r.dupIds.join(',') : ''}`);
       if (!r.canonical || !/^https:\/\//.test(r.ogImage || '')) structure.push(`${p}: thiếu canonical/og:image tuyệt đối`);
       else if (EXPECT && !(r.canonical.startsWith(EXPECT + '/') && r.ogImage.startsWith(EXPECT + '/'))) structure.push(`${p}: canonical/og:image không thuộc ${EXPECT}`);
       for (const t of r.lds) { try { const j = JSON.parse(t); if (!j['@type']) ldErrors.push(`${p}: thiếu @type`); } catch (e) { ldErrors.push(`${p}: JSON-LD lỗi ${e.message}`); } }
@@ -64,7 +65,7 @@ for (const [vp, size] of [['desktop', { width: 1440, height: 900 }], ['tablet', 
 }
 check('Mọi trang trả 200, font Be Vietnam Pro đủ dấu tiếng Việt, lang=vi', bad.length === 0, bad.slice(0, 5).join(' | '));
 check('Không gọi dịch vụ bên ngoài (font tự host, không theo dõi)', external.size === 0, [...external].join(', '));
-check('Mỗi trang đúng 1 h1, tiêu đề không nhảy cấp, ảnh có alt, nút có tên, có canonical + og:image', structure.length === 0, structure.slice(0, 4).join(' | '));
+check('Mỗi trang đúng 1 h1, tiêu đề không nhảy cấp, ảnh có alt, nút có tên, không trùng id, có canonical + og:image', structure.length === 0, structure.slice(0, 4).join(' | '));
 check('Dữ liệu có cấu trúc (JSON-LD) hợp lệ trên mọi trang', ldErrors.length === 0, ldErrors.slice(0, 3).join(' | '));
 
 // lien ket noi bo + anchor + PDF
@@ -155,8 +156,8 @@ check(`${internal.length} liên kết nội bộ (kể cả #anchor, PDF, RSS) �
   await page.goto(BASE + '/dai-hoi-the-thao-toan-quoc-2026', { waitUntil: 'load' });
   const r = await page.evaluate(() => ({
     ld: [...document.querySelectorAll('script[type="application/ld+json"]')].map(s => JSON.parse(s.textContent)).find(j => j['@type'] === 'SportsEvent'),
-    weights: document.querySelectorAll('#noi-dung .chips.wc li').length,
-    teams: document.querySelectorAll('#noi-dung .docs-table tbody tr').length,
+    weights: document.querySelectorAll('#noi-dung-thi-dau .chips.wc li').length,
+    teams: document.querySelectorAll('#noi-dung-thi-dau .docs-table tbody tr').length,
     days: [...document.querySelectorAll('.prog-day')].map(d => d.querySelectorAll('.prog-items li').length),
     ext: [...document.querySelectorAll('a[href^="https://docs.google.com/"]')].every(a => a.target === '_blank' && /noopener/.test(a.rel)),
     marked: document.querySelectorAll('.ms-list li.is-past, .ms-list li.is-next').length,

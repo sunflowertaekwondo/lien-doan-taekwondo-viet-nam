@@ -257,6 +257,8 @@
 
   // ---- moc thoi gian Dai hoi: danh dau "Đã qua" / "Sắp tới" theo ngay xem trang (khong co JS thi hien danh sach thuong) ----
   var nextSet = false, now = Date.now();
+  // bang thong bao Dai hoi o trang chu: het Dai hoi ma web chua duoc tao lai thi tu an
+  $$('.dh-banner[data-end]').forEach(function (b) { if (Date.parse(b.dataset.end) < now) { var s = b.closest('section'); if (s) s.hidden = true; } });
   $$('.ms-list li[data-end]').forEach(function (li) {
     var end = Date.parse(li.dataset.end), tag = $('.ms-state', li);
     if (isNaN(end)) return;

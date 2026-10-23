@@ -5,6 +5,9 @@ import fs from 'node:fs';
 // lich thi dau: mo ta tu sinh theo nam moi nhat trong data/lich-thi-dau.json
 const LICH = JSON.parse(fs.readFileSync(new URL('../data/lich-thi-dau.json', import.meta.url), 'utf8')).lich.slice().sort((x, y) => y.nam - x.nam)[0];
 const duKien = LICH.trangThai === 'Dự kiến' ? ' (dự kiến)' : '';
+// trang Lich thi dau luon co ca Dai hoi The thao toan quoc X lan lich nam moi nhat -> mo ta va anh chia se co dinh, khong doi theo ngay
+const DH = JSON.parse(fs.readFileSync(new URL('../data/dai-hoi-x-2026.json', import.meta.url), 'utf8'));
+const dhNgay = `${DH.batDau.slice(8, 10)}–${DH.ketThuc.slice(8, 10)}/${DH.ketThuc.slice(5, 7)}/${DH.ketThuc.slice(0, 4)}`;
 
 export const PAGES = [
   { path: '/', file: 'index.html', og: 'index', title: 'Liên đoàn Taekwondo Việt Nam (VTF)', ogTitle: 'Liên đoàn Taekwondo Việt Nam',
@@ -15,9 +18,9 @@ export const PAGES = [
     desc: 'Quyền hạn và nhiệm vụ của Liên đoàn Taekwondo Việt Nam: 14 quyền hạn (Điều 7) và 16 nhiệm vụ (Điều 8) theo Điều lệ được Bộ Nội vụ phê duyệt năm 2023.' },
   { path: '/co-cau-to-chuc', file: 'co-cau-to-chuc.html', og: 'co-cau-to-chuc', title: 'Cơ cấu tổ chức', ogTitle: 'Cơ cấu tổ chức',
     desc: 'Cơ cấu tổ chức Liên đoàn Taekwondo Việt Nam: sơ đồ và chức năng của Đại hội, Ban Chấp hành, Ban Thường vụ, Ban Kiểm tra, Tổng thư ký, Hội đồng kỹ thuật.' },
-  { path: '/lich-thi-dau', file: 'lich-thi-dau.html', og: 'lich-thi-dau', title: 'Lịch thi đấu', ogTitle: `Lịch thi đấu Taekwondo ${LICH.nam}`,
-    desc: `Lịch thi đấu Taekwondo năm ${LICH.nam}${duKien}: ${LICH.giai.length} giải quốc gia và quốc tế tổ chức tại Việt Nam – thời gian, địa điểm theo Công văn ${LICH.nguon.so} của Liên đoàn.` },
-  { path: '/dai-hoi-the-thao-toan-quoc-2026', file: 'dai-hoi-the-thao-toan-quoc-2026.html', og: 'dai-hoi-x-2026', title: 'Đại hội Thể thao toàn quốc lần thứ X – Taekwondo', ogTitle: 'Đại hội Thể thao toàn quốc X – Taekwondo',
+  { path: '/lich-thi-dau', file: 'lich-thi-dau.html', og: 'lich-thi-dau', title: 'Lịch thi đấu', ogTitle: `Lịch thi đấu Taekwondo ${DH.batDau.slice(0, 4)} – ${LICH.nam}`,
+    desc: `Lịch thi đấu Taekwondo tại Việt Nam: Đại hội Thể thao toàn quốc X (${dhNgay}) và ${LICH.giai.length} giải quốc gia, quốc tế năm ${LICH.nam}${duKien}, theo văn bản chính thức.` },
+  { path: '/dai-hoi-the-thao-toan-quoc-2026', file: 'dai-hoi-the-thao-toan-quoc-2026.html', og: 'dai-hoi-x-2026', title: 'Đại hội Thể thao toàn quốc lần thứ X – Taekwondo', ogTitle: 'Taekwondo tại Đại hội Thể thao toàn quốc X',
     desc: 'Môn Taekwondo tại Đại hội Thể thao toàn quốc lần thứ X năm 2026 (23–30/11, Nhà thi đấu An Hội Đông, TP.HCM): chương trình, nội dung, check-in, đăng ký.' },
   { path: '/hoi-vien', file: 'hoi-vien.html', og: 'hoi-vien', title: 'Hội viên', ogTitle: 'Hội viên Liên đoàn',
     desc: 'Hội viên Liên đoàn Taekwondo Việt Nam: tiêu chuẩn hội viên tổ chức và cá nhân, quyền, nghĩa vụ, hồ sơ và thủ tục gia nhập, hỏi đáp theo Điều lệ nhiệm kỳ VI.' },

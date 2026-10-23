@@ -5,6 +5,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # moi ngay 00:05 gio Viet Nam: cap nhat noi dung theo ngay (vd an bang thong bao Dai hoi sau ngay ket thuc)
+  schedule:
+    - cron: '5 17 * * *'
 permissions:
   contents: read
   pages: write

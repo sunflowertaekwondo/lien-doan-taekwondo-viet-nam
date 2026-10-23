@@ -243,7 +243,8 @@ a.org:hover { border-color: var(--link); color: inherit; }
 .tabs a { flex: none; display: inline-flex; align-items: center; min-height: var(--tap); padding: 0 var(--sp-4); border-radius: var(--r-pill); background: var(--surface-2); color: var(--heading); font-weight: 600; text-decoration: none; font-size: 15px; transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
 .tabs a:hover, .tabs a.is-active { background: var(--c-navy-900); color: #fff; }
 [data-theme="dark"] .tabs a:hover, [data-theme="dark"] .tabs a.is-active { background: var(--c-blue-700); }
-.tabs ~ .section { scroll-margin-top: 48px; } /* cong voi scroll-padding cua html: chua them thanh tab */
+/* trang co thanh muc dinh: phan dem cuon gom ca header va thanh muc -> neo va o dang focus khong bi che (WCAG 2.4.11) */
+html:has(.tabs) { scroll-padding-top: calc(var(--hdr) + 62px + var(--sp-4)); }
 
 .docs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-4); }
 .doc { display: flex; align-items: center; gap: var(--sp-4); padding: var(--sp-4) var(--sp-5); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); color: inherit; text-decoration: none; transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out); }
@@ -587,7 +588,16 @@ abbr[title] { text-decoration: underline dotted; text-underline-offset: 3px; cur
   .cal-tools { display: none !important; }
   .event[hidden], .tl-month[hidden] { display: block !important; } /* ban in luon du lich, ke ca khi dang loc */
   .tl-h { position: static; }
-  .cap, .cm-when, .ms-list time, .deadline, .dh-banner { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .cap, .cm-when, .ms-list time, .ms-list li.is-next .ms-state, .deadline, .dh-banner { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .ms-list li, .prog-day, .prog-items li, .steps li, .card, .note, .prog-note, .event, .dh-banner, .numlist > li, .docs-table tr, .table.kv tr { break-inside: avoid; }
+  .sub-h, .prog-day h3, .tl-h { break-after: avoid; }
+  /* lien ket ngoai (bieu mau, bang khung gio) in ra duoi dang chu kem dia chi; nut noi bo van an */
+  .btns:has(a[href^="http"]) { display: block !important; margin: 4pt 0; }
+  .btn[href^="http"] { display: inline !important; min-height: 0; padding: 0; background: none; box-shadow: none; color: #000; font-weight: 700; }
+  .btn[href^="http"] .ic { display: none; }
+  .btn[href^="http"]::after { content: " (" attr(href) ")"; font-weight: 400; font-size: 8.5pt; word-break: break-all; }
+  .btns:has(a[href^="http"]) .btn + .btn::before { content: " · "; }
+  #tai-lieu { display: none; }
   mark { background: none; color: inherit; padding: 0; }
   .no-result { display: none !important; }
 }

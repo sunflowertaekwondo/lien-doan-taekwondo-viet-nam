@@ -21,7 +21,7 @@
    "ten": "Sổ tay Check-in Đại hội Thể thao toàn quốc lần X - 2026, môn Taekwondo",
    "coQuan": "Ban Tổ chức",
    "pdf": "/docs/dai-hoi-x-2026-so-tay-check-in-taekwondo.pdf",
-   "kb": 1780
+   "kb": 2391
   }
  },
  "doiTuong": [
@@ -93,6 +93,11 @@
   "Quyền đồng đội nữ",
   "Quyền đôi nam nữ"
  ],
+ "quyenSoVdv": {
+  "_nguon": "Mau dang ky chinh thuc kem Dieu le (trang 9): Dong doi nam (3VDV), Dong doi nu (3VDV)",
+  "Quyền đồng đội nam": "3 VĐV",
+  "Quyền đồng đội nữ": "3 VĐV"
+ },
  "theThuc": [
   "Nội dung đối kháng: thi đấu theo thể thức “Best of Three system” theo Luật của Liên đoàn Taekwondo thế giới.",
   "Thời gian thi đấu các nội dung đối kháng đồng đội: 3 hiệp x 3 phút/hiệp, nghỉ giữa hiệp 60 giây.",
@@ -103,7 +108,10 @@
  ],
  "luat": "Áp dụng Luật thi đấu của Liên đoàn Taekwondo thế giới (WT).",
  "doping": "Vận động viên phải được giáo dục phòng chống doping trước khi tham dự Đại hội do Trung tâm Phòng chống doping Việt Nam tổ chức và xác nhận với Ban tổ chức (Quyết định số 1177/QĐ-TDTTVN ngày 12 tháng 9 năm 2025 của Cục Thể dục thể thao Việt Nam phê duyệt Kế hoạch giáo dục phòng, chống doping trước Đại hội thể thao toàn quốc lần thứ X năm 2026).",
+ "kinhPhi": "Theo quy định tại Điều 7, Chương I của Điều lệ Đại hội.",
  "khenThuong": "Ban tổ chức trao huy chương vàng, huy chương bạc, đồng huy chương đồng và giấy chứng nhận cho các vận động viên đạt thành tích nhất, nhì, đồng hạng ba trong các nội dung thi đấu.",
+ "khenThuongDieu": "Theo quy định tại Điều 12, Chương III của Điều lệ Đại hội.",
+ "kyLuat": "Theo quy định tại Điều 13, Chương III Điều lệ Đại hội.",
  "khieuNai": [
   "Theo quy định tại Điều 14, Chương III của Điều lệ Đại hội.",
   "Mọi cá nhân, đơn vị phải tuyệt đối chấp hành các quyết định của Ban tổ chức về việc khiếu nại.",

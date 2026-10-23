@@ -65,7 +65,8 @@ for (const d of ['assets', 'docs', 'fonts', 'img', 'tin-tuc']) fs.mkdirSync(path
 const fontsCss = fs.readFileSync(path.join(HERE, 'src', 'fonts', 'fonts.css'), 'utf8').replace(/url\("\.\.\/fonts\//g, `url("${BASE}/fonts/`);
 const css = fontsCss + '\n' + fs.readFileSync(path.join(HERE, 'src', 'site.css'), 'utf8');
 const js = fs.readFileSync(path.join(HERE, 'src', 'site.js'), 'utf8');
-const HASH = crypto.createHash('sha1').update(css + js + BUILD_DATE).digest('hex').slice(0, 10);
+// ma bam chi theo noi dung CSS + JS: lan chay tu dong hang ngay khong doi ten tep khi ma khong doi
+const HASH = crypto.createHash('sha1').update(css + js).digest('hex').slice(0, 10);
 const CSS_FILE = `assets/site.${HASH}.css`, JS_FILE = `assets/site.${HASH}.js`;
 fs.writeFileSync(path.join(DIST, CSS_FILE), css, 'utf8');
 fs.writeFileSync(path.join(DIST, JS_FILE), js, 'utf8');
@@ -369,7 +370,7 @@ const purposes = [
     </section>`,
     // nen cac muc xen ke trang/xam tu dong (muc Tin moi chi co khi da dang tin)
     body: [
-      dhLive && (c => sec('dai-hoi', `${DH.tenNgan} – ${DH.batDau.slice(0, 4)}`, `<div class="dh-banner">
+      dhLive && (c => sec('dai-hoi', `${DH.tenNgan} – ${DH.batDau.slice(0, 4)}`, `<div class="dh-banner" data-end="${DH.ketThuc}T23:59:59+07:00">
           <div class="dh-date"><b>${dhRange}</b><span>Môn ${esc(DH.mon)}</span></div>
           <div class="dh-text"><p><strong>${esc(DH.diaDiemTen)}</strong><br>${esc(DH.diaChi)}</p><p>Check-in: ${esc(DH.checkIn.gio)}. Hạn đăng ký khung giờ check-in và email schema: ${esc(DH.schema.hanChotChu)}.</p></div>
           <div class="btns"><a class="btn btn-red" href="${DH_PATH}">Thông tin thi đấu ${icon('arrow-right')}</a></div>
@@ -402,7 +403,7 @@ const purposes = [
   const m = metaFor('/lich-thi-dau'), crumbs = [['Lịch thi đấu', null]];
   shell({
     file: 'lich-thi-dau.html', path: '/lich-thi-dau', active: '/lich-thi-dau', title: 'Lịch thi đấu', desc: m.desc, ogImage: `og-${m.og}.jpg`, crumbs,
-    hero: pageHero(crumbs, 'Lịch thi đấu', 'Các giải Taekwondo quốc gia và quốc tế tổ chức tại Việt Nam, theo văn bản của Liên đoàn.'),
+    hero: pageHero(crumbs, 'Lịch thi đấu', 'Các giải Taekwondo quốc gia và quốc tế tổ chức tại Việt Nam, theo văn bản của Liên đoàn và Ban Tổ chức Đại hội Thể thao toàn quốc.'),
     // Dai hoi 2026 dien ra truoc lich 2027 -> dat len dau; het Dai hoi thi chuyen xuong cuoi
     body: [dhLive && 'dh', ...LICH, !dhLive && 'dh'].filter(Boolean).map((l, i) => l === 'dh' ? sec('dai-hoi-2026', `Năm ${DH.batDau.slice(0, 4)}`, `<ol class="timeline"><li class="tl-month">
             <h3 class="tl-h"><span>Tháng ${Number(DH.batDau.slice(5, 7))}</span><small>${DH.batDau.slice(0, 4)}</small></h3>
@@ -452,12 +453,14 @@ const purposes = [
   const nCaNhan = DH.doiKhangCaNhan['Nữ'].length + DH.doiKhangCaNhan['Nam'].length, nTong = nCaNhan + DH.doiKhangDongDoi.length + DH.quyen.length;
   const end = d => `${d}T23:59:59+07:00`;
   // moc thoi gian: site.js danh dau "Đã qua" / "Sắp tới" theo ngay xem trang
+  // han "truoc ngay X" -> het han cuoi ngay hom truoc
+  const dayBefore = d => new Date(Date.parse(d + 'T00:00:00Z') - 864e5).toISOString().slice(0, 10);
   const moc = [
-    [DH.dangKy.soBo, end(DH.dangKy.soBo), 'Hạn đăng ký sơ bộ (số lượng tham gia)', 'Gửi Bộ môn Taekwondo, Cục Thể dục thể thao Việt Nam'],
-    [DH.dangKy.chinhThuc, end(DH.dangKy.chinhThuc), 'Hạn đăng ký chính thức', 'Gửi Bộ môn Taekwondo, Cục Thể dục thể thao Việt Nam'],
-    [DH.schema.hanChot.slice(0, 10), `${DH.schema.hanChot}:00+07:00`, `Hạn đăng ký khung giờ check-in và email truy cập schema (${DH.schema.hanChotChu})`, 'Theo biểu mẫu của Ban Tổ chức'],
+    [DH.dangKy.soBo, end(dayBefore(DH.dangKy.soBo)), `Hạn đăng ký sơ bộ (trước ngày ${viDate(DH.dangKy.soBo)})`, 'Gửi Bộ môn Taekwondo, Cục Thể dục thể thao Việt Nam'],
+    [DH.dangKy.chinhThuc, end(dayBefore(DH.dangKy.chinhThuc)), `Hạn đăng ký chính thức (trước ngày ${viDate(DH.dangKy.chinhThuc)})`, 'Gửi Bộ môn Taekwondo, Cục Thể dục thể thao Việt Nam'],
+    [DH.schema.hanChot.slice(0, 10), `${DH.schema.hanChot}:00+07:00`, `Hạn đăng ký HLV đại diện, khung giờ check-in và 5 email truy cập schema (${DH.schema.hanChotChu})`, 'Theo biểu mẫu của Ban Tổ chức'],
     [DH.checkIn.ngay, end(DH.checkIn.ngay), 'Check-in, nhận thẻ thi đấu, nộp nhạc quyền sáng tạo', `${DH.checkIn.gio}`],
-    [DH.hopLanhDoi.ngay, end(DH.hopLanhDoi.ngay), 'Họp lãnh đội', `${DH.hopLanhDoi.gio} ngày ${viDate(DH.hopLanhDoi.ngay)}`],
+    [DH.hopLanhDoi.ngay, end(DH.hopLanhDoi.ngay), 'Họp lãnh đội, bốc thăm xếp lịch', `${DH.hopLanhDoi.gio} theo Sổ tay Check-in (Điều lệ ghi 8h30 – 12h00). Đề nghị xác nhận với Ban Tổ chức`],
     ...DH.chuongTrinh.filter(d => d.ngay >= '2026-11-25').map(d => [d.ngay, end(d.ngay), d.muc.find(([, t]) => /^Thi đấu (các nội dung quyền|vòng loại|đối kháng)/.test(t))?.[1] || d.muc[0][1], '']),
   ];
   const dhLd = { '@context': 'https://schema.org', '@type': 'SportsEvent', name: `Môn ${DH.mon} – ${DH.ten}`, sport: DH.mon, startDate: DH.batDau, endDate: DH.ketThuc,
@@ -471,7 +474,7 @@ const purposes = [
     file: 'dai-hoi-the-thao-toan-quoc-2026.html', path: DH_PATH, active: '/lich-thi-dau', title: m.title, desc: m.desc, ogImage: `og-${m.og}.jpg`, crumbs, extraLd: [dhLd],
     hero: pageHero(crumbs, DH.ten, `Môn ${esc(DH.mon)} · ${dhRange} · ${esc(DH.diaDiem)}`),
     body: `
-    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#chuong-trinh">Chương trình</a><a href="#noi-dung">Nội dung thi đấu</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#quy-dinh">Quy định</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
+    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#chuong-trinh">Chương trình</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#quy-dinh">Quy định</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
       sec('tong-quan', 'Tổng quan', `<ul class="cal-stats">
           <li><b>${dhRange}</b><span>thời gian</span></li>
           <li><b>${nTong}</b><span>nội dung thi đấu</span></li>
@@ -480,7 +483,7 @@ const purposes = [
         </ul>
         <div class="grid g2">
           <div class="card"><h3>${icon('pin')} Địa điểm</h3><p><strong>${esc(DH.diaDiemTen)}</strong><br>${esc(DH.diaChi)}</p><p class="more"><a class="ref" href="${mapsUrl(DH.diaChi)}" target="_blank" rel="noopener">${icon('pin')}Xem bản đồ</a></p></div>
-          <div class="card"><h3>${icon('calendar')} Đăng ký trước ${esc(DH.schema.hanChotChu)}</h3><p>Mỗi đơn vị đăng ký khung giờ check-in và 5 email truy cập hệ thống schema thi đấu theo biểu mẫu của Ban Tổ chức.</p><div class="btns">${extA(DH.lienKet.dangKy, 'Đăng ký')}${extA(DH.lienKet.khungGio, 'Xem khung giờ còn trống', 'btn btn-outline')}</div></div>
+          <div class="card"><h3>${icon('calendar')} Đăng ký trước ${esc(DH.schema.hanChotChu)}</h3><p>Mỗi đơn vị đăng ký HLV đại diện, khung giờ check-in và 5 email truy cập hệ thống schema thi đấu theo biểu mẫu của Ban Tổ chức.</p><div class="btns">${extA(DH.lienKet.dangKy, 'Đăng ký')}${extA(DH.lienKet.khungGio, 'Xem khung giờ còn trống', 'btn btn-outline')}</div></div>
         </div>
         <h3 class="sub-h">Mốc thời gian</h3>
         <ol class="ms-list">${moc.map(([d, e, t, s]) => `<li data-end="${e}"><time datetime="${d}"><b>${viDate(d).slice(0, 5)}</b><small>${thu(d)}</small></time><span class="ms-body"><strong>${esc(t)}</strong>${s ? `<small>${esc(s)}</small>` : ''}</span><span class="ms-state" aria-live="off"></span></li>`).join('')}</ol>
@@ -488,19 +491,19 @@ const purposes = [
       sec('chuong-trinh', 'Chương trình tổ chức thi đấu', `<div class="prog">${DH.chuongTrinh.map(d => `
           <div class="prog-day"><h3><span>${thu(d.ngay)}</span> ${viDate(d.ngay)}</h3>
             <ul class="prog-items">${d.muc.map(([g, t]) => `<li><span class="pg-time">${esc(g)}</span><span>${esc(t)}</span></li>`).join('')}</ul>${d.ngay === DH.hopLanhDoi.ngay ? `
-            <p class="prog-note">${icon('info')}<span>Theo Sổ tay Check-in của Ban Tổ chức: họp lãnh đội lúc <strong>${esc(DH.hopLanhDoi.gio)}</strong> ngày ${viDate(DH.hopLanhDoi.ngay)}, ${esc(DH.hopLanhDoi.noi)}.</span></p>` : ''}
+            <p class="prog-note">${icon('info')}<span><strong>Hai văn bản ghi khác nhau:</strong> Sổ tay Check-in của Ban Tổ chức ghi họp lãnh đội lúc <strong>${esc(DH.hopLanhDoi.gio)}</strong> ngày ${viDate(DH.hopLanhDoi.ngay)} tại ${esc(DH.hopLanhDoi.noi)}; Điều lệ ghi 8h30 – 12h00 (họp lãnh đội, bốc thăm xếp lịch). Đề nghị các đơn vị xác nhận với Ban Tổ chức: ${DH.lienHeBtc.map(c => `${esc(c.ten)} <a href="tel:${esc(c.dienThoai)}">${esc(c.dienThoai)}</a>`).join(', ')}.</span></p>` : ''}
           </div>`).join('')}
         </div>
         <p class="note">${icon('info')}<span>${esc(DH.chuongTrinhGhiChu)}. Địa điểm: ${esc(DH.diaDiem)}.</span></p>
         ${src(srcDL)}`, '', 'alt'),
-      sec('noi-dung', `${nTong} nội dung thi đấu`, `<p>${esc(DH.doiKhangThietBi)}</p>
+      sec('noi-dung-thi-dau', `${nTong} nội dung thi đấu`, `<p>${esc(DH.doiKhangThietBi)}</p>
         <h3 class="sub-h">Đối kháng cá nhân (${nCaNhan} nội dung)</h3>
         ${Object.entries(DH.doiKhangCaNhan).map(([g, ws]) => `<div class="wc-row"><span class="wc-g">${esc(g)}</span><ul class="chips wc">${ws.map(w => `<li>${esc(w)}</li>`).join('')}</ul></div>`).join('')}
         <h3 class="sub-h">Đối kháng đồng đội (${DH.doiKhangDongDoi.length} nội dung)</h3>
         <table class="table docs-table"><thead><tr><th scope="col">Nội dung</th><th scope="col">Thành phần</th><th scope="col">Trọng lượng</th></tr></thead><tbody>${DH.doiKhangDongDoi.map(r => `<tr><td data-label="Nội dung">${esc(r.noiDung)}</td><td data-label="Thành phần">${esc(r.thanhPhan)}</td><td data-label="Trọng lượng">${esc(r.gioiHan)}</td></tr>`).join('')}</tbody></table>
         <ul class="bullets">${DH.doiKhangDongDoiLuat.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
         <h3 class="sub-h">Quyền (${DH.quyen.length} nội dung)</h3>
-        <ul class="chips">${DH.quyen.map(q => `<li>${esc(q)}</li>`).join('')}</ul>
+        <ul class="chips">${DH.quyen.map(q => `<li>${esc(q)}${DH.quyenSoVdv[q] ? ` (${esc(DH.quyenSoVdv[q])})` : ''}</li>`).join('')}</ul>
         <h3 class="sub-h">Thể thức thi đấu</h3>
         <ul class="bullets">${DH.theThuc.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
         <h3 class="sub-h">Số nội dung mỗi đơn vị được đăng ký</h3>
@@ -511,11 +514,11 @@ const purposes = [
           <div class="card"><h3>${icon('calendar')} Thời gian</h3><p><strong>${esc(DH.checkIn.gio)}/${DH.checkIn.ngay.slice(0, 4)}</strong> (${thu(DH.checkIn.ngay)})</p></div>
           <div class="card"><h3>${icon('pin')} Địa điểm</h3><p><strong>${esc(DH.checkIn.phong)}</strong><br>${esc(DH.diaChi)}</p></div>
         </div>
-        <ol class="steps">${DH.checkIn.quyTrinh.map(([b, s]) => `<li><b>${esc(b)}</b><span>${esc(s)}</span></li>`).join('')}</ol>
+        <ol class="steps">${DH.checkIn.quyTrinh.map(([b, s], i) => `<li><b>${esc(b)}</b><span>${esc(s)}${i === 0 ? ` <strong>Đăng ký qua biểu mẫu của Ban Tổ chức, hạn ${esc(DH.schema.hanChotChu)}.</strong>` : ''}</span></li>`).join('')}</ol>
         <p class="note">${icon('info')}<span><strong>Lưu ý:</strong> ${esc(DH.checkIn.canhBao)}</span></p>
         <p class="note">${icon('info')}<span>${esc(DH.checkIn.luuY)}</span></p>
         <h3 class="sub-h">Khung giờ check-in</h3>
-        <p>${esc(DH.checkIn.khungGio)}</p>
+        <p>${esc(DH.checkIn.khungGio)} Hạn đăng ký: <strong>${esc(DH.schema.hanChotChu)}/${DH.schema.hanChot.slice(0, 4)}</strong>.</p>
         <div class="btns">${extA(DH.lienKet.khungGio, 'Xem khung giờ còn trống', 'btn btn-outline')}${extA(DH.lienKet.dangKy, 'Đăng ký khung giờ')}</div>
         <h3 class="sub-h">Thay đổi thông tin đã đăng ký</h3>
         <p>${esc(DH.checkIn.thayDoi)}</p>
@@ -543,14 +546,20 @@ const purposes = [
           <li>Đăng ký sơ bộ (số lượng tham gia): trước ngày ${viDate(DH.dangKy.soBo)}. Đăng ký chính thức: trước ngày ${viDate(DH.dangKy.chinhThuc)} (theo mẫu kèm Điều lệ).</li>
           <li>Đăng ký được gửi về: ${esc(DH.dangKy.noiNhan)}. Email: <a href="mailto:${esc(DH.dangKy.email)}">${esc(DH.dangKy.email)}</a>, số điện thoại: <a href="tel:${esc(DH.dangKy.dienThoai.replace(/\D/g, ''))}">${esc(DH.dangKy.dienThoai)}</a>.</li>
         </ul>
-        <h3 class="sub-h">Luật thi đấu, doping, khen thưởng, khiếu nại</h3>
+        <h3 class="sub-h">Kinh phí, luật thi đấu, doping</h3>
         <ul class="bullets">
-          <li>${esc(DH.luat)}</li>
-          <li>${esc(DH.doping)}</li>
-          <li>${esc(DH.khenThuong)}</li>
-          ${DH.khieuNai.map(t => `<li>${esc(t)}</li>`).join('')}
+          <li><strong>Kinh phí tham dự:</strong> ${esc(DH.kinhPhi)}</li>
+          <li><strong>Luật thi đấu:</strong> ${esc(DH.luat)}</li>
+          <li><strong>Doping:</strong> ${esc(DH.doping)}</li>
         </ul>
-        ${src(`${srcDL}, mục I, III, VII–X`)}`, '', 'alt'),
+        <h3 class="sub-h">Khen thưởng và kỷ luật</h3>
+        <ul class="bullets">
+          <li><strong>Khen thưởng:</strong> ${esc(DH.khenThuongDieu)} ${esc(DH.khenThuong)}</li>
+          <li><strong>Kỷ luật:</strong> ${esc(DH.kyLuat)}</li>
+        </ul>
+        <h3 class="sub-h">Giải quyết khiếu nại</h3>
+        <ul class="bullets">${DH.khieuNai.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+        ${src(`${srcDL}, mục I, III, IV, VII–X`)}`, '', 'alt'),
       sec('tai-lieu', 'Tài liệu', `<div class="docs">
           ${doc(dl.pdf, `Điều lệ ${esc(DH.ten)} – môn Taekwondo`, `Quyết định số ${nw(dl.so)} ngày ${dl.ngay} · kèm mẫu đăng ký · ${Math.round(dl.kb / 100) / 10} MB`)}
           ${doc(st.pdf, esc(st.ten), `${esc(st.coQuan)} · ${Math.round(st.kb / 100) / 10} MB`)}
