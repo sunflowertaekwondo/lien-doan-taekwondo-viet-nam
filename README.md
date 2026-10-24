@@ -32,7 +32,7 @@ Website tĩnh, nội dung theo **Điều lệ (sửa đổi, bổ sung)** do Đ�
 | Ngày cập nhật hiện ở chân trang và gửi Google | `ngayCapNhatNoiDung` trong `data/site.json`. Đổi mỗi khi sửa nội dung trang; không cần đổi khi chỉ đăng tin |
 | Tình trạng hiệu lực văn bản | Bảng ở trang Văn bản pháp lý và `ngayRaSoatVanBan` trong `data/site.json`. Khi Đại hội nhiệm kỳ mới thông qua Điều lệ mới, cần cập nhật cả Điều lệ |
 | Lịch thi đấu | `data/lich-thi-dau.json`: mỗi năm một mục (số, ngày công văn nguồn, danh sách giải với tên, cấp giải, thời gian, tháng, địa điểm, ghi chú). Chỉ đưa thông tin từ văn bản chính thức. Thêm năm mới thì chạy thêm `node tools/og.mjs` |
-| Đại hội Thể thao toàn quốc X | `data/dai-hoi-x-2026.json`: chương trình, nội dung, check-in, liên hệ, đường link biểu mẫu (chép nguyên văn từ Điều lệ môn QĐ 9/QĐ-BTCĐHTTTQ và Sổ tay Check-in). File PDF trong `data/docs/`. Bảng thông báo ở trang chủ tự ẩn sau ngày kết thúc |
+| Đại hội Thể thao toàn quốc X | `data/dai-hoi-x-2026.json`: chương trình, nội dung, check-in, liên hệ, đường link biểu mẫu, Ban Tổ chức (QĐ 94) và Ban Trọng tài (QĐ 173) (chép nguyên văn từ Điều lệ môn QĐ 9/QĐ-BTCĐHTTTQ, Sổ tay Check-in và các quyết định). File PDF trong `data/docs/`. Bảng thông báo ở trang chủ tự ẩn sau ngày kết thúc |
 | Đăng tin | Chép `content/tin-tuc/_mau-bai-viet.md` thành tệp mới (tên không dấu, nối gạch ngang), sửa phần đầu, bỏ dòng `draft: true`. Ảnh đặt trong `content/tin-tuc/anh/` |
 | Giao diện | `src/site.css`, theo quy tắc trong `DESIGN.md` |
 | Tên miền riêng | Khai báo Custom domain trong Settings → Pages của repository. Quy trình tự động sẽ lấy địa chỉ mới; `siteUrl` trong `data/site.json` chỉ dùng khi tạo web trên máy |

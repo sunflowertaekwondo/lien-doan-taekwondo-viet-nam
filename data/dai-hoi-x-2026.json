@@ -349,5 +349,415 @@
  "lienKet": {
   "dangKy": "https://docs.google.com/forms/d/e/1FAIpQLSfWPDyo_JmEs7v8LFhUITD9rWCC11cxE6PVPA9jdutMP3IDlg/viewform",
   "khungGio": "https://docs.google.com/spreadsheets/d/1il-aEu2-id8FnGEbMgHwt8IImpnZl94-RRgR6trbVBk/edit?gid=0#gid=0"
- }
+ },
+ "banToChuc": {
+  "qd": {
+   "so": "94/QĐ-BTCĐHTTTQ",
+   "ngay": "23/09/2026",
+   "trichYeu": "Về việc thành lập Ban Tổ chức Đại hội Thể thao toàn quốc lần thứ X năm 2026 môn Taekwondo",
+   "pdf": "/docs/dai-hoi-x-2026-qd94-ban-to-chuc-taekwondo.pdf",
+   "kb": 661
+  },
+  "nhiemVu": "Ban Tổ chức môn Taekwondo có trách nhiệm tổ chức, điều hành thi đấu theo đúng Luật và Điều lệ quy định.",
+  "thanhVien": [
+   {
+    "ten": "Ông Nguyễn Nam Nhân",
+    "donVi": "P.Giám đốc Sở Văn hóa và Thể thao Thành phố Hồ Chí Minh",
+    "chucVu": "Trưởng Ban Tổ chức"
+   },
+   {
+    "ten": "Ông Hoàng Quốc Vinh",
+    "donVi": "Trưởng phòng Thể thao thành tích cao, Cục Thể dục thể thao Việt Nam",
+    "chucVu": "Đồng Trưởng Ban Tổ chức"
+   },
+   {
+    "ten": "Bà Nguyễn Thu Trang",
+    "donVi": "Chuyên viên chính phụ trách môn Taekwondo, Phòng TTTT cao, Cục Thể dục thể thao Việt Nam",
+    "chucVu": "Phó Trưởng BTC, Trưởng ban giám sát"
+   },
+   {
+    "ten": "Ông Nguyễn Thanh Huy",
+    "donVi": "Phó Chủ tịch/ Tổng thư ký Liên đoàn Taekwondo Việt Nam",
+    "chucVu": "Phó Trưởng BTC"
+   },
+   {
+    "ten": "Ông Lý Đại Nghĩa",
+    "donVi": "Giám đốc Trung tâm Huấn luyện và Thi đấu TDTT Tp. Hồ Chí Minh",
+    "chucVu": "Ủy viên"
+   },
+   {
+    "ten": "Bà Đỗ An Nhàn",
+    "donVi": "Phó Chủ tịch UBND phường An Hội Đông",
+    "chucVu": "Ủy viên"
+   },
+   {
+    "ten": "Ông Nguyễn Văn Hiếu",
+    "donVi": "Chủ tịch Liên đoàn Taekwondo Tp. Hồ Chí Minh",
+    "chucVu": "Ủy viên"
+   }
+  ]
+ },
+ "banTrongTai": {
+  "qd": {
+   "so": "173/QĐ-BTCĐHTTTQ",
+   "ngay": "16/10/2026",
+   "trichYeu": "Về việc thành lập Ban Trọng tài Đại hội Thể thao toàn quốc lần thứ X năm 2026 môn Taekwondo",
+   "pdf": "/docs/dai-hoi-x-2026-qd173-ban-trong-tai-taekwondo.pdf",
+   "kb": 784
+  },
+  "nhiemVu": "Ban Trọng tài Đại hội Thể thao toàn quốc lần thứ X năm 2026 môn Taekwondo có trách nhiệm tổ chức, điều hành thi đấu theo đúng Luật và Điều lệ quy định.",
+  "thanhVien": [
+   {
+    "tt": 1,
+    "ten": "Hồ Anh Tuấn",
+    "gioiTinh": "Nam",
+    "donVi": "Hà Nội",
+    "chucVu": "Trọng tài chính / Trưởng Ban trọng tài"
+   },
+   {
+    "tt": 2,
+    "ten": "Đàm Ngọc Tuấn",
+    "gioiTinh": "Nam",
+    "donVi": "Hà Nội",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 3,
+    "ten": "Hoàng Trọng Trung",
+    "gioiTinh": "Nam",
+    "donVi": "Hà Nội",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 4,
+    "ten": "Trần Bích Đào",
+    "gioiTinh": "Nữ",
+    "donVi": "Hà Nội",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 5,
+    "ten": "Nguyễn Văn Cường",
+    "gioiTinh": "Nam",
+    "donVi": "Hà Nội",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 6,
+    "ten": "Nguyễn Hoài Tân",
+    "gioiTinh": "Nam",
+    "donVi": "An Giang",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 7,
+    "ten": "Đặng Văn Hên",
+    "gioiTinh": "Nam",
+    "donVi": "Cà Mau",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 8,
+    "ten": "Phạm Dương Thúy Kiều",
+    "gioiTinh": "Nữ",
+    "donVi": "Cà Mau",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 9,
+    "ten": "Nguyễn Thị Hồng Thảo",
+    "gioiTinh": "Nữ",
+    "donVi": "Cần Thơ",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 10,
+    "ten": "Cao Thị Ngọc Liên",
+    "gioiTinh": "Nữ",
+    "donVi": "CAND",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 11,
+    "ten": "Nguyễn Ngọc Đình",
+    "gioiTinh": "Nam",
+    "donVi": "Đà Nẵng",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 12,
+    "ten": "Nguyễn Thị Bích Thủy",
+    "gioiTinh": "Nữ",
+    "donVi": "Đà Nẵng",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 13,
+    "ten": "Võ Trần Vỹ",
+    "gioiTinh": "Nam",
+    "donVi": "Đắk Lắk",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 14,
+    "ten": "Nguyễn Thị Hạnh Dung",
+    "gioiTinh": "Nữ",
+    "donVi": "Đồng Nai",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 15,
+    "ten": "Sỳ Thiên Đại",
+    "gioiTinh": "Nam",
+    "donVi": "Đồng Nai",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 16,
+    "ten": "Lại Trương Thanh Thúy",
+    "gioiTinh": "Nữ",
+    "donVi": "Đồng Nai",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 17,
+    "ten": "Lê Thị Kim Dung",
+    "gioiTinh": "Nữ",
+    "donVi": "Đồng Tháp",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 18,
+    "ten": "Trần Tuấn Anh",
+    "gioiTinh": "Nam",
+    "donVi": "Đồng Tháp",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 19,
+    "ten": "Trương Sanh Tình",
+    "gioiTinh": "Nam",
+    "donVi": "Gia Lai",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 20,
+    "ten": "Nguyễn Thành Trung",
+    "gioiTinh": "Nam",
+    "donVi": "Hải Phòng",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 21,
+    "ten": "Vũ Văn Thành",
+    "gioiTinh": "Nam",
+    "donVi": "Hải Phòng",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 22,
+    "ten": "Vũ Thành Dương",
+    "gioiTinh": "Nam",
+    "donVi": "Hải Phòng",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 23,
+    "ten": "Nguyễn Hoài Bảo Nghi",
+    "gioiTinh": "Nữ",
+    "donVi": "Khánh Hòa",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 24,
+    "ten": "Bùi Thị Minh Hoàng",
+    "gioiTinh": "Nữ",
+    "donVi": "Khánh Hòa",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 25,
+    "ten": "Nguyễn Đình Hải",
+    "gioiTinh": "Nam",
+    "donVi": "Khánh Hòa",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 26,
+    "ten": "Nguyễn Nhất Hùng",
+    "gioiTinh": "Nam",
+    "donVi": "Lâm Đồng",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 27,
+    "ten": "Trần Thị Hoàng Vy",
+    "gioiTinh": "Nữ",
+    "donVi": "Lâm Đồng",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 28,
+    "ten": "Hồng Thanh Phú",
+    "gioiTinh": "Nam",
+    "donVi": "Lâm Đồng",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 29,
+    "ten": "Nguyễn Thu Thủy",
+    "gioiTinh": "Nữ",
+    "donVi": "Phú Thọ",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 30,
+    "ten": "Nguyễn Ngọc Ánh",
+    "gioiTinh": "Nữ",
+    "donVi": "Quảng Ninh",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 31,
+    "ten": "Bùi Trọng Tấn",
+    "gioiTinh": "Nam",
+    "donVi": "Sơn La",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 32,
+    "ten": "Nguyễn Văn Lợi",
+    "gioiTinh": "Nam",
+    "donVi": "Tây Ninh",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 33,
+    "ten": "Trần Nguyễn Trường Trí",
+    "gioiTinh": "Nam",
+    "donVi": "Tây Ninh",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 34,
+    "ten": "Nguyễn Thế Hưng",
+    "gioiTinh": "Nam",
+    "donVi": "Thái Nguyên",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 35,
+    "ten": "Phạm Thị Ngọc Hà",
+    "gioiTinh": "Nữ",
+    "donVi": "Thái Nguyên",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 36,
+    "ten": "Phạm Phước Quốc Vũ",
+    "gioiTinh": "Nam",
+    "donVi": "TP. Huế",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 37,
+    "ten": "Lê Ngọc Thuyền",
+    "gioiTinh": "Nữ",
+    "donVi": "TP. Hồ Chí Minh",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 38,
+    "ten": "Lê Thị Cẩm Hiền",
+    "gioiTinh": "Nữ",
+    "donVi": "TP. Hồ Chí Minh",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 39,
+    "ten": "Nguyễn Hoàng Long",
+    "gioiTinh": "Nam",
+    "donVi": "TP. Hồ Chí Minh",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 40,
+    "ten": "Trần Quang Thuận",
+    "gioiTinh": "Nam",
+    "donVi": "TP. Hồ Chí Minh",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 41,
+    "ten": "Đặng Lê Trí Dũng",
+    "gioiTinh": "Nam",
+    "donVi": "TP. Hồ Chí Minh",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 42,
+    "ten": "Nguyễn Văn Thịnh",
+    "gioiTinh": "Nam",
+    "donVi": "Vĩnh Long",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 43,
+    "ten": "Nguyễn Thị Mộng Trinh",
+    "gioiTinh": "Nữ",
+    "donVi": "Vĩnh Long",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 44,
+    "ten": "Nguyễn Mạnh Hùng",
+    "gioiTinh": "Nam",
+    "donVi": "Liên đoàn Taekwondo VN (TP.HCM)",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 45,
+    "ten": "Phạm Trần Tuấn Anh",
+    "gioiTinh": "Nam",
+    "donVi": "Liên đoàn Taekwondo VN (TP.HCM)",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 46,
+    "ten": "Ngô Thị Thùy Dung",
+    "gioiTinh": "Nữ",
+    "donVi": "Liên đoàn Taekwondo VN (TP.HCM)",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 47,
+    "ten": "Nguyễn Thanh Hiền Linh",
+    "gioiTinh": "Nữ",
+    "donVi": "Liên đoàn Taekwondo VN (TP.HCM)",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 48,
+    "ten": "Trần Cao Cẩm Tiên",
+    "gioiTinh": "Nữ",
+    "donVi": "Liên đoàn Taekwondo VN (TP.HCM)",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 49,
+    "ten": "Nguyễn Hoàng Chương",
+    "gioiTinh": "Nam",
+    "donVi": "Liên đoàn Taekwondo VN (TP.HCM)",
+    "chucVu": "Trọng tài chính"
+   },
+   {
+    "tt": 50,
+    "ten": "Vũ Trọng Hải",
+    "gioiTinh": "Nam",
+    "donVi": "Trung tâm phòng chống Doping VN (Hà Nội)",
+    "chucVu": "Trọng tài chính (phụ trách Doping)"
+   }
+  ]
+ },
+ "_hieuDinh": "Sua loi chinh ta ro rang so voi ban goc: QD94 \"UBND phuong An Hoi Dong\" -> \"phuong (co dau huyen)\"; QD173 don vi \"Dak lak\" -> \"Dak Lak\" (dau sac). Con lai chep nguyen van; so va ngay QD 94, 173 doc tu ban scan (viet tay/dong dau)."
 }

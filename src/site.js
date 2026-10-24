@@ -266,6 +266,19 @@
     else if (!nextSet) { li.classList.add('is-next'); tag.textContent = 'Sắp tới'; nextSet = true; }
   });
 
+  // ---- loc danh sach (vd 50 trong tai) theo ten / don vi; go khong dau van tim duoc ----
+  var foldText = function (s) { return s.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase(); };
+  $$('.roster-filter').forEach(function (inp) {
+    var table = doc.getElementById(inp.getAttribute('aria-controls')), out = doc.getElementById(inp.dataset.status);
+    if (!table) return;
+    var rows = $$('tbody tr', table).map(function (tr) { return [tr, foldText(tr.textContent).replace(/\s+/g, ' ')]; });
+    inp.addEventListener('input', function () {
+      var raw = inp.value.trim(), q = foldText(raw).replace(/\s+/g, ' '), n = 0;
+      rows.forEach(function (r) { var ok = !q || r[1].indexOf(q) !== -1; r[0].hidden = !ok; if (ok) n++; });
+      if (out) out.textContent = q ? (n ? 'Có ' + n + ' người khớp với “' + raw + '”.' : 'Không có ai khớp với “' + raw + '”.') : '';
+    });
+  });
+
   // ---- in: mo het khoi thu gon truoc khi in ----
   $$('.print-btn').forEach(function (b) { b.addEventListener('click', function () { window.print(); }); });
   var reopened = [];

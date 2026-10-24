@@ -161,13 +161,16 @@ check(`${internal.length} liên kết nội bộ (kể cả #anchor, PDF, RSS) �
     days: [...document.querySelectorAll('.prog-day')].map(d => d.querySelectorAll('.prog-items li').length),
     ext: [...document.querySelectorAll('a[href^="https://docs.google.com/"]')].every(a => a.target === '_blank' && /noopener/.test(a.rel)),
     marked: document.querySelectorAll('.ms-list li.is-past, .ms-list li.is-next').length,
+    btc: document.querySelectorAll('#ban-to-chuc-trong-tai table.roster:not(#tt-list) tbody tr').length,
+    btt: [...document.querySelectorAll('#tt-list tbody tr')].map(tr => tr.cells[1].textContent.trim()),
     text: document.querySelector('main').innerText,
   }));
   const want = [DH.checkIn.gio, DH.schema.hanChotChu, DH.sanTap.lienHe.dienThoai, ...DH.lienHeBtc.map(c => c.dienThoai), ...DH.quyen, ...DH.theThuc.slice(1)];
   const missing = want.filter(w => !r.text.includes(w));
   const ok = r.ld && r.ld.startDate === DH.batDau && r.ld.endDate === DH.ketThuc && r.weights === 16 && r.teams === DH.doiKhangDongDoi.length
-    && r.days.join(',') === DH.chuongTrinh.map(d => d.muc.length).join(',') && r.ext && r.marked > 0 && missing.length === 0;
-  check('Trang Đại hội Thể thao toàn quốc X: khớp dữ liệu Điều lệ + Sổ tay, có SportsEvent, mốc thời gian', ok, missing.length ? 'thiếu: ' + missing.slice(0, 3).join(' / ') : `${r.weights} hạng cân, ${r.teams} đồng đội, ${r.days.length} ngày`);
+    && r.days.join(',') === DH.chuongTrinh.map(d => d.muc.length).join(',') && r.ext && r.marked > 0 && missing.length === 0
+    && r.btc === DH.banToChuc.thanhVien.length && r.btt.join('|') === DH.banTrongTai.thanhVien.map(t => t.ten).join('|');
+  check('Trang Đại hội Thể thao toàn quốc X: khớp dữ liệu Điều lệ, Sổ tay, QĐ Ban Tổ chức + Ban Trọng tài; SportsEvent, mốc thời gian', ok, missing.length ? 'thiếu: ' + missing.slice(0, 3).join(' / ') : `${r.weights} hạng cân, ${r.teams} đồng đội, ${r.days.length} ngày, BTC ${r.btc}, trọng tài ${r.btt.length}`);
   await ctx.close();
 }
 

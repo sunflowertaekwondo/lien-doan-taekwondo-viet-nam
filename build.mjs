@@ -340,6 +340,15 @@ const thu = iso => THU[new Date(iso + 'T00:00:00Z').getUTCDay()];
 const extA = (href, label, cls = 'btn btn-red') => `<a class="${cls}" href="${esc(href)}" target="_blank" rel="noopener">${label} ${icon('external')}</a>`;
 const dhRange = `${viDate(DH.batDau).slice(0, 5)}–${viDate(DH.ketThuc)}`;
 const dhLive = BUILD_DATE <= DH.ketThuc; // het Dai hoi thi bo bang thong bao o trang chu
+const pdfCard = (href, title, sub) => `<a class="doc" href="${href}" target="_blank" rel="noopener"><span class="doc-ic">${icon('file')}<small>PDF</small></span><span><strong>${title}</strong><small>${sub}</small></span>${icon('download', 'doc-go')}</a>`;
+const mb = kb => `${Math.round(kb / 100) / 10} MB`;
+// van ban Dai hoi theo thu tu ban hanh - dung o trang Dai hoi (Tai lieu) va trang Van ban phap ly
+const dhDocCards = () => [
+  pdfCard(DH.nguon.dieuLe.pdf, `Điều lệ ${esc(DH.ten)} – môn Taekwondo`, `Quyết định số ${nw(DH.nguon.dieuLe.so)} ngày ${DH.nguon.dieuLe.ngay} · kèm mẫu đăng ký · ${mb(DH.nguon.dieuLe.kb)}`),
+  pdfCard(DH.banToChuc.qd.pdf, 'Quyết định thành lập Ban Tổ chức môn Taekwondo', `Số ${nw(DH.banToChuc.qd.so)} ngày ${DH.banToChuc.qd.ngay} · ${DH.banToChuc.thanhVien.length} thành viên · ${mb(DH.banToChuc.qd.kb)}`),
+  pdfCard(DH.banTrongTai.qd.pdf, 'Quyết định thành lập Ban Trọng tài môn Taekwondo', `Số ${nw(DH.banTrongTai.qd.so)} ngày ${DH.banTrongTai.qd.ngay} · ${DH.banTrongTai.thanhVien.length} thành viên · ${mb(DH.banTrongTai.qd.kb)}`),
+  pdfCard(DH.nguon.soTay.pdf, esc(DH.nguon.soTay.ten), `${esc(DH.nguon.soTay.coQuan)} · ${mb(DH.nguon.soTay.kb)}`),
+].join('\n          ');
 
 // ===== Trang chu =====
 // Anh ky niem chuong do Lien doan cung cap (content/anh-goc/ky-niem-chuong-30-nam.jpg), tach 3 tam bang tools/anh-trang-chu.py (Pillow)
@@ -479,18 +488,20 @@ const purposes = [
     eventStatus: 'https://schema.org/EventScheduled', eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode', url: abs(DH_PATH), description: m.desc,
     location: { '@type': 'Place', name: DH.diaDiemTen, address: { '@type': 'PostalAddress', streetAddress: DH.diaChi.replace(/,\s*TP\.?\s*HCM$/i, ''), addressLocality: 'Thành phố Hồ Chí Minh', addressCountry: 'VN' } },
     organizer: { '@type': 'Organization', name: `Ban Tổ chức ${DH.ten}` } };
-  const doc = (href, title, sub) => `<a class="doc" href="${href}" target="_blank" rel="noopener"><span class="doc-ic">${icon('file')}<small>PDF</small></span><span><strong>${title}</strong><small>${sub}</small></span>${icon('download', 'doc-go')}</a>`;
   const dl = DH.nguon.dieuLe, st = DH.nguon.soTay;
+  const BTC = DH.banToChuc, BTT = DH.banTrongTai, nTT = BTT.thanhVien.length;
+  const demGT = g => BTT.thanhVien.filter(t => t.gioiTinh === g).length, nDonVi = new Set(BTT.thanhVien.map(t => t.donVi)).size;
+  const qdSrc = q => `Quyết định số ${nw(q.so)} ngày ${q.ngay} của Trưởng Ban Tổ chức ${esc(DH.ten)}`;
   const srcDL = `Điều lệ môn Taekwondo ban hành kèm Quyết định số ${nw(dl.so)} ngày ${dl.ngay}`;
   shell({
     file: 'dai-hoi-the-thao-toan-quoc-2026.html', path: DH_PATH, active: '/lich-thi-dau', title: m.title, desc: m.desc, ogImage: `og-${m.og}.jpg`, crumbs, extraLd: [dhLd],
     hero: pageHero(crumbs, DH.ten, `Môn ${esc(DH.mon)} · ${dhRange} · ${esc(DH.diaDiem)}`),
     body: `
-    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#chuong-trinh">Chương trình</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#quy-dinh">Quy định</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
+    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#chuong-trinh">Chương trình</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#quy-dinh">Quy định</a><a href="#ban-to-chuc-trong-tai">Ban tổ chức, trọng tài</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
       sec('tong-quan', 'Tổng quan', `<ul class="cal-stats">
           <li><b>${dhRange}</b><span>thời gian</span></li>
           <li><b>${nTong}</b><span>nội dung thi đấu</span></li>
-          <li><b>${DH.quyen.length}</b><span>nội dung quyền</span></li>
+          <li><b>${nTT}</b><span>trọng tài</span></li>
           <li><b>WT</b><span>luật thi đấu</span></li>
         </ul>
         <div class="grid g2">
@@ -571,10 +582,32 @@ const purposes = [
         <h3 class="sub-h">Giải quyết khiếu nại</h3>
         <ul class="bullets">${DH.khieuNai.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
         ${src(`${srcDL}, mục I, III, IV, VII–X`)}`, '', 'alt'),
+      sec('ban-to-chuc-trong-tai', 'Ban Tổ chức và Ban Trọng tài', `<h3 class="sub-h">Ban Tổ chức môn Taekwondo (${BTC.thanhVien.length} thành viên)</h3>
+        <p>${esc(BTC.nhiemVu)}</p>
+        <table class="table docs-table roster"><thead><tr><th scope="col">TT</th><th scope="col">Họ và tên</th><th scope="col">Đơn vị công tác</th><th scope="col">Chức vụ trong Ban Tổ chức</th></tr></thead><tbody>${BTC.thanhVien.map((t, i) => `
+          <tr><td data-label="TT">${i + 1}</td><td data-label="Họ và tên"><strong>${esc(t.ten)}</strong></td><td data-label="Đơn vị">${esc(t.donVi)}</td><td data-label="Chức vụ">${esc(t.chucVu)}</td></tr>`).join('')}
+        </tbody></table>
+        ${src(qdSrc(BTC.qd))}
+        <h3 class="sub-h">Ban Trọng tài (${nTT} thành viên)</h3>
+        <p>${esc(BTT.nhiemVu)}</p>
+        <ul class="cal-stats">
+          <li><b>${nTT}</b><span>thành viên</span></li>
+          <li><b>${demGT('Nam')}</b><span>nam</span></li>
+          <li><b>${demGT('Nữ')}</b><span>nữ</span></li>
+          <li><b>${nDonVi}</b><span>đơn vị cử trọng tài</span></li>
+        </ul>
+        <ul class="contact-list">${BTT.thanhVien.filter(t => t.chucVu !== 'Trọng tài chính').map(t => `<li>${icon('users')}<span><strong>${esc(t.ten)}</strong> (${esc(t.donVi)}): ${esc(t.chucVu)}</span></li>`).join('')}</ul>
+        <details class="full roster-wrap"><summary>Danh sách ${nTT} thành viên Ban Trọng tài</summary><div class="full-body">
+          <label class="search roster-search" for="tt-q">${icon('search')}<span class="sr">Tìm trọng tài theo tên hoặc đơn vị</span><input id="tt-q" class="roster-filter" type="search" placeholder="Tìm theo tên hoặc đơn vị, ví dụ: Đồng Nai" autocomplete="off" aria-controls="tt-list" data-status="tt-status"></label>
+          <p id="tt-status" class="search-status" role="status"></p>
+          <table class="table docs-table roster" id="tt-list"><thead><tr><th scope="col">TT</th><th scope="col">Họ và tên</th><th scope="col">Giới tính</th><th scope="col">Đơn vị</th><th scope="col">Chức vụ</th></tr></thead><tbody>${BTT.thanhVien.map(t => `
+            <tr><td data-label="TT">${t.tt}</td><td data-label="Họ và tên"><strong>${esc(t.ten)}</strong></td><td data-label="Giới tính">${esc(t.gioiTinh)}</td><td data-label="Đơn vị">${esc(t.donVi)}</td><td data-label="Chức vụ">${esc(t.chucVu)}</td></tr>`).join('')}
+          </tbody></table>
+        </div></details>
+        ${src(`${qdSrc(BTT.qd)} (danh sách kèm theo)`)}`),
       sec('tai-lieu', 'Tài liệu', `<div class="docs">
-          ${doc(dl.pdf, `Điều lệ ${esc(DH.ten)} – môn Taekwondo`, `Quyết định số ${nw(dl.so)} ngày ${dl.ngay} · kèm mẫu đăng ký · ${Math.round(dl.kb / 100) / 10} MB`)}
-          ${doc(st.pdf, esc(st.ten), `${esc(st.coQuan)} · ${Math.round(st.kb / 100) / 10} MB`)}
-        </div>`),
+          ${dhDocCards()}
+        </div>`, '', 'alt'),
     ].join(''),
   });
 }
@@ -774,6 +807,10 @@ const purposes = [
           <li>Nghị định số 45/2010/NĐ-CP ngày 21/4/2010 của Chính phủ quy định về tổ chức, hoạt động và quản lý hội</li>
           <li>Nghị định số 33/2012/NĐ-CP ngày 13/4/2012 của Chính phủ sửa đổi, bổ sung một số điều của Nghị định số 45/2010/NĐ-CP</li>
         </ul>${src(`Quyết định số ${nw(DL.pheDuyet.so)} ngày ${DL.pheDuyet.ngay} của ${DL.pheDuyet.coQuan}`)}`, '', 'alt'),
+      sec('van-ban-dai-hoi', `Văn bản ${DH.tenNgan} – môn ${DH.mon}`, `<div class="docs">
+          ${dhDocCards()}
+        </div>
+        <p class="more"><a class="ref" href="${DH_PATH}#ban-to-chuc-trong-tai">Xem Ban Tổ chức, Ban Trọng tài và thông tin thi đấu</a></p>`, `Văn bản của Ban Tổ chức ${esc(DH.ten)} về môn ${esc(DH.mon)} (${dhRange}).`),
     ].join(''),
   });
 }

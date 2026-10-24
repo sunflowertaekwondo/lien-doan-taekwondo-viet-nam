@@ -444,6 +444,10 @@ abbr[title] { text-decoration: underline dotted; text-underline-offset: 3px; cur
 .wc-g { font-weight: 800; color: var(--heading); padding-top: var(--sp-3); }
 .chips.wc li { font-weight: 600; }
 .contact-list { list-style: none; display: grid; gap: var(--sp-2); margin: var(--sp-3) 0; }
+/* danh sach thanh vien (Ban To chuc, Ban Trong tai) */
+@media (min-width: 801px) { .roster td:first-child { width: 56px; font-variant-numeric: tabular-nums; } } /* duoi 800px bang thanh the: khong ep do rong */
+.roster-search { margin-bottom: var(--sp-3); max-width: 520px; }
+.roster-wrap { margin-top: var(--sp-4); }
 .contact-list li { display: flex; gap: var(--sp-2); align-items: center; }
 .contact-list .ic { flex: none; color: var(--accent-text); }
 .contact-list a { display: inline-flex; align-items: center; min-height: var(--tap); font-weight: 700; }
@@ -597,7 +601,8 @@ abbr[title] { text-decoration: underline dotted; text-underline-offset: 3px; cur
   :root, [data-theme="dark"] { --bg:#fff; --surface:#fff; --surface-2:#fff; --text:#000; --text-2:#222; --muted:#444; --heading:#000; --border:#ccc; --link:#000; --link-hover:#000; --accent-text:#991B1B; --note-bg:#FFF6DD; --note-border:#EED48A; --mark-bg:#FFE38A; --mark-text:#1A1300; --ok-bg:#E3F6EA; --ok-text:#14532D; --off-bg:#EEF0F4; --off-text:#475569; --tree-line:#9FB0DB; color-scheme: light; }
   .table thead th, .tag, .dl, .node.top, .numlist > li::before, .steps li::before, .pager span[aria-current], .doc-ic { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .dieu.is-hidden, .chuong.is-hidden { display: block !important; }
-  .cal-tools { display: none !important; }
+  .cal-tools, .roster-search { display: none !important; }
+  .roster tr[hidden] { display: table-row !important; } /* ban in luon du danh sach, ke ca khi dang loc */
   .event[hidden], .tl-month[hidden] { display: block !important; } /* ban in luon du lich, ke ca khi dang loc */
   .tl-h { position: static; }
   .cap, .cm-when, .ms-list time, .ms-list li.is-next .ms-state, .deadline, .dh-banner { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
