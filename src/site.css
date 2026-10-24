@@ -432,6 +432,8 @@ abbr[title] { text-decoration: underline dotted; text-underline-offset: 3px; cur
 .prog-day { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: var(--sp-5); }
 .prog-day h3 { font-size: var(--fs-lg); color: var(--heading); margin-bottom: var(--sp-3); }
 .prog-day h3 span { color: var(--accent-text); }
+.prog-day h3 .upd { margin-left: var(--sp-2); padding: 2px 10px; border-radius: var(--r-pill); background: var(--note-bg); border: 1px solid var(--note-border); color: var(--accent-text); font-size: 12px; font-weight: 700; vertical-align: 2px; white-space: nowrap; }
+.prog-day.is-updated { border-color: var(--note-border); }
 .prog-items { list-style: none; display: grid; gap: var(--sp-2); }
 .prog-items li { display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: var(--sp-3); }
 .pg-time { font-weight: 700; color: var(--heading); font-variant-numeric: tabular-nums; }

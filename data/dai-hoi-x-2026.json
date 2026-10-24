@@ -122,27 +122,29 @@
    "ngay": "2026-11-23",
    "muc": [
     [
-     "8h30 – 12h00",
-     "Đón quan chức, trọng tài và các đoàn tham dự."
-    ],
-    [
-     "17h00 – 18h30",
-     "Họp và tập huấn Trọng tài"
+     "08:00 – 15:00",
+     "Check-in, nhận thẻ thi đấu, kiểm tra schema, nộp nhạc thi quyền sáng tạo"
     ]
-   ]
+   ],
+   "dieuChinh": true
   },
   {
    "ngay": "2026-11-24",
    "muc": [
     [
-     "08h00 – 12h00",
-     "Tập huấn Trọng tài"
+     "Sáng",
+     "Tập huấn Trọng tài: lý thuyết"
     ],
     [
-     "8h30 – 12h00",
-     "Họp Lãnh đội, bốc thăm xếp lịch"
+     "Chiều",
+     "Tập huấn Trọng tài: thực hành"
+    ],
+    [
+     "14:00",
+     "Họp Lãnh đội, bốc thăm xếp lịch (Phòng họp Lầu 1)"
     ]
-   ]
+   ],
+   "dieuChinh": true
   },
   {
    "ngay": "2026-11-25",
@@ -264,6 +266,10 @@
   }
  ],
  "chuongTrinhGhiChu": "Lịch thi đấu có thể thay đổi tùy theo tình hình thực tế",
+ "dieuChinh": {
+  "ngay": "2026-10-24",
+  "noiDung": "Chương trình ngày 23/11 và 24/11 đã được điều chỉnh theo cập nhật của Liên đoàn"
+ },
  "checkIn": {
   "gioiThieu": "Nhằm chuẩn bị tốt nhất công tác tổ chức và tiếp đón các đoàn tham dự môn Taekwondo tại Đại hội Thể thao toàn quốc lần X - 2026, Ban Tổ chức triển khai biểu mẫu đăng ký lịch check-in dành cho các đơn vị. Trong quá trình check-in, các đơn vị sẽ nhận thẻ thi đấu và kiểm tra schema, truy cập thử theo các email đã đăng ký và nộp nhạc thi quyền sáng tạo.",
   "luuY": "Đề nghị các đơn vị đăng ký đầy đủ, chính xác thông tin và đúng HLV theo thông tin đăng ký đến check-in. (BTC sẽ đối chiếu thông tin đã Đăng ký khi đến check-in, không đúng HLV đến theo thông tin đăng ký sẽ không được nhận thẻ thi đấu).",

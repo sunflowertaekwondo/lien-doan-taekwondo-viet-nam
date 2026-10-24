@@ -472,7 +472,7 @@ const purposes = [
     [DH.dangKy.chinhThuc, end(dayBefore(DH.dangKy.chinhThuc)), `Hạn đăng ký chính thức (trước ngày ${viDate(DH.dangKy.chinhThuc)})`, 'Gửi Bộ môn Taekwondo, Cục Thể dục thể thao Việt Nam'],
     [DH.schema.hanChot.slice(0, 10), `${DH.schema.hanChot}:00+07:00`, `Hạn đăng ký HLV đại diện, khung giờ check-in và 5 email truy cập schema (${DH.schema.hanChotChu})`, 'Theo biểu mẫu của Ban Tổ chức'],
     [DH.checkIn.ngay, end(DH.checkIn.ngay), 'Check-in, nhận thẻ thi đấu, nộp nhạc quyền sáng tạo', `${DH.checkIn.gio}`],
-    [DH.hopLanhDoi.ngay, end(DH.hopLanhDoi.ngay), 'Họp lãnh đội, bốc thăm xếp lịch', `${DH.hopLanhDoi.gio} theo Sổ tay Check-in (Điều lệ ghi 8h30 – 12h00). Đề nghị xác nhận với Ban Tổ chức`],
+    [DH.hopLanhDoi.ngay, end(DH.hopLanhDoi.ngay), 'Họp lãnh đội, bốc thăm xếp lịch', `${DH.hopLanhDoi.gio} ngày ${viDate(DH.hopLanhDoi.ngay)}, ${DH.hopLanhDoi.noi}`],
     ...DH.chuongTrinh.filter(d => d.ngay >= '2026-11-25').map(d => [d.ngay, end(d.ngay), d.muc.find(([, t]) => /^Thi đấu (các nội dung quyền|vòng loại|đối kháng)/.test(t))?.[1] || d.muc[0][1], '']),
   ];
   const dhLd = { '@context': 'https://schema.org', '@type': 'SportsEvent', name: `Môn ${DH.mon} – ${DH.ten}`, sport: DH.mon, startDate: DH.batDau, endDate: DH.ketThuc,
@@ -501,13 +501,12 @@ const purposes = [
         <ol class="ms-list">${moc.map(([d, e, t, s]) => `<li data-end="${e}"><time datetime="${d}"><b>${viDate(d).slice(0, 5)}</b><small>${thu(d)}</small></time><span class="ms-body"><strong>${esc(t)}</strong>${s ? `<small>${esc(s)}</small>` : ''}</span><span class="ms-state" aria-live="off"></span></li>`).join('')}</ol>
         ${src(`${srcDL}; ${esc(st.ten)}`)}`, `Thông tin thi đấu môn ${esc(DH.mon)} tại ${esc(DH.ten)}, theo Điều lệ môn và Sổ tay Check-in của Ban Tổ chức.`),
       sec('chuong-trinh', 'Chương trình tổ chức thi đấu', `<div class="prog">${DH.chuongTrinh.map(d => `
-          <div class="prog-day"><h3><span>${thu(d.ngay)}</span> ${viDate(d.ngay)}</h3>
-            <ul class="prog-items">${d.muc.map(([g, t]) => `<li><span class="pg-time">${esc(g)}</span><span>${esc(t)}</span></li>`).join('')}</ul>${d.ngay === DH.hopLanhDoi.ngay ? `
-            <p class="prog-note">${icon('info')}<span><strong>Hai văn bản ghi khác nhau:</strong> Sổ tay Check-in của Ban Tổ chức ghi họp lãnh đội lúc <strong>${esc(DH.hopLanhDoi.gio)}</strong> ngày ${viDate(DH.hopLanhDoi.ngay)} tại ${esc(DH.hopLanhDoi.noi)}; Điều lệ ghi 8h30 – 12h00 (họp lãnh đội, bốc thăm xếp lịch). Đề nghị các đơn vị xác nhận với Ban Tổ chức: ${DH.lienHeBtc.map(c => `${esc(c.ten)} <a href="tel:${esc(c.dienThoai)}">${esc(c.dienThoai)}</a>`).join(', ')}.</span></p>` : ''}
+          <div class="prog-day${d.dieuChinh ? ' is-updated' : ''}"><h3><span>${thu(d.ngay)}</span> ${viDate(d.ngay)}${d.dieuChinh ? ' <small class="upd">Đã điều chỉnh</small>' : ''}</h3>
+            <ul class="prog-items">${d.muc.map(([g, t]) => `<li><span class="pg-time">${esc(g)}</span><span>${esc(t)}</span></li>`).join('')}</ul>
           </div>`).join('')}
         </div>
-        <p class="note">${icon('info')}<span>${esc(DH.chuongTrinhGhiChu)}. Địa điểm: ${esc(DH.diaDiem)}.</span></p>
-        ${src(srcDL)}`, '', 'alt'),
+        <p class="note">${icon('info')}<span>${esc(DH.dieuChinh.noiDung)} ngày ${viDate(DH.dieuChinh.ngay)}. ${esc(DH.chuongTrinhGhiChu)}. Địa điểm: ${esc(DH.diaDiem)}.</span></p>
+        ${src(`${srcDL}; ngày 23/11 và 24/11 theo cập nhật của Liên đoàn ngày ${viDate(DH.dieuChinh.ngay)}`)}`, '', 'alt'),
       sec('noi-dung-thi-dau', `${nTong} nội dung thi đấu`, `<p>${esc(DH.doiKhangThietBi)}</p>
         <h3 class="sub-h">Đối kháng cá nhân (${nCaNhan} nội dung)</h3>
         ${Object.entries(DH.doiKhangCaNhan).map(([g, ws]) => `<div class="wc-row"><span class="wc-g">${esc(g)}</span><ul class="chips wc">${ws.map(w => `<li>${esc(w)}</li>`).join('')}</ul></div>`).join('')}
