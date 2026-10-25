@@ -310,7 +310,12 @@ const newsCard = n => `<article class="news-card">
 
 // ---------------- Lich thi dau (data/lich-thi-dau.json, nam moi nhat truoc) ----------------
 const LICH = LTD.lich.slice().sort((a, b) => b.nam - a.nam);
-const CAP_CLS = { 'Quốc gia': 'qg', 'Quốc tế': 'qt' };
+const CAP_CLS = { 'Quốc gia': 'qg', 'Quốc tế': 'qt', 'Cấp tỉnh': 'dp', 'Cấp xã': 'dp' };
+// giai dia phuong (cap tinh/xa): chi thong tin chinh + link schema; sap theo ngay bat dau
+const GIAI_KHAC = (LTD.giaiKhac || []).slice().sort((a, b) => a.batDau.localeCompare(b.batDau));
+for (const g of GIAI_KHAC) {
+  if (!CAP_CLS[g.cap] || !/^\d{4}-\d{2}-\d{2}$/.test(g.batDau) || !/^\d{4}-\d{2}-\d{2}$/.test(g.ketThuc)) throw new Error(`lich-thi-dau.json, giaiKhac "${g.id}": kiểm tra "cap", "batDau", "ketThuc"`);
+}
 for (const l of LICH) for (const g of l.giai) {
   if (!CAP_CLS[g.cap]) throw new Error(`Lịch ${l.nam}, giải ${g.tt}: "cap" phải là "Quốc gia" hoặc "Quốc tế"`);
   if (!/^\d{4}-\d{2}$/.test(g.thang)) throw new Error(`Lịch ${l.nam}, giải ${g.tt}: "thang" phải có dạng NĂM-THÁNG, vd 2027-06`);
@@ -349,6 +354,43 @@ const dhDocCards = () => [
   pdfCard(DH.banTrongTai.qd.pdf, 'Quyết định thành lập Ban Trọng tài môn Taekwondo', `Số ${nw(DH.banTrongTai.qd.so)} ngày ${DH.banTrongTai.qd.ngay} · ${DH.banTrongTai.thanhVien.length} thành viên · ${mb(DH.banTrongTai.qd.kb)}`),
   pdfCard(DH.nguon.soTay.pdf, esc(DH.nguon.soTay.ten), `${esc(DH.nguon.soTay.coQuan)} · ${mb(DH.nguon.soTay.kb)}`),
 ].join('\n          ');
+// the giai dia phuong: thoi gian, dia diem, hop chuyen mon, nut schema, nguon van ban
+const localCard = g => {
+  const [hopNhan, ...hopNd] = g.hop.split(':');
+  return `<li class="event" id="giai-${g.batDau.slice(0, 4)}-${g.id}" data-cap="${esc(g.cap)}"><article>
+              <p class="ev-top">${capTag(g)}</p>
+              <h4>${esc(g.ten)}</h4>
+              <dl class="ev-dl">
+                <div><dt>${icon('calendar')}Thời gian</dt><dd>${esc(g.thoiGian)}</dd></div>
+                <div><dt>${icon('pin')}Địa điểm</dt><dd>${esc(g.diaDiem)}</dd></div>
+                <div><dt>${icon('users')}${esc(hopNhan.trim())}</dt><dd>${esc(hopNd.join(':').trim())}</dd></div>
+              </dl>
+              <div class="btns ev-btns">${extA(g.schema, 'Xem schema thi đấu', 'btn btn-outline')}</div>
+              <p class="ev-src">Nguồn: ${esc(g.nguon)}</p>
+            </article></li>`;
+};
+// the Dai hoi The thao toan quoc trong lich 2026
+const dhEventCard = () => `<li class="event" id="giai-${DH.batDau.slice(0, 4)}-dai-hoi-toan-quoc" data-cap="Quốc gia"><article>
+              <p class="ev-top"><span class="cap cap-qg">Quốc gia</span></p>
+              <h4><a href="${DH_PATH}">${esc(DH.ten)} – môn ${esc(DH.mon)}</a></h4>
+              <dl class="ev-dl">
+                <div><dt>${icon('calendar')}Thời gian</dt><dd>${dhRange}</dd></div>
+                <div><dt>${icon('pin')}Địa điểm</dt><dd>${esc(DH.diaDiem)}</dd></div>
+              </dl>
+              <p class="more"><a class="ref" href="${DH_PATH}">Chương trình, check-in, nội dung, Ban Tổ chức, Ban Trọng tài</a></p>
+              <p class="ev-src">Nguồn: Điều lệ môn Taekwondo ban hành kèm Quyết định số ${nw(DH.nguon.dieuLe.so)} ngày ${DH.nguon.dieuLe.ngay}</p>
+            </article></li>`;
+// lich nam 2026: Dai hoi + cac giai dia phuong, nhom theo thang
+const lich2026 = () => {
+  const items = [{ thang: DH.batDau.slice(0, 7), batDau: DH.batDau, html: dhEventCard() }, ...GIAI_KHAC.map(g => ({ thang: g.batDau.slice(0, 7), batDau: g.batDau, html: localCard(g) }))]
+    .sort((a, b) => a.batDau.localeCompare(b.batDau));
+  return `<ol class="timeline">${[...new Set(items.map(x => x.thang))].map(t => `
+          <li class="tl-month">
+            <h3 class="tl-h"><span>Tháng ${Number(t.slice(5))}</span><small>${t.slice(0, 4)}</small></h3>
+            <ul class="events">${items.filter(x => x.thang === t).map(x => x.html).join('')}</ul>
+          </li>`).join('')}
+        </ol>`;
+};
 
 // ===== Trang chu =====
 // Anh ky niem chuong do Lien doan cung cap (content/anh-goc/ky-niem-chuong-30-nam.jpg), tach 3 tam bang tools/anh-trang-chu.py (Pillow)
@@ -396,8 +438,16 @@ const purposes = [
           <div class="dh-text"><p><strong>${esc(DH.diaDiemTen)}</strong><br>${esc(DH.diaChi)}</p><p>Check-in: ${esc(DH.checkIn.gio)}. Hạn đăng ký khung giờ check-in và email schema: ${esc(DH.schema.hanChotChu)}.</p></div>
           <div class="btns"><a class="btn btn-red" href="${DH_PATH}">Thông tin thi đấu ${icon('arrow-right')}</a></div>
         </div>`, '', c)),
-      LICH.length && (c => { const l = LICH[0]; return sec('lich-thi-dau', `Lịch thi đấu ${l.nam}`, `<ol class="cal-mini">${l.giai.map(g => `<li><a href="/lich-thi-dau#${evId(l, g)}"><span class="cm-when"><b>T${Number(g.thang.slice(5))}</b><small>${g.thang.slice(0, 4)}</small></span><span class="cm-body"><strong>${esc(g.ten)}</strong><span class="cm-meta">${capTag(g)}<span>${withAbbr(g.diaDiem)}</span></span></span></a></li>`).join('')}</ol>
-        <p class="more"><a class="ref" href="/lich-thi-dau">Xem lịch thi đấu đầy đủ</a></p>`, `${duKien(l) ? 'Dự kiến, theo' : 'Theo'} Công văn số ${nw(l.nguon.so)} ngày ${l.nguon.ngay} của Liên đoàn. Thời gian, địa điểm có thể được điều chỉnh theo tình hình thực tế.`, c); }),
+      LICH.length && (c => {
+        // giai sap dien ra: giai dia phuong chua ket thuc (theo ngay build) truoc, roi lich nam moi nhat; toi da 6
+        const l = LICH[0];
+        const sapToi = [
+          ...GIAI_KHAC.filter(g => g.ketThuc >= BUILD_DATE).map(g => ({ href: `/lich-thi-dau#giai-${g.batDau.slice(0, 4)}-${g.id}`, thang: g.batDau.slice(0, 7), ten: g.ten, g, noi: `${esc(g.noiNgan)} · <span class="nw">${esc(g.thoiGian)}</span>` })),
+          ...l.giai.map(g => ({ href: `/lich-thi-dau#${evId(l, g)}`, thang: g.thang, ten: g.ten, g, noi: withAbbr(g.diaDiem) })),
+        ].slice(0, 6);
+        return sec('lich-thi-dau', 'Lịch thi đấu sắp tới', `<ol class="cal-mini">${sapToi.map(x => `<li><a href="${x.href}"><span class="cm-when"><b>T${Number(x.thang.slice(5))}</b><small>${x.thang.slice(0, 4)}</small></span><span class="cm-body"><strong>${esc(x.ten)}</strong><span class="cm-meta">${capTag(x.g)}<span>${x.noi}</span></span></span></a></li>`).join('')}</ol>
+        <p class="more"><a class="ref" href="/lich-thi-dau">Xem lịch thi đấu đầy đủ</a></p>`, `Các giải có môn Taekwondo sắp diễn ra. Lịch năm ${l.nam} là ${duKien(l) ? 'dự kiến, ' : ''}theo Công văn số ${nw(l.nguon.so)} ngày ${l.nguon.ngay} của Liên đoàn.`, c);
+      }),
       c => sec('muc-dich', 'Tôn chỉ, mục đích', `<div class="grid g3">${purposes.map(([ic, t, d]) => `<div class="card feature"><span class="feat-ic">${icon(ic)}</span><h3>${esc(t)}</h3><p>${esc(d)}</p></div>`).join('')}</div>
         <p class="more">${dieuLink(2, 'Đọc Điều 2 – Tôn chỉ, mục đích')}</p>`, `Nguyên tắc tổ chức và hoạt động: tự nguyện, tự quản; dân chủ, bình đẳng, công khai, minh bạch; tự bảo đảm kinh phí hoạt động; không vì mục đích lợi nhuận; tuân thủ Hiến pháp, pháp luật và Điều lệ Liên đoàn (${dieuLink(5)}).`, c),
       c => sec('thanh-vien', 'Thành viên của các tổ chức', `<div class="grid g4 orgs">
@@ -426,19 +476,7 @@ const purposes = [
     file: 'lich-thi-dau.html', path: '/lich-thi-dau', active: '/lich-thi-dau', title: 'Lịch thi đấu', desc: m.desc, ogImage: `og-${m.og}.jpg`, crumbs,
     hero: pageHero(crumbs, 'Lịch thi đấu', 'Các giải Taekwondo quốc gia và quốc tế tổ chức tại Việt Nam, theo văn bản của Liên đoàn và Ban Tổ chức Đại hội Thể thao toàn quốc.'),
     // Dai hoi 2026 dien ra truoc lich 2027 -> dat len dau; het Dai hoi thi chuyen xuong cuoi
-    body: [dhLive && 'dh', ...LICH, !dhLive && 'dh'].filter(Boolean).map((l, i) => l === 'dh' ? sec('dai-hoi-2026', `Năm ${DH.batDau.slice(0, 4)}`, `<ol class="timeline"><li class="tl-month">
-            <h3 class="tl-h"><span>Tháng ${Number(DH.batDau.slice(5, 7))}</span><small>${DH.batDau.slice(0, 4)}</small></h3>
-            <ul class="events"><li class="event" data-cap="Quốc gia"><article>
-              <p class="ev-top"><span class="cap cap-qg">Quốc gia</span></p>
-              <h4><a href="${DH_PATH}">${esc(DH.ten)} – môn ${esc(DH.mon)}</a></h4>
-              <dl class="ev-dl">
-                <div><dt>${icon('calendar')}Thời gian</dt><dd>${dhRange}</dd></div>
-                <div><dt>${icon('pin')}Địa điểm</dt><dd>${esc(DH.diaDiem)}</dd></div>
-              </dl>
-              <p class="more"><a class="ref" href="${DH_PATH}">Chương trình, check-in, nội dung thi đấu</a></p>
-            </article></li></ul>
-          </li></ol>
-        ${src(`Điều lệ môn Taekwondo ban hành kèm Quyết định số ${nw(DH.nguon.dieuLe.so)} ngày ${DH.nguon.dieuLe.ngay}`)}`, '', i % 2 ? 'alt' : '') : (() => {
+    body: [dhLive && 'dh', ...LICH, !dhLive && 'dh'].filter(Boolean).map((l, i) => l === 'dh' ? sec('nam-2026', `Năm ${DH.batDau.slice(0, 4)}`, lich2026(), 'Đại hội Thể thao toàn quốc và các giải địa phương có môn Taekwondo. Mỗi giải ghi nguồn văn bản; bấm "Xem schema thi đấu" để xem sơ đồ thi đấu của giải.', i % 2 ? 'alt' : '') : (() => {
       const count = c => l.giai.filter(g => g.cap === c).length;
       const places = new Set(l.giai.map(g => g.diaDiem.replace(/\s*\(.*\)$/, ''))).size;
       return sec(`nam-${l.nam}`, `Năm ${l.nam}${duKien(l) ? ' (dự kiến)' : ''}`, `<ul class="cal-stats">

@@ -138,12 +138,14 @@ check(`${internal.length} liên kết nội bộ (kể cả #anchor, PDF, RSS) �
   await ctx.route(/kaspersky-labs|kis\.v2\.scr/, r => r.abort());
   const page = await ctx.newPage();
   await page.goto(BASE + '/lich-thi-dau', { waitUntil: 'load' });
-  const got = await page.$$eval('.event[id^="giai-"]', els => els.map(e => [e.querySelector('h4').textContent, ...[...e.querySelectorAll('dd')].map(d => d.textContent)].concat(e.querySelectorAll('dd').length < 3 ? [''] : []).join(' | ')));
+  // giai theo cong van: id dang giai-NAM-TT (vd giai-2027-01); giai dia phuong: giai-NAM-<id>
+  const got = await page.$$eval('.event', els => els.filter(e => /^giai-\d{4}-\d{2}$/.test(e.id)).map(e => [e.querySelector('h4').textContent, ...[...e.querySelectorAll('dd')].map(d => d.textContent)].concat(e.querySelectorAll('dd').length < 3 ? [''] : []).join(' | ')));
   const missing = want.filter(w => !got.includes(w));
+  const local = await page.evaluate(ids => ids.map(([id, schema]) => { const e = document.getElementById(id); return !!e && !!e.querySelector(`a[href="${schema}"][target="_blank"]`); }), (LTD.giaiKhac || []).map(g => [`giai-${g.batDau.slice(0, 4)}-${g.id}`, g.schema]));
   await page.click('.seg button[data-cap="Quốc tế"]');
-  const filt = await page.evaluate(() => ({ shown: [...document.querySelectorAll('.event[id^="giai-"]')].filter(e => !e.hidden).map(e => e.dataset.cap), status: document.querySelector('.cal-status').textContent }));
+  const filt = await page.evaluate(() => ({ shown: [...document.querySelectorAll('.event')].filter(e => /^giai-\d{4}-\d{2}$/.test(e.id) && !e.hidden).map(e => e.dataset.cap), status: document.querySelector('.cal-status').textContent }));
   const nQt = LTD.lich.flatMap(l => l.giai).filter(g => g.cap === 'Quốc tế').length;
-  check(`Lịch thi đấu trên web khớp dữ liệu (${want.length} giải), lọc Quốc tế đúng`, missing.length === 0 && got.length === want.length && filt.shown.length === nQt && filt.shown.every(c => c === 'Quốc tế'), missing.length ? 'thiếu: ' + missing.slice(0, 2).join(' / ') : filt.status);
+  check(`Lịch thi đấu trên web khớp dữ liệu (${want.length} giải + ${local.length} giải địa phương có link schema), lọc Quốc tế đúng`, missing.length === 0 && got.length === want.length && local.every(Boolean) && filt.shown.length === nQt && filt.shown.every(c => c === 'Quốc tế'), missing.length ? 'thiếu: ' + missing.slice(0, 2).join(' / ') : filt.status);
   await ctx.close();
 }
 

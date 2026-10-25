@@ -14,13 +14,90 @@
     "kinhGui": "Cục Thể dục thể thao Việt Nam"
    },
    "giai": [
-    { "tt": "01", "ten": "Giải Taekwondo các Câu lạc bộ quốc gia", "cap": "Quốc gia", "thoiGian": "Tháng 6/2027", "thang": "2027-06", "diaDiem": "Vĩnh Long", "ghiChu": "Đã có văn bản" },
-    { "tt": "02", "ten": "Giải Taekwondo thiếu niên, nhi đồng quốc tế mở rộng", "cap": "Quốc tế", "thoiGian": "Tháng 6/2027", "thang": "2027-06", "diaDiem": "Tp. Hồ Chí Minh", "ghiChu": "VTF" },
-    { "tt": "03", "ten": "Giải Taekwondo quốc tế hữu nghị Việt Nam - Trung Quốc", "cap": "Quốc tế", "thoiGian": "Tháng 8/2027", "thang": "2027-08", "diaDiem": "Quảng Ninh", "ghiChu": "Địa phương phối hợp VTF" },
-    { "tt": "04", "ten": "Giải Vô địch Taekwondo trẻ quốc gia - CJ 2027", "cap": "Quốc gia", "thoiGian": "Tháng 8/2027", "thang": "2027-08", "diaDiem": "Tp. Hồ Chí Minh", "ghiChu": "" },
-    { "tt": "05", "ten": "Giải Taekwondo quốc tế Việt Nam mở rộng - CJ 2027", "cap": "Quốc tế", "thoiGian": "Tháng 8/2027", "thang": "2027-08", "diaDiem": "Tp. Hồ Chí Minh", "ghiChu": "" },
-    { "tt": "06", "ten": "Giải Vô địch Taekwondo quốc gia", "cap": "Quốc gia", "thoiGian": "Tháng 10/2027", "thang": "2027-10", "diaDiem": "Đà Lạt (TTHLTTQG)", "ghiChu": "Đã có văn bản" }
+    {
+     "tt": "01",
+     "ten": "Giải Taekwondo các Câu lạc bộ quốc gia",
+     "cap": "Quốc gia",
+     "thoiGian": "Tháng 6/2027",
+     "thang": "2027-06",
+     "diaDiem": "Vĩnh Long",
+     "ghiChu": "Đã có văn bản"
+    },
+    {
+     "tt": "02",
+     "ten": "Giải Taekwondo thiếu niên, nhi đồng quốc tế mở rộng",
+     "cap": "Quốc tế",
+     "thoiGian": "Tháng 6/2027",
+     "thang": "2027-06",
+     "diaDiem": "Tp. Hồ Chí Minh",
+     "ghiChu": "VTF"
+    },
+    {
+     "tt": "03",
+     "ten": "Giải Taekwondo quốc tế hữu nghị Việt Nam - Trung Quốc",
+     "cap": "Quốc tế",
+     "thoiGian": "Tháng 8/2027",
+     "thang": "2027-08",
+     "diaDiem": "Quảng Ninh",
+     "ghiChu": "Địa phương phối hợp VTF"
+    },
+    {
+     "tt": "04",
+     "ten": "Giải Vô địch Taekwondo trẻ quốc gia - CJ 2027",
+     "cap": "Quốc gia",
+     "thoiGian": "Tháng 8/2027",
+     "thang": "2027-08",
+     "diaDiem": "Tp. Hồ Chí Minh",
+     "ghiChu": ""
+    },
+    {
+     "tt": "05",
+     "ten": "Giải Taekwondo quốc tế Việt Nam mở rộng - CJ 2027",
+     "cap": "Quốc tế",
+     "thoiGian": "Tháng 8/2027",
+     "thang": "2027-08",
+     "diaDiem": "Tp. Hồ Chí Minh",
+     "ghiChu": ""
+    },
+    {
+     "tt": "06",
+     "ten": "Giải Vô địch Taekwondo quốc gia",
+     "cap": "Quốc gia",
+     "thoiGian": "Tháng 10/2027",
+     "thang": "2027-10",
+     "diaDiem": "Đà Lạt (TTHLTTQG)",
+     "ghiChu": "Đã có văn bản"
+    }
    ]
   }
- ]
+ ],
+ "giaiKhac": [
+  {
+   "id": "vinh-long",
+   "ten": "Đại hội Thể dục thể thao tỉnh Vĩnh Long năm 2026 – môn Taekwondo",
+   "cap": "Cấp tỉnh",
+   "batDau": "2026-11-05",
+   "ketThuc": "2026-11-08",
+   "thoiGian": "05/11 – 08/11/2026",
+   "hop": "Họp chuyên môn: 08 giờ, ngày 04/11/2026",
+   "diaDiem": "Nhà thi đấu (nhỏ) Trung tâm Huấn luyện và Thi đấu thể thao Vĩnh Long, số 79 Nguyễn Huệ, phường Long Châu, tỉnh Vĩnh Long",
+   "noiNgan": "Phường Long Châu, tỉnh Vĩnh Long",
+   "schema": "https://docs.google.com/spreadsheets/d/1qnDZgUEvRMzcCx-swVUTMZEQLcgfOLsJ9Ly6G9zFGNE/edit?usp=sharing",
+   "nguon": "Điều lệ ban hành kèm Quyết định số 119/QĐ-BTC (ký ngày 04/9/2026); thời gian theo Thông báo số 162/TB-BTC ngày 20/10/2026 của Ban Tổ chức Đại hội Thể dục thể thao tỉnh Vĩnh Long"
+  },
+  {
+   "id": "rach-kien-vto",
+   "ten": "Giải Taekwondo trẻ xã Rạch Kiến mở rộng tranh cúp VTO năm 2026",
+   "cap": "Cấp xã",
+   "batDau": "2026-11-14",
+   "ketThuc": "2026-11-15",
+   "thoiGian": "14/11 – 15/11/2026",
+   "hop": "Họp chuyên môn, bốc thăm xếp lịch: 8 giờ ngày 7/11/2026 tại Trung tâm CUDVSNC xã Rạch Kiến",
+   "diaDiem": "Sân Cầu lông Quốc An, ấp Long Hòa, xã Rạch Kiến, tỉnh Tây Ninh",
+   "noiNgan": "Xã Rạch Kiến, tỉnh Tây Ninh",
+   "schema": "https://docs.google.com/spreadsheets/d/1wRcMOww3IDo0mFyX3H2JHkiL5P0e1ZxRK9y1J-6yhEU/edit?usp=sharing",
+   "nguon": "Điều lệ số 04/ĐL-TTCUDVSNC ngày 08/9/2026 của Trung tâm Cung ứng dịch vụ sự nghiệp công xã Rạch Kiến"
+  }
+ ],
+ "_giaiKhac_ghi_chu": "Giai dia phuong (cap tinh/xa) - chi thong tin chinh: thoi gian, dia diem, hop chuyen mon, link schema, nguon van ban. Ngay dang yyyy-mm-dd. 'cap' la 'Cấp tỉnh' hoac 'Cấp xã'."
 }

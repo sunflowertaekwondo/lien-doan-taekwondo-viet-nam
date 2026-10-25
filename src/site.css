@@ -385,6 +385,10 @@ html:has(.tabs) { scroll-padding-top: calc(var(--hdr) + 62px + var(--sp-4)); }
 .cap { display: inline-block; padding: 3px 10px; border-radius: var(--r-pill); font-size: var(--fs-xs); font-weight: 700; color: #fff; white-space: nowrap; }
 .cap-qt { background: var(--c-blue-700); }
 .cap-qg { background: var(--c-red-800); }
+.cap-dp { background: var(--c-gold-500); color: var(--c-navy-900); } /* giai dia phuong: cap tinh, cap xa */
+.event[data-cap="Cấp tỉnh"] article, .event[data-cap="Cấp xã"] article { border-left-color: var(--c-gold-500); }
+.ev-btns { margin-top: var(--sp-4); }
+.ev-src { margin: var(--sp-3) 0 0; font-size: var(--fs-xs); color: var(--muted); line-height: 1.5; }
 .event h4 { font-size: var(--fs-lg); color: var(--heading); line-height: 1.35; margin-bottom: var(--sp-3); }
 .ev-dl { display: grid; gap: var(--sp-2); margin: 0; }
 .ev-dl div { display: grid; grid-template-columns: 148px minmax(0, 1fr); gap: var(--sp-2); }
