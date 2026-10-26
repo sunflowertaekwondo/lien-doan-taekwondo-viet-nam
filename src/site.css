@@ -450,10 +450,9 @@ abbr[title] { text-decoration: underline dotted; text-underline-offset: 3px; cur
 .contact-list { list-style: none; display: grid; gap: var(--sp-2); margin: var(--sp-3) 0; }
 /* lien ket chinh thuc (Ban To chuc Dai hoi) */
 .official-links { margin-top: var(--sp-5); }
-.link-list { list-style: none; display: grid; gap: var(--sp-2); }
-.link-list li { display: flex; flex-direction: column; }
-.link-list a { display: inline-flex; align-items: center; min-height: var(--tap); font-weight: 700; }
-.link-list small { color: var(--muted); font-size: var(--fs-sm); }
+.official-links .btns { margin-top: var(--sp-3); }
+.portal-links { list-style: none; display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-5); margin-top: var(--sp-3); }
+.portal-links a { display: inline-flex; align-items: center; min-height: var(--tap); font-weight: 700; }
 /* danh sach thanh vien (Ban To chuc, Ban Trong tai) */
 @media (min-width: 801px) { .roster td:first-child { width: 56px; font-variant-numeric: tabular-nums; } } /* duoi 800px bang thanh the: khong ep do rong */
 .roster-search { margin-bottom: var(--sp-3); max-width: 520px; }

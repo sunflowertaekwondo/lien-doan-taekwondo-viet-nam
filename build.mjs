@@ -354,9 +354,12 @@ const dhDocCards = () => [
   pdfCard(DH.banTrongTai.qd.pdf, 'Quyết định thành lập Ban Trọng tài môn Taekwondo', `Số ${nw(DH.banTrongTai.qd.so)} ngày ${DH.banTrongTai.qd.ngay} · ${DH.banTrongTai.thanhVien.length} thành viên · ${mb(DH.banTrongTai.qd.kb)}`),
   pdfCard(DH.nguon.soTay.pdf, esc(DH.nguon.soTay.ten), `${esc(DH.nguon.soTay.coQuan)} · ${mb(DH.nguon.soTay.kb)}`),
 ].join('\n          ');
-// lien ket chinh thuc cua Ban To chuc Dai hoi (thong tin chung toan Dai hoi, ngoai mon Taekwondo)
-const officialLinks = () => `<div class="card official-links"><h3>${icon('external')} Thông tin chung của Đại hội</h3>
-          <ul class="link-list">${DH.lienKetChung.map(l => `<li><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.ten)}</a><small>${esc(l.donVi)} · ${esc(l.moTa)}</small></li>`).join('')}</ul>
+// Cong thong tin Dai hoi (thong tin chung, lich, bang xep hang toan Dai hoi)
+const CTT = DH.congThongTin;
+const officialLinks = () => `<div class="card official-links"><h3>${icon('external')} Cổng thông tin Đại hội</h3>
+          <p>${esc(CTT.ten)}: thông tin chung, lịch thi đấu, kết quả và bảng xếp hạng toàn Đại hội.</p>
+          <div class="btns">${extA(CTT.url, 'Vào Cổng thông tin Đại hội')}</div>
+          <ul class="portal-links">${CTT.trang.map(([t, u]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a></li>`).join('')}</ul>
         </div>`;
 // the giai dia phuong: thoi gian, dia diem, hop chuyen mon, nut schema, nguon van ban
 const localCard = g => {
@@ -530,7 +533,7 @@ const purposes = [
     eventStatus: 'https://schema.org/EventScheduled', eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode', url: abs(DH_PATH), description: m.desc,
     location: { '@type': 'Place', name: DH.diaDiemTen, address: { '@type': 'PostalAddress', streetAddress: DH.diaChi.replace(/,\s*TP\.?\s*HCM$/i, ''), addressLocality: 'Thành phố Hồ Chí Minh', addressCountry: 'VN' } },
     organizer: { '@type': 'Organization', name: `Ban Tổ chức ${DH.ten}` },
-    superEvent: { '@type': 'SportsEvent', name: DH.ten, url: DH.lienKetChung[0].url } };
+    superEvent: { '@type': 'SportsEvent', name: DH.ten, url: CTT.url } };
   const dl = DH.nguon.dieuLe, st = DH.nguon.soTay;
   const BTC = DH.banToChuc, BTT = DH.banTrongTai, nTT = BTT.thanhVien.length;
   const demGT = g => BTT.thanhVien.filter(t => t.gioiTinh === g).length, nDonVi = new Set(BTT.thanhVien.map(t => t.donVi)).size;
@@ -626,8 +629,7 @@ const purposes = [
         <h3 class="sub-h">Giải quyết khiếu nại</h3>
         <ul class="bullets">${DH.khieuNai.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
         ${src(`${srcDL}, mục I, III, IV, VII–X`)}`, '', 'alt'),
-      sec('ban-to-chuc-trong-tai', 'Ban Tổ chức và Ban Trọng tài', `<p class="note">${icon('info')}<span>Ban Tổ chức môn Taekwondo và Ban Trọng tài do Trưởng Ban Tổ chức ${esc(DH.ten)} thành lập. Ban Tổ chức Đại hội được thành lập theo Quyết định số 488/QĐ-BCĐĐHTTTQ ngày 11/3/2026. Thông tin chung của Đại hội: <a href="${esc(DH.lienKetChung[0].url)}" target="_blank" rel="noopener">${esc(DH.lienKetChung[0].ten)}</a> (${esc(DH.lienKetChung[0].donVi)}).</span></p>
-        <h3 class="sub-h">Ban Tổ chức môn Taekwondo (${BTC.thanhVien.length} thành viên)</h3>
+      sec('ban-to-chuc-trong-tai', 'Ban Tổ chức và Ban Trọng tài', `<h3 class="sub-h">Ban Tổ chức môn Taekwondo (${BTC.thanhVien.length} thành viên)</h3>
         <p>${esc(BTC.nhiemVu)}</p>
         <table class="table docs-table roster"><thead><tr><th scope="col">TT</th><th scope="col">Họ và tên</th><th scope="col">Đơn vị công tác</th><th scope="col">Chức vụ trong Ban Tổ chức</th></tr></thead><tbody>${BTC.thanhVien.map((t, i) => `
           <tr><td data-label="TT">${i + 1}</td><td data-label="Họ và tên"><strong>${esc(t.ten)}</strong></td><td data-label="Đơn vị">${esc(t.donVi)}</td><td data-label="Chức vụ">${esc(t.chucVu)}</td></tr>`).join('')}
