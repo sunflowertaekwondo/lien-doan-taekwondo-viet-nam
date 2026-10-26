@@ -759,5 +759,19 @@
    }
   ]
  },
- "_hieuDinh": "Sua loi chinh ta ro rang so voi ban goc: QD94 \"UBND phuong An Hoi Dong\" -> \"phuong (co dau huyen)\"; QD173 don vi \"Dak lak\" -> \"Dak Lak\" (dau sac). Con lai chep nguyen van; so va ngay QD 94, 173 doc tu ban scan (viet tay/dong dau)."
+ "_hieuDinh": "Sua loi chinh ta ro rang so voi ban goc: QD94 \"UBND phuong An Hoi Dong\" -> \"phuong (co dau huyen)\"; QD173 don vi \"Dak lak\" -> \"Dak Lak\" (dau sac). Con lai chep nguyen van; so va ngay QD 94, 173 doc tu ban scan (viet tay/dong dau).",
+ "lienKetChung": [
+  {
+   "ten": "Chuyên trang Đại hội Thể thao toàn quốc lần thứ X năm 2026",
+   "donVi": "Cục Thể dục thể thao Việt Nam",
+   "moTa": "Tin tức, thông báo chung của Đại hội",
+   "url": "https://tdtt.gov.vn/chuyen-trang/dai-hoi-tdtt"
+  },
+  {
+   "ten": "Thành lập Ban Tổ chức Đại hội Thể thao toàn quốc lần thứ X năm 2026",
+   "donVi": "Cục Thể dục thể thao Việt Nam",
+   "moTa": "Quyết định số 488/QĐ-BCĐĐHTTTQ ngày 11/3/2026 của Trưởng Ban Chỉ đạo Đại hội",
+   "url": "https://tdtt.gov.vn/asiad20/id/94171/thanh-lap-ban-to-chuc-dai-hoi-the-thao-toan-quoc-lan-thu-x-nam-2026"
+  }
+ ]
 }

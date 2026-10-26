@@ -354,6 +354,10 @@ const dhDocCards = () => [
   pdfCard(DH.banTrongTai.qd.pdf, 'Quyết định thành lập Ban Trọng tài môn Taekwondo', `Số ${nw(DH.banTrongTai.qd.so)} ngày ${DH.banTrongTai.qd.ngay} · ${DH.banTrongTai.thanhVien.length} thành viên · ${mb(DH.banTrongTai.qd.kb)}`),
   pdfCard(DH.nguon.soTay.pdf, esc(DH.nguon.soTay.ten), `${esc(DH.nguon.soTay.coQuan)} · ${mb(DH.nguon.soTay.kb)}`),
 ].join('\n          ');
+// lien ket chinh thuc cua Ban To chuc Dai hoi (thong tin chung toan Dai hoi, ngoai mon Taekwondo)
+const officialLinks = () => `<div class="card official-links"><h3>${icon('external')} Thông tin chung của Đại hội</h3>
+          <ul class="link-list">${DH.lienKetChung.map(l => `<li><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.ten)}</a><small>${esc(l.donVi)} · ${esc(l.moTa)}</small></li>`).join('')}</ul>
+        </div>`;
 // the giai dia phuong: thoi gian, dia diem, hop chuyen mon, nut schema, nguon van ban
 const localCard = g => {
   const [hopNhan, ...hopNd] = g.hop.split(':');
@@ -525,7 +529,8 @@ const purposes = [
   const dhLd = { '@context': 'https://schema.org', '@type': 'SportsEvent', name: `Môn ${DH.mon} – ${DH.ten}`, sport: DH.mon, startDate: DH.batDau, endDate: DH.ketThuc,
     eventStatus: 'https://schema.org/EventScheduled', eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode', url: abs(DH_PATH), description: m.desc,
     location: { '@type': 'Place', name: DH.diaDiemTen, address: { '@type': 'PostalAddress', streetAddress: DH.diaChi.replace(/,\s*TP\.?\s*HCM$/i, ''), addressLocality: 'Thành phố Hồ Chí Minh', addressCountry: 'VN' } },
-    organizer: { '@type': 'Organization', name: `Ban Tổ chức ${DH.ten}` } };
+    organizer: { '@type': 'Organization', name: `Ban Tổ chức ${DH.ten}` },
+    superEvent: { '@type': 'SportsEvent', name: DH.ten, url: DH.lienKetChung[0].url } };
   const dl = DH.nguon.dieuLe, st = DH.nguon.soTay;
   const BTC = DH.banToChuc, BTT = DH.banTrongTai, nTT = BTT.thanhVien.length;
   const demGT = g => BTT.thanhVien.filter(t => t.gioiTinh === g).length, nDonVi = new Set(BTT.thanhVien.map(t => t.donVi)).size;
@@ -546,6 +551,7 @@ const purposes = [
           <div class="card"><h3>${icon('pin')} Địa điểm</h3><p><strong>${esc(DH.diaDiemTen)}</strong><br>${esc(DH.diaChi)}</p><p class="more"><a class="ref" href="${mapsUrl(DH.diaChi)}" target="_blank" rel="noopener">${icon('pin')}Xem bản đồ</a></p></div>
           <div class="card"><h3>${icon('calendar')} Đăng ký trước ${esc(DH.schema.hanChotChu)}</h3><p>Mỗi đơn vị đăng ký HLV đại diện, khung giờ check-in và 5 email truy cập hệ thống schema thi đấu theo biểu mẫu của Ban Tổ chức.</p><div class="btns">${extA(DH.lienKet.dangKy, 'Đăng ký')}${extA(DH.lienKet.khungGio, 'Xem khung giờ còn trống', 'btn btn-outline')}</div></div>
         </div>
+        ${officialLinks()}
         <h3 class="sub-h">Mốc thời gian</h3>
         <ol class="ms-list">${moc.map(([d, e, t, s]) => `<li data-end="${e}"><time datetime="${d}"><b>${viDate(d).slice(0, 5)}</b><small>${thu(d)}</small></time><span class="ms-body"><strong>${esc(t)}</strong>${s ? `<small>${esc(s)}</small>` : ''}</span><span class="ms-state" aria-live="off"></span></li>`).join('')}</ol>
         ${src(`${srcDL}; ${esc(st.ten)}`)}`, `Thông tin thi đấu môn ${esc(DH.mon)} tại ${esc(DH.ten)}, theo Điều lệ môn và Sổ tay Check-in của Ban Tổ chức.`),
@@ -620,7 +626,8 @@ const purposes = [
         <h3 class="sub-h">Giải quyết khiếu nại</h3>
         <ul class="bullets">${DH.khieuNai.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
         ${src(`${srcDL}, mục I, III, IV, VII–X`)}`, '', 'alt'),
-      sec('ban-to-chuc-trong-tai', 'Ban Tổ chức và Ban Trọng tài', `<h3 class="sub-h">Ban Tổ chức môn Taekwondo (${BTC.thanhVien.length} thành viên)</h3>
+      sec('ban-to-chuc-trong-tai', 'Ban Tổ chức và Ban Trọng tài', `<p class="note">${icon('info')}<span>Ban Tổ chức môn Taekwondo và Ban Trọng tài do Trưởng Ban Tổ chức ${esc(DH.ten)} thành lập. Ban Tổ chức Đại hội được thành lập theo Quyết định số 488/QĐ-BCĐĐHTTTQ ngày 11/3/2026. Thông tin chung của Đại hội: <a href="${esc(DH.lienKetChung[0].url)}" target="_blank" rel="noopener">${esc(DH.lienKetChung[0].ten)}</a> (${esc(DH.lienKetChung[0].donVi)}).</span></p>
+        <h3 class="sub-h">Ban Tổ chức môn Taekwondo (${BTC.thanhVien.length} thành viên)</h3>
         <p>${esc(BTC.nhiemVu)}</p>
         <table class="table docs-table roster"><thead><tr><th scope="col">TT</th><th scope="col">Họ và tên</th><th scope="col">Đơn vị công tác</th><th scope="col">Chức vụ trong Ban Tổ chức</th></tr></thead><tbody>${BTC.thanhVien.map((t, i) => `
           <tr><td data-label="TT">${i + 1}</td><td data-label="Họ và tên"><strong>${esc(t.ten)}</strong></td><td data-label="Đơn vị">${esc(t.donVi)}</td><td data-label="Chức vụ">${esc(t.chucVu)}</td></tr>`).join('')}
