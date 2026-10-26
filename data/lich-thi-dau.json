@@ -210,7 +210,56 @@
    "diaDiem": "Sân Cầu lông Quốc An, ấp Long Hòa, xã Rạch Kiến, tỉnh Tây Ninh",
    "noiNgan": "Xã Rạch Kiến, tỉnh Tây Ninh",
    "schema": "https://docs.google.com/spreadsheets/d/1wRcMOww3IDo0mFyX3H2JHkiL5P0e1ZxRK9y1J-6yhEU/edit?usp=sharing",
-   "nguon": "Điều lệ số 04/ĐL-TTCUDVSNC ngày 08/9/2026 của Trung tâm Cung ứng dịch vụ sự nghiệp công xã Rạch Kiến"
+   "nguon": "Điều lệ số 04/ĐL-TTCUDVSNC ngày 08/9/2026 của Trung tâm Cung ứng dịch vụ sự nghiệp công xã Rạch Kiến",
+   "trongTai": {
+    "tieuDe": "Tổ trọng tài điều hành giải: 01 giám sát, 05 trọng tài, 01 thư ký",
+    "nguon": "Công văn số 140/VTF-VP của Liên đoàn Taekwondo Việt Nam về việc cử trọng tài tham gia điều hành giải",
+    "_hieuDinh": "CV 140 ghi \"Ông Lê Ngọc Thuyền\"; ghi \"Bà\" theo CV 171/VTF-VP (Bà) và QĐ 173/QĐ-BTCĐHTTTQ (Nữ). CV 140 không ghi đơn vị của giám sát, thư ký nên để trống. Ngày trên CV 140 (28/8/2026) sớm hơn các văn bản được viện dẫn (15/9, 08/9/2026) nên không ghi ngày.",
+    "danhSach": [
+     {
+      "tt": 1,
+      "ten": "Ông Trần Quang Thuận",
+      "donVi": "TP. Hồ Chí Minh",
+      "ghiChu": "Trọng tài"
+     },
+     {
+      "tt": 2,
+      "ten": "Ông Nguyễn Hoàng Long",
+      "donVi": "TP. Hồ Chí Minh",
+      "ghiChu": "Trọng tài"
+     },
+     {
+      "tt": 3,
+      "ten": "Ông Nguyễn Văn Thịnh",
+      "donVi": "Vĩnh Long",
+      "ghiChu": "Trọng tài"
+     },
+     {
+      "tt": 4,
+      "ten": "Ông Sỳ Thiên Đại",
+      "donVi": "Đồng Nai",
+      "ghiChu": "Trọng tài"
+     },
+     {
+      "tt": 5,
+      "ten": "Bà Lê Ngọc Thuyền",
+      "donVi": "TP. Hồ Chí Minh",
+      "ghiChu": "Trọng tài"
+     },
+     {
+      "tt": 6,
+      "ten": "Bà Ngô Thị Thùy Dung",
+      "donVi": "",
+      "ghiChu": "Giám sát"
+     },
+     {
+      "tt": 7,
+      "ten": "Bà Nguyễn Thanh Hiền Linh",
+      "donVi": "",
+      "ghiChu": "Thư ký"
+     }
+    ]
+   }
   }
  ],
  "_giaiKhac_ghi_chu": "Giai dia phuong (cap tinh/xa) - chi thong tin chinh: thoi gian, dia diem, hop chuyen mon, link schema, nguon van ban. Ngay dang yyyy-mm-dd. 'cap' la 'Cấp tỉnh' hoac 'Cấp xã'."

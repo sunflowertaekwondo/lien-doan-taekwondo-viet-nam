@@ -315,7 +315,7 @@ const CAP_CLS = { 'Quốc gia': 'qg', 'Quốc tế': 'qt', 'Cấp tỉnh': 'dp',
 const GIAI_KHAC = (LTD.giaiKhac || []).slice().sort((a, b) => a.batDau.localeCompare(b.batDau));
 for (const g of GIAI_KHAC) {
   if (!CAP_CLS[g.cap] || !/^\d{4}-\d{2}-\d{2}$/.test(g.batDau) || !/^\d{4}-\d{2}-\d{2}$/.test(g.ketThuc)) throw new Error(`lich-thi-dau.json, giaiKhac "${g.id}": kiểm tra "cap", "batDau", "ketThuc"`);
-  if (g.trongTai && !(g.trongTai.danhSach || []).every(t => t.tt && t.ten && t.donVi)) throw new Error(`lich-thi-dau.json, giaiKhac "${g.id}": mỗi trọng tài cần "tt", "ten", "donVi"`);
+  if (g.trongTai && !(g.trongTai.danhSach || []).every(t => t.tt && t.ten)) throw new Error(`lich-thi-dau.json, giaiKhac "${g.id}": mỗi trọng tài cần "tt", "ten"`);
 }
 for (const l of LICH) for (const g of l.giai) {
   if (!CAP_CLS[g.cap]) throw new Error(`Lịch ${l.nam}, giải ${g.tt}: "cap" phải là "Quốc gia" hoặc "Quốc tế"`);
@@ -362,7 +362,7 @@ const officialLinks = () => `<div class="card official-links"><h3>${icon('extern
           <div class="btns">${extA(CTT.url, 'Vào Cổng thông tin Đại hội')}</div>
           <ul class="portal-links">${CTT.trang.map(([t, u]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a></li>`).join('')}</ul>
         </div>`;
-// danh sach trong tai cu di dieu hanh giai (neu co), thu gon trong the giai
+// danh sach trong tai cu di dieu hanh giai (neu co), thu gon trong the giai; van ban khong ghi don vi thi de trong
 const evReferees = (g, id) => {
   const tt = g.trongTai;
   if (!tt?.danhSach?.length) return '';
