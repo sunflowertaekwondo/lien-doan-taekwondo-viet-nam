@@ -393,6 +393,10 @@ html:has(.tabs) { scroll-padding-top: calc(var(--hdr) + 62px + var(--sp-4)); }
 .cap-dp { background: var(--c-gold-500); color: var(--c-navy-900); } /* giai dia phuong: cap tinh, cap xa */
 .event[data-cap="Cấp tỉnh"] article, .event[data-cap="Cấp xã"] article { border-left-color: var(--c-gold-500); }
 .ev-btns { margin-top: var(--sp-4); }
+.ev-roster { margin-top: var(--sp-4); }
+.event:has(.ev-roster[open]) { grid-column: 1 / -1; } /* mo danh sach: the giai chiem ca hang cho bang du rong */
+.ev-table th, .ev-table td { padding: var(--sp-2) var(--sp-3); }
+.ev-role { display: block; font-size: var(--fs-xs); color: var(--accent-text); font-weight: 600; }
 .ev-src { margin: var(--sp-3) 0 0; font-size: var(--fs-xs); color: var(--muted); line-height: 1.5; }
 .event h4 { font-size: var(--fs-lg); color: var(--heading); line-height: 1.35; margin-bottom: var(--sp-3); }
 .ev-dl { display: grid; gap: var(--sp-2); margin: 0; }
@@ -573,6 +577,14 @@ abbr[title] { text-decoration: underline dotted; text-underline-offset: 3px; cur
   .tl-month { grid-template-columns: minmax(0, 1fr); gap: var(--sp-3); }
   .tl-h { position: static; flex-direction: row; align-items: baseline; gap: var(--sp-2); }
   .ev-dl div { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  /* danh sach trong tai trong the giai: moi nguoi mot dong, don vi xuong duoi ten */
+  .ev-roster .full-body { padding: 0 var(--sp-2) var(--sp-3); }
+  .ev-table thead { display: none; }
+  .ev-table, .ev-table tbody { display: block; }
+  .ev-table tr { display: grid; grid-template-columns: 2em minmax(0, 1fr); column-gap: var(--sp-2); padding: var(--sp-2) var(--sp-3); border-bottom: 1px solid var(--border); }
+  .ev-table tr:last-child { border-bottom: 0; }
+  .ev-table td { padding: 0; border: 0; }
+  .ev-table td:last-child { grid-column: 2; color: var(--muted); font-size: var(--fs-sm); }
   .g3, .g4, .g5 { grid-template-columns: 1fr; }
   .mini-org, .orgs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .org b { font-size: 22px; }

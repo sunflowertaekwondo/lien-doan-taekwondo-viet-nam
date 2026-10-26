@@ -146,6 +146,21 @@ check(`${internal.length} liên kết nội bộ (kể cả #anchor, PDF, RSS) �
   const filt = await page.evaluate(() => ({ shown: [...document.querySelectorAll('.event')].filter(e => /^giai-\d{4}-\d{2}$/.test(e.id) && !e.hidden).map(e => e.dataset.cap), status: document.querySelector('.cal-status').textContent }));
   const nQt = LTD.lich.flatMap(l => l.giai).filter(g => g.cap === 'Quốc tế').length;
   check(`Lịch thi đấu trên web khớp dữ liệu (${want.length} giải + ${local.length} giải địa phương có link schema), lọc Quốc tế đúng`, missing.length === 0 && got.length === want.length && local.every(Boolean) && filt.shown.length === nQt && filt.shown.every(c => c === 'Quốc tế'), missing.length ? 'thiếu: ' + missing.slice(0, 2).join(' / ') : filt.status);
+  // danh sach trong tai giai dia phuong: lien ket #...-trong-tai mo bang, the giai chiem ca hang, du nguoi dung thu tu
+  const withTT = (LTD.giaiKhac || []).filter(g => g.trongTai?.danhSach?.length);
+  const p2 = await ctx.newPage();
+  const ttOk = [];
+  for (const g of withTT) {
+    const id = `giai-${g.batDau.slice(0, 4)}-${g.id}-trong-tai`;
+    await p2.goto(BASE + '/lich-thi-dau#' + id, { waitUntil: 'load' });
+    const r = await p2.evaluate(id => {
+      const d = document.getElementById(id), ev = d && d.closest('.event');
+      return d && { open: d.open, wide: ev.getBoundingClientRect().width === ev.parentElement.getBoundingClientRect().width, rows: [...d.querySelectorAll('tbody tr')].map(tr => [...tr.cells].map(c => c.textContent.trim()).join(' | ')) };
+    }, id);
+    const rows = g.trongTai.danhSach.map(t => [t.tt, t.ten + t.ghiChu, t.donVi].join(' | '));
+    ttOk.push(!!r && r.open && r.wide && JSON.stringify(r.rows) === JSON.stringify(rows));
+  }
+  check(`Danh sách trọng tài giải địa phương đủ và đúng (${withTT.map(g => g.trongTai.danhSach.length).join(', ')} người), liên kết # mở bảng`, ttOk.every(Boolean), JSON.stringify(ttOk));
   await ctx.close();
 }
 

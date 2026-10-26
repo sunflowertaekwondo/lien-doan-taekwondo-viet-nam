@@ -285,6 +285,14 @@
   window.addEventListener('beforeprint', function () { $$('details:not([open])').forEach(function (d) { d.setAttribute('open', ''); reopened.push(d); }); });
   window.addEventListener('afterprint', function () { reopened.forEach(function (d) { d.removeAttribute('open'); }); reopened = []; });
 
+  // ---- lien ket #id toi mot khoi thu gon: mo khoi do ----
+  function openTarget() {
+    var el = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (el && el.tagName === 'DETAILS') el.open = true;
+  }
+  openTarget();
+  window.addEventListener('hashchange', openTarget);
+
   // ---- service worker (doc offline, mo nhanh) ----
   var secure = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
   if ('serviceWorker' in navigator && secure) {

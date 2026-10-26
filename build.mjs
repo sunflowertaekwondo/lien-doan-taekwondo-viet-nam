@@ -315,6 +315,7 @@ const CAP_CLS = { 'Quốc gia': 'qg', 'Quốc tế': 'qt', 'Cấp tỉnh': 'dp',
 const GIAI_KHAC = (LTD.giaiKhac || []).slice().sort((a, b) => a.batDau.localeCompare(b.batDau));
 for (const g of GIAI_KHAC) {
   if (!CAP_CLS[g.cap] || !/^\d{4}-\d{2}-\d{2}$/.test(g.batDau) || !/^\d{4}-\d{2}-\d{2}$/.test(g.ketThuc)) throw new Error(`lich-thi-dau.json, giaiKhac "${g.id}": kiểm tra "cap", "batDau", "ketThuc"`);
+  if (g.trongTai && !(g.trongTai.danhSach || []).every(t => t.tt && t.ten && t.donVi)) throw new Error(`lich-thi-dau.json, giaiKhac "${g.id}": mỗi trọng tài cần "tt", "ten", "donVi"`);
 }
 for (const l of LICH) for (const g of l.giai) {
   if (!CAP_CLS[g.cap]) throw new Error(`Lịch ${l.nam}, giải ${g.tt}: "cap" phải là "Quốc gia" hoặc "Quốc tế"`);
@@ -361,17 +362,30 @@ const officialLinks = () => `<div class="card official-links"><h3>${icon('extern
           <div class="btns">${extA(CTT.url, 'Vào Cổng thông tin Đại hội')}</div>
           <ul class="portal-links">${CTT.trang.map(([t, u]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a></li>`).join('')}</ul>
         </div>`;
-// the giai dia phuong: thoi gian, dia diem, hop chuyen mon, nut schema, nguon van ban
+// danh sach trong tai cu di dieu hanh giai (neu co), thu gon trong the giai
+const evReferees = (g, id) => {
+  const tt = g.trongTai;
+  if (!tt?.danhSach?.length) return '';
+  return `
+              <details class="full ev-roster" id="${id}-trong-tai"><summary>${esc(tt.tieuDe)} (${tt.danhSach.length} người)</summary><div class="full-body">
+                <table class="table roster ev-table"><thead><tr><th scope="col">TT</th><th scope="col">Họ và tên</th><th scope="col">Đơn vị</th></tr></thead><tbody>${tt.danhSach.map(t => `
+                  <tr><td>${t.tt}</td><td><strong>${esc(t.ten)}</strong>${t.ghiChu ? `<small class="ev-role">${esc(t.ghiChu)}</small>` : ''}</td><td>${esc(t.donVi)}</td></tr>`).join('')}
+                </tbody></table>
+                <p class="ev-src">Nguồn: ${esc(tt.nguon)}</p>
+              </div></details>`;
+};
+// the giai dia phuong: thoi gian, dia diem, hop chuyen mon, trong tai, nut schema, nguon van ban
 const localCard = g => {
   const [hopNhan, ...hopNd] = g.hop.split(':');
-  return `<li class="event" id="giai-${g.batDau.slice(0, 4)}-${g.id}" data-cap="${esc(g.cap)}"><article>
+  const id = `giai-${g.batDau.slice(0, 4)}-${g.id}`;
+  return `<li class="event" id="${id}" data-cap="${esc(g.cap)}"><article>
               <p class="ev-top">${capTag(g)}</p>
               <h4>${esc(g.ten)}</h4>
               <dl class="ev-dl">
                 <div><dt>${icon('calendar')}Thời gian</dt><dd>${esc(g.thoiGian)}</dd></div>
                 <div><dt>${icon('pin')}Địa điểm</dt><dd>${esc(g.diaDiem)}</dd></div>
                 <div><dt>${icon('users')}${esc(hopNhan.trim())}</dt><dd>${esc(hopNd.join(':').trim())}</dd></div>
-              </dl>
+              </dl>${evReferees(g, id)}
               <div class="btns ev-btns">${extA(g.schema, 'Xem schema thi đấu', 'btn btn-outline')}</div>
               <p class="ev-src">Nguồn: ${esc(g.nguon)}</p>
             </article></li>`;

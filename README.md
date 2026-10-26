@@ -42,7 +42,7 @@ Website tĩnh, nội dung theo **Điều lệ (sửa đổi, bổ sung)** do Đ�
 npm ci               # cài công cụ kiểm tra (một lần)
 node build.mjs       # tạo website trong dist/
 node serve.mjs       # xem thử tại http://localhost:8700
-node check.mjs       # kiểm tra toàn bộ, 28 mục (cần Chrome)
+node check.mjs       # kiểm tra toàn bộ, 29 mục (cần Chrome)
 node tools/og.mjs    # tạo lại ảnh chia sẻ, biểu tượng (khi đổi logo hoặc tên trang)
 ```
 Muốn thử bản có đường dẫn con như GitHub Pages: `SITE_BASE=/lien-doan-taekwondo-viet-nam SITE_OUT=dist-pages node build.mjs`. Trong Git Bash phải thêm `MSYS_NO_PATHCONV=1` ở đầu lệnh, nếu không Git Bash sẽ đổi đường dẫn thành đường dẫn Windows và lệnh build sẽ báo lỗi.
@@ -51,7 +51,7 @@ Muốn thử bản có đường dẫn con như GitHub Pages: `SITE_BASE=/lien-d
 Đẩy (push) lên nhánh `main` của repository, GitHub Actions sẽ tự làm phần còn lại (khoảng 2–3 phút):
 1. Lấy địa chỉ và đường dẫn con từ cấu hình Pages.
 2. Tạo web với ngày theo giờ Việt Nam.
-3. Chạy toàn bộ 28 mục kiểm tra trên đúng bản sẽ đưa lên.
+3. Chạy toàn bộ 29 mục kiểm tra trên đúng bản sẽ đưa lên.
 4. Đạt hết mới đưa lên GitHub Pages. Nếu kiểm tra không đạt, bản cũ vẫn được giữ.
 
 **Google, Bing**: web nằm ở đường dẫn con nên `robots.txt` không có tác dụng. Hãy khai báo địa chỉ sơ đồ trang `https://sunflowertaekwondo.github.io/lien-doan-taekwondo-viet-nam/sitemap.xml` trong Google Search Console (loại "Tiền tố URL") và Bing Webmaster Tools. Khi chuyển sang tên miền riêng thì `robots.txt` có tác dụng trở lại.

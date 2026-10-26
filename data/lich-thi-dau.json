@@ -83,7 +83,121 @@
    "diaDiem": "Nhà thi đấu (nhỏ) Trung tâm Huấn luyện và Thi đấu thể thao Vĩnh Long, số 79 Nguyễn Huệ, phường Long Châu, tỉnh Vĩnh Long",
    "noiNgan": "Phường Long Châu, tỉnh Vĩnh Long",
    "schema": "https://docs.google.com/spreadsheets/d/1qnDZgUEvRMzcCx-swVUTMZEQLcgfOLsJ9Ly6G9zFGNE/edit?usp=sharing",
-   "nguon": "Điều lệ ban hành kèm Quyết định số 119/QĐ-BTC (ký ngày 04/9/2026); thời gian theo Thông báo số 162/TB-BTC ngày 20/10/2026 của Ban Tổ chức Đại hội Thể dục thể thao tỉnh Vĩnh Long"
+   "nguon": "Điều lệ ban hành kèm Quyết định số 119/QĐ-BTC (ký ngày 04/9/2026); thời gian theo Thông báo số 162/TB-BTC ngày 20/10/2026 của Ban Tổ chức Đại hội Thể dục thể thao tỉnh Vĩnh Long",
+   "trongTai": {
+    "tieuDe": "Danh sách trọng tài quốc gia tham gia điều hành môn Taekwondo",
+    "nguon": "Danh sách kèm theo Công văn số 171/VTF-VP ngày 14/10/2026 của Liên đoàn Taekwondo Việt Nam",
+    "danhSach": [
+     {
+      "tt": 1,
+      "ten": "Ông Trần Nguyễn Trường Trí",
+      "donVi": "Tây Ninh",
+      "ghiChu": "Phụ trách công tác trọng tài"
+     },
+     {
+      "tt": 2,
+      "ten": "Ông Trần Quang Thuận",
+      "donVi": "TP. Hồ Chí Minh",
+      "ghiChu": ""
+     },
+     {
+      "tt": 3,
+      "ten": "Ông Lý Hữu Thiện",
+      "donVi": "TP. Hồ Chí Minh",
+      "ghiChu": ""
+     },
+     {
+      "tt": 4,
+      "ten": "Ông Đặng Long Bảo Hậu",
+      "donVi": "TP. Hồ Chí Minh",
+      "ghiChu": ""
+     },
+     {
+      "tt": 5,
+      "ten": "Ông Nguyễn Hoàng Long",
+      "donVi": "TP. Hồ Chí Minh",
+      "ghiChu": "Phụ trách hệ thống điện tử"
+     },
+     {
+      "tt": 6,
+      "ten": "Bà Lê Ngọc Thuyền",
+      "donVi": "TP. Hồ Chí Minh",
+      "ghiChu": ""
+     },
+     {
+      "tt": 7,
+      "ten": "Bà Nguyễn Thị Diệu Linh",
+      "donVi": "TP. Hồ Chí Minh",
+      "ghiChu": ""
+     },
+     {
+      "tt": 8,
+      "ten": "Ông Nguyễn Văn Lợi",
+      "donVi": "Tây Ninh",
+      "ghiChu": ""
+     },
+     {
+      "tt": 9,
+      "ten": "Ông Sỳ Thiên Đại",
+      "donVi": "Đồng Nai",
+      "ghiChu": ""
+     },
+     {
+      "tt": 10,
+      "ten": "Ông Trần Tuấn Anh",
+      "donVi": "Đồng Tháp",
+      "ghiChu": ""
+     },
+     {
+      "tt": 11,
+      "ten": "Ông Nguyễn Văn Thịnh",
+      "donVi": "Vĩnh Long",
+      "ghiChu": ""
+     },
+     {
+      "tt": 12,
+      "ten": "Bà Nguyễn Thị Mộng Trinh",
+      "donVi": "Vĩnh Long",
+      "ghiChu": ""
+     },
+     {
+      "tt": 13,
+      "ten": "Bà Nguyễn Ngọc Thủy Tiên",
+      "donVi": "Vĩnh Long",
+      "ghiChu": ""
+     },
+     {
+      "tt": 14,
+      "ten": "Bà Ngô Thị Thùy Dung",
+      "donVi": "VTF",
+      "ghiChu": "Quan chức kỹ thuật/TD"
+     },
+     {
+      "tt": 15,
+      "ten": "Bà Nguyễn Thị Kim Đồng",
+      "donVi": "Vĩnh Long",
+      "ghiChu": ""
+     },
+     {
+      "tt": 16,
+      "ten": "Ông Nguyễn Hoàng Khang",
+      "donVi": "Vĩnh Long",
+      "ghiChu": ""
+     },
+     {
+      "tt": 17,
+      "ten": "Bà Nguyễn Thị Quỳnh Như",
+      "donVi": "Vĩnh Long",
+      "ghiChu": ""
+     },
+     {
+      "tt": 18,
+      "ten": "Ông Nguyễn Phạm Thái Bảo",
+      "donVi": "Vĩnh Long",
+      "ghiChu": ""
+     }
+    ]
+   }
   },
   {
    "id": "rach-kien-vto",
