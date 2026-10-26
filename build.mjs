@@ -543,11 +543,11 @@ const purposes = [
     file: 'dai-hoi-the-thao-toan-quoc-2026.html', path: DH_PATH, active: '/lich-thi-dau', title: m.title, desc: m.desc, ogImage: `og-${m.og}.jpg`, crumbs, extraLd: [dhLd],
     hero: pageHero(crumbs, DH.ten, `Môn ${esc(DH.mon)} · ${dhRange} · ${esc(DH.diaDiem)}`),
     body: `
-    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#chuong-trinh">Chương trình</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#quy-dinh">Quy định</a><a href="#ban-to-chuc-trong-tai">Ban tổ chức, trọng tài</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
+    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#chuong-trinh">Chương trình</a><a href="#ban-to-chuc-trong-tai">Ban tổ chức, trọng tài</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#quy-dinh">Quy định</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
       sec('tong-quan', 'Tổng quan', `<ul class="cal-stats">
           <li><b>${dhRange}</b><span>thời gian</span></li>
           <li><b>${nTong}</b><span>nội dung thi đấu</span></li>
-          <li><b>${nTT}</b><span>trọng tài</span></li>
+          <li><a class="stat-link" href="#ban-to-chuc-trong-tai"><b>${nTT}</b><span>trọng tài</span></a></li>
           <li><b>WT</b><span>luật thi đấu</span></li>
         </ul>
         <div class="grid g2">
@@ -565,6 +565,29 @@ const purposes = [
         </div>
         <p class="note">${icon('info')}<span>${esc(DH.dieuChinh.noiDung)} ngày ${viDate(DH.dieuChinh.ngay)}. ${esc(DH.chuongTrinhGhiChu)}. Địa điểm: ${esc(DH.diaDiem)}.</span></p>
         ${src(`${srcDL}; ngày 23/11 và 24/11 theo cập nhật của Liên đoàn ngày ${viDate(DH.dieuChinh.ngay)}`)}`, '', 'alt'),
+      sec('ban-to-chuc-trong-tai', 'Ban Tổ chức và Ban Trọng tài', `<h3 class="sub-h">Ban Tổ chức môn Taekwondo (${BTC.thanhVien.length} thành viên)</h3>
+        <p>${esc(BTC.nhiemVu)}</p>
+        <table class="table docs-table roster"><thead><tr><th scope="col">TT</th><th scope="col">Họ và tên</th><th scope="col">Đơn vị công tác</th><th scope="col">Chức vụ trong Ban Tổ chức</th></tr></thead><tbody>${BTC.thanhVien.map((t, i) => `
+          <tr><td data-label="TT">${i + 1}</td><td data-label="Họ và tên"><strong>${esc(t.ten)}</strong></td><td data-label="Đơn vị">${esc(t.donVi)}</td><td data-label="Chức vụ">${esc(t.chucVu)}</td></tr>`).join('')}
+        </tbody></table>
+        ${src(qdSrc(BTC.qd))}
+        <h3 class="sub-h">Ban Trọng tài (${nTT} thành viên)</h3>
+        <p>${esc(BTT.nhiemVu)}</p>
+        <ul class="cal-stats">
+          <li><b>${nTT}</b><span>thành viên</span></li>
+          <li><b>${demGT('Nam')}</b><span>nam</span></li>
+          <li><b>${demGT('Nữ')}</b><span>nữ</span></li>
+          <li><b>${nDonVi}</b><span>đơn vị cử trọng tài</span></li>
+        </ul>
+        <ul class="contact-list">${BTT.thanhVien.filter(t => t.chucVu !== 'Trọng tài chính').map(t => `<li>${icon('users')}<span><strong>${esc(t.ten)}</strong> (${esc(t.donVi)}): ${esc(t.chucVu)}</span></li>`).join('')}</ul>
+        <details class="full roster-wrap" open><summary>Danh sách ${nTT} thành viên Ban Trọng tài</summary><div class="full-body">
+          <label class="search roster-search" for="tt-q">${icon('search')}<span class="sr">Tìm trọng tài theo tên hoặc đơn vị</span><input id="tt-q" class="roster-filter" type="search" placeholder="Tìm theo tên hoặc đơn vị, ví dụ: Đồng Nai" autocomplete="off" aria-controls="tt-list" data-status="tt-status"></label>
+          <p id="tt-status" class="search-status" role="status"></p>
+          <table class="table docs-table roster" id="tt-list"><thead><tr><th scope="col">TT</th><th scope="col">Họ và tên</th><th scope="col">Giới tính</th><th scope="col">Đơn vị</th><th scope="col">Chức vụ</th></tr></thead><tbody>${BTT.thanhVien.map(t => `
+            <tr><td data-label="TT">${t.tt}</td><td data-label="Họ và tên"><strong>${esc(t.ten)}</strong></td><td data-label="Giới tính">${esc(t.gioiTinh)}</td><td data-label="Đơn vị">${esc(t.donVi)}</td><td data-label="Chức vụ">${esc(t.chucVu)}</td></tr>`).join('')}
+          </tbody></table>
+        </div></details>
+        ${src(`${qdSrc(BTT.qd)} (danh sách kèm theo)`)}`),
       sec('noi-dung-thi-dau', `${nTong} nội dung thi đấu`, `<p>${esc(DH.doiKhangThietBi)}</p>
         <h3 class="sub-h">Đối kháng cá nhân (${nCaNhan} nội dung)</h3>
         ${Object.entries(DH.doiKhangCaNhan).map(([g, ws]) => `<div class="wc-row"><span class="wc-g">${esc(g)}</span><ul class="chips wc">${ws.map(w => `<li>${esc(w)}</li>`).join('')}</ul></div>`).join('')}
@@ -629,33 +652,10 @@ const purposes = [
         <h3 class="sub-h">Giải quyết khiếu nại</h3>
         <ul class="bullets">${DH.khieuNai.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
         ${src(`${srcDL}, mục I, III, IV, VII–X`)}`, '', 'alt'),
-      sec('ban-to-chuc-trong-tai', 'Ban Tổ chức và Ban Trọng tài', `<h3 class="sub-h">Ban Tổ chức môn Taekwondo (${BTC.thanhVien.length} thành viên)</h3>
-        <p>${esc(BTC.nhiemVu)}</p>
-        <table class="table docs-table roster"><thead><tr><th scope="col">TT</th><th scope="col">Họ và tên</th><th scope="col">Đơn vị công tác</th><th scope="col">Chức vụ trong Ban Tổ chức</th></tr></thead><tbody>${BTC.thanhVien.map((t, i) => `
-          <tr><td data-label="TT">${i + 1}</td><td data-label="Họ và tên"><strong>${esc(t.ten)}</strong></td><td data-label="Đơn vị">${esc(t.donVi)}</td><td data-label="Chức vụ">${esc(t.chucVu)}</td></tr>`).join('')}
-        </tbody></table>
-        ${src(qdSrc(BTC.qd))}
-        <h3 class="sub-h">Ban Trọng tài (${nTT} thành viên)</h3>
-        <p>${esc(BTT.nhiemVu)}</p>
-        <ul class="cal-stats">
-          <li><b>${nTT}</b><span>thành viên</span></li>
-          <li><b>${demGT('Nam')}</b><span>nam</span></li>
-          <li><b>${demGT('Nữ')}</b><span>nữ</span></li>
-          <li><b>${nDonVi}</b><span>đơn vị cử trọng tài</span></li>
-        </ul>
-        <ul class="contact-list">${BTT.thanhVien.filter(t => t.chucVu !== 'Trọng tài chính').map(t => `<li>${icon('users')}<span><strong>${esc(t.ten)}</strong> (${esc(t.donVi)}): ${esc(t.chucVu)}</span></li>`).join('')}</ul>
-        <details class="full roster-wrap"><summary>Danh sách ${nTT} thành viên Ban Trọng tài</summary><div class="full-body">
-          <label class="search roster-search" for="tt-q">${icon('search')}<span class="sr">Tìm trọng tài theo tên hoặc đơn vị</span><input id="tt-q" class="roster-filter" type="search" placeholder="Tìm theo tên hoặc đơn vị, ví dụ: Đồng Nai" autocomplete="off" aria-controls="tt-list" data-status="tt-status"></label>
-          <p id="tt-status" class="search-status" role="status"></p>
-          <table class="table docs-table roster" id="tt-list"><thead><tr><th scope="col">TT</th><th scope="col">Họ và tên</th><th scope="col">Giới tính</th><th scope="col">Đơn vị</th><th scope="col">Chức vụ</th></tr></thead><tbody>${BTT.thanhVien.map(t => `
-            <tr><td data-label="TT">${t.tt}</td><td data-label="Họ và tên"><strong>${esc(t.ten)}</strong></td><td data-label="Giới tính">${esc(t.gioiTinh)}</td><td data-label="Đơn vị">${esc(t.donVi)}</td><td data-label="Chức vụ">${esc(t.chucVu)}</td></tr>`).join('')}
-          </tbody></table>
-        </div></details>
-        ${src(`${qdSrc(BTT.qd)} (danh sách kèm theo)`)}`),
       sec('tai-lieu', 'Tài liệu', `<div class="docs">
           ${dhDocCards()}
         </div>`, '', 'alt'),
-    ].join(''),
+    ].map((h, i) => h.replace(/<section class="section [^"]*"/, `<section class="section ${i % 2 ? 'alt' : ''}"`)).join(''), // nen xen ke tu dong theo thu tu muc
   });
 }
 
