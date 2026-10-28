@@ -149,12 +149,15 @@
     var lower = function (s) { return s.normalize('NFC').toLowerCase(); };
     var articles = $$('.dieu', body), chapters = $$('.chuong', body), noRes = $('.no-result', body);
     var original = new Map(), texts = new Map();
-    articles.forEach(function (a) {
-      original.set(a, a.innerHTML);
-      // noi cac khoi bang dau cach de chu dau doan khong dinh vao tieu de
-      var t = $$('.dieu-t, p, li', a).map(function (e) { return e.textContent; }).join(' ').normalize('NFC').replace(/\s+/g, ' ');
-      texts.set(a, { f: fold(t), l: lower(t) });
-    });
+    function snapshot() {
+      articles.forEach(function (a) {
+        original.set(a, a.innerHTML);
+        // noi cac khoi bang dau cach de chu dau doan khong dinh vao tieu de
+        var t = $$('.dieu-t, p, li', a).map(function (e) { return e.textContent; }).join(' ').normalize('NFC').replace(/\s+/g, ' ');
+        texts.set(a, { f: fold(t), l: lower(t) });
+      });
+    }
+    snapshot();
     var tocItems = $$('.toc li');
     var timer;
     // dau thanh dat theo kieu cu/moi deu dung ("tùy"/"tuỳ", "xóa"/"xoá", "ủy"/"uỷ") -> dua ve mot kieu truoc khi so
@@ -232,6 +235,8 @@
     }
     q.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(function () { run(true); }, 180); });
     q.addEventListener('keydown', function (e) { if (e.key === 'Escape') { q.value = ''; run(true); } });
+    // noi dung do quan tri sua (cms-core.js) ap sau khi trang tai xong: chup lai de tim kiem khong tra ve ban cu
+    doc.addEventListener('vtf:cms-applied', function () { snapshot(); if (q.value.trim()) run(false); });
     // ban in luon day du 29 dieu: tam bo loc tim kiem khi in, khoi phuc sau khi in
     var printSaved = '';
     window.addEventListener('beforeprint', function () { printSaved = q.value; if (printSaved) { q.value = ''; run(false); } });
@@ -271,10 +276,10 @@
   $$('.roster-filter').forEach(function (inp) {
     var table = doc.getElementById(inp.getAttribute('aria-controls')), out = doc.getElementById(inp.dataset.status);
     if (!table) return;
-    var rows = $$('tbody tr', table).map(function (tr) { return [tr, foldText(tr.textContent).replace(/\s+/g, ' ')]; });
     inp.addEventListener('input', function () {
       var raw = inp.value.trim(), q = foldText(raw).replace(/\s+/g, ' '), n = 0;
-      rows.forEach(function (r) { var ok = !q || r[1].indexOf(q) !== -1; r[0].hidden = !ok; if (ok) n++; });
+      // doc lai cac hang moi lan go (quan tri co the da them/xoa/sua nguoi trong bang)
+      $$('tbody tr', table).forEach(function (tr) { var ok = !q || foldText(tr.textContent).replace(/\s+/g, ' ').indexOf(q) !== -1; tr.hidden = !ok; if (ok) n++; });
       if (out) out.textContent = q ? (n ? 'Có ' + n + ' người khớp với “' + raw + '”.' : 'Không có ai khớp với “' + raw + '”.') : '';
     });
   });

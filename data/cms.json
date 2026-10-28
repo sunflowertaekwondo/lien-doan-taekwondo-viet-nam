@@ -1,0 +1,4 @@
+{
+ "_ghi_chu": "Cau hinh trang quan tri (admin.html). endpoint = dia chi ung dung web Google Apps Script (ket thuc bang /exec) sau khi trien khai apps-script/Code.gs; xem apps-script/HUONG-DAN.md. De trong = trang web chay binh thuong, khong goi may chu nao, admin.html hien huong dan cai dat. Co the ghi de khi build bang bien moi truong CMS_ENDPOINT.",
+ "endpoint": ""
+}

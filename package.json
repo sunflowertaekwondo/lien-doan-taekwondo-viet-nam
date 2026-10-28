@@ -8,7 +8,10 @@
     "build": "node build.mjs",
     "serve": "node serve.mjs",
     "check": "node check.mjs",
-    "og": "node tools/og.mjs"
+    "og": "node tools/og.mjs",
+    "cms:gs": "node apps-script/make-gs.mjs",
+    "cms:test": "node apps-script/test.mjs",
+    "cms:emulator": "node apps-script/emulator.mjs 8790"
   },
   "devDependencies": {
     "playwright-core": "1.48.2"

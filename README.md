@@ -20,7 +20,7 @@ Website tĩnh, nội dung theo **Điều lệ (sửa đổi, bổ sung)** do Đ�
   - Đạt chuẩn WCAG 2.2 AA: tương phản, bàn phím, menu điện thoại giữ phím Tab trong menu, vùng chạm 44px, không tràn ngang từ 320px, chế độ tương phản cao của Windows, giảm chuyển động.
 - **SEO và chia sẻ**: ảnh chia sẻ riêng từng trang (có logo), canonical, sitemap (ngày cập nhật thật), dữ liệu có cấu trúc (tổ chức thể thao kèm địa chỉ, breadcrumb, hỏi đáp, tin bài).
 - **Hiệu năng**:
-  - Font tự host, không gọi dịch vụ ngoài khi tải trang.
+  - Font tự host. Chỉ gọi máy chủ nội dung của Liên đoàn (Google Apps Script) khi đã cài trang quản trị.
   - Tài nguyên gắn mã băm.
   - Cài được như ứng dụng (PWA). Khi mất mạng vẫn đọc được trang đã xem.
 
@@ -36,6 +36,14 @@ Website tĩnh, nội dung theo **Điều lệ (sửa đổi, bổ sung)** do Đ�
 | Đăng tin | Chép `content/tin-tuc/_mau-bai-viet.md` thành tệp mới (tên không dấu, nối gạch ngang), sửa phần đầu, bỏ dòng `draft: true`. Ảnh đặt trong `content/tin-tuc/anh/` |
 | Giao diện | `src/site.css`, theo quy tắc trong `DESIGN.md` |
 | Tên miền riêng | Khai báo Custom domain trong Settings → Pages của repository. Quy trình tự động sẽ lấy địa chỉ mới; `siteUrl` trong `data/site.json` chỉ dùng khi tạo web trên máy |
+
+## Trang quản trị (`/admin.html`)
+Sửa mọi chữ, ảnh (tải lên hoặc dán link), liên kết, video YouTube và các danh sách (thêm/xóa/sắp thứ tự) ngay trên trình duyệt, không cần sửa mã. Bên trái là form theo từng khu, bên phải là khung xem trước trực tiếp; có Lưu tất cả, Hoàn tác, xem thử máy tính/điện thoại, cảnh báo khi rời trang lúc chưa lưu.
+- **Nguyên tắc**: HTML gốc là nội dung mặc định, admin chỉ đè lên; xóa trắng một ô là trả về mặc định. Bố cục và công thức vẫn sửa trong mã.
+- **Lưu trữ**: Google Sheet qua Google Apps Script (`apps-script/Code.gs`), ảnh lưu Google Drive. Không lưu localStorage, không ghi cứng trong mã. Đăng nhập bằng tài khoản + mật khẩu (chỉ lưu mã băm), khóa 15 phút sau 5 lần sai.
+- **Bảo mật**: chữ chỉ nhận `b i u span a br`; chặn `javascript:`; ảnh chỉ http(s); video chỉ YouTube. Lọc ở cả trình duyệt lẫn máy chủ.
+- **Cài đặt một lần** (10 phút): `apps-script/HUONG-DAN.md`. Chưa cài thì `data/cms.json` để trống: website chạy như cũ, không gọi máy chủ nào.
+- Kiểm thử: `node apps-script/test.mjs` (máy chủ, chạy nguyên văn `Code.gs` trong bản mô phỏng) và `node check.mjs` (cả trình duyệt thật).
 
 ## Lệnh (chạy trong thư mục `P:\Data10\Website VTF`)
 ```bash

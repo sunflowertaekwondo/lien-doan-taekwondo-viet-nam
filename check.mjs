@@ -16,6 +16,16 @@ const check = (name, ok, info = '') => { results.push(ok); console.log(`${ok ? '
 const EXPECT = (process.env.EXPECT_SITE_URL || '').replace(/\/$/, '');
 
 const b = await chromium.launch({ executablePath: CHROME, headless: true });
+// Moi ngu canh: yeu cau toi may chu noi dung (Apps Script) tra ve "khong co chinh sua" -> kiem tra luon chay tren noi dung goc cua ban build, khong phu thuoc noi dung dang luu tren Google Sheet
+const CMS_HOST = /^script\.google(usercontent)?\.com$/;
+{
+  const nc = b.newContext.bind(b);
+  b.newContext = async (...a) => {
+    const ctx = await nc(...a);
+    await ctx.route(/^https:\/\/script\.google(usercontent)?\.com\//, r => r.fulfill({ status: 200, headers: { 'content-type': 'application/json', 'access-control-allow-origin': '*' }, body: JSON.stringify({ ok: true, rev: 0, fields: {}, lists: {} }) }));
+    return ctx;
+  };
+}
 const errors = [], bad = [], external = new Set(), structure = [], ldErrors = [];
 const links = new Map();
 // 320px = dien thoai nho / phong to 400% (WCAG 1.4.10)
@@ -26,7 +36,7 @@ for (const [vp, size] of [['desktop', { width: 1440, height: 900 }], ['tablet', 
   page.on('pageerror', e => errors.push(`${vp} ${page.url()} :: ${e.message}`));
   page.on('response', r => { if (r.status() >= 400) bad.push(`${r.status()} ${r.url()}`); });
   // yeu cau do phan mem diet virus tren may tu chen (khong phai do website goi) -> bo qua
-  page.on('request', r => { const u = new URL(r.url()); if (/^https?:/.test(u.protocol) && u.origin !== ORIGIN && !/kaspersky-labs|kis\.v2\.scr/.test(u.host)) external.add(u.host); });
+  page.on('request', r => { const u = new URL(r.url()); if (/^https?:/.test(u.protocol) && u.origin !== ORIGIN && !/kaspersky-labs|kis\.v2\.scr/.test(u.host) && !CMS_HOST.test(u.host)) external.add(u.host); });
   const overflow = [];
   for (const p of PAGES) {
     const resp = await page.goto(BASE + p, { waitUntil: 'load', timeout: 60000 });
@@ -64,7 +74,7 @@ for (const [vp, size] of [['desktop', { width: 1440, height: 900 }], ['tablet', 
   await ctx.close();
 }
 check('Mọi trang trả 200, font Be Vietnam Pro đủ dấu tiếng Việt, lang=vi', bad.length === 0, bad.slice(0, 5).join(' | '));
-check('Không gọi dịch vụ bên ngoài (font tự host, không theo dõi)', external.size === 0, [...external].join(', '));
+check('Không gọi dịch vụ bên ngoài ngoài máy chủ nội dung của Liên đoàn (font tự host, không theo dõi)', external.size === 0, [...external].join(', '));
 check('Mỗi trang đúng 1 h1, tiêu đề không nhảy cấp, ảnh có alt, nút có tên, không trùng id, có canonical + og:image', structure.length === 0, structure.slice(0, 4).join(' | '));
 check('Dữ liệu có cấu trúc (JSON-LD) hợp lệ trên mọi trang', ldErrors.length === 0, ldErrors.slice(0, 3).join(' | '));
 
@@ -192,6 +202,9 @@ check(`${internal.length} liên kết nội bộ (kể cả #anchor, PDF, RSS) �
   check('Trang Đại hội Thể thao toàn quốc X: khớp dữ liệu Điều lệ, Sổ tay, QĐ Ban Tổ chức + Ban Trọng tài; SportsEvent, mốc thời gian', ok, missing.length ? 'thiếu: ' + missing.slice(0, 3).join(' / ') : `${r.weights} hạng cân, ${r.teams} đồng đội, ${r.days.length} ngày, BTC ${r.btc}, trọng tài ${r.btt.length}`);
   await ctx.close();
 }
+
+// trang quan tri /admin.html: dang nhap, quet phan tu, xem truoc truc tiep, luu, khoi lap, anh, video, loc XSS (voi may chu Code.gs that)
+{ const { checkAdmin } = await import('./check-admin.mjs'); await checkAdmin({ b, BASE, ORIGIN, check }); }
 
 // doc khi mat mang (service worker)
 {

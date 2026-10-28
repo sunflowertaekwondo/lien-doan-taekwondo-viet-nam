@@ -21,6 +21,12 @@ const DL = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'dieu-le.json'), '
 const LTD = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'lich-thi-dau.json'), 'utf8'));
 const DH = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'dai-hoi-x-2026.json'), 'utf8'));
 const DH_PATH = '/dai-hoi-the-thao-toan-quoc-2026';
+// Trang quan tri (admin.html): noi dung chinh sua luu o Google Sheet qua Apps Script. De trong = khong goi may chu nao.
+const CMS_CFG = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'cms.json'), 'utf8'));
+const CMS_ENDPOINT = String(process.env.CMS_ENDPOINT ?? CMS_CFG.endpoint ?? '').trim();
+if (CMS_ENDPOINT && !/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(CMS_ENDPOINT) && !/^http:\/\/(localhost|127\.0\.0\.1):\d+\/exec$/.test(CMS_ENDPOINT)) {
+  throw new Error(`CMS endpoint khong hop le: ${CMS_ENDPOINT} (phai la https://script.google.com/macros/s/.../exec)`);
+}
 // dia chi that: SITE_URL > ten mien production cua Vercel (khi Vercel build) > siteUrl trong site.json
 const VERCEL_PROD = process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : '';
 const SITE_URL = (process.env.SITE_URL || VERCEL_PROD || cfg.siteUrl || '').replace(/\/$/, '');
@@ -70,6 +76,16 @@ const HASH = crypto.createHash('sha1').update(css + js).digest('hex').slice(0, 1
 const CSS_FILE = `assets/site.${HASH}.css`, JS_FILE = `assets/site.${HASH}.js`;
 fs.writeFileSync(path.join(DIST, CSS_FILE), css, 'utf8');
 fs.writeFileSync(path.join(DIST, JS_FILE), js, 'utf8');
+// Gói CMS: bo loc XSS + loi quet/ap noi dung (moi trang tai), gói admin (chi admin.html). Ma bam theo noi dung nhu CSS/JS.
+const cmsJs = fs.readFileSync(path.join(HERE, 'src', 'cms-sanitize.js'), 'utf8') + '\n' + fs.readFileSync(path.join(HERE, 'src', 'cms-core.js'), 'utf8');
+const adminJs = fs.readFileSync(path.join(HERE, 'src', 'admin.js'), 'utf8');
+const adminCss = fontsCss + '\n' + fs.readFileSync(path.join(HERE, 'src', 'admin.css'), 'utf8');
+const CMS_FILE = `assets/cms.${crypto.createHash('sha1').update(cmsJs).digest('hex').slice(0, 10)}.js`;
+const ADMIN_HASH = crypto.createHash('sha1').update(adminJs + adminCss).digest('hex').slice(0, 10);
+const ADMIN_JS = `assets/admin.${ADMIN_HASH}.js`, ADMIN_CSS = `assets/admin.${ADMIN_HASH}.css`;
+fs.writeFileSync(path.join(DIST, CMS_FILE), cmsJs, 'utf8');
+fs.writeFileSync(path.join(DIST, ADMIN_JS), adminJs, 'utf8');
+fs.writeFileSync(path.join(DIST, ADMIN_CSS), adminCss, 'utf8');
 for (const f of fs.readdirSync(path.join(HERE, 'src', 'fonts'))) if (/\.woff2$|OFL\.txt$/.test(f)) fs.copyFileSync(path.join(HERE, 'src', 'fonts', f), path.join(DIST, 'fonts', f));
 for (const f of fs.readdirSync(path.join(HERE, 'src', 'generated'))) fs.copyFileSync(path.join(HERE, 'src', 'generated', f), path.join(DIST, 'img', f));
 // anh noi dung (vd ky niem chuong trang chu) dat trong src/img/
@@ -191,7 +207,7 @@ const ld = obj => `<script type="application/ld+json">${JSON.stringify(obj).repl
 
 // ---------------- khung trang ----------------
 const metaFor = p => PAGES.find(x => x.path === p) || {};
-function shell({ file, path: urlPath, title, desc, body, active, hero, crumbs = [], extraLd = [], ogImage, ogAlt, noindex, type = 'website', article }) {
+function shell({ file, path: urlPath, title, desc, body, active, hero, crumbs = [], extraLd = [], ogImage, ogAlt, noindex, type = 'website', article, topVideo }) {
   const fullTitle = urlPath === '/' ? `${cfg.tenTiengViet} (${cfg.tenVietTat})` : `${title} | ${cfg.tenTiengViet}`;
   const ogCard = !ogImage || !/[/:]/.test(ogImage); // ten tep anh chia se 1200x630 do tools/og.mjs tao trong src/generated
   const ogImg = /^https?:\/\//.test(ogImage || '') ? ogImage : abs(ogCard ? `/img/${ogImage || 'og-default.jpg'}` : ogImage);
@@ -229,6 +245,8 @@ ${ogCard ? `
   <link rel="preload" href="/fonts/be-vietnam-pro-800-latin.woff2" as="font" type="font/woff2" crossorigin>
   <script>var t=null;try{t=localStorage.getItem('vtf-theme')}catch(e){}if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.dataset.theme='dark'</script>
   <link rel="stylesheet" href="/${CSS_FILE}">
+  ${CMS_ENDPOINT ? `<link rel="preconnect" href="${esc(new URL(CMS_ENDPOINT).origin)}" crossorigin>
+  ` : ''}<script defer src="/${CMS_FILE}" data-endpoint="${esc(CMS_ENDPOINT)}" data-base="${BASE}"></script>
   <script defer src="/${JS_FILE}" data-base="${BASE}"></script>
   ${lds.map(ld).join('\n  ')}
 </head>
@@ -237,7 +255,8 @@ ${ogCard ? `
   ${header(active, urlPath)}
   <main id="noi-dung" tabindex="-1">
 ${hero}
-${body}
+${topVideo ? videoSec('video-noi-bat', 'Video giới thiệu') : ''}${body}
+${noindex ? '' : videoSec('video-trang', 'Video')}
   </main>
   ${footer()}
 </body>
@@ -248,7 +267,7 @@ ${body}
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.writeFileSync(dest, out, 'utf8');
   // lastmod lay tu ngay that (bai viet, ngayCapNhatNoiDung trong site.json), khong dung ngay build
-  if (!noindex) built.push({ path: urlPath, lastmod: article ? article.date : (urlPath === '/' || urlPath.startsWith('/tin-tuc')) ? latest(CONTENT_DATE, news[0] && news[0].date) : urlPath === '/van-ban' ? latest(CONTENT_DATE, REVIEW_DATE) : CONTENT_DATE });
+  if (!noindex) built.push({ path: urlPath, title, lastmod: article ? article.date : (urlPath === '/' || urlPath.startsWith('/tin-tuc')) ? latest(CONTENT_DATE, news[0] && news[0].date) : urlPath === '/van-ban' ? latest(CONTENT_DATE, REVIEW_DATE) : CONTENT_DATE });
 }
 
 const pageHero = (crumbs, title, lead = '') => `    <section class="page-hero">
@@ -262,6 +281,14 @@ const sec = (id, tit, inner, lead = '', cls = '') => `
       <div class="container">
         <h2 class="sec-title" id="h-${id}">${esc(tit)}</h2>${lead ? `\n        <p class="sec-lead">${lead}</p>` : ''}
         ${inner}
+      </div>
+    </section>`;
+// Khung video YouTube: AN cho den khi quan tri dan lien ket YouTube trong admin.html (cms-core.js bo thuoc tinh hidden, dien src)
+const videoSec = (id, tit) => `
+    <section class="section video-sec" id="${id}" aria-labelledby="h-${id}" hidden data-cms-optional>
+      <div class="container">
+        <h2 class="sec-title" id="h-${id}">${esc(tit)}</h2>
+        <div class="video-frame"><iframe data-cms-video title="${esc(tit)}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
       </div>
     </section>`;
 const ol = items => `<ol class="numlist">${items.map(t => `<li>${esc(t)}</li>`).join('')}</ol>`;
@@ -433,7 +460,7 @@ const purposes = [
 {
   const m = metaFor('/');
   shell({
-    file: 'index.html', path: '/', active: '/', title: 'Trang chủ', desc: m.desc, ogImage: `og-${m.og}.jpg`,
+    file: 'index.html', path: '/', active: '/', title: 'Trang chủ', desc: m.desc, ogImage: `og-${m.og}.jpg`, topVideo: true,
     hero: `    <section class="home-hero">
       <div class="container home-hero-in">
         <div class="hh-text">
@@ -941,8 +968,9 @@ shell({
   crumbs: [['Quyền riêng tư', null]], hero: pageHero([['Quyền riêng tư', null]], 'Quyền riêng tư'),
   body: sec('chinh-sach', 'Website này xử lý dữ liệu như thế nào', `<div class="prose">
           <ul class="bullets">
-            <li>Website là trang thông tin tĩnh: <strong>không có biểu mẫu</strong>, không đăng nhập, không thu thập họ tên, email hay số điện thoại của người truy cập.</li>
-            <li><strong>Không dùng cookie theo dõi</strong>, không cài công cụ quảng cáo hay đo lường của bên thứ ba. Phông chữ được phục vụ trực tiếp từ website, không tải từ dịch vụ bên ngoài.</li>
+            <li>Website là trang thông tin: <strong>không có biểu mẫu</strong>, không có đăng nhập dành cho người truy cập, không thu thập họ tên, email hay số điện thoại của người truy cập. Chỉ có một trang quản trị riêng cho người được Liên đoàn giao quyền cập nhật nội dung.</li>
+            <li><strong>Không dùng cookie theo dõi</strong>, không cài công cụ quảng cáo hay đo lường của bên thứ ba. Phông chữ được phục vụ trực tiếp từ website, không tải từ dịch vụ bên ngoài.</li>${CMS_ENDPOINT ? `
+            <li>Khi mở trang, trình duyệt của bạn tải thêm phần nội dung do Liên đoàn chỉnh sửa từ <strong>Google Apps Script</strong> (script.google.com); ảnh do Liên đoàn đăng có thể được tải từ <strong>Google Drive</strong>, và video (nếu trang có) được nhúng từ <strong>YouTube</strong> (youtube-nocookie.com). Các dịch vụ này có thể ghi nhật ký kỹ thuật (địa chỉ IP, thời gian) theo chính sách của họ; website không gửi cho họ thông tin nào về bạn.</li>` : ''}
             <li>Trình duyệt của bạn chỉ lưu <strong>lựa chọn giao diện sáng/tối</strong> (localStorage) và <strong>bộ nhớ đệm</strong> giúp trang mở nhanh, đọc được khi mất mạng. Bạn có thể xóa trong phần cài đặt trình duyệt.</li>
             <li>Nhà cung cấp lưu trữ website có thể ghi nhật ký truy cập kỹ thuật (địa chỉ IP, thời gian) theo chính sách của họ để vận hành và bảo đảm an toàn dịch vụ.</li>
           </ul>
@@ -963,6 +991,33 @@ shell({
   hero: pageHero([['Ngoại tuyến', null]], 'Bạn đang ngoại tuyến'),
   body: sec('ngoai-tuyen', 'Không có kết nối mạng', `<p>Trang này chưa được lưu để đọc khi mất mạng. Các trang bạn đã mở trước đó vẫn xem được; hãy kết nối lại để tải trang mới.</p><p class="more"><a class="btn btn-red" href="/">Về trang chủ</a></p>`),
 });
+
+// ===== Trang quan tri /admin.html: sua moi chu, anh, lien ket, video; xem truoc truc tiep; luu vao Google Sheet (Apps Script). Khong vao sitemap, noindex =====
+{
+  const pagesJson = JSON.stringify(built.map(b => ({ path: b.path, title: b.title }))).replace(/</g, '\\u003c');
+  const html = `<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quản trị website | ${esc(cfg.tenTiengViet)}</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0B1F4D">
+  ${LOGO ? '<link rel="icon" type="image/png" sizes="48x48" href="/img/favicon-48.png">' : '<link rel="icon" type="image/svg+xml" href="/favicon.svg">'}
+  <link rel="stylesheet" href="/${ADMIN_CSS}">
+  <script>window.__VTF_CMS_NOBOOT = true;</script>
+  <script src="/${CMS_FILE}"></script>
+  <script defer src="/${ADMIN_JS}" data-endpoint="${esc(CMS_ENDPOINT)}" data-base="${BASE}" data-logo="${LOGO_URL ? BASE + LOGO_URL : ''}"></script>
+</head>
+<body>
+  <div id="app"><p class="ad-loading">Đang tải trang quản trị…</p></div>
+  <noscript><p class="ad-loading">Trang quản trị cần bật JavaScript.</p></noscript>
+  <script type="application/json" id="cms-pages">${pagesJson}</script>
+</body>
+</html>
+`;
+  fs.writeFileSync(path.join(DIST, 'admin.html'), BASE ? html.replace(/(href|src)="\/(?!\/)/g, `$1="${BASE}/`) : html, 'utf8');
+}
 
 // ---------------- sitemap, robots, RSS, manifest, service worker ----------------
 const xmlEsc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
