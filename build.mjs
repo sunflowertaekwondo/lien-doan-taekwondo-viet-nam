@@ -324,7 +324,7 @@ const news = fs.existsSync(NEWS_DIR) ? fs.readdirSync(NEWS_DIR).filter(f => f.en
     if (!/^(\/[^/]|https?:\/\/)/.test(image)) throw new Error(`Bài ${f}: "image" phải là /tin-tuc/anh/ten-anh.jpg hoặc https://..., đang là "${data.image}"`);
   }
   return { ...meta, slug, image, date: String(data.date), html: renderMarkdown(body, u => u), text: plainText(body) };
-}).filter(Boolean).sort((a, b) => b.date.localeCompare(a.date)) : [];
+}).filter(Boolean).sort((a, b) => b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug)) : []; // cung ngay: theo ten tep, de thu tu khong phu thuoc he dieu hanh
 if (fs.existsSync(path.join(NEWS_DIR, 'anh'))) fs.cpSync(path.join(NEWS_DIR, 'anh'), path.join(DIST, 'tin-tuc', 'anh'), { recursive: true });
 const newsCard = n => `<article class="news-card">
           ${n.image ? `<a class="news-img" href="/tin-tuc/${n.slug}" tabindex="-1" aria-hidden="true"><img src="${esc(n.image)}" alt="" loading="lazy" decoding="async" width="640" height="400"></a>` : ''}
