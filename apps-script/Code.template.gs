@@ -11,7 +11,7 @@
 
 var VERSION = '1';
 var CFG = {
-  ITER: 1000, TOKEN_HOURS: 12, MAX_FIELDS: 6000, MAX_IMG_BYTES: 4 * 1024 * 1024, MAX_BODY: 7000000,
+  ITER: 200, TOKEN_HOURS: 12, MAX_FIELDS: 6000, MAX_IMG_BYTES: 4 * 1024 * 1024, MAX_BODY: 7000000,
   SHEET: 'noi-dung', LOG: 'nhat-ky', HIST: 'lich-su', FOLDER: 'VTF CMS - anh',
   FAIL_MAX: 5, LOCK_SEC: 900, MIN_PASS: 8, TZ: 'Asia/Ho_Chi_Minh'
 };
@@ -174,7 +174,8 @@ function contentJson_() {
   if (c) return c;
   var out = readAll_(); out.ok = true; out.rev = rev_();
   var s = JSON.stringify(out);
-  if (s.length < 90000) cache.put('content', s, 21600);
+  // bo nho dem toi da 100 KB tinh theo BYTE (chu co dau ton toi 3 byte/ky tu): chi dem khi nho, loi dem khong duoc lam hong phan hoi
+  if (s.length < 30000) { try { cache.put('content', s, 21600); } catch (e) { /* bo qua */ } }
   return s;
 }
 function save_(b, u) {
