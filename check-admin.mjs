@@ -133,6 +133,7 @@ export async function checkAdmin({ b, BASE, ORIGIN, check }) {
   // ---- trang khac, giao dien dien thoai, dang xuat
   await page.evaluate(() => { const s = document.getElementById('pg'); s.value = '/lich-thi-dau'; s.dispatchEvent(new Event('change')); });
   await page.waitForFunction(() => { const f = document.querySelector('.ad-frame'); return f.src.includes('lich-thi-dau') && f.contentWindow.VTFCMS && f.contentWindow.VTFCMS.model && f.contentWindow.VTFCMS.model.page === 'lich-thi-dau'; }, null, { timeout: 15000 });
+  await page.waitForFunction(() => document.querySelectorAll('.grp').length >= 3, null, { timeout: 15000 }).catch(() => {}); // form dung lai sau khi xem truoc nap xong; thieu thi check ben duoi bao loi kem so lieu
   const other = await page.evaluate(() => ({ lists: document.querySelector('.ad-frame').contentWindow.VTFCMS.model.lists.length, groups: document.querySelectorAll('.grp').length }));
   const mob = await b.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: 'block' });
   await mob.route(u => u.origin === ORIGIN, async route => { if (route.request().resourceType() !== 'document') return route.continue(); const res = await route.fetch(); const ct = res.headers()['content-type'] || ''; if (!/text\/html/.test(ct)) return route.fulfill({ response: res }); return route.fulfill({ response: res, body: (await res.text()).replace(/data-endpoint="[^"]*"/g, `data-endpoint="${EP}"`) }); });

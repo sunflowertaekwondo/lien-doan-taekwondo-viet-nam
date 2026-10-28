@@ -1,5 +1,5 @@
 ---
-title: Kỳ thi thăng 1, 2, 3 đẳng Taekwondo quốc gia Khu vực 1 tỉnh Lâm Đồng lần 2 năm 2026
+title: Kỳ thi thăng đẳng Taekwondo quốc gia Khu vực 1 tỉnh Lâm Đồng lần 2 năm 2026
 date: 2026-10-28
 category: Thông báo
 summary: Kỳ thi diễn ra ngày 6/12/2026 tại TTHL Thể thao Quốc gia (Số 01, Xô Viết Nghệ Tĩnh, phường Lang Biang, Đà Lạt). Có link đăng ký, danh sách tham dự, kết quả và Hội đồng Giám khảo.
