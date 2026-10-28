@@ -1,5 +1,5 @@
 ---
-title: Kỳ thi thăng đẳng Taekwondo quốc gia khu vực 1 lần 2 năm 2026
+title: Kỳ thi thăng đẳng Taekwondo quốc gia khu vực 1 thành phố Cần Thơ lần 2 năm 2026
 date: 2026-10-28
 category: Thông báo
 summary: Kỳ thi diễn ra ngày 6 tháng 12 năm 2026 tại Số 75/36 Võ Trường Toản, phường Cái Khế, thành phố Cần Thơ. Có link đăng ký, danh sách tham dự, kết quả và Hội đồng Giám khảo.
