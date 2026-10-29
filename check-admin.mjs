@@ -256,7 +256,7 @@ async function checkForms({ b, check, BASE }) {
     } else check('Bản website chưa nối máy chủ (mặc định) không chứa biểu mẫu nào', dflt.length > 1000 && !/data-vtf-form|<form/.test(dflt));
     check('Biểu mẫu: không lỗi JS khi chạy', errs.length === 0, errs.slice(0, 2).join(' | '));
     await ctx.close();
-  } finally { srv.kill(); }
+  } finally { srv.kill(); try { fs.rmSync(out, { recursive: true, force: true }); } catch (e) { /* khong quan trong */ } }
 }
 
 // ---- chuyen huong ve dia chi duy nhat (tkdai.vn): cau hinh Vercel + ban chuyen huong cua GitHub Pages
@@ -267,11 +267,11 @@ async function checkRedirects({ b, check }) {
   check('Vercel: dia chi lien-doan-taekwondo-viet-nam.vercel.app chuyen huong VINH VIEN (308) ve https://tkdai.vn giu nguyen duong dan; chi theo ten mien, khong anh huong ban xem thu',
     !!r && r.permanent === true && r.source === '/:path(.*)' && r.destination === 'https://tkdai.vn/:path' && r.has.length === 1, JSON.stringify(r));
 
-  const TARGET = 'https://chuyen-huong.test', BASE_P = '/ten-repo', out = path.join(HERE, 'dist-redirect');
-  try { execFileSync(process.execPath, ['tools/redirect-pages.mjs', 'dist-redirect', BASE_P, TARGET], { cwd: HERE, stdio: 'pipe' }); }
+  const TARGET = 'https://chuyen-huong.test', BASE_P = '/ten-repo', dirName = 'dist-redirect-' + process.pid, out = path.join(HERE, dirName); // thu muc rieng moi lan chay (o dia pCloud xoa/ghi de tre)
+  try { execFileSync(process.execPath, ['tools/redirect-pages.mjs', dirName, BASE_P, TARGET], { cwd: HERE, stdio: 'pipe' }); }
   catch (e) { check('GitHub Pages: tao duoc ban chuyen huong', false, String(e.stderr || e.message).slice(0, 200)); return; }
   const port = await new Promise(res => { const s = net.createServer(); s.listen(0, () => { const p = s.address().port; s.close(() => res(p)); }); });
-  const srv = spawn(process.execPath, ['serve.mjs'], { cwd: HERE, env: { ...process.env, SERVE_DIR: 'dist-redirect', PORT: String(port), SERVE_BASE: BASE_P }, stdio: 'ignore' });
+  const srv = spawn(process.execPath, ['serve.mjs'], { cwd: HERE, env: { ...process.env, SERVE_DIR: dirName, PORT: String(port), SERVE_BASE: BASE_P }, stdio: 'ignore' });
   try {
     for (let i = 0; i < 50; i++) { try { if ((await fetch(`http://localhost:${port}${BASE_P}/`)).ok) break; } catch (e) { /* cho may chu khoi dong */ } await new Promise(r2 => setTimeout(r2, 100)); }
     const ctx = await b.newContext({ serviceWorkers: 'block' });
@@ -282,5 +282,5 @@ async function checkRedirects({ b, check }) {
     check('GitHub Pages: moi duong dan (goc, trang con, ?query, #muc, lien ket sau) chuyen huong ve ten mien chinh, giu nguyen duong dan; co meta refresh + canonical cho may tim kiem',
       a1 === TARGET + '/' && a2 === TARGET + '/hoi-vien?x=1#dang-ky' && a3 === TARGET + '/tin-tuc/bai-viet-sau/xyz' && html.includes(`http-equiv="refresh" content="0; url=${TARGET}/"`) && html.includes(`rel="canonical" href="${TARGET}/"`), [a1, a2, a3].join(' | '));
     await ctx.close();
-  } finally { srv.kill(); }
+  } finally { srv.kill(); try { fs.rmSync(out, { recursive: true, force: true }); } catch (e) { /* khong quan trong */ } }
 }
