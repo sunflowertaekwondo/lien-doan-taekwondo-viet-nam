@@ -53,6 +53,13 @@ Có địa chỉ máy chủ trong `data/cms.json` (`endpoint`) thì website tự
 - Biểu mẫu có thuộc tính `data-cms-skip` nên trang quản trị không sửa được/không xóa nhầm ô của biểu mẫu.
 - Cài đặt: `apps-script/HUONG-DAN.md`. Kiểm thử: `node apps-script/test.mjs` (máy chủ) và `node check.mjs` (dựng `dist-forms` và gửi từng biểu mẫu bằng trình duyệt thật).
 
+## Địa chỉ duy nhất: https://tkdai.vn
+Website chỉ có **một địa chỉ chính** là `https://tkdai.vn` (Vercel phục vụ). Các địa chỉ cũ chỉ còn chuyển hướng về đó, giữ nguyên đường dẫn và `?query`:
+- `lien-doan-taekwondo-viet-nam.vercel.app` → chuyển hướng vĩnh viễn (308) bằng `redirects` trong `vercel.json`, chỉ áp dụng cho đúng tên miền này (bản xem thử của Vercel không bị ảnh hưởng).
+- `sunflowertaekwondo.github.io/lien-doan-taekwondo-viet-nam` → GitHub Pages không có chuyển hướng máy chủ nên workflow `deploy.yml` vẫn build + kiểm tra bản đầy đủ rồi chỉ công bố bản chuyển hướng do `tools/redirect-pages.mjs` tạo (meta refresh + JavaScript + canonical).
+- Kiểm tra trực tiếp sau khi đưa lên: dùng `https://tkdai.vn` (chạy `node check.mjs https://tkdai.vn`). Không chạy `check.mjs` vào hai địa chỉ cũ vì chúng chỉ còn chuyển hướng.
+- Muốn thêm `www.tkdai.vn`: thêm tên miền trong Vercel (Domains) và đặt chuyển hướng về `tkdai.vn`; việc này làm trên trang quản lý Vercel, không cần sửa mã.
+
 ## Lệnh (chạy trong thư mục `P:\Data10\Website VTF`)
 ```bash
 npm ci               # cài công cụ kiểm tra (một lần)

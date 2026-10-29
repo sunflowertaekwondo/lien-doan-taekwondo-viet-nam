@@ -3,6 +3,7 @@
 import { createBackend } from './apps-script/emulator.mjs';
 import { runBackendTests } from './apps-script/test.mjs';
 import { execFileSync, spawn } from 'node:child_process';
+import fs from 'node:fs';
 import net from 'node:net';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -159,6 +160,7 @@ export async function checkAdmin({ b, BASE, ORIGIN, check }) {
   await ctx.close();
 
   await checkForms({ b, check, BASE });
+  await checkRedirects({ b, check });
 }
 
 // ---- bieu mau dang ky tren website: dung ban build co endpoint (dist-forms), phuc vu bang serve.mjs, noi may chu mo phong qua route Playwright
@@ -253,6 +255,32 @@ async function checkForms({ b, check, BASE }) {
       check('Website đã nối máy chủ: cả ba biểu mẫu (Hội viên, Liên hệ, Tin tức) có trên trang', dflt.indexOf('data-vtf-form="hoivien"') >= 0 && others[0].indexOf('data-vtf-form="lienhe"') >= 0 && others[1].indexOf('data-vtf-form="nhantin"') >= 0);
     } else check('Bản website chưa nối máy chủ (mặc định) không chứa biểu mẫu nào', dflt.length > 1000 && !/data-vtf-form|<form/.test(dflt));
     check('Biểu mẫu: không lỗi JS khi chạy', errs.length === 0, errs.slice(0, 2).join(' | '));
+    await ctx.close();
+  } finally { srv.kill(); }
+}
+
+// ---- chuyen huong ve dia chi duy nhat (tkdai.vn): cau hinh Vercel + ban chuyen huong cua GitHub Pages
+async function checkRedirects({ b, check }) {
+  const HERE = path.dirname(fileURLToPath(import.meta.url));
+  const vj = JSON.parse(fs.readFileSync(path.join(HERE, 'vercel.json'), 'utf8'));
+  const r = (vj.redirects || []).find(x => (x.has || []).some(h => h.type === 'host' && h.value === 'lien-doan-taekwondo-viet-nam.vercel.app'));
+  check('Vercel: dia chi lien-doan-taekwondo-viet-nam.vercel.app chuyen huong VINH VIEN (308) ve https://tkdai.vn giu nguyen duong dan; chi theo ten mien, khong anh huong ban xem thu',
+    !!r && r.permanent === true && r.source === '/:path(.*)' && r.destination === 'https://tkdai.vn/:path' && r.has.length === 1, JSON.stringify(r));
+
+  const TARGET = 'https://chuyen-huong.test', BASE_P = '/ten-repo', out = path.join(HERE, 'dist-redirect');
+  try { execFileSync(process.execPath, ['tools/redirect-pages.mjs', 'dist-redirect', BASE_P, TARGET], { cwd: HERE, stdio: 'pipe' }); }
+  catch (e) { check('GitHub Pages: tao duoc ban chuyen huong', false, String(e.stderr || e.message).slice(0, 200)); return; }
+  const port = await new Promise(res => { const s = net.createServer(); s.listen(0, () => { const p = s.address().port; s.close(() => res(p)); }); });
+  const srv = spawn(process.execPath, ['serve.mjs'], { cwd: HERE, env: { ...process.env, SERVE_DIR: 'dist-redirect', PORT: String(port), SERVE_BASE: BASE_P }, stdio: 'ignore' });
+  try {
+    for (let i = 0; i < 50; i++) { try { if ((await fetch(`http://localhost:${port}${BASE_P}/`)).ok) break; } catch (e) { /* cho may chu khoi dong */ } await new Promise(r2 => setTimeout(r2, 100)); }
+    const ctx = await b.newContext({ serviceWorkers: 'block' });
+    await ctx.route(u => u.origin === TARGET, route => route.fulfill({ status: 200, contentType: 'text/html', body: '<title>dich</title>' }));
+    const page = await ctx.newPage(), go = async p => { await page.goto(`http://localhost:${port}${BASE_P}${p}`, { waitUntil: 'load' }); await page.waitForURL(u => u.origin === TARGET, { timeout: 8000 }); return page.url(); };
+    const [a1, a2, a3] = [await go('/'), await go('/hoi-vien?x=1#dang-ky'), await go('/tin-tuc/bai-viet-sau/xyz')];
+    const html = fs.readFileSync(path.join(out, '404.html'), 'utf8');
+    check('GitHub Pages: moi duong dan (goc, trang con, ?query, #muc, lien ket sau) chuyen huong ve ten mien chinh, giu nguyen duong dan; co meta refresh + canonical cho may tim kiem',
+      a1 === TARGET + '/' && a2 === TARGET + '/hoi-vien?x=1#dang-ky' && a3 === TARGET + '/tin-tuc/bai-viet-sau/xyz' && html.includes(`http-equiv="refresh" content="0; url=${TARGET}/"`) && html.includes(`rel="canonical" href="${TARGET}/"`), [a1, a2, a3].join(' | '));
     await ctx.close();
   } finally { srv.kill(); }
 }

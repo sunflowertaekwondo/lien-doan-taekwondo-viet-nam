@@ -6,6 +6,9 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/:path(.*)", "has": [{ "type": "host", "value": "lien-doan-taekwondo-viet-nam.vercel.app" }], "destination": "https://tkdai.vn/:path", "permanent": true }
+  ],
   "headers": [
     { "source": "/(.*)", "headers": [
       { "key": "X-Content-Type-Options", "value": "nosniff" },

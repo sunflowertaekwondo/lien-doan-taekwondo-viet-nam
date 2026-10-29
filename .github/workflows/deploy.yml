@@ -42,9 +42,13 @@ jobs:
           SERVE_DIR=dist SERVE_BASE="$BASE_PATH" node serve.mjs &
           for i in $(seq 1 30); do curl -sf "http://localhost:8700$BASE_PATH/" > /dev/null && break; sleep 1; done
           node check.mjs "http://localhost:8700$BASE_PATH"
+      # Website chi co MOT dia chi chinh (https://tkdai.vn, do Vercel phuc vu). Dia chi github.io chi con chuyen huong ve do (giu duong dan, ?query, #muc).
+      # Van build + kiem tra ban day du o tren de phat hien loi som; chi cong bo ban chuyen huong len Pages.
+      - name: Tạo bản chuyển hướng về tkdai.vn
+        run: node tools/redirect-pages.mjs redirect "${{ steps.pages.outputs.base_path }}" https://tkdai.vn
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: redirect
   deploy:
     needs: build
     runs-on: ubuntu-latest
