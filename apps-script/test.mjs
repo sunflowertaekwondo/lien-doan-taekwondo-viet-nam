@@ -134,6 +134,104 @@ export async function runBackendTests(check) {
   emu.advance(13 * 3600 * 1000);
   check('Phiên hết hạn sau 12 giờ', emu.post({ action: 'whoami', token: t2 }).code === 'unauthorized');
   check('Yêu cầu hỏng/thao tác lạ trả lỗi JSON, không làm sập', emu.post('{khong phai json').code === 'server' && emu.post({ action: 'xoa-het', token: 'x' }).code === 'unauthorized' && emu.get({ action: 'zzz' }).code === 'bad_action');
+
+  await runFormTests(check);
+}
+
+// ---- bieu mau cong khai: hoi vien, lien he, nhan tin -> 3 Sheet rieng tu
+async function runFormTests(check) {
+  const mk = opts => { const e = createBackend(opts); e.setup(); return e; };
+  const fe = mk(), ping = fe.get({ action: 'ping' });
+  const send = (e, kind, f, extra = {}) => e.post({ action: 'submit', kind, f: { dongY: true, ...f }, t: 5000, hp: '', page: '/hoi-vien', ...extra });
+  const hv = { loai: 'to-chuc', ten: 'CLB Taekwondo Quận 1', daiDien: 'Nguyễn Văn A', dienThoai: '0912 345 678', email: 'Nguyen.A@Example.vn', tinh: 'Thành phố Hồ Chí Minh', diaChi: '1 Lê Lợi', donVi: 'CLB Q1', ghiChu: 'Muốn gia nhập' };
+
+  const r1 = send(fe, 'hoivien', hv), row1 = (fe.forms('hoivien') || [])[0] || {};
+  check('Biểu mẫu hội viên: ghi vào tệp riêng đúng cột theo tiêu đề, có mã hồ sơ, giờ Việt Nam, trạng thái "Mới", email chữ thường, SĐT chuẩn hóa, định dạng văn bản',
+    r1.ok && r1.ref === 'HV-20261028-0001' && row1['Mã hồ sơ'] === 'HV-20261028-0001' && row1['Loại hội viên'] === 'Tổ chức' && row1['Họ tên / Tên tổ chức'] === hv.ten && row1['Người đại diện (nếu là tổ chức)'] === 'Nguyễn Văn A'
+    && row1['Số điện thoại'] === '0912345678' && row1['Email'] === 'nguyen.a@example.vn' && row1['Tỉnh / Thành phố'] === hv.tinh && row1['Thời gian gửi'] === '2026-10-28 10:00:00'
+    && row1['Trạng thái'] === 'Mới' && row1['Đồng ý xử lý dữ liệu'] === 'Đã đồng ý' && row1['Trang gửi'] === '/hoi-vien' && fe.formSheet('hoivien').fmt.get(2) === '@', JSON.stringify(row1));
+
+  const inj = send(fe, 'hoivien', { ...hv, email: 'inj@example.vn', ten: '=HYPERLINK("http://x.example","bam vao")', donVi: '@SUM(1+1)', diaChi: '-2+3', ghiChu: '<b>x</b><script>alert(1)</script>+cmd', dienThoai: '+84 912 345 679' });
+  const rowI = (fe.forms('hoivien') || [])[1] || {};
+  check('Chống chèn công thức (=, +, -, @ đầu ô bị vô hiệu), bỏ < > khỏi nội dung, số điện thoại bắt đầu bằng + vẫn giữ nguyên',
+    inj.ok && rowI['Họ tên / Tên tổ chức'].startsWith("'=") && rowI['Đơn vị công tác / CLB'] === "'@SUM(1+1)" && rowI['Địa chỉ'] === "'-2+3" && !/[<>]/.test(rowI['Nội dung / Ghi chú']) && rowI['Số điện thoại'] === '+84912345679', JSON.stringify(rowI));
+
+  const before = fe.forms('hoivien').length;
+  const bad = [
+    send(fe, 'hoivien', { ...hv, email: 'khong-phai-email' }), send(fe, 'hoivien', { ...hv, email: 'b1@example.vn', dienThoai: '123' }),
+    send(fe, 'hoivien', { ...hv, email: 'b2@example.vn', loai: 'khac' }), send(fe, 'hoivien', { ...hv, email: 'b3@example.vn', daiDien: '' }),
+    send(fe, 'hoivien', { ...hv, email: 'b4@example.vn', ten: '   ' }), send(fe, 'hoivien', { ...hv, email: 'b5@example.vn', dongY: false }),
+    send(fe, 'hoivien', { ...hv, email: 'b6@example.vn', dongY: 'true' }), send(fe, 'hoivien', { ...hv, email: 'b7@example.vn', tinh: '' }),
+  ];
+  const okPerson = send(fe, 'hoivien', { ...hv, email: 'c1@example.vn', loai: 'ca-nhan', daiDien: '' });
+  check('Kiểm tra dữ liệu: email/SĐT sai, loại lạ, thiếu người đại diện (tổ chức), thiếu tên/tỉnh, không đồng ý bị từ chối kèm thông báo theo ô; cá nhân không cần người đại diện; không ghi dòng nào khi lỗi',
+    bad.every(r => !r.ok && r.code === 'invalid' && r.errors) && bad[0].errors.email && bad[1].errors.dienThoai && bad[2].errors.loai && bad[3].errors.daiDien && bad[4].errors.ten && bad[5].errors.dongY && bad[6].errors.dongY && bad[7].errors.tinh
+    && okPerson.ok && fe.forms('hoivien').length === before + 1, JSON.stringify(bad.map(r => r.errors)));
+
+  const bot = [send(fe, 'hoivien', { ...hv, email: 'bot1@example.vn' }, { hp: 'http://spam.example' }), send(fe, 'hoivien', { ...hv, email: 'bot2@example.vn' }, { t: 300 }), fe.post({ action: 'submit', kind: 'hoivien', f: { ...hv, email: 'bot3@example.vn', dongY: true } })];
+  check('Chống máy tự động: ô bẫy bị điền, gửi quá nhanh, hoặc thiếu thời gian điền đều trả "thành công" giả và KHÔNG ghi', bot.every(r => r.ok && r.ref === '') && fe.forms('hoivien').length === before + 1);
+
+  const rl = [1, 2, 3, 4].map(() => send(fe, 'lienhe', { ten: 'Trần B', email: 'rate@example.vn', chuDe: 'khac', noiDung: 'Tôi muốn hỏi về lịch thi đẳng.' }));
+  fe.advance(61 * 60 * 1000);
+  check('Giới hạn tốc độ: cùng một email tối đa 3 lần/giờ (lần 4 bị từ chối), hết giờ gửi lại được', rl[0].ok && rl[1].ok && rl[2].ok && rl[3].code === 'rate' && send(fe, 'lienhe', { ten: 'Trần B', email: 'rate@example.vn', chuDe: 'khac', noiDung: 'Gửi lại sau một giờ.' }).ok);
+
+  const lh = [send(fe, 'lienhe', { ten: 'Lê C', email: 'lh1@example.vn', chuDe: 'giai-dau', noiDung: 'ngắn' }), send(fe, 'lienhe', { ten: 'Lê C', email: 'lh2@example.vn', chuDe: 'xxx', noiDung: 'Nội dung đủ dài rồi.' }), send(fe, 'lienhe', { ten: 'Lê C', email: 'lh3@example.vn', chuDe: 'hop-tac', dienThoai: 'abc', noiDung: 'Nội dung đủ dài rồi.' })];
+  const lhOk = send(fe, 'lienhe', { ten: 'Lê C', email: 'lh4@example.vn', chuDe: 'hop-tac', noiDung: 'Dòng một.\r\n\r\n\r\n\r\nDòng hai.' }, { page: '/lien-he' });
+  const lhRow = (fe.forms('lienhe') || []).find(r => r['Email'] === 'lh4@example.vn') || {};
+  check('Biểu mẫu liên hệ: chủ đề/nội dung/SĐT sai bị từ chối; hợp lệ ghi mã LH-…, chủ đề theo nhãn, SĐT trống được, xuống dòng gọn',
+    lh[0].errors && lh[0].errors.noiDung && lh[1].errors && lh[1].errors.chuDe && lh[2].errors && lh[2].errors.dienThoai && lhOk.ok && /^LH-20261028-\d{4}$/.test(lhOk.ref) && lhRow['Chủ đề'] === 'Hợp tác, tài trợ' && lhRow['Số điện thoại'] === '' && lhRow['Nội dung'] === 'Dòng một.\n\nDòng hai.' && lhRow['Trang gửi'] === '/lien-he', JSON.stringify(lhRow));
+
+  const nt1 = send(fe, 'nhantin', { email: 'Doc.Gia@Example.vn' }, { page: '/tin-tuc' }), nt2 = send(fe, 'nhantin', { email: 'doc.gia@example.vn', ten: 'Khác' }), nt3 = send(fe, 'nhantin', { email: 'doc.gia2@example.vn', ten: 'Phạm D' });
+  const ntRows = fe.forms('nhantin');
+  check('Đăng ký nhận tin: ghi email chữ thường, trạng thái "Đang nhận tin"; đăng ký lại cùng email không ghi trùng và không tiết lộ đã có (vẫn báo thành công)',
+    nt1.ok && nt2.ok && nt3.ok && ntRows.length === 2 && ntRows[0]['Email'] === 'doc.gia@example.vn' && ntRows[0]['Trạng thái'] === 'Đang nhận tin' && ntRows[0]['Đồng ý nhận tin'] === 'Đã đồng ý' && ntRows[0]['Trang gửi'] === '/tin-tuc' && ntRows[1]['Họ và tên'] === 'Phạm D' && JSON.stringify(nt2) === JSON.stringify(nt1), JSON.stringify(ntRows));
+
+  const flood = mk(); let lastCode = '';
+  for (let i = 0; i < 151; i++) lastCode = send(flood, 'nhantin', { email: `u${i}@example.vn` }).code || 'ok';
+  check('Giới hạn toàn hệ thống: tối đa 150 lượt gửi/giờ, vượt thì từ chối (chống làm đầy Sheet)', lastCode === 'busy' && flood.forms('nhantin').length === 150);
+
+  const bigRaw = JSON.stringify({ action: 'submit', kind: 'lienhe', f: { dongY: true, ten: 'x', email: 'big@example.vn', chuDe: 'khac', noiDung: 'y'.repeat(25000) }, t: 5000 });
+  check('Từ chối kiểu biểu mẫu lạ, dữ liệu không phải đối tượng, và nội dung gửi quá 20.000 ký tự',
+    fe.post({ action: 'submit', kind: 'xyz', f: {}, t: 5000 }).code === 'bad_kind' && fe.post({ action: 'submit', kind: 'hoivien', f: 'abc', t: 5000 }).code === 'bad_request' && fe.post({ action: 'submit', kind: 'hoivien', f: [1], t: 5000 }).code === 'bad_request' && fe.post(bigRaw).code === 'too_big');
+
+  // an toan: tep dang bi chia se cong khai -> tu choi ghi du lieu ca nhan, khong lo chi tiet cho nguoi gui, ghi nhat ky ky thuat
+  const g = mk(); g.formFile('lienhe').access = 'ANYONE_WITH_LINK';
+  const blocked = send(g, 'lienhe', { ten: 'Lê C', email: 'safe@example.vn', chuDe: 'khac', noiDung: 'Nội dung thử nghiệm bảo vệ.' });
+  const errLog = [...g.state.sheets.get('nhat-ky').rows].filter(r => String(r[2]).startsWith('loi-bieu-mau'));
+  g.formFile('lienhe').access = 'PRIVATE';
+  const again = send(g, 'lienhe', { ten: 'Lê C', email: 'safe2@example.vn', chuDe: 'khac', noiDung: 'Nội dung thử nghiệm bảo vệ.' });
+  check('Chốt an toàn: tệp dữ liệu bị chia sẻ công khai thì KHÔNG ghi (báo lỗi chung, nhật ký kỹ thuật không chứa dữ liệu cá nhân); trả lại Riêng tư thì ghi lại được',
+    !blocked.ok && blocked.code === 'server' && !/chia se|Rieng tu|Tep/.test(JSON.stringify(blocked)) && errLog.length === 1 && /chia se/.test(errLog[0][3]) && !/safe@example/.test(JSON.stringify([...g.state.sheets.get('nhat-ky').rows])) && g.forms('lienhe').length === 1 && again.ok);
+
+  // nguoi quan ly them cot / doi thu tu cot trong Sheet: ghi van dung theo tieu de
+  const c = mk(), cs = c.formSheet('nhantin'); cs.rows[0] = ['Email', 'Cột thêm', 'Thời gian đăng ký', 'Họ và tên', 'Đồng ý nhận tin', 'Trang gửi', 'Trạng thái', 'Ghi chú nội bộ'];
+  const cr = send(c, 'nhantin', { email: 'cot@example.vn', ten: 'Vũ E' }), crow = (c.forms('nhantin') || [])[0] || {};
+  cs.rows[0] = cs.rows[0].filter(h => h !== 'Trạng thái'); const cr2 = send(c, 'nhantin', { email: 'cot2@example.vn' }), allHead = cs.rows[0];
+  check('Ghi theo tiêu đề cột: thêm/đổi thứ tự cột trong Sheet không làm lệch dữ liệu; thiếu cột nào script tự thêm cột đó ở cuối',
+    cr.ok && crow['Email'] === 'cot@example.vn' && crow['Cột thêm'] === '' && crow['Họ và tên'] === 'Vũ E' && crow['Trạng thái'] === 'Đang nhận tin' && cr2.ok && allHead[allHead.length - 1] === 'Trạng thái', JSON.stringify([crow, allHead]));
+
+  // thieu thu muc rieng tu: khong bao gio tao tep du lieu o thu muc cong khai
+  const m = createBackend({ seedForms: false }); const msg = m.setup();
+  const sm = send(m, 'hoivien', hv), leaked = [...m.state.drive.values()].filter(n => n.type === 'file' && n.parent === m.sandbox.CFG.WEB_FOLDER_ID);
+  check('Thiếu thư mục riêng tư: cài đặt báo cảnh báo, gửi biểu mẫu báo lỗi, TUYỆT ĐỐI không tạo tệp dữ liệu ở thư mục công khai Web_VTF', /CANH BAO/.test(String(msg)) && !sm.ok && sm.code === 'server' && leaked.length === 0 && ![...m.state.drive.values()].some(n => n.name === 'VTF - Hội viên đăng ký'));
+
+  // tep du lieu bi xoa nham: tao lai trong thu muc rieng tu, kem tieu de cot
+  const d = mk(), hvNode = d.formFile('hoivien'); d.state.drive.delete(hvNode.id);
+  const dr = send(d, 'hoivien', hv), recreated = [...d.state.drive.values()].find(n => n.name === 'VTF - Hội viên đăng ký');
+  const rb = recreated && recreated.book.getSheets()[0].rows;
+  check('Tệp dữ liệu bị xóa nhầm: lần gửi sau tạo lại trong thư mục RIÊNG TƯ, có dòng tiêu đề, dữ liệu vẫn được ghi', dr.ok && recreated && recreated.parent === d.state.seed.priv.id && recreated.access === 'PRIVATE' && rb[0][0] === 'Mã hồ sơ' && rb[1][3] === hv.ten, JSON.stringify(rb && rb[0]));
+
+  // script doc lap (tao tai script.google.com): setup tu tao Sheet noi dung trong thu muc rieng tu, kiem tra 3 tep va khong de lai dong thu
+  const s = createBackend({ standalone: true }), sres = s.setup();
+  const cmsNode = s.state.drive.get(s.state.props.get('SHEET_ID')), imgFolder = [...s.state.folders.values()][0];
+  check('Script độc lập: cài đặt tự tạo Sheet nội dung trong thư mục riêng tư, ảnh vào thư mục Web_VTF, kiểm tra ghi/đọc/xóa cả 3 tệp và không để lại dòng thử; ping báo 3 biểu mẫu',
+    /ghi\/doc\/xoa dung/.test(sres) && !/LOI|CANH BAO/.test(sres) && (sres.match(/ghi\/doc\/xoa dung/g) || []).length === 3 && cmsNode && cmsNode.parent === s.state.seed.priv.id && cmsNode.access === 'PRIVATE'
+    && imgFolder && imgFolder.parent === s.sandbox.CFG.WEB_FOLDER_ID && ['hoivien', 'lienhe', 'nhantin'].every(k => s.forms(k).length === 0) && s.get({ action: 'ping' }).forms === 3 && s.state.sheets.has('noi-dung'), sres);
+
+  // du lieu ca nhan khong ro ri sang noi khac: thuoc tinh script, nhat ky, phan hoi
+  const leak = JSON.stringify([...fe.state.props.values()]) + JSON.stringify(fe.state.sheets.get('nhat-ky').rows) + JSON.stringify(r1);
+  check('Dữ liệu cá nhân không rò sang thuộc tính script, nhật ký hay phản hồi (phản hồi chỉ có mã hồ sơ)', !/example\.vn|Nguyễn Văn A|0912345678/.test(leak) && Object.keys(r1).sort().join() === 'ok,ref');
+  check('Phản hồi ping báo số biểu mẫu', ping.forms === 3);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

@@ -777,6 +777,60 @@ const purposes = [
   });
 }
 
+// ===== Bieu mau dang ky (hoi vien, lien he, nhan tin): chi co khi website da noi may chu (data/cms.json "endpoint") =====
+// Du lieu gui qua Google Apps Script (apps-script/Code.gs) vao 3 Google Sheet rieng tu. Khong co endpoint thi khong co bieu mau nao tren trang.
+const FORMS_ON = !!CMS_ENDPOINT;
+const vfFallback = `Nếu không gửi được, vui lòng liên hệ trực tiếp${cfg.email ? `: ${cfg.email}` : ''}${cfg.dienThoai ? ` · ${cfg.dienThoai}` : ''}.`;
+const vfField = (p, { k, label, type = 'text', req, max, auto, mode, rows, full, opts }) => {
+  const id = `vf-${p}-${k}`, d = ` aria-describedby="${id}-e"${req ? ' required' : ''}`;
+  const ctl = type === 'area' ? `<textarea id="${id}" name="${k}" rows="${rows || 5}" maxlength="${max}"${d}></textarea>`
+    : type === 'select' ? `<select id="${id}" name="${k}"${d}><option value="">Chọn…</option>${opts.map(([v, t]) => `<option value="${v}">${esc(t)}</option>`).join('')}</select>`
+      : `<input id="${id}" name="${k}" type="${type}" maxlength="${max}"${auto ? ` autocomplete="${auto}"` : ' autocomplete="off"'}${mode ? ` inputmode="${mode}"` : ''}${d}>`;
+  return `<div class="vf-row${full ? ' wide' : ''}" data-f="${k}"><label for="${id}">${esc(label)}<span class="req" aria-hidden="true"${req ? '' : ' hidden'}> *</span></label>${ctl}<p class="vf-err" id="${id}-e" hidden></p></div>`;
+};
+const vfRadios = (p, k, label, opts) => `<fieldset class="vf-row wide vf-radios" data-f="${k}"><legend>${esc(label)}<span class="req" aria-hidden="true"> *</span></legend><div>${opts.map(([v, t], i) => `<label class="vf-radio"><input type="radio" name="${k}" value="${v}"${i === 0 ? ' required' : ''}><span>${esc(t)}</span></label>`).join('')}</div><p class="vf-err" id="vf-${p}-${k}-e" hidden></p></fieldset>`;
+const vfForm = (kind, p, fields, { consent, submit, ok, okRef }) => `
+        <noscript><p class="note">${icon('info')}<span>Cần bật JavaScript để gửi biểu mẫu này. ${esc(vfFallback)}</span></p></noscript>
+        <form class="vf" method="post" action="#" hidden data-vtf-form="${kind}" data-cms-skip novalidate data-ok="${esc(ok)}" data-ok-ref="${esc(okRef || ok)}" data-fallback="${esc(vfFallback)}">
+          <div class="vf-grid">${fields}</div>
+          <div class="vf-hp" aria-hidden="true"><label>Không điền ô này<input type="text" name="hp" tabindex="-1" autocomplete="off"></label></div>
+          <div class="vf-row wide vf-consent" data-f="dongY"><label class="vf-check"><input type="checkbox" name="dongY" value="1" required aria-describedby="vf-${p}-dongY-e"><span>${consent} Xem <a href="/quyen-rieng-tu#bieu-mau">Chính sách quyền riêng tư</a>.</span></label><p class="vf-err" id="vf-${p}-dongY-e" hidden></p></div>
+          <div class="vf-actions"><button class="btn btn-red" type="submit">${esc(submit)}</button></div>
+          <p class="vf-status" role="status" aria-live="polite"></p>
+        </form>`;
+const formHoiVien = () => vfForm('hoivien', 'hv', [
+  vfRadios('hv', 'loai', 'Loại hội viên', [['to-chuc', 'Hội viên tổ chức'], ['ca-nhan', 'Hội viên cá nhân']]),
+  vfField('hv', { k: 'ten', label: 'Họ tên / Tên tổ chức', max: 150, auto: 'organization', req: true }),
+  vfField('hv', { k: 'daiDien', label: 'Người đại diện (đối với tổ chức)', max: 120, auto: 'name' }),
+  vfField('hv', { k: 'dienThoai', label: 'Số điện thoại', type: 'tel', max: 20, auto: 'tel', mode: 'tel', req: true }),
+  vfField('hv', { k: 'email', label: 'Email', type: 'email', max: 120, auto: 'email', req: true }),
+  vfField('hv', { k: 'tinh', label: 'Tỉnh / Thành phố', max: 80, auto: 'address-level1', req: true }),
+  vfField('hv', { k: 'donVi', label: 'Đơn vị công tác / CLB', max: 150 }),
+  vfField('hv', { k: 'diaChi', label: 'Địa chỉ', max: 250, auto: 'street-address', full: true }),
+  vfField('hv', { k: 'ghiChu', label: 'Nội dung / Ghi chú', type: 'area', max: 1500, rows: 4, full: true }),
+].join(''), {
+  consent: 'Tôi đồng ý để Liên đoàn Taekwondo Việt Nam thu thập và xử lý các thông tin trên nhằm tiếp nhận đề nghị gia nhập và liên hệ lại với tôi.', submit: 'Gửi thông tin đăng ký',
+  ok: 'Đã nhận thông tin đăng ký của bạn. Việc công nhận hội viên do Ban Chấp hành Liên đoàn xem xét, quyết định sau khi nộp đủ hồ sơ tại Văn phòng Liên đoàn.',
+  okRef: 'Đã nhận thông tin đăng ký của bạn. Mã hồ sơ: {ref}. Việc công nhận hội viên do Ban Chấp hành Liên đoàn xem xét, quyết định sau khi nộp đủ hồ sơ tại Văn phòng Liên đoàn.',
+});
+const formLienHe = () => vfForm('lienhe', 'lh', [
+  vfField('lh', { k: 'ten', label: 'Họ và tên', max: 120, auto: 'name', req: true }),
+  vfField('lh', { k: 'email', label: 'Email', type: 'email', max: 120, auto: 'email', req: true }),
+  vfField('lh', { k: 'dienThoai', label: 'Số điện thoại (không bắt buộc)', type: 'tel', max: 20, auto: 'tel', mode: 'tel' }),
+  vfField('lh', { k: 'chuDe', label: 'Chủ đề', type: 'select', req: true, opts: [['hoi-vien', 'Hội viên'], ['giai-dau', 'Giải đấu, thi đẳng'], ['hop-tac', 'Hợp tác, tài trợ'], ['khac', 'Khác']] }),
+  vfField('lh', { k: 'noiDung', label: 'Nội dung', type: 'area', max: 3000, rows: 6, req: true, full: true }),
+].join(''), {
+  consent: 'Tôi đồng ý để Liên đoàn Taekwondo Việt Nam thu thập và xử lý các thông tin trên nhằm tiếp nhận và phản hồi tin nhắn của tôi.', submit: 'Gửi tin nhắn',
+  ok: 'Đã nhận tin nhắn của bạn. Cảm ơn bạn đã liên hệ Liên đoàn.', okRef: 'Đã nhận tin nhắn của bạn (mã {ref}). Cảm ơn bạn đã liên hệ Liên đoàn.',
+});
+const formNhanTin = () => vfForm('nhantin', 'nt', [
+  vfField('nt', { k: 'email', label: 'Email', type: 'email', max: 120, auto: 'email', req: true }),
+  vfField('nt', { k: 'ten', label: 'Họ và tên (không bắt buộc)', max: 120, auto: 'name' }),
+].join(''), {
+  consent: 'Tôi đồng ý để Liên đoàn Taekwondo Việt Nam lưu email này và dùng để gửi tin tức, thông báo của Liên đoàn. Tôi có thể rút lại đồng ý bất cứ lúc nào.', submit: 'Đăng ký nhận tin',
+  ok: 'Đã ghi nhận email của bạn. Cảm ơn bạn đã đăng ký nhận tin của Liên đoàn.',
+});
+
 // ===== Hoi vien (+ Hoi dap trich tu Dieu le) =====
 {
   const m = metaFor('/hoi-vien'), crumbs = [['Hội viên', null]];
@@ -803,7 +857,7 @@ const purposes = [
     file: 'hoi-vien.html', path: '/hoi-vien', active: '/hoi-vien', title: 'Hội viên', desc: m.desc, ogImage: `og-${m.og}.jpg`, crumbs, extraLd: [faqLd],
     hero: pageHero(crumbs, 'Hội viên'),
     body: `
-    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tieu-chuan">Tiêu chuẩn</a><a href="#quyen-nghia-vu">Quyền và nghĩa vụ</a><a href="#thu-tuc">Thủ tục gia nhập</a><a href="#ra-khoi">Ra khỏi Liên đoàn</a><a href="#hoi-dap">Hỏi đáp</a></div></nav>` + [
+    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tieu-chuan">Tiêu chuẩn</a><a href="#quyen-nghia-vu">Quyền và nghĩa vụ</a><a href="#thu-tuc">Thủ tục gia nhập</a>${FORMS_ON ? '<a href="#dang-ky">Đăng ký</a>' : ''}<a href="#ra-khoi">Ra khỏi Liên đoàn</a><a href="#hoi-dap">Hỏi đáp</a></div></nav>` + [
       sec('tieu-chuan', 'Hội viên và tiêu chuẩn hội viên', `<div class="grid g2">
           <div class="card big"><span class="tag">Hội viên chính thức</span><p>${esc(tidy(subOf(9, 1)[0].text, /^Hội viên chính thức:\s*/))}</p></div>
           <div class="card big"><span class="tag tag-red">Hội viên danh dự</span><p>${esc(tidy(subOf(9, 1)[1].text, /^Hội viên danh dự:\s*/))}</p></div>
@@ -827,8 +881,9 @@ const purposes = [
           <div class="card checklist"><h3>Hồ sơ hội viên tổ chức</h3><ul>${subOf(12, 2).map(b => `<li>${icon('check')}<span>${esc(b.text.replace(/[;.]$/, ''))}</span></li>`).join('')}</ul></div>
           <div class="card checklist"><h3>Hồ sơ hội viên cá nhân</h3><ul>${subOf(12, 3).map(b => `<li>${icon('check')}<span>${esc(b.text.replace(/[;.]$/, ''))}</span></li>`).join('')}</ul></div>
         </div>${src(`${dieuLink(12)} Điều lệ`)}`),
-      sec('ra-khoi', 'Thể thức ra khỏi Liên đoàn', `<ol class="numlist one">${blocks(13).filter(b => b.loai === 'khoan').map(b => `<li>${esc(b.text)}${b.so === '2' ? `<ul class="sublist">${subOf(13, 2).map(d => `<li><b>${d.so})</b> ${esc(d.text)}</li>`).join('')}</ul>` : ''}</li>`).join('')}</ol>${src(`${dieuLink(13)} Điều lệ`)}`, '', 'alt'),
-      sec('hoi-dap', 'Hỏi đáp về hội viên', `<div class="faq">${FAQ.map(([q, a, n], i) => `<details class="faq-item"${i === 0 ? ' open' : ''}><summary>${esc(q)}</summary><div class="faq-a"><p>${esc(a)}</p><p class="faq-src">Căn cứ: ${(Array.isArray(n) ? n : [n]).map(x => Array.isArray(x) ? dieuLink(...x) : dieuLink(x)).join('; ')} Điều lệ</p></div></details>`).join('')}</div>`, 'Câu trả lời tóm lược từ Điều lệ (sửa đổi, bổ sung); khi cần căn cứ chính xác, xem điều khoản được dẫn.'),
+      FORMS_ON ? sec('dang-ky', 'Gửi thông tin đăng ký gia nhập', `<div class="vf-wrap">${formHoiVien()}</div>`, `Gửi thông tin ban đầu để Liên đoàn nắm nhu cầu gia nhập. Hồ sơ chính thức nộp tại Văn phòng Liên đoàn theo ${dieuLink(12, 'Điều 12 Điều lệ')}; việc công nhận hội viên do Ban Chấp hành Liên đoàn xem xét, quyết định.`, 'alt') : '',
+      sec('ra-khoi', 'Thể thức ra khỏi Liên đoàn', `<ol class="numlist one">${blocks(13).filter(b => b.loai === 'khoan').map(b => `<li>${esc(b.text)}${b.so === '2' ? `<ul class="sublist">${subOf(13, 2).map(d => `<li><b>${d.so})</b> ${esc(d.text)}</li>`).join('')}</ul>` : ''}</li>`).join('')}</ol>${src(`${dieuLink(13)} Điều lệ`)}`, '', FORMS_ON ? '' : 'alt'),
+      sec('hoi-dap', 'Hỏi đáp về hội viên', `<div class="faq">${FAQ.map(([q, a, n], i) => `<details class="faq-item"${i === 0 ? ' open' : ''}><summary>${esc(q)}</summary><div class="faq-a"><p>${esc(a)}</p><p class="faq-src">Căn cứ: ${(Array.isArray(n) ? n : [n]).map(x => Array.isArray(x) ? dieuLink(...x) : dieuLink(x)).join('; ')} Điều lệ</p></div></details>`).join('')}</div>`, 'Câu trả lời tóm lược từ Điều lệ (sửa đổi, bổ sung); khi cần căn cứ chính xác, xem điều khoản được dẫn.', FORMS_ON ? 'alt' : ''),
     ].join(''),
   });
 }
@@ -917,7 +972,8 @@ const purposes = [
       hero: pageHero(crumbs, 'Tin tức'),
       body: sec('tin-lien-doan', 'Tin Liên đoàn', list.length
         ? `<div class="grid g3 news-grid">${list.map(newsCard).join('')}</div>${pager}`
-        : `<div class="placeholder">${icon('calendar')}<strong>Chưa có tin bài</strong><p>Tin tức hoạt động của Liên đoàn đang được cập nhật. Trong lúc chờ, bạn có thể đọc <a href="/dieu-le">Điều lệ</a> hoặc tìm hiểu <a href="/hoi-vien#thu-tuc">thủ tục gia nhập</a>.</p><p><a class="ref" href="/rss.xml">${icon('rss')}Theo dõi RSS để nhận tin mới</a></p></div>`),
+        : `<div class="placeholder">${icon('calendar')}<strong>Chưa có tin bài</strong><p>Tin tức hoạt động của Liên đoàn đang được cập nhật. Trong lúc chờ, bạn có thể đọc <a href="/dieu-le">Điều lệ</a> hoặc tìm hiểu <a href="/hoi-vien#thu-tuc">thủ tục gia nhập</a>.</p><p><a class="ref" href="/rss.xml">${icon('rss')}Theo dõi RSS để nhận tin mới</a></p></div>`)
+      + (FORMS_ON ? sec('nhan-tin', 'Đăng ký nhận tin', `<div class="vf-wrap">${formNhanTin()}</div>`, 'Để lại email để nhận tin tức, thông báo của Liên đoàn.', 'alt') : ''),
     });
   }
   for (const n of news) {
@@ -957,25 +1013,38 @@ const purposes = [
         <div class="grid g2 top">
           <div class="card feature"><span class="feat-ic">${icon('file')}</span><h3>Tiếp nhận hồ sơ hội viên</h3><p>Tổ chức, công dân Việt Nam có đủ điều kiện theo ${dieuLink(9, 'Điều 9')}, có nguyện vọng trở thành hội viên, nộp hồ sơ xin gia nhập tại Văn phòng Liên đoàn (${dieuLink(12, 'Điều 12')}).</p></div>
           <div class="card feature"><span class="feat-ic">${icon('building')}</span><h3>Văn phòng đại diện</h3><p>Việc thành lập văn phòng đại diện của Liên đoàn tại các tỉnh, thành phố trực thuộc Trung ương thực hiện theo quy định của pháp luật (${dieuLink(3, 'Điều 3')}).</p></div>
-        </div>`),
+        </div>`)
+      + (FORMS_ON ? sec('gui-lien-he', 'Gửi tin nhắn cho Liên đoàn', `<div class="vf-wrap">${formLienHe()}</div>`, 'Điền biểu mẫu dưới đây; Liên đoàn tiếp nhận qua hệ thống của website.', 'alt') : ''),
   });
 }
 
 // ===== Quyen rieng tu (mo ta dung cach website hoat dong) =====
 shell({
   file: 'quyen-rieng-tu.html', path: '/quyen-rieng-tu', active: '', title: 'Quyền riêng tư',
-  desc: 'Chính sách quyền riêng tư của website Liên đoàn Taekwondo Việt Nam: website không thu thập dữ liệu cá nhân, không dùng cookie theo dõi hay công cụ quảng cáo.',
+  desc: FORMS_ON ? 'Chính sách quyền riêng tư của website Liên đoàn Taekwondo Việt Nam: chỉ thu thập thông tin bạn tự gửi qua biểu mẫu đăng ký gia nhập, liên hệ, nhận tin; không dùng cookie theo dõi hay công cụ quảng cáo.' : 'Chính sách quyền riêng tư của website Liên đoàn Taekwondo Việt Nam: website không thu thập dữ liệu cá nhân, không dùng cookie theo dõi hay công cụ quảng cáo.',
   crumbs: [['Quyền riêng tư', null]], hero: pageHero([['Quyền riêng tư', null]], 'Quyền riêng tư'),
   body: sec('chinh-sach', 'Website này xử lý dữ liệu như thế nào', `<div class="prose">
           <ul class="bullets">
-            <li>Website là trang thông tin: <strong>không có biểu mẫu</strong>, không có đăng nhập dành cho người truy cập, không thu thập họ tên, email hay số điện thoại của người truy cập. Chỉ có một trang quản trị riêng cho người được Liên đoàn giao quyền cập nhật nội dung.</li>
+            ${FORMS_ON ? `<li>Website có <strong>ba biểu mẫu</strong>: đăng ký gia nhập hội viên, liên hệ và đăng ký nhận tin; thông tin bạn gửi qua đó được mô tả ở mục "Thông tin bạn gửi qua biểu mẫu". Ngoài ba biểu mẫu này, website không có đăng nhập dành cho người truy cập và không thu thập họ tên, email hay số điện thoại của bạn. Có một trang quản trị riêng cho người được Liên đoàn giao quyền cập nhật nội dung.</li>` : `<li>Website là trang thông tin: <strong>không có biểu mẫu</strong>, không có đăng nhập dành cho người truy cập, không thu thập họ tên, email hay số điện thoại của người truy cập. Chỉ có một trang quản trị riêng cho người được Liên đoàn giao quyền cập nhật nội dung.</li>`}
             <li><strong>Không dùng cookie theo dõi</strong>, không cài công cụ quảng cáo hay đo lường của bên thứ ba. Phông chữ được phục vụ trực tiếp từ website, không tải từ dịch vụ bên ngoài.</li>${CMS_ENDPOINT ? `
             <li>Khi mở trang, trình duyệt của bạn tải thêm phần nội dung do Liên đoàn chỉnh sửa từ <strong>Google Apps Script</strong> (script.google.com); ảnh do Liên đoàn đăng có thể được tải từ <strong>Google Drive</strong>, và video (nếu trang có) được nhúng từ <strong>YouTube</strong> (youtube-nocookie.com). Các dịch vụ này có thể ghi nhật ký kỹ thuật (địa chỉ IP, thời gian) theo chính sách của họ; website không gửi cho họ thông tin nào về bạn.</li>` : ''}
             <li>Trình duyệt của bạn chỉ lưu <strong>lựa chọn giao diện sáng/tối</strong> (localStorage) và <strong>bộ nhớ đệm</strong> giúp trang mở nhanh, đọc được khi mất mạng. Bạn có thể xóa trong phần cài đặt trình duyệt.</li>
             <li>Nhà cung cấp lưu trữ website có thể ghi nhật ký truy cập kỹ thuật (địa chỉ IP, thời gian) theo chính sách của họ để vận hành và bảo đảm an toàn dịch vụ.</li>
           </ul>
-          <p class="note">${icon('info')}<span>Khi website bổ sung biểu mẫu liên hệ, đăng ký hay công cụ thống kê, chính sách này sẽ được cập nhật trước, bao gồm việc xin đồng ý xử lý dữ liệu cá nhân theo quy định của pháp luật.</span></p>
-        </div>`),
+          <p class="note">${icon('info')}<span>${FORMS_ON ? 'Khi website bổ sung công cụ thống kê hoặc thay đổi cách xử lý dữ liệu, chính sách này sẽ được cập nhật trước, bao gồm việc xin đồng ý theo quy định của pháp luật.' : 'Khi website bổ sung biểu mẫu liên hệ, đăng ký hay công cụ thống kê, chính sách này sẽ được cập nhật trước, bao gồm việc xin đồng ý xử lý dữ liệu cá nhân theo quy định của pháp luật.'}</span></p>
+        </div>`)
+    + (FORMS_ON ? sec('bieu-mau', 'Thông tin bạn gửi qua biểu mẫu', `<div class="prose">
+          <ul class="bullets">
+            <li><strong>Đăng ký gia nhập hội viên</strong>: loại hội viên, họ tên hoặc tên tổ chức, người đại diện, số điện thoại, email, tỉnh/thành phố, địa chỉ, đơn vị công tác/CLB và ghi chú (những mục bạn điền).</li>
+            <li><strong>Liên hệ</strong>: họ và tên, email, số điện thoại (không bắt buộc), chủ đề và nội dung tin nhắn.</li>
+            <li><strong>Đăng ký nhận tin</strong>: email và họ tên (không bắt buộc).</li>
+            <li><strong>Mục đích</strong>: tiếp nhận và phản hồi yêu cầu của bạn; với đăng ký nhận tin là gửi tin tức, thông báo của Liên đoàn. Mỗi biểu mẫu có ô đồng ý bắt buộc: chưa đồng ý thì không gửi được và không có thông tin nào được lưu.</li>
+            <li><strong>Nơi lưu</strong>: các bảng tính Google Sheets riêng tư thuộc tài khoản Google của Liên đoàn, đặt trong thư mục riêng tư trên Google Drive; chỉ tài khoản được Liên đoàn cấp quyền mới xem được. Thông tin được chuyển tới đó qua Google Apps Script (script.google.com); Google có thể ghi nhật ký kỹ thuật (địa chỉ IP, thời gian) theo chính sách của họ. Website không gửi thông tin này cho đơn vị quảng cáo hay đo lường.</li>
+            <li><strong>Chống thư rác</strong>: biểu mẫu có một ô ẩn và giới hạn số lần gửi để chặn chương trình tự động; các biện pháp này không theo dõi bạn.</li>
+            <li><strong>Quyền của bạn</strong>: yêu cầu xem, sửa, xóa thông tin đã gửi hoặc rút lại đồng ý bằng cách gửi email${cfg.email ? ` tới <a href="mailto:${esc(cfg.email)}">${esc(cfg.email)}</a>` : ' tới Liên đoàn'}, nêu rõ email (và mã hồ sơ nếu có) bạn đã dùng.</li>
+          </ul>
+          <p class="note">${icon('info')}<span>Thông tin gửi qua biểu mẫu không thay thế hồ sơ chính thức xin gia nhập; hồ sơ nộp tại Văn phòng Liên đoàn theo Điều lệ.</span></p>
+        </div>`, '', 'alt') : ''),
 });
 
 // ===== 404 + trang ngoai tuyen =====

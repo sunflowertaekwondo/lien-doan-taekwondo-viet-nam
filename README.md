@@ -45,6 +45,13 @@ Sửa mọi chữ, ảnh (tải lên hoặc dán link), liên kết, video YouTu
 - **Cài đặt một lần** (10 phút): `apps-script/HUONG-DAN.md`. Chưa cài thì `data/cms.json` để trống: website chạy như cũ, không gọi máy chủ nào.
 - Kiểm thử: `node apps-script/test.mjs` (máy chủ, chạy nguyên văn `Code.gs` trong bản mô phỏng) và `node check.mjs` (cả trình duyệt thật).
 
+## Biểu mẫu đăng ký (hội viên, liên hệ, nhận tin)
+Có địa chỉ máy chủ trong `data/cms.json` (`endpoint`) thì website tự có 3 biểu mẫu: **Hội viên → Gửi thông tin đăng ký gia nhập**, **Liên hệ → Gửi tin nhắn**, **Tin tức → Đăng ký nhận tin**; trang Quyền riêng tư tự thêm mục mô tả dữ liệu thu thập. Để trống thì không có biểu mẫu nào và website không gọi ra ngoài.
+- **Nơi lưu**: 3 Google Sheet **riêng tư** trong thư mục con `Du lieu dang ky (RIENG TU)` của thư mục Drive `Web_VTF` (thư mục gốc đang công khai nên không để dữ liệu cá nhân ở đó): `VTF - Hội viên đăng ký`, `VTF - Khách hàng liên hệ`, `VTF - Người truy cập nhận tin`. Ghi theo tên cột nên thêm cột/đổi thứ tự được.
+- **An toàn**: script từ chối ghi nếu tệp bị chia sẻ công khai, không tự tạo tệp dữ liệu ở thư mục công khai, chống chèn công thức vào Sheet, ô bẫy + đo thời gian điền + giới hạn tốc độ chống thư rác, phản hồi không trả lại dữ liệu cá nhân. Người gửi phải tích ô đồng ý (liên kết tới chính sách).
+- Biểu mẫu có thuộc tính `data-cms-skip` nên trang quản trị không sửa được/không xóa nhầm ô của biểu mẫu.
+- Cài đặt: `apps-script/HUONG-DAN.md`. Kiểm thử: `node apps-script/test.mjs` (máy chủ) và `node check.mjs` (dựng `dist-forms` và gửi từng biểu mẫu bằng trình duyệt thật).
+
 ## Lệnh (chạy trong thư mục `P:\Data10\Website VTF`)
 ```bash
 npm ci               # cài công cụ kiểm tra (một lần)

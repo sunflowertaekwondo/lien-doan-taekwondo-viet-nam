@@ -298,6 +298,74 @@
   openTarget();
   window.addEventListener('hashchange', openTarget);
 
+  // ---- bieu mau dang ky: hoi vien, lien he, nhan tin (chi co tren trang khi website da noi may chu Apps Script) ----
+  var cmsTag = $('script[data-endpoint]'), EP = cmsTag ? cmsTag.getAttribute('data-endpoint') : '';
+  var RE_EMAIL = /^[a-z0-9][a-z0-9._%+']*@[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,}$/i, RE_PHONE = /^\+?\d{8,15}$/;
+  $$('form[data-vtf-form]').forEach(function (form) {
+    if (!EP) return;
+    var kind = form.getAttribute('data-vtf-form'), statusEl = $('.vf-status', form), btn = $('button[type=submit]', form), t0 = Date.now(), busy = false;
+    var rowDD = $('[data-f=daiDien]', form);
+    form.hidden = false;
+
+    function setStatus(msg, cls) { statusEl.textContent = msg; statusEl.className = 'vf-status' + (cls ? ' is-' + cls : ''); }
+    function setErr(name, msg) {
+      var row = $('[data-f="' + name + '"]', form); if (!row) return;
+      var e = $('.vf-err', row), c = $('input,select,textarea', row);
+      e.textContent = msg || ''; e.hidden = !msg;
+      if (c) { if (msg) c.setAttribute('aria-invalid', 'true'); else c.removeAttribute('aria-invalid'); }
+    }
+    function rowReq(row) { if (row.getAttribute('data-f') === 'dongY') return true; var s = $('.req', row); return !!s && !s.hidden; }
+    // loai hoi vien: chi hoi to chuc moi bat buoc nhap nguoi dai dien
+    function syncLoai() { if (!rowDD || !form.elements.loai) return; var s = $('.req', rowDD); if (s) s.hidden = form.elements.loai.value !== 'to-chuc'; }
+    if (form.elements.loai) { $$('input[name=loai]', form).forEach(function (r) { r.addEventListener('change', syncLoai); }); syncLoai(); }
+
+    function validate() {
+      var first = null, f = {}, n = 0;
+      $$('[data-f]', form).forEach(function (row) {
+        var k = row.getAttribute('data-f'), msg = '';
+        if (k === 'dongY') { f[k] = form.elements.dongY.checked; if (!f[k]) msg = 'Bạn cần đồng ý để gửi thông tin.'; }
+        else {
+          var el = form.elements[k], v = String(el && el.value != null ? el.value : '').trim();
+          f[k] = v;
+          if (!v) { if (rowReq(row)) msg = (el && (el.tagName === 'SELECT' || el.type === undefined)) ? 'Vui lòng chọn một mục.' : 'Vui lòng nhập mục này.'; }
+          else if (k === 'email' && !RE_EMAIL.test(v)) msg = 'Email chưa hợp lệ.';
+          else if (k === 'dienThoai' && !RE_PHONE.test(v.replace(/[\s.\-()]/g, ''))) msg = 'Số điện thoại chưa hợp lệ (8 đến 15 chữ số).';
+          else if (k === 'noiDung' && v.length < 10) msg = 'Nhập ít nhất 10 ký tự.';
+        }
+        setErr(k, msg);
+        if (msg) { n++; if (!first) first = row; }
+      });
+      return { f: f, n: n, first: first };
+    }
+    function focusRow(row) { var c = row && $('input,select,textarea', row); if (c) c.focus(); }
+    function fail(msg) { setStatus(msg + ' ' + (form.getAttribute('data-fallback') || ''), 'err'); }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (busy) return;
+      var r = validate();
+      if (r.n) { setStatus('Vui lòng kiểm tra lại ' + r.n + ' mục được đánh dấu.', 'err'); focusRow(r.first); return; }
+      var path = location.pathname, body = { action: 'submit', kind: kind, f: r.f, t: Date.now() - t0, hp: form.elements.hp ? form.elements.hp.value : '', page: (BASE && path.indexOf(BASE) === 0 ? path.slice(BASE.length) : path) || '/' };
+      busy = true; btn.disabled = true; setStatus('Đang gửi…', '');
+      var ctl = window.AbortController ? new AbortController() : null, timer = setTimeout(function () { if (ctl) ctl.abort(); }, 20000);
+      fetch(EP, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body), signal: ctl ? ctl.signal : undefined, credentials: 'omit' })
+        .then(function (res) { return res.json(); })
+        .then(function (j) {
+          if (j && j.ok) {
+            var t = j.ref ? form.getAttribute('data-ok-ref').replace('{ref}', j.ref) : form.getAttribute('data-ok');
+            form.reset(); syncLoai(); $$('[data-f]', form).forEach(function (row) { setErr(row.getAttribute('data-f'), ''); });
+            t0 = Date.now(); setStatus(t, 'ok');
+          } else if (j && j.errors) {
+            var first = null, n = 0;
+            Object.keys(j.errors).forEach(function (k) { setErr(k, String(j.errors[k])); n++; if (!first) first = $('[data-f="' + k + '"]', form); });
+            setStatus('Vui lòng kiểm tra lại ' + n + ' mục được đánh dấu.', 'err'); focusRow(first);
+          } else fail(String((j && j.message) || 'Chưa gửi được thông tin.'));
+        })
+        .catch(function () { fail('Không gửi được (lỗi kết nối).'); })
+        .then(function () { clearTimeout(timer); busy = false; btn.disabled = false; });
+    });
+  });
+
   // ---- service worker (doc offline, mo nhanh) ----
   var secure = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
   if ('serviceWorker' in navigator && secure) {

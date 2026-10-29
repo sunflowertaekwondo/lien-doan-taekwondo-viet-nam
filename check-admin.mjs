@@ -2,6 +2,10 @@
 // noi vao trinh duyet bang route cua Playwright (khong goi Google). check.mjs goi checkAdmin({ b, BASE, ORIGIN, check }).
 import { createBackend } from './apps-script/emulator.mjs';
 import { runBackendTests } from './apps-script/test.mjs';
+import { execFileSync, spawn } from 'node:child_process';
+import net from 'node:net';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGP4z8DwHwAFAAH/q842iQAAAABJRU5ErkJggg==', 'base64');
 const H1_KEY = 'index/m/section.0>div.0>div.0>h1.0';
@@ -153,4 +157,99 @@ export async function checkAdmin({ b, BASE, ORIGIN, check }) {
   check('Admin: đăng xuất về màn đăng nhập, xóa phiên; không dùng localStorage cho nội dung', stored.ss === null && stored.ls === 0, JSON.stringify(stored));
   check('Admin: không lỗi JS khi chạy', pageErrors.length === 0, pageErrors.slice(0, 2).join(' | '));
   await ctx.close();
+
+  await checkForms({ b, check, BASE });
+}
+
+// ---- bieu mau dang ky tren website: dung ban build co endpoint (dist-forms), phuc vu bang serve.mjs, noi may chu mo phong qua route Playwright
+async function checkForms({ b, check, BASE }) {
+  const HERE = path.dirname(fileURLToPath(import.meta.url)), EP = 'https://script.google.com/macros/s/AKfycbxKIEMTHU/exec';
+  try { execFileSync(process.execPath, ['build.mjs'], { cwd: HERE, env: { ...process.env, SITE_OUT: 'dist-forms', CMS_ENDPOINT: EP, SITE_BASE: '' }, stdio: 'pipe' }); }
+  catch (e) { check('Biểu mẫu: dựng được bản website có máy chủ (CMS_ENDPOINT)', false, String(e.stderr || e.message).slice(0, 300)); return; }
+  const port = await new Promise(res => { const s = net.createServer(); s.listen(0, () => { const p = s.address().port; s.close(() => res(p)); }); });
+  const srv = spawn(process.execPath, ['serve.mjs'], { cwd: HERE, env: { ...process.env, SERVE_DIR: 'dist-forms', PORT: String(port), SERVE_BASE: '' }, stdio: 'ignore' });
+  const U = `http://localhost:${port}`;
+  try {
+    for (let i = 0; i < 50; i++) { try { if ((await fetch(U + '/')).ok) break; } catch (e) { /* cho may chu khoi dong */ } await new Promise(r => setTimeout(r, 100)); }
+    const emu = createBackend(); emu.setup();
+    const ctx = await b.newContext({ viewport: { width: 1280, height: 900 }, serviceWorkers: 'block' });
+    await ctx.route(u => u.href.startsWith(EP), async route => { const r = route.request(); const x = await emu.http(r.method(), r.url(), r.postData()); await route.fulfill({ status: x.status, headers: x.headers, body: x.body }); });
+    const page = await ctx.newPage(), errs = [], posts = [];
+    page.on('pageerror', e => errs.push(e.message));
+    page.on('request', r => { if (r.method() === 'POST' && r.url().startsWith(EP)) posts.push(JSON.parse(r.postData())); });
+    const st = () => page.evaluate(() => document.querySelector('.vf-status').textContent);
+
+    // ---- hoi vien
+    await page.goto(U + '/hoi-vien#dang-ky', { waitUntil: 'load' });
+    const vis = await page.evaluate(() => { const f = document.querySelector('form[data-vtf-form=hoivien]'); return { shown: !f.hidden && f.offsetParent !== null, cms: f.hasAttribute('data-cms-skip'), tab: !!document.querySelector('.tabs a[href="#dang-ky"]'), ids: new Set([...document.querySelectorAll('[id]')].map(e => e.id)).size === document.querySelectorAll('[id]').length, noScriptNote: !!document.querySelector('noscript') }; });
+    await page.waitForTimeout(1700); // may chu bo qua luot gui nhanh hon 1,5 giay (chong may tu dong)
+    await page.click('form[data-vtf-form=hoivien] button[type=submit]');
+    const emptyErr = await page.evaluate(() => ({ n: document.querySelectorAll('.vf-err:not([hidden])').length, msg: document.querySelector('.vf-status').textContent, focus: document.activeElement && document.activeElement.name, inv: document.querySelectorAll('[aria-invalid=true]').length }));
+    check('Biểu mẫu hội viên (bản có máy chủ): hiện trên trang, có thẻ "Đăng ký", ô gửi bỏ qua trình chỉnh sửa; bấm gửi khi để trống thì báo lỗi từng ô, đưa con trỏ vào ô đầu, không gửi gì',
+      vis.shown && vis.cms && vis.tab && vis.ids && emptyErr.n >= 5 && /kiểm tra lại/.test(emptyErr.msg) && emptyErr.focus === 'loai' && emptyErr.inv >= 4 && posts.length === 0, JSON.stringify({ vis, emptyErr }));
+
+    await page.check('input[name=loai][value=to-chuc]');
+    const star = await page.evaluate(() => !document.querySelector('[data-f=daiDien] .req').hidden);
+    await page.check('input[name=loai][value=ca-nhan]');
+    const star2 = await page.evaluate(() => !document.querySelector('[data-f=daiDien] .req').hidden);
+    await page.check('input[name=loai][value=to-chuc]');
+    await page.fill('#vf-hv-ten', 'CLB Taekwondo Thử Nghiệm'); await page.fill('#vf-hv-dienThoai', '0912 000 111'); await page.fill('#vf-hv-email', 'khong-hop-le'); await page.fill('#vf-hv-tinh', 'Thành phố Cần Thơ');
+    await page.click('form[data-vtf-form=hoivien] button[type=submit]');
+    const e2 = await page.evaluate(() => [...document.querySelectorAll('.vf-err:not([hidden])')].map(e => e.id.replace('vf-hv-', '').replace('-e', '') + ':' + e.textContent));
+    check('Biểu mẫu hội viên: tổ chức bắt buộc nhập người đại diện (dấu * bật/tắt theo loại), email sai báo "chưa hợp lệ", chưa tích đồng ý thì không gửi',
+      star && !star2 && e2.some(x => x.startsWith('daiDien:')) && e2.some(x => /^email:Email chưa hợp lệ/.test(x)) && e2.some(x => x.startsWith('dongY:')) && posts.length === 0, e2.join(' | '));
+
+    await page.fill('#vf-hv-daiDien', 'Nguyễn Văn Thử'); await page.fill('#vf-hv-email', 'Thu.Nghiem@Example.vn'); await page.fill('#vf-hv-ghiChu', 'Ghi chú thử'); await page.check('input[name=dongY]');
+    await page.click('form[data-vtf-form=hoivien] button[type=submit]');
+    await page.waitForFunction(() => /Mã hồ sơ/.test(document.querySelector('.vf-status').textContent), null, { timeout: 8000 });
+    const row = (emu.forms('hoivien') || [])[0] || {}, sent = posts[0] || {}, after = await page.evaluate(() => ({ ten: document.querySelector('#vf-hv-ten').value, ok: document.querySelector('.vf-status').classList.contains('is-ok'), dis: document.querySelector('form[data-vtf-form=hoivien] button').disabled }));
+    check('Gửi biểu mẫu hội viên thành công: máy chủ ghi 1 dòng đúng dữ liệu, trang báo mã hồ sơ + lưu ý "Ban Chấp hành xem xét", form được xóa trắng, gửi kèm thời gian điền và trang gửi, ô bẫy rỗng',
+      posts.length === 1 && sent.kind === 'hoivien' && sent.f.loai === 'to-chuc' && sent.hp === '' && sent.page === '/hoi-vien' && sent.t >= 1500 && sent.f.dongY === true
+      && row['Họ tên / Tên tổ chức'] === 'CLB Taekwondo Thử Nghiệm' && row['Email'] === 'thu.nghiem@example.vn' && row['Người đại diện (nếu là tổ chức)'] === 'Nguyễn Văn Thử' && /^HV-\d{8}-0001$/.test(row['Mã hồ sơ'])
+      && /Ban Chấp hành/.test(await st()) && after.ten === '' && after.ok && !after.dis, JSON.stringify({ sent, row }));
+
+    // ---- lien he
+    await page.goto(U + '/lien-he', { waitUntil: 'load' }); await page.waitForTimeout(1700);
+    await page.fill('#vf-lh-ten', 'Trần Thử'); await page.fill('#vf-lh-email', 'lienhe.thu@example.vn'); await page.selectOption('#vf-lh-chuDe', 'giai-dau'); await page.fill('#vf-lh-noiDung', 'ngắn'); await page.check('input[name=dongY]');
+    await page.click('form[data-vtf-form=lienhe] button[type=submit]');
+    const shortErr = await page.evaluate(() => (document.querySelector('#vf-lh-noiDung-e') || {}).textContent);
+    await page.fill('#vf-lh-noiDung', 'Tôi muốn hỏi về lịch thi đẳng tháng 12.');
+    await page.click('form[data-vtf-form=lienhe] button[type=submit]');
+    await page.waitForFunction(() => /mã LH-/.test(document.querySelector('.vf-status').textContent), null, { timeout: 8000 });
+    const lh = (emu.forms('lienhe') || [])[0] || {};
+    check('Biểu mẫu liên hệ: nội dung quá ngắn bị chặn ngay trên trình duyệt; hợp lệ thì ghi vào tệp liên hệ (chủ đề theo nhãn, trang /lien-he), báo mã LH-…',
+      /ít nhất 10/.test(shortErr) && lh['Họ và tên'] === 'Trần Thử' && lh['Chủ đề'] === 'Giải đấu, thi đẳng' && lh['Nội dung'] === 'Tôi muốn hỏi về lịch thi đẳng tháng 12.' && lh['Trang gửi'] === '/lien-he' && /^LH-\d{8}-0001$/.test(lh['Mã liên hệ']) && emu.forms('hoivien').length === 1, JSON.stringify(lh));
+
+    // ---- nhan tin (tin tuc) + gui lai cung email
+    await page.goto(U + '/tin-tuc', { waitUntil: 'load' }); await page.waitForTimeout(1700);
+    const sendNews = async () => { await page.fill('#vf-nt-email', 'doc.gia@example.vn'); await page.check('input[name=dongY]'); await page.click('form[data-vtf-form=nhantin] button[type=submit]'); await page.waitForFunction(() => !document.querySelector('form[data-vtf-form=nhantin] button[type=submit]').disabled, null, { timeout: 8000 }); };
+    await sendNews(); const okFirst = await page.evaluate(() => document.querySelector('.vf-status').classList.contains('is-ok')); await sendNews();
+    const okSecond = await page.evaluate(() => document.querySelector('.vf-status').classList.contains('is-ok')), nPosts = posts.filter(p => p.kind === 'nhantin').length;
+    check('Đăng ký nhận tin ở trang Tin tức: ghi 1 dòng; đăng ký lại cùng email vẫn báo thành công nhưng không ghi trùng', okFirst && okSecond && nPosts === 2 && emu.forms('nhantin').length === 1 && emu.forms('nhantin')[0]['Email'] === 'doc.gia@example.vn' && emu.forms('nhantin')[0]['Trạng thái'] === 'Đang nhận tin' && emu.forms('nhantin')[0]['Trang gửi'] === '/tin-tuc');
+
+    // ---- loi may chu: hien thong bao + cach lien he truc tiep, khong bao thanh cong
+    emu.formFile('lienhe').access = 'ANYONE';
+    await page.goto(U + '/lien-he', { waitUntil: 'load' }); await page.waitForTimeout(1700);
+    await page.fill('#vf-lh-ten', 'Lỗi Thử'); await page.fill('#vf-lh-email', 'loi.thu@example.vn'); await page.selectOption('#vf-lh-chuDe', 'khac'); await page.fill('#vf-lh-noiDung', 'Thử khi máy chủ báo lỗi.'); await page.check('input[name=dongY]');
+    await page.click('form[data-vtf-form=lienhe] button[type=submit]');
+    await page.waitForFunction(() => document.querySelector('.vf-status').classList.contains('is-err'), null, { timeout: 8000 });
+    const errTxt = await st(), still = await page.evaluate(() => document.querySelector('#vf-lh-ten').value);
+    emu.formFile('lienhe').access = 'PRIVATE';
+    check('Máy chủ lỗi: người dùng thấy thông báo lỗi kèm email/điện thoại Liên đoàn, nội dung đã nhập được giữ lại để gửi lại, không có dòng nào ghi sai', /Chưa gửi được/.test(errTxt) && /tkdvn1996@gmail\.com/.test(errTxt) && still === 'Lỗi Thử' && emu.forms('lienhe').length === 1, errTxt);
+
+    // ---- chinh sach quyen rieng tu, ban mac dinh khong co bieu mau, giao dien dien thoai
+    await page.goto(U + '/quyen-rieng-tu', { waitUntil: 'load' });
+    const pv = await page.evaluate(() => ({ sec: !!document.getElementById('bieu-mau'), txt: document.body.innerText }));
+    const dflt = await (await fetch(BASE + '/hoi-vien')).text();
+    const mob = await b.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: 'block' });
+    await mob.route(u => u.href.startsWith(EP), async route => { const r = route.request(); const x = await emu.http(r.method(), r.url(), r.postData()); await route.fulfill({ status: x.status, headers: x.headers, body: x.body }); });
+    const mp = await mob.newPage(); await mp.goto(U + '/hoi-vien#dang-ky', { waitUntil: 'load' });
+    const mw = await mp.evaluate(() => ({ sw: document.documentElement.scrollWidth, iw: document.documentElement.clientWidth, col: getComputedStyle(document.querySelector('.vf-grid')).gridTemplateColumns.split(' ').length, btn: document.querySelector('form[data-vtf-form] button').getBoundingClientRect().height }));
+    await mob.close();
+    check('Chính sách quyền riêng tư (bản có biểu mẫu) mô tả dữ liệu thu thập, nơi lưu, quyền của người dùng; điện thoại 390px: form một cột, không tràn ngang, nút bấm đủ lớn',
+      pv.sec && /Đăng ký gia nhập hội viên/.test(pv.txt) && /Google Sheets riêng tư/.test(pv.txt) && /rút lại đồng ý/.test(pv.txt) && !/không có biểu mẫu/.test(pv.txt) && mw.sw <= mw.iw && mw.col === 1 && mw.btn >= 44, JSON.stringify(mw));
+    check('Bản website chưa nối máy chủ (mặc định) không chứa biểu mẫu nào', dflt.length > 1000 && !/data-vtf-form|<form/.test(dflt));
+    check('Biểu mẫu: không lỗi JS khi chạy', errs.length === 0, errs.slice(0, 2).join(' | '));
+    await ctx.close();
+  } finally { srv.kill(); }
 }
