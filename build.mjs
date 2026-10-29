@@ -20,6 +20,17 @@ const cfg = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'site.json'), 'ut
 const DL = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'dieu-le.json'), 'utf8'));
 const LTD = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'lich-thi-dau.json'), 'utf8'));
 const DH = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'dai-hoi-x-2026.json'), 'utf8'));
+// lich check-in (tu dong tu bang cua BTC bang tools/sync-check-in.mjs; CHI cot an toan, khong co CCCD/SDT/email/ten HLV)
+const CIL_FILE = path.join(HERE, 'data', 'check-in-lich.json');
+const CIL = fs.existsSync(CIL_FILE) ? JSON.parse(fs.readFileSync(CIL_FILE, 'utf8')) : null;
+if (CIL) {
+  if (!Array.isArray(CIL.lich) || !/^\d{4}-\d{2}-\d{2}$/.test(CIL.layNgay) || CIL.ngay !== DH.checkIn.ngay) throw new Error('data/check-in-lich.json khong hop le hoac khac ngay check-in: chay node tools/sync-check-in.mjs');
+  for (const x of CIL.lich) {
+    if (x.nghi) { if (typeof x.nghi !== 'string') throw new Error('check-in-lich.json: "nghi" phai la chu'); continue; }
+    if (!Number.isInteger(x.tt) || !/^\d{1,2}:\d{2}$/.test(x.gio) || typeof x.donVi !== 'string' || x.donVi.length > 60 || /@|\d{7,}/.test(x.donVi)) throw new Error('check-in-lich.json: khung gio ' + x.tt + ' khong hop le (hoac "donVi" co ve chua du lieu ca nhan)');
+    for (const k of Object.keys(x)) if (!['tt', 'gio', 'donVi', 'theBtcHlv', 'theVdv', 'quyen', 'trangThai'].includes(k)) throw new Error('check-in-lich.json: khong duoc co truong "' + k + '"');
+  }
+}
 const DH_PATH = '/dai-hoi-the-thao-toan-quoc-2026';
 // Trang quan tri (admin.html): noi dung chinh sua luu o Google Sheet qua Apps Script. De trong = khong goi may chu nao.
 const CMS_CFG = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'cms.json'), 'utf8'));
@@ -553,6 +564,23 @@ const purposes = [
   });
 }
 
+// ----- bang lich check-in (khung gio, don vi, so the; khong co thong tin ca nhan) -----
+const ciStatus = s => (s === 'PENDING' ? 'Chờ check-in' : /CHECK/i.test(s || '') ? 'Đã check-in' : (s || 'Đã đăng ký'));
+const ciNum = v => (v == null ? '—' : String(v));
+const checkInTable = () => {
+  if (!CIL) return '';
+  const slots = CIL.lich.filter(x => x.tt), used = slots.filter(x => x.donVi);
+  const body = CIL.lich.map(x => x.nghi
+    ? `<tr class="brk"><td colspan="7">${esc(x.nghi.replace(' - ', ' – '))} · Nghỉ trưa</td></tr>`
+    : x.donVi
+      ? `<tr><td data-label="TT">${x.tt}</td><td data-label="Giờ">${esc(x.gio)}</td><td data-label="Đơn vị"><strong>${esc(x.donVi)}</strong></td><td data-label="Thẻ quan chức, HLV">${ciNum(x.theBtcHlv)}</td><td data-label="Thẻ VĐV">${ciNum(x.theVdv)}</td><td data-label="Nội dung Quyền">${x.quyen ? esc(x.quyen) : '—'}</td><td data-label="Trạng thái"><span class="status ok">${esc(ciStatus(x.trangThai))}</span></td></tr>`
+      : `<tr class="free"><td data-label="TT">${x.tt}</td><td data-label="Giờ">${esc(x.gio)}</td><td colspan="5" data-label="Trạng thái"><span class="status off">Còn trống</span></td></tr>`).join('');
+  return `<h3 class="sub-h">Lịch check-in ngày ${viDate(CIL.ngay)}</h3>
+        <p>Đã có <strong>${used.length}</strong> đơn vị đăng ký khung giờ, còn <strong>${slots.length - used.length}</strong> khung giờ trống (tổng ${slots.length} khung giờ). Số thẻ là số đơn vị đã khai báo; dấu "—" là đơn vị chưa khai báo.</p>
+        <table class="table docs-table ci-table" data-cms-skip><caption class="sr">Lịch check-in ngày ${viDate(CIL.ngay)}: khung giờ, đơn vị đăng ký, số thẻ và trạng thái</caption><thead><tr><th scope="col">TT</th><th scope="col">Giờ</th><th scope="col">Đơn vị</th><th scope="col">Thẻ quan chức, HLV</th><th scope="col">Thẻ VĐV</th><th scope="col">Nội dung Quyền</th><th scope="col">Trạng thái</th></tr></thead><tbody>${body}</tbody></table>
+        <p class="note">${icon('info')}<span>Số liệu lấy từ bảng đăng ký của Ban Tổ chức ngày ${viDate(CIL.layNgay)}. Bảng chỉ hiển thị đơn vị và số thẻ; họ tên HLV, số CCCD, số điện thoại và email đăng ký không đăng công khai. Số liệu mới nhất xem ở bảng gốc bằng nút "Xem khung giờ còn trống".</span></p>`;
+};
+
 // ===== Dai hoi The thao toan quoc lan thu X nam 2026 - mon Taekwondo (data/dai-hoi-x-2026.json) =====
 // Nguon: Dieu le mon Taekwondo (QD 9/QD-BTCDHTTTQ) + So tay Check-in cua Ban To chuc; chu trich nguyen van
 {
@@ -653,6 +681,7 @@ const purposes = [
         <h3 class="sub-h">Khung giờ check-in</h3>
         <p>${esc(DH.checkIn.khungGio)} Hạn đăng ký: <strong>${esc(DH.schema.hanChotChu)}/${DH.schema.hanChot.slice(0, 4)}</strong>.</p>
         <div class="btns">${extA(DH.lienKet.khungGio, 'Xem khung giờ còn trống', 'btn btn-outline')}${extA(DH.lienKet.dangKy, 'Đăng ký khung giờ')}</div>
+        ${checkInTable()}
         <h3 class="sub-h">Thay đổi thông tin đã đăng ký</h3>
         <p>${esc(DH.checkIn.thayDoi)}</p>
         <ul class="contact-list">${DH.lienHeBtc.map(c => telA(c.ten, c.dienThoai)).join('')}</ul>

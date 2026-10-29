@@ -1,0 +1,271 @@
+{
+ "_ghi_chu": "TU DONG tao boi tools/sync-check-in.mjs tu bang dang ky cua BTC. Chi gom gio, don vi, so the, co thi Quyen, trang thai. KHONG chua ho ten HLV, CCCD, so dien thoai, email. Dung sua tay: chay lai lenh.",
+ "nguon": "https://docs.google.com/spreadsheets/d/1il-aEu2-id8FnGEbMgHwt8IImpnZl94-RRgR6trbVBk/edit?gid=0#gid=0",
+ "layNgay": "2026-10-29",
+ "ngay": "2026-11-23",
+ "lich": [
+  {
+   "tt": 1,
+   "gio": "8:00",
+   "donVi": "TP. HỒ CHÍ MINH",
+   "theBtcHlv": 12,
+   "theVdv": 22,
+   "quyen": "Có",
+   "trangThai": "PENDING"
+  },
+  {
+   "tt": 2,
+   "gio": "8:10",
+   "donVi": ""
+  },
+  {
+   "tt": 3,
+   "gio": "8:20",
+   "donVi": ""
+  },
+  {
+   "tt": 4,
+   "gio": "8:30",
+   "donVi": "HÀ NỘI",
+   "theBtcHlv": 6,
+   "theVdv": 22,
+   "quyen": "Có",
+   "trangThai": "PENDING"
+  },
+  {
+   "tt": 5,
+   "gio": "8:40",
+   "donVi": "CẦN THƠ",
+   "theBtcHlv": null,
+   "theVdv": null,
+   "quyen": null,
+   "trangThai": "PENDING"
+  },
+  {
+   "tt": 6,
+   "gio": "8:50",
+   "donVi": "LÂM ĐỒNG",
+   "theBtcHlv": null,
+   "theVdv": null,
+   "quyen": null,
+   "trangThai": "PENDING"
+  },
+  {
+   "tt": 7,
+   "gio": "9:00",
+   "donVi": "VĨNH LONG",
+   "theBtcHlv": 6,
+   "theVdv": 13,
+   "quyen": "Có",
+   "trangThai": "PENDING"
+  },
+  {
+   "tt": 8,
+   "gio": "9:10",
+   "donVi": "ĐỒNG NAI",
+   "theBtcHlv": 3,
+   "theVdv": 6,
+   "quyen": "Không",
+   "trangThai": "PENDING"
+  },
+  {
+   "tt": 9,
+   "gio": "9:20",
+   "donVi": "THÁI NGUYÊN",
+   "theBtcHlv": 11,
+   "theVdv": 8,
+   "quyen": "Không",
+   "trangThai": "PENDING"
+  },
+  {
+   "tt": 10,
+   "gio": "9:30",
+   "donVi": "GIA LAI",
+   "theBtcHlv": 6,
+   "theVdv": 16,
+   "quyen": "Có",
+   "trangThai": "PENDING"
+  },
+  {
+   "tt": 11,
+   "gio": "9:40",
+   "donVi": "TÂY NINH",
+   "theBtcHlv": 4,
+   "theVdv": 3,
+   "quyen": "Không",
+   "trangThai": "PENDING"
+  },
+  {
+   "tt": 12,
+   "gio": "9:50",
+   "donVi": "HẢI PHÒNG",
+   "theBtcHlv": 3,
+   "theVdv": 5,
+   "quyen": "Có",
+   "trangThai": "PENDING"
+  },
+  {
+   "tt": 13,
+   "gio": "10:00",
+   "donVi": "QUÂN ĐỘI",
+   "theBtcHlv": 4,
+   "theVdv": 20,
+   "quyen": "Có",
+   "trangThai": "PENDING"
+  },
+  {
+   "tt": 14,
+   "gio": "10:10",
+   "donVi": "CAND",
+   "theBtcHlv": 3,
+   "theVdv": 7,
+   "quyen": "Không",
+   "trangThai": "PENDING"
+  },
+  {
+   "tt": 15,
+   "gio": "10:20",
+   "donVi": "QUẢNG NINH",
+   "theBtcHlv": 2,
+   "theVdv": 12,
+   "quyen": "Có",
+   "trangThai": "PENDING"
+  },
+  {
+   "tt": 16,
+   "gio": "10:30",
+   "donVi": "LAI CHÂU",
+   "theBtcHlv": 1,
+   "theVdv": 7,
+   "quyen": "Không",
+   "trangThai": "PENDING"
+  },
+  {
+   "tt": 17,
+   "gio": "10:40",
+   "donVi": "ĐÀ NẴNG",
+   "theBtcHlv": 5,
+   "theVdv": 16,
+   "quyen": "Không",
+   "trangThai": "PENDING"
+  },
+  {
+   "tt": 18,
+   "gio": "10:50",
+   "donVi": "HƯNG YÊN",
+   "theBtcHlv": 3,
+   "theVdv": 10,
+   "quyen": "Có",
+   "trangThai": "PENDING"
+  },
+  {
+   "tt": 19,
+   "gio": "11:00",
+   "donVi": "AN GIANG",
+   "theBtcHlv": 5,
+   "theVdv": 21,
+   "quyen": "Có",
+   "trangThai": "PENDING"
+  },
+  {
+   "tt": 20,
+   "gio": "11:10",
+   "donVi": ""
+  },
+  {
+   "tt": 21,
+   "gio": "11:30",
+   "donVi": ""
+  },
+  {
+   "tt": 22,
+   "gio": "11:40",
+   "donVi": ""
+  },
+  {
+   "tt": 23,
+   "gio": "11:50",
+   "donVi": ""
+  },
+  {
+   "nghi": "12:00 - 13:00"
+  },
+  {
+   "tt": 24,
+   "gio": "13:00",
+   "donVi": "ĐẮK LẮK",
+   "theBtcHlv": 2,
+   "theVdv": 1,
+   "quyen": "Không",
+   "trangThai": "PENDING"
+  },
+  {
+   "tt": 25,
+   "gio": "13:10",
+   "donVi": ""
+  },
+  {
+   "tt": 26,
+   "gio": "13:20",
+   "donVi": ""
+  },
+  {
+   "tt": 27,
+   "gio": "13:30",
+   "donVi": ""
+  },
+  {
+   "tt": 28,
+   "gio": "13:40",
+   "donVi": ""
+  },
+  {
+   "tt": 29,
+   "gio": "13:50",
+   "donVi": ""
+  },
+  {
+   "tt": 30,
+   "gio": "14:00",
+   "donVi": "ĐỒNG THÁP",
+   "theBtcHlv": 4,
+   "theVdv": 13,
+   "quyen": "Không",
+   "trangThai": "PENDING"
+  },
+  {
+   "tt": 31,
+   "gio": "14:10",
+   "donVi": ""
+  },
+  {
+   "tt": 32,
+   "gio": "14:20",
+   "donVi": ""
+  },
+  {
+   "tt": 33,
+   "gio": "14:30",
+   "donVi": ""
+  },
+  {
+   "tt": 34,
+   "gio": "14:40",
+   "donVi": ""
+  },
+  {
+   "tt": 35,
+   "gio": "14:50",
+   "donVi": ""
+  },
+  {
+   "tt": 36,
+   "gio": "15:00",
+   "donVi": "HUẾ",
+   "theBtcHlv": 3,
+   "theVdv": 5,
+   "quyen": "Không",
+   "trangThai": "PENDING"
+  }
+ ]
+}

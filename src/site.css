@@ -708,3 +708,9 @@ abbr[title] { text-decoration: underline dotted; text-underline-offset: 3px; cur
 .vf-status.is-ok { color: var(--link); }
 .vf-status.is-err { color: var(--accent-text); }
 @media (max-width: 640px) { .vf-grid { grid-template-columns: minmax(0, 1fr); } }
+/* ---- bang lich check-in (Dai hoi X) ---- */
+.ci-table { margin-top: var(--sp-4); }
+.ci-table tr.free td { color: var(--muted); }
+.ci-table tr.brk td { text-align: center; font-weight: 700; color: var(--heading); background: var(--surface-2); }
+@media (min-width: 801px) { .ci-table td:first-child { width: 56px; font-variant-numeric: tabular-nums; } .ci-table td:nth-child(2) { width: 84px; font-variant-numeric: tabular-nums; } }
+@media (max-width: 800px) { .ci-table td:not([data-label])::before { content: none; } }
