@@ -578,7 +578,7 @@ const checkInTable = () => {
   return `<h3 class="sub-h">Lịch check-in ngày ${viDate(CIL.ngay)}</h3>
         <p>Đã có <strong>${used.length}</strong> đơn vị đăng ký khung giờ, còn <strong>${slots.length - used.length}</strong> khung giờ trống (tổng ${slots.length} khung giờ). Số thẻ là số đơn vị đã khai báo; dấu "—" là đơn vị chưa khai báo.</p>
         <table class="table docs-table ci-table" data-cms-skip><caption class="sr">Lịch check-in ngày ${viDate(CIL.ngay)}: khung giờ, đơn vị đăng ký, số thẻ và trạng thái</caption><thead><tr><th scope="col">TT</th><th scope="col">Giờ</th><th scope="col">Đơn vị</th><th scope="col">Thẻ quan chức, HLV</th><th scope="col">Thẻ VĐV</th><th scope="col">Nội dung Quyền</th><th scope="col">Trạng thái</th></tr></thead><tbody>${body}</tbody></table>
-        <p class="note">${icon('info')}<span>Số liệu lấy từ bảng đăng ký của Ban Tổ chức ngày ${viDate(CIL.layNgay)}. Bảng chỉ hiển thị đơn vị và số thẻ; họ tên HLV, số CCCD, số điện thoại và email đăng ký không đăng công khai. Số liệu mới nhất xem ở bảng gốc bằng nút "Xem khung giờ còn trống".</span></p>`;
+        <p class="note">${icon('info')}<span>Số liệu theo bảng đăng ký của Ban Tổ chức, được cập nhật tự động (thay đổi gần nhất ${/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(CIL.layLuc || '') ? `lúc ${CIL.layLuc.slice(11)} ` : ''}ngày ${viDate(CIL.layNgay)}). Bảng chỉ hiển thị đơn vị và số thẻ; họ tên HLV, số CCCD, số điện thoại và email đăng ký không đăng công khai. Bảng cập nhật trực tiếp xem bằng nút "Xem khung giờ còn trống".</span></p>`;
 };
 
 // ===== Dai hoi The thao toan quoc lan thu X nam 2026 - mon Taekwondo (data/dai-hoi-x-2026.json) =====

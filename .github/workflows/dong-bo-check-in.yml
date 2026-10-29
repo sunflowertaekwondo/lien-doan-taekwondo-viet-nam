@@ -1,0 +1,50 @@
+# Moi gio: lay lich check-in Dai hoi X tu bang dang ky cua Ban To chuc (tools/sync-check-in.mjs).
+# Chi khi du lieu THAY DOI: build thu -> commit data/check-in-lich.json -> kich hoat deploy.yml (GitHub Pages; Vercel tu build khi co commit moi).
+# Du lieu chi gom cot an toan (gio, don vi, so the, Quyen, trang thai); khong co ho ten HLV, CCCD, so dien thoai, email.
+# Bang goc loi / doi cau truc / du lieu bat thuong: giu nguyen ban cu, ghi canh bao (website khong bao gio nhan du lieu hong).
+name: Đồng bộ lịch check-in Đại hội X
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: dong-bo-check-in
+  cancel-in-progress: false
+jobs:
+  dong-bo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Lấy lịch check-in từ bảng của Ban Tổ chức
+        run: |
+          if ! node tools/sync-check-in.mjs; then
+            echo "::warning::Không đồng bộ được lịch check-in, giữ nguyên bản cũ"
+            git checkout -- data/check-in-lich.json
+          fi
+      - name: Nếu có thay đổi - build thử, ghi nhận, đưa lên
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- data/check-in-lich.json; then
+            echo "Không có thay đổi."
+            exit 0
+          fi
+          if ! SITE_OUT=/tmp/thu node build.mjs > /tmp/build.log 2>&1; then
+            echo "::error::Build thử lỗi với dữ liệu mới, không đưa lên"
+            tail -5 /tmp/build.log
+            git checkout -- data/check-in-lich.json
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/check-in-lich.json
+          git commit -m "Lịch check-in Đại hội X: cập nhật tự động từ bảng đăng ký của Ban Tổ chức"
+          git pull --rebase origin main
+          git push origin HEAD:main
+          gh workflow run deploy.yml --ref main

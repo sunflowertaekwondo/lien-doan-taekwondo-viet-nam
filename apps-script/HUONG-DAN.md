@@ -33,7 +33,7 @@ Ban Tổ chức quản lý lịch check-in ngày 23/11 trong một Google Sheet 
 - Thiết lập một lần bằng hàm `taoBangCheckIn()` trong `apps-script/thiet-lap-bang-check-in.gs` (dán thêm vào Apps Script rồi chạy; sau đó có thể xóa đoạn dán thêm).
 - **Không dùng `IMPORTDATA`** với đường xuất CSV của Google Sheet: trả `#REF!`. `IMPORTRANGE` chạy được vì tài khoản có quyền xem bảng gốc.
 - Công thức đọc `A3:L200` của **sheet đầu tiên** của bảng gốc (cột: TT, TIME, ĐƠN VỊ, …, TRẠNG THÁI). Nếu Ban Tổ chức đổi thứ tự cột, hoặc thu hẹp quyền xem, bảng hiện `#REF!`: sửa công thức ở ô `A4` (bảng công khai) / `A1` (bảng đầy đủ) hoặc chạy lại `taoBangCheckIn()`.
-- Bảng trên website (`/dai-hoi-the-thao-toan-quoc-2026#check-in`) là ảnh chụp tại thời điểm chạy `node tools/sync-check-in.mjs`; muốn làm mới thì chạy lệnh đó rồi đưa lên.
+- Bảng trên website (`/dai-hoi-the-thao-toan-quoc-2026#check-in`) tự cập nhật mỗi giờ nhờ `.github/workflows/dong-bo-check-in.yml` (chỉ commit khi dữ liệu đổi; bảng gốc lỗi hay dữ liệu bất thường thì giữ bản cũ). Chạy tay khi cần: `node tools/sync-check-in.mjs`. Nút "Xem khung giờ còn trống" trên website trỏ tới bảng công khai trên Drive ở trên.
 
 ## Chuẩn bị
 - Tài khoản Google của Liên đoàn (chủ thư mục `Web_VTF`).
