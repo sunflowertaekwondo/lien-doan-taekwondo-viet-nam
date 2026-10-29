@@ -9,6 +9,9 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DH = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'dai-hoi-x-2026.json'), 'utf8'));
+// qua ngay check-in 3 ngay thi thoi dong bo (bang goc khong con doi, khong chay tu dong mai); SYNC_FORCE=1 de ep chay
+const hetHan = new Date(Date.now() + 7 * 3600 * 1000).toISOString().slice(0, 10) > new Date(Date.parse(DH.checkIn.ngay + 'T00:00:00Z') + 3 * 86400000).toISOString().slice(0, 10);
+if (hetHan && process.env.SYNC_FORCE !== '1') { console.log(`Da qua ngay check-in ${DH.checkIn.ngay} hon 3 ngay: khong dong bo nua (SYNC_FORCE=1 de ep chay).`); process.exit(0); }
 const url = DH.lienKet.khungGioGoc || DH.lienKet.khungGio, m = /\/d\/([\w-]+)/.exec(url), g = /[?&#]gid=(\d+)/.exec(url);
 if (!m) throw new Error(`Khong tim thay ma bang tinh trong lienKet.khungGioGoc: ${url}`);
 const CSV = `https://docs.google.com/spreadsheets/d/${m[1]}/export?format=csv&gid=${g ? g[1] : '0'}`;
