@@ -248,7 +248,10 @@ async function checkForms({ b, check, BASE }) {
     await mob.close();
     check('Chính sách quyền riêng tư (bản có biểu mẫu) mô tả dữ liệu thu thập, nơi lưu, quyền của người dùng; điện thoại 390px: form một cột, không tràn ngang, nút bấm đủ lớn',
       pv.sec && /Đăng ký gia nhập hội viên/.test(pv.txt) && /Google Sheets riêng tư/.test(pv.txt) && /rút lại đồng ý/.test(pv.txt) && !/không có biểu mẫu/.test(pv.txt) && mw.sw <= mw.iw && mw.col === 1 && mw.btn >= 44, JSON.stringify(mw));
-    check('Bản website chưa nối máy chủ (mặc định) không chứa biểu mẫu nào', dflt.length > 1000 && !/data-vtf-form|<form/.test(dflt));
+    if (dflt.indexOf('data-endpoint="http') >= 0) {
+      const others = await Promise.all(['/lien-he', '/tin-tuc'].map(p => fetch(BASE + p).then(r => r.text())));
+      check('Website đã nối máy chủ: cả ba biểu mẫu (Hội viên, Liên hệ, Tin tức) có trên trang', dflt.indexOf('data-vtf-form="hoivien"') >= 0 && others[0].indexOf('data-vtf-form="lienhe"') >= 0 && others[1].indexOf('data-vtf-form="nhantin"') >= 0);
+    } else check('Bản website chưa nối máy chủ (mặc định) không chứa biểu mẫu nào', dflt.length > 1000 && !/data-vtf-form|<form/.test(dflt));
     check('Biểu mẫu: không lỗi JS khi chạy', errs.length === 0, errs.slice(0, 2).join(' | '));
     await ctx.close();
   } finally { srv.kill(); }
