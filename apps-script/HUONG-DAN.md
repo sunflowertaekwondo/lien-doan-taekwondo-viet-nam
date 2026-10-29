@@ -22,6 +22,19 @@ Thư mục Drive `Web_VTF` đang để chế độ "ai có liên kết cũng xem
 - Nếu lỡ xóa tệp: lần gửi sau script tự tạo lại trong thư mục riêng tư (kèm dòng tiêu đề).
 - Mở tệp bằng Excel/CSV: nội dung bắt đầu bằng `=`, `+`, `-`, `@` đã được thêm dấu `'` để không bị chạy như công thức.
 
+## Bảng check-in Đại hội X trên Drive (tự cập nhật)
+Ban Tổ chức quản lý lịch check-in ngày 23/11 trong một Google Sheet riêng (tài khoản khác). Hai bảng dưới đây **đọc thẳng từ bảng đó bằng công thức `IMPORTRANGE`**, nên tự đổi theo khi Ban Tổ chức sửa bảng gốc (không cần trigger, không cần chạy lại):
+
+| Tệp | Vị trí | Nội dung |
+|---|---|---|
+| `VTF - Lịch check-in Đại hội X (công khai, tự cập nhật)` | `Web_VTF` (công khai, ai có liên kết xem được) | Chỉ giờ, đơn vị, số thẻ, có thi Quyền, trạng thái, còn trống/đã đăng ký. **Không** có họ tên HLV, CCCD, số điện thoại, email. |
+| `VTF - Check-in Đại hội X (đầy đủ, RIÊNG TƯ)` | `Du lieu dang ky (RIENG TU)` (chỉ chủ tài khoản) | Bản đọc nguyên bảng gốc, gồm cả thông tin cá nhân. |
+
+- Thiết lập một lần bằng hàm `taoBangCheckIn()` trong `apps-script/thiet-lap-bang-check-in.gs` (dán thêm vào Apps Script rồi chạy; sau đó có thể xóa đoạn dán thêm).
+- **Không dùng `IMPORTDATA`** với đường xuất CSV của Google Sheet: trả `#REF!`. `IMPORTRANGE` chạy được vì tài khoản có quyền xem bảng gốc.
+- Công thức đọc `A3:L200` của **sheet đầu tiên** của bảng gốc (cột: TT, TIME, ĐƠN VỊ, …, TRẠNG THÁI). Nếu Ban Tổ chức đổi thứ tự cột, hoặc thu hẹp quyền xem, bảng hiện `#REF!`: sửa công thức ở ô `A4` (bảng công khai) / `A1` (bảng đầy đủ) hoặc chạy lại `taoBangCheckIn()`.
+- Bảng trên website (`/dai-hoi-the-thao-toan-quoc-2026#check-in`) là ảnh chụp tại thời điểm chạy `node tools/sync-check-in.mjs`; muốn làm mới thì chạy lệnh đó rồi đưa lên.
+
 ## Chuẩn bị
 - Tài khoản Google của Liên đoàn (chủ thư mục `Web_VTF`).
 - Tệp `apps-script/Code.gs` (có sẵn trong mã nguồn; cũng tải được tại `https://raw.githubusercontent.com/sunflowertaekwondo/lien-doan-taekwondo-viet-nam/main/apps-script/Code.gs`).
