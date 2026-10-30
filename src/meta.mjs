@@ -27,7 +27,7 @@ export const PAGES = [
   { path: '/dieu-le', file: 'dieu-le.html', og: 'dieu-le', title: 'Điều lệ Liên đoàn', ogTitle: 'Điều lệ Liên đoàn',
     desc: 'Toàn văn Điều lệ (sửa đổi, bổ sung) Liên đoàn Taekwondo Việt Nam: 8 chương, 29 điều, phê duyệt kèm Quyết định số 2/QĐ-BNV ngày 03/01/2023. Tra cứu, tải PDF.' },
   { path: '/van-ban', file: 'van-ban.html', og: 'van-ban', title: 'Văn bản pháp lý', ogTitle: 'Văn bản pháp lý',
-    desc: 'Văn bản pháp lý của Liên đoàn Taekwondo Việt Nam: Quyết định 2/QĐ-BNV phê duyệt Điều lệ, Điều lệ nhiệm kỳ VI và các căn cứ pháp lý. Xem và tải bản PDF gốc.' },
+    desc: 'Văn bản pháp lý của Liên đoàn Taekwondo Việt Nam: Quyết định 2/QĐ-BNV phê duyệt Điều lệ, Điều lệ nhiệm kỳ VI, văn bản quản lý thể thao và quy định chuyên môn. Xem và tải bản PDF gốc.' },
   { path: '/tin-tuc', file: 'tin-tuc.html', og: 'tin-tuc', title: 'Tin tức', ogTitle: 'Tin tức',
     desc: 'Tin tức Liên đoàn Taekwondo Việt Nam: thông báo, hoạt động, giải đấu và công tác chuyên môn của Liên đoàn. Theo dõi qua RSS để nhận tin mới nhất.' },
   { path: '/lien-he', file: 'lien-he.html', og: 'lien-he', title: 'Liên hệ', ogTitle: 'Liên hệ',

@@ -1,0 +1,77 @@
+{
+ "_ghi_chu": "Van ban quan ly nha nuoc ve the duc the thao va quy dinh chuyen mon hien tren trang /van-ban (muc 'Van ban quan ly the thao'). Moi muc: so, ngay (yyyy-mm-dd), trichYeu, coQuan, pdf (ten tep trong data/docs, khong dau), trang (so trang cua PDF), ghiChu (CHI ghi dieu da neu trong chinh van ban, vd ngay co hieu luc; de \"\" neu khong co). Sap xep: moi nhat truoc. KHONG ghi tinh trang 'con hieu luc' khi chua doi chieu co so du lieu phap luat chinh thuc. Them van ban: chep PDF vao data/docs roi them mot muc o day, sau do node build.mjs.",
+ "vanBan": [
+  {
+   "so": "033/QĐ-VTF",
+   "ngay": "2026-03-23",
+   "trichYeu": "Quyết định về việc ban hành Quy định tiêu chuẩn tuyển chọn huấn luyện viên, vận động viên đội tuyển, đội tuyển trẻ Taekwondo quốc gia",
+   "coQuan": "Liên đoàn Taekwondo Việt Nam",
+   "pdf": "qd-033-qd-vtf-tieu-chuan-tuyen-chon-hlv-vdv.pdf",
+   "trang": 4,
+   "ghiChu": "Có hiệu lực kể từ ngày ký (Điều 2 Quyết định)"
+  },
+  {
+   "so": "14/2025/TT-BVHTTDL",
+   "ngay": "2025-11-03",
+   "trichYeu": "Thông tư sửa đổi, bổ sung một số điều của Thông tư số 06/2021/TT-BVHTTDL ngày 22 tháng 7 năm 2021 quy định tiêu chuẩn phong đẳng cấp vận động viên thể thao thành tích cao",
+   "coQuan": "Bộ Văn hóa, Thể thao và Du lịch",
+   "pdf": "tt-14-2025-tt-bvhttdl-sua-doi-tt-06-2021.pdf",
+   "trang": 2,
+   "ghiChu": "Có hiệu lực từ ngày 01/01/2026 (Điều 3 Thông tư)"
+  },
+  {
+   "so": "Phụ lục Thông tư 14/2025/TT-BVHTTDL",
+   "ngay": "2025-11-03",
+   "trichYeu": "Tiêu chuẩn chuyên môn phong đẳng cấp vận động viên thể thao thành tích cao từng môn thể thao (có Tiêu chuẩn môn Taekwondo)",
+   "coQuan": "Bộ Văn hóa, Thể thao và Du lịch",
+   "pdf": "tt-14-2025-tt-bvhttdl-phu-luc-tieu-chuan.pdf",
+   "trang": 105,
+   "ghiChu": ""
+  },
+  {
+   "so": "282/QĐ-TDTTVN",
+   "ngay": "2025-04-21",
+   "trichYeu": "Quyết định về việc ban hành Quy định thành lập đội thể thao quốc gia",
+   "coQuan": "Cục Thể dục thể thao Việt Nam",
+   "pdf": "qd-282-qd-tdttvn-quy-dinh-thanh-lap-doi-the-thao-quoc-gia.pdf",
+   "trang": 10,
+   "ghiChu": "Có hiệu lực kể từ ngày ký (Điều 2 Quyết định)"
+  },
+  {
+   "so": "07/2021/TT-BVHTTDL",
+   "ngay": "2021-09-08",
+   "trichYeu": "Thông tư quy định về tập huấn chuyên môn thể thao đối với người hướng dẫn tập luyện thể thao",
+   "coQuan": "Bộ Văn hóa, Thể thao và Du lịch",
+   "pdf": "tt-07-2021-tt-bvhttdl-tap-huan-nguoi-huong-dan-tap-luyen.pdf",
+   "trang": 7,
+   "ghiChu": "Có hiệu lực từ ngày 01/12/2021 (Điều 6 Thông tư)"
+  },
+  {
+   "so": "01/2021/TT-BVHTTDL",
+   "ngay": "2021-02-03",
+   "trichYeu": "Thông tư quy định một số biện pháp thực hiện chức năng quản lý nhà nước về thể dục, thể thao đối với hội thể thao quốc gia",
+   "coQuan": "Bộ Văn hóa, Thể thao và Du lịch",
+   "pdf": "tt-01-2021-tt-bvhttdl-qlnn-hoi-the-thao-quoc-gia.pdf",
+   "trang": 7,
+   "ghiChu": ""
+  },
+  {
+   "so": "48/2020/TT-BGDĐT",
+   "ngay": "2020-12-31",
+   "trichYeu": "Thông tư quy định về hoạt động thể thao trong nhà trường",
+   "coQuan": "Bộ Giáo dục và Đào tạo",
+   "pdf": "tt-48-2020-tt-bgddt-hoat-dong-the-thao-nha-truong.pdf",
+   "trang": 8,
+   "ghiChu": ""
+  },
+  {
+   "so": "10/2017/TT-BVHTTDL",
+   "ngay": "2017-12-29",
+   "trichYeu": "Thông tư quy định về cơ sở vật chất, trang thiết bị và tập huấn nhân viên chuyên môn đối với môn Taekwondo",
+   "coQuan": "Bộ Văn hóa, Thể thao và Du lịch",
+   "pdf": "tt-10-2017-tt-bvhttdl-co-so-vat-chat-taekwondo.pdf",
+   "trang": 4,
+   "ghiChu": ""
+  }
+ ]
+}

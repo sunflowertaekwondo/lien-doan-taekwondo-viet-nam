@@ -964,6 +964,23 @@ const formNhanTin = () => vfForm('nhantin', 'nt', [
 {
   const m = metaFor('/van-ban'), crumbs = [['Điều lệ & Văn bản', '/dieu-le'], ['Văn bản pháp lý', null]];
   const td = (label, v) => `<td data-label="${label}">${v}</td>`;
+  // Van ban quan ly nha nuoc ve the duc the thao + quy dinh chuyen mon (data/van-ban-qlnn.json; PDF o data/docs). Kiem tra chat de khong dang trung / thieu tep.
+  const VBQ = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'van-ban-qlnn.json'), 'utf8')).vanBan;
+  const docHash = new Map(), seenSo = new Set();
+  for (const f of fs.readdirSync(path.join(HERE, 'data', 'docs'))) {
+    const h = crypto.createHash('sha256').update(fs.readFileSync(path.join(HERE, 'data', 'docs', f))).digest('hex');
+    if (docHash.has(h)) throw new Error(`data/docs: hai tệp giống hệt nhau "${docHash.get(h)}" và "${f}" (văn bản bị đăng trùng)`);
+    docHash.set(h, f);
+  }
+  for (const v of VBQ) {
+    const f = path.join(HERE, 'data', 'docs', String(v.pdf));
+    if (!v.so || !/^\d{4}-\d{2}-\d{2}$/.test(v.ngay) || !v.trichYeu || !v.coQuan || !/^[a-z0-9-]+\.pdf$/.test(v.pdf) || !fs.existsSync(f) || !Number.isInteger(v.trang) || v.trang < 1)
+      throw new Error(`data/van-ban-qlnn.json: kiểm tra mục "${v.so}" (số, ngày yyyy-mm-dd, trích yếu, cơ quan, tệp PDF có trong data/docs, số trang)`);
+    if (seenSo.has(v.so)) throw new Error(`data/van-ban-qlnn.json: trùng văn bản "${v.so}"`);
+    seenSo.add(v.so); v.bytes = fs.statSync(f).size;
+  }
+  const fsz = b => (b >= 1048576 ? `${Math.round(b / 104857.6) / 10} MB` : `${Math.round(b / 1024)} KB`);
+  const vbqRows = VBQ.map(v => `<tr>${td('Số, ký hiệu', v.so.length <= 22 ? nw(v.so) : esc(v.so))}${td('Ngày', viDate(v.ngay))}${td('Trích yếu', `${esc(v.trichYeu)}${v.ghiChu ? `<br><small>${esc(v.ghiChu)}</small>` : ''}`)}${td('Cơ quan', esc(v.coQuan))}${td('Tệp', `<a class="dl" href="/docs/${esc(v.pdf)}" target="_blank" rel="noopener">${icon('download')}PDF</a><br><small class="nw">${v.trang} trang · ${fsz(v.bytes)}</small>`)}</tr>`).join('\n          ');
   shell({
     file: 'van-ban.html', path: '/van-ban', active: '/dieu-le', title: 'Văn bản pháp lý', desc: m.desc, ogImage: `og-${m.og}.jpg`, crumbs,
     hero: pageHero(crumbs, 'Văn bản pháp lý'),
@@ -979,10 +996,13 @@ const formNhanTin = () => vfForm('nhantin', 'nt', [
           <li>Nghị định số 45/2010/NĐ-CP ngày 21/4/2010 của Chính phủ quy định về tổ chức, hoạt động và quản lý hội</li>
           <li>Nghị định số 33/2012/NĐ-CP ngày 13/4/2012 của Chính phủ sửa đổi, bổ sung một số điều của Nghị định số 45/2010/NĐ-CP</li>
         </ul>${src(`Quyết định số ${nw(DL.pheDuyet.so)} ngày ${DL.pheDuyet.ngay} của ${DL.pheDuyet.coQuan}`)}`, '', 'alt'),
+      sec('van-ban-the-thao', 'Văn bản quản lý thể thao', `<table class="table docs-table"><thead><tr><th scope="col">Số, ký hiệu</th><th scope="col">Ngày</th><th scope="col">Trích yếu</th><th scope="col">Cơ quan</th><th scope="col">Tệp</th></tr></thead><tbody>
+          ${vbqRows}
+        </tbody></table><p class="note">${icon('info')}<span>Các văn bản này do Liên đoàn đăng để tiện tra cứu, theo bản PDF Liên đoàn cung cấp. Tình trạng hiệu lực chưa được rà soát: trước khi áp dụng, hãy đối chiếu với bản mới nhất trên Cơ sở dữ liệu quốc gia về văn bản pháp luật (<a href="https://vbpl.vn" target="_blank" rel="noopener">vbpl.vn</a>). Một số bản là ảnh quét nên không tìm kiếm được chữ trong tệp.</span></p>`, 'Quy định của Nhà nước và của Liên đoàn về tuyển chọn đội tuyển, phong đẳng cấp vận động viên, tập huấn chuyên môn, hội thể thao quốc gia và môn Taekwondo.'),
       sec('van-ban-dai-hoi', `Văn bản ${DH.tenNgan} – môn ${DH.mon}`, `<div class="docs">
           ${dhDocCards()}
         </div>
-        <p class="more"><a class="ref" href="${DH_PATH}#ban-to-chuc-trong-tai">Xem Ban Tổ chức, Ban Trọng tài và thông tin thi đấu</a></p>`, `Văn bản của Ban Tổ chức ${esc(DH.ten)} về môn ${esc(DH.mon)} (${dhRange}).`),
+        <p class="more"><a class="ref" href="${DH_PATH}#ban-to-chuc-trong-tai">Xem Ban Tổ chức, Ban Trọng tài và thông tin thi đấu</a></p>`, `Văn bản của Ban Tổ chức ${esc(DH.ten)} về môn ${esc(DH.mon)} (${dhRange}).`, 'alt'),
     ].join(''),
   });
 }

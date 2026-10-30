@@ -714,3 +714,5 @@ abbr[title] { text-decoration: underline dotted; text-underline-offset: 3px; cur
 .ci-table tr.brk td { text-align: center; font-weight: 700; color: var(--heading); background: var(--surface-2); }
 @media (min-width: 801px) { .ci-table td:first-child { width: 56px; font-variant-numeric: tabular-nums; } .ci-table td:nth-child(2) { width: 84px; font-variant-numeric: tabular-nums; } }
 @media (max-width: 800px) { .ci-table td:not([data-label])::before { content: none; } }
+/* ghi chu nho trong bang van ban (so trang, kich thuoc, ngay hieu luc) */
+.docs-table td small { color: var(--muted); font-size: var(--fs-sm); }

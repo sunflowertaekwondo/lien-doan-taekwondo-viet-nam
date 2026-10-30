@@ -93,6 +93,17 @@ for (const h of internal) {
 }
 check(`${internal.length} liên kết nội bộ (kể cả #anchor, PDF, RSS) đều hợp lệ`, broken.length === 0, broken.slice(0, 5).join(' | '));
 
+// van ban quan ly the thao (data/van-ban-qlnn.json): moi muc co hang tren trang /van-ban, PDF phuc vu dung tung byte voi tep goc, khong trung
+{
+  const vb = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'van-ban-qlnn.json'), 'utf8')).vanBan, page = await (await fetch(BASE + '/van-ban')).text(), bad = [];
+  for (const v of vb) {
+    const r = await fetch(`${BASE}/docs/${v.pdf}`), buf = Buffer.from(await r.arrayBuffer()), src = fs.readFileSync(path.join(HERE, 'data', 'docs', v.pdf));
+    if (r.status !== 200 || buf.subarray(0, 5).toString() !== '%PDF-' || !buf.equals(src)) bad.push(v.so);
+    if (!page.includes(`/docs/${v.pdf}`)) bad.push('thiếu hàng ' + v.so);
+  }
+  check(`Văn bản quản lý thể thao: ${vb.length} văn bản có hàng trên trang /van-ban, PDF phục vụ đúng từng byte, số hiệu và tệp không trùng`, vb.length >= 1 && bad.length === 0 && new Set(vb.map(v => v.so)).size === vb.length && new Set(vb.map(v => v.pdf)).size === vb.length, bad.join(', '));
+}
+
 // tep may doc: sitemap, robots, RSS, manifest, service worker, anh chia se
 {
   const txt = async p => { const r = await fetch(BASE + p); return { s: r.status, t: await r.text(), ct: r.headers.get('content-type') || '' }; };
