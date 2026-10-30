@@ -28,6 +28,8 @@ body.has-chat .to-top { bottom: calc(var(--sp-5) + 64px); }
 .chat-src ul { list-style: none; padding: 0; margin: 2px 0 0; }
 .chat-src li { margin: 3px 0; }
 .chat-src a { font-weight: 600; }
+.chat-retry { display: block; margin-top: var(--sp-3); min-height: 36px; padding: 6px 14px; border: 1px solid var(--link); border-radius: var(--r-pill); background: transparent; color: var(--link); font-size: var(--fs-xs); font-weight: 700; cursor: pointer; }
+.chat-retry:hover { background: var(--surface-2); }
 .chat-chips { display: flex; flex-wrap: wrap; gap: var(--sp-2); padding: 0 var(--sp-4) var(--sp-3); background: var(--surface-2); }
 .chat-chips[hidden] { display: none; }
 .chat-chip { min-height: 36px; padding: 6px 12px; border: 1px solid var(--border); border-radius: var(--r-pill); background: var(--surface); color: var(--link); font-size: var(--fs-xs); font-weight: 600; cursor: pointer; }

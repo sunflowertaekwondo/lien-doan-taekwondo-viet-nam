@@ -24,7 +24,7 @@ export async function runApiTests({ dist = 'dist' } = {}) {
   const kb = JSON.parse(fs.readFileSync(path.join(dist, 'chat-kb.json'), 'utf8'));
   const mock = await startMockKira(0);
   const base = `${mock.url}/api/v1`;
-  const mk = (env = {}) => createHandler({ env: { KIRA_API_KEY: MOCK_KEY, KIRA_BASE_URL: base, ...env }, loadKb: async () => kb });
+  const mk = (env = {}) => createHandler({ env: { KIRA_API_KEY: MOCK_KEY, KIRA_BASE_URL: base, CHAT_BACKOFF_MS: '30', ...env }, loadKb: async () => kb });
   try {
     // --- khoa & trang thai
     let r = await call(createHandler({ env: {}, loadKb: async () => kb }), { method: 'GET' });
@@ -75,6 +75,12 @@ export async function runApiTests({ dist = 'dist' } = {}) {
     // --- su co phia Kira
     r = await ask(h, 'LOI500');
     t('Kira lỗi 500: trả 502 kèm số điện thoại/email Văn phòng, không lộ chi tiết lỗi', r.code === 502 && /Văn phòng/.test(r.body.answer) && !/exploded/.test(JSON.stringify(r.body)), r.body.answer);
+    const bp = mock.calls.length;
+    r = await ask(h, 'PRIMARYDOWN xin chào');
+    t('Mô hình chính của Kira bị lỗi 500 → tự chuyển sang mô hình dự phòng và vẫn trả lời', r.code === 200 && r.body.ok && r.body.model === 'kira-2.5-flash' && mock.calls.length - bp === 2 && mock.calls.at(-1).model === 'kira-2.5-flash', `${r.code} model=${r.body.model} calls=${mock.calls.length - bp}`);
+    const b5 = mock.calls.length;
+    await ask(h, 'LOI500 lần nữa');
+    t('Kira lỗi 500 ở mọi mô hình: thử đủ 3 lần (mô hình chính, 2 dự phòng) rồi mới báo lỗi', mock.calls.length - b5 === 3 && [...new Set(mock.calls.slice(-3).map(x => x.model))].length === 3, mock.calls.slice(-3).map(x => x.model).join(','));
     r = await ask(h, 'LOI429');
     t('Kira quá tải 429: báo khách chờ ít phút', r.code === 429 && /chờ/.test(r.body.answer));
     r = await ask(mk({ CHAT_TIMEOUT_MS: '9000', CHAT_ATTEMPT_MS: '600' }), 'CHAM');
@@ -105,7 +111,7 @@ export async function runApiTests({ dist = 'dist' } = {}) {
 
     // --- cau hoi theo so Dieu, hinh/lien ket trong ngu canh
     mock.calls.length = 0;
-    r = await ask(h, 'Còn Điều 9 nói gì?');
+    r = await ask(h, 'Điều 9 của Điều lệ Liên đoàn nói gì?');
     const sys9 = mock.calls[0]?.messages?.[0]?.content || '';
     t('Hỏi "Điều 9": đoạn có tiêu đề Điều 9 được đưa lên đầu ngữ cảnh', sys9.indexOf('Điều 9. Hội viên, tiêu chuẩn hội viên') > -1 && sys9.indexOf('Điều 9. Hội viên, tiêu chuẩn hội viên') < sys9.indexOf('[2]'));
     mock.calls.length = 0;

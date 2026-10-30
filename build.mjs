@@ -1198,7 +1198,7 @@ fs.writeFileSync(path.join(DIST, '.nojekyll'), '', 'utf8');
 // Co so kien thuc cho tro ly AI LinhKate (api/chat.mjs doc tep chat-kb.json tu chinh website): chi trich lai chu co tren cac trang
 {
   const lienHe = [`Liên đoàn Taekwondo Việt Nam (${cfg.tenVietTat || 'VTF'}) – thông tin liên hệ Văn phòng.`, cfg.diaChi && `Địa chỉ trụ sở: ${cfg.diaChi}.`, cfg.dienThoai && `Điện thoại: ${cfg.dienThoai}.`, cfg.email && `Email: ${cfg.email}.`, SITE_URL && `Website: ${SITE_URL}.`].filter(Boolean).join('\n');
-  buildChatKb({ dist: DIST, siteUrl: SITE_URL, log: true, site: { ten: cfg.tenTiengViet, vietTat: cfg.tenVietTat, diaChi: cfg.diaChi, dienThoai: cfg.dienThoai, email: cfg.email, url: SITE_URL },
+  buildChatKb({ dist: DIST, siteUrl: SITE_URL, log: true, docsDir: path.join(HERE, 'data', 'kb-docs'), site: { ten: cfg.tenTiengViet, vietTat: cfg.tenVietTat, diaChi: cfg.diaChi, dienThoai: cfg.dienThoai, email: cfg.email, url: SITE_URL },
     extraChunks: [{ p: '/lien-he', pt: 'Liên hệ', h: 'Thông tin liên hệ Văn phòng Liên đoàn', t: lienHe }] });
 }
 

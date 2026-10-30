@@ -118,7 +118,31 @@ export function parsePage(html, pageUrl, siteUrl) {
   return { path: pageUrl, title: h1 || title, chunks: [first, ...chunks] };
 }
 
-export function buildChatKb({ dist, siteUrl, site = {}, extraChunks = [], log = false }) {
+// Tep chu thuan trong data/kb-docs (tu PDF/Word da dang tren website): "---\ntrang: ..\nneo: ..\ntieuDe: ..\npdf: ..\n---\n<noi dung>"
+// Cat theo "Điều N." / "Chương", tieu de khoan ngan ("7.5.1. Thi lên Nhất (01) đẳng:") va gioi han ~1100 ky tu; moi doan kem lien ket ban PDF.
+export function chunkDocText(raw) {
+  const m = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/.exec(raw.replace(/\r\n/g, '\n'));
+  if (!m) return [];
+  const meta = Object.fromEntries(m[1].split('\n').map(l => { const i = l.indexOf(':'); return [l.slice(0, i).trim(), l.slice(i + 1).trim()]; }));
+  const lines = m[2].split('\n').map(l => l.trim()).filter(Boolean);
+  const out = [];
+  let hDieu = '', hKhoan = '', cur = '';
+  const flush = () => {
+    if (cur.trim().length > 25) out.push({ p: meta.trang, a: meta.neo, pt: meta.tieuDe, h: [hDieu, hKhoan].filter(Boolean).join(' › '), t: cur.trim(), i: [], l: meta.pdf ? [{ h: meta.pdf, t: 'Xem hoặc tải toàn văn (PDF)' }] : [] });
+    cur = '';
+  };
+  const reDieu = /^(Điều \d+\.|Chương [IVXLC]+\b)/, reKhoan = /^\d+\.\d+(\.\d+)*\.?\s+\S/;
+  for (const line of lines) {
+    if (reDieu.test(line)) { flush(); hDieu = line.slice(0, 120); hKhoan = ''; cur = line + '\n'; continue; }
+    if (reKhoan.test(line) && line.length < 110 && /:$|^[^.;]*$/.test(line)) { if (cur.length > 300) flush(); hKhoan = line.replace(/:$/, ''); cur += line + '\n'; continue; }
+    cur += line + '\n';
+    if (cur.length > 1100) flush();
+  }
+  flush();
+  return out;
+}
+
+export function buildChatKb({ dist, siteUrl, site = {}, extraChunks = [], docsDir = '', log = false }) {
   const pages = [];
   const walk = d => fs.readdirSync(d, { withFileTypes: true }).flatMap(e => e.isDirectory() ? (['assets', 'docs', 'fonts', 'img'].includes(e.name) ? [] : walk(path.join(d, e.name))) : [path.join(d, e.name)]);
   for (const f of walk(dist).filter(f => f.endsWith('.html')).sort()) {
@@ -136,10 +160,16 @@ export function buildChatKb({ dist, siteUrl, site = {}, extraChunks = [], log = 
     // dan dau moi doan bang ten trang + muc de tim kiem/hien thi
     chunks.push({ id: chunks.length + 1, p: pg.path, a: c.a || '', pt: pg.title, h: c.h || '', t: c.t, i: c.i, l: c.l });
   }
+  let docChunks = 0;
+  if (docsDir && fs.existsSync(docsDir)) {
+    for (const f of fs.readdirSync(docsDir).filter(f => f.endsWith('.txt')).sort()) {
+      for (const c of chunkDocText(fs.readFileSync(path.join(docsDir, f), 'utf8'))) { chunks.push({ id: chunks.length + 1, ...c }); docChunks++; }
+    }
+  }
   for (const c of extraChunks) chunks.push({ id: chunks.length + 1, i: [], l: [], a: '', ...c });
   const kb = { v: 1, built: new Date().toISOString().slice(0, 10), site, chunks };
   const out = JSON.stringify(kb);
   fs.writeFileSync(path.join(dist, 'chat-kb.json'), out, 'utf8');
-  if (log) console.log(`chat-kb.json: ${pages.length} trang, ${chunks.length} doan, ${(out.length / 1024).toFixed(0)} KB`);
+  if (log) console.log(`chat-kb.json: ${pages.length} trang + ${docChunks} doan tu van ban PDF, ${chunks.length} doan, ${(out.length / 1024).toFixed(0)} KB`);
   return { pages: pages.length, chunks: chunks.length, bytes: out.length };
 }

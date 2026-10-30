@@ -116,12 +116,18 @@
     form.addEventListener('submit', function (e) { e.preventDefault(); submit(); });
     function submit() { var q = input.value.trim(); if (q) ask(q); }
 
-    function ask(q) {
+    // cau tra loi loi (may chu ban/Kira truc trac): them nut "Thu lai" gui lai dung cau hoi, khong bat khach go lai
+    function addRetry(b, q) {
+      var btn = el('button', { type: 'button', class: 'chat-retry', text: 'Thử lại' });
+      btn.addEventListener('click', function () { if (pending) return; b.remove(); ask(q, true); });
+      b.appendChild(btn);
+    }
+    function ask(q, retry) {
       q = q.slice(0, MAX_LEN);
-      if (pending || Date.now() - lastSent < 1200) return;
+      if (pending || (!retry && Date.now() - lastSent < 1200)) return;
       pending = true; lastSent = Date.now(); send.disabled = true; chips.hidden = true;
-      input.value = ''; grow();
-      log.push({ role: 'user', content: q }); bubble('user', q);
+      if (!retry) { input.value = ''; grow(); }
+      log.push({ role: 'user', content: q }); if (!retry) bubble('user', q);
       var typing = el('div', { class: 'chat-msg bot chat-typing', 'aria-label': 'LinhKate đang soạn câu trả lời' }, [el('span'), el('span'), el('span')]);
       msgs.appendChild(typing); msgs.scrollTop = msgs.scrollHeight;
       var ctl = window.AbortController ? new AbortController() : null, timer = setTimeout(function () { ctl && ctl.abort(); }, 40000);
@@ -131,15 +137,18 @@
         .then(function (d) {
           var text = d && d.answer ? d.answer : 'Dạ, em đang gặp trục trặc nên chưa trả lời được ngay. Anh/chị vui lòng thử lại sau hoặc xem trang Liên hệ ạ.';
           var extra = d && d.ok ? { sources: d.sources, links: d.links, images: d.images } : null;
-          typing.remove(); bubble('bot', text, extra);
+          typing.remove(); var bb = bubble('bot', text, extra);
           if (d && d.ok) log.push({ role: 'assistant', content: text, extra: extra });
-          else log.pop();          // cau loi khong dua vao lich su gui len mo hinh
+          else {
+            log.pop();          // cau loi khong dua vao lich su gui len mo hinh
+            if (!d || ['upstream', 'timeout', 'busy', 'kb', 'empty'].indexOf(d.code) >= 0) addRetry(bb, q);
+          }
           if (log.length > 30) log = log.slice(-30);
           store.set(KEY_LOG, log);
         })
         .catch(function () {
           typing.remove(); log.pop();
-          bubble('bot', 'Dạ, em chưa kết nối được. Anh/chị vui lòng kiểm tra mạng rồi hỏi lại giúp em ạ.');
+          addRetry(bubble('bot', 'Dạ, em chưa kết nối được. Anh/chị vui lòng kiểm tra mạng rồi hỏi lại giúp em ạ.'), q);
         })
         .then(function () { clearTimeout(timer); pending = false; send.disabled = false; if (open) input.focus(); });
     }

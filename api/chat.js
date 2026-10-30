@@ -19,6 +19,8 @@ const cfg = env => ({
   maxTokens: num(env.CHAT_MAX_TOKENS, 600),
   budget: num(env.CHAT_TIMEOUT_MS, 27000),      // tong thoi gian cho phep (Vercel Function toi da 30 giay)
   attempt: num(env.CHAT_ATTEMPT_MS, 13000),     // thoi gian toi da cho moi lan goi; cham hon thi thu lai 1 lan
+  fallback: String(env.KIRA_FALLBACK_MODELS ?? 'kira-2.5-flash,kira-flash').split(',').map(x => x.trim()).filter(Boolean),   // mo hinh du phong khi mo hinh chinh loi
+  backoff: num(env.CHAT_BACKOFF_MS, 600),
   pauseMs: num(env.CHAT_PAUSE_MS, 10 * 60e3),   // het so du / khoa sai: tam dung de website an nut chat
 });
 
@@ -117,30 +119,35 @@ export function createHandler(deps = {}) {
     const messages = chatMessages({ system: systemPrompt({ site, now: new Date(now()), chunks }), history, question: last.content });
     const t0 = Date.now();
     let raw = '', lastErr = null;
-    for (let attempt = 1; attempt <= 2 && !raw; attempt++) {
+    // Thuc te: Kira dong thoi co luc bao "Unable to connect to the AI model server" (500) vai phut. Thu toi da 3 lan, lan sau doi sang mo hinh du phong.
+    const models = [...new Set([c.model, ...c.fallback])];
+    let usedModel = c.model;
+    for (let attempt = 1; attempt <= 3 && !raw; attempt++) {
       const left = c.budget - (Date.now() - t0);
       if (left < 3000) break;
+      if (attempt > 1) await new Promise(r => setTimeout(r, c.backoff * (attempt - 1)));
+      const model = models[Math.min(attempt - 1, models.length - 1)];
       try {
         const r = await doFetch(`${c.base}/chat/completions`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${c.key}` },
-          body: JSON.stringify({ model: c.model, messages, temperature: 0.3, max_tokens: c.maxTokens, stream: false }),
+          body: JSON.stringify({ model, messages, temperature: 0.3, max_tokens: c.maxTokens, stream: false }),
           signal: AbortSignal.timeout(Math.min(c.attempt, left)),
         });
         const data = await r.json().catch(() => null);
         if (!r.ok) {
           const msg = clip(String(data?.error?.message || data?.error?.code || ''), 160);
-          console.error(`chat: Kira tra ${r.status} (lan ${attempt}): ${msg}`);
+          console.error(`chat: Kira tra ${r.status} (lan ${attempt}, ${model}): ${msg}`);
           if (r.status === 402 || r.status === 401 || r.status === 403) { pausedUntil = now() + c.pauseMs; return send(503, { ok: false, code: r.status === 402 ? 'quota' : 'auth', answer: SAY.off }); }
           if (r.status === 429) return send(429, { ok: false, code: 'busy', answer: SAY.busy });
           lastErr = { status: r.status };
-          if (r.status < 500) break;      // loi tu phia yeu cau: thu lai cung vo ich
+          if (r.status < 500 && ![400, 404, 422].includes(r.status)) break;      // loi tu phia yeu cau khac: thu lai vo ich; 400/404/422 co the do mo hinh nay -> thu mo hinh khac
           continue;
         }
         raw = textOf(data).trim();
-        if (!raw) { console.error(`chat: Kira tra noi dung rong (lan ${attempt})`); lastErr = { status: 'empty' }; }
+        if (raw) usedModel = model; else { console.error(`chat: Kira tra noi dung rong (lan ${attempt}, ${model})`); lastErr = { status: 'empty' }; }
       } catch (e) {
-        console.error(`chat: loi goi Kira (lan ${attempt}):`, e.name, e.message);
+        console.error(`chat: loi goi Kira (lan ${attempt}, ${model}):`, e.name, e.message);
         lastErr = { status: e.name === 'TimeoutError' ? 'timeout' : 'network' };
       }
     }
@@ -162,7 +169,7 @@ export function createHandler(deps = {}) {
     const qTok = new Set(tokens(last.content).filter(t => t.length > 1));   // hinh nao co chu thich khop cau hoi nhat thi dua len truoc
     const rank = alt => tokens(alt).filter(t => qTok.has(t)).length;
     const images = uniq(used.flatMap(x => x.i.map(i => ({ src: i.s, alt: i.a, url: srcUrl(x) }))), i => i.src).sort((x, y) => rank(y.alt) - rank(x.alt)).slice(0, 2);
-    return send(200, { ok: true, answer: guarded.answer, sources, links, images, model: c.model });
+    return send(200, { ok: true, answer: guarded.answer, sources, links, images, model: usedModel });
   };
 }
 

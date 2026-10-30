@@ -73,6 +73,20 @@ export async function checkChat({ b, BASE, HERE, check, errors }) {
     await page.click('.chat-fab');
     const kept = await page.evaluate(() => ({ me: document.querySelectorAll('.chat-msg.me').length, bot: document.querySelectorAll('.chat-msg.bot').length }));
     check('Trợ lý LinhKate: lịch sử trò chuyện giữ lại khi tải lại trang (trong phiên), câu lỗi không đưa vào lịch sử gửi Kira', kept.me >= 2 && kept.bot >= 3, JSON.stringify(kept));
+    // máy chủ trục trặc một lần: khách thấy nút "Thử lại", bấm là gửi lại đúng câu hỏi (không hiện câu hỏi hai lần)
+    let n502 = 0;
+    await page.route('**/api/chat', route => (route.request().method() === 'POST' && n502++ === 0)
+      ? route.fulfill({ status: 502, contentType: 'application/json', body: JSON.stringify({ ok: false, code: 'upstream', answer: 'Dạ, em đang gặp trục trặc nên chưa trả lời được ngay.' }) })
+      : route.continue());
+    await page.waitForTimeout(1300);
+    const usersBefore = await page.locator('.chat-msg.me').count();
+    await page.fill('.chat-in', 'Địa chỉ văn phòng Liên đoàn ở đâu?');
+    await page.press('.chat-in', 'Enter');
+    await page.waitForSelector('.chat-retry', { timeout: 8000 });
+    await page.click('.chat-retry');
+    await page.waitForFunction(() => !document.querySelector('.chat-retry') && !document.querySelector('.chat-typing') && document.querySelector('.chat-msg.bot:last-child .chat-src'), null, { timeout: 8000 });
+    const usersAfter = await page.locator('.chat-msg.me').count();
+    check('Trợ lý LinhKate: máy chủ trục trặc → hiện nút "Thử lại"; bấm là gửi lại đúng câu hỏi và nhận được câu trả lời (không lặp câu hỏi)', usersAfter === usersBefore + 1 && n502 >= 2, `me ${usersBefore}→${usersAfter}, yêu cầu ${n502}`);
     const foreign = [...hosts].filter(h => !/^localhost:/.test(h) && !/kaspersky-labs|kis\.v2\.scr/.test(h) && !/^script\.google(usercontent)?\.com$/.test(h));   // bo qua may chu noi dung (Apps Script) va phan mem diet virus tu chen
     check('Trợ lý LinhKate: trình duyệt chỉ nói chuyện với chính website (không gọi thẳng kiraai.vn, khóa không lộ ra trình duyệt)', foreign.length === 0, foreign.join(', ') || 'chỉ localhost');
     const html = await (await fetch(site.url + '/assets/' + fs.readdirSync(path.join(dist, 'assets')).find(f => /^chat\./.test(f)))).text();

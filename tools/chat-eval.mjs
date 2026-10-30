@@ -35,17 +35,25 @@ export const CASES = [
   ['Trọng tài giải Taekwondo Vĩnh Long', ['/lich-thi-dau']],
   ['Thông tư tiêu chuẩn tuyển chọn huấn luyện viên đội tuyển', ['/van-ban']],
   ['Còn Điều 9 nói gì?', ['/dieu-le']],
+  ['Nội dung thi lên 1 đẳng', ['/van-ban'], 'Taegeuk 8'],
+  ['Nội dung thi lên 3 đẳng gồm những gì', ['/van-ban'], 'Keumgang'],
+  ['Lệ phí thi lên đẳng là bao nhiêu?', ['/van-ban'], '400.000'],
+  ['Võ sinh dưới 6 tuổi có được thi lên cấp không?', ['/van-ban'], '6 tuổi'],
+  ['Thành phần ban giám khảo thi thăng đẳng', ['/van-ban'], 'số lẻ'],
+  ['Ai được ưu tiên thi thăng đẳng sớm?', ['/van-ban'], 'ưu tiên'],
+  ['Thi lên 4 đẳng cần độ tuổi tối thiểu bao nhiêu', ['/van-ban'], '18 tuổi'],
+  ['Tiêu chuẩn tuyển chọn huấn luyện viên đội tuyển Taekwondo quốc gia', ['/van-ban'], 'huấn luyện viên'],
   ['Điều 12 Điều lệ quy định thủ tục kết nạp hội viên thế nào', ['/dieu-le']],
 ];
 
-export function runEval(dist, { k = 3, verbose = false } = {}) {
+export function runEval(dist, { k = 5, verbose = false } = {}) {
   const kb = JSON.parse(fs.readFileSync(path.join(dist, 'chat-kb.json'), 'utf8'));
   const index = buildIndex(kb);
   const fails = [];
   let hit = 0;
-  for (const [q, pages] of CASES) {
+  for (const [q, pages, must] of CASES) {
     const top = search(index, q, { k });
-    const ok = top.some(r => pages.includes(r.c.p));
+    const ok = top.some(r => pages.includes(r.c.p) && (!must || r.c.t.toLowerCase().includes(must.toLowerCase())));
     if (ok) hit++; else fails.push(`${q} -> ${top.map(r => r.c.p + '#' + r.c.a).join(' | ')}`);
     if (verbose) console.log(ok ? 'OK  ' : 'FAIL', q, '=>', top.map(r => `${r.c.p}#${r.c.a}(${r.score.toFixed(1)})`).join(' '));
   }
