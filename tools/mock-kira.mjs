@@ -7,7 +7,7 @@ import http from 'node:http';
 export const MOCK_KEY = 'test-key-khong-phai-khoa-that';
 
 export function startMockKira(port = 0) {
-  const calls = [];
+  const calls = [], counters = new Map();
   const server = http.createServer((req, res) => {
     let raw = '';
     req.on('data', d => { raw += d; });
@@ -19,6 +19,10 @@ export function startMockKira(port = 0) {
       calls.push(body);
       const sys = body.messages.find(m => m.role === 'system')?.content || '';
       const q = body.messages[body.messages.length - 1]?.content || '';
+      if (/LOI402/.test(q)) return json(402, { error: { message: 'Insufficient VND wallet balance', type: 'insufficient_quota', code: 'vnd_balance_exhausted' } });
+      if (/BIAMAIL/.test(q)) return json(200, { choices: [{ message: { role: 'assistant', content: 'Dạ anh/chị liên hệ số 028 3824 9999 hoặc email giamdoc@vtf-gia.vn. Em cũng xin gửi https://vtf-gia.example/ky-thi ạ. Văn phòng ở số 219 Lý Thường Kiệt.\nNGUỒN: 1' } }] });
+      const once = k => { const n = (counters.get(k + q) || 0) + 1; counters.set(k + q, n); return n === 1; };
+      if (/RONGMOT/.test(q) && once('r')) return json(200, { choices: [{ message: { role: 'assistant', content: '' } }] });
       if (/LOI500/.test(q)) return json(500, { error: { message: 'upstream exploded', code: 'server_error' } });
       if (/LOI429/.test(q)) return json(429, { error: { message: 'rate limit', code: 'rate_limit' } });
       if (/HTMLTAG/.test(q)) return json(200, { choices: [{ message: { role: 'assistant', content: 'Dạ <b>chào</b> anh<script>alert(1)</script> <img src=x onerror=alert(2)>\nNGUỒN: không' } }] });
@@ -26,7 +30,7 @@ export function startMockKira(port = 0) {
       const answer = `Dạ, em là LinhKate, thư ký VTF. ${first ? first[1].slice(0, 120) : 'Em chưa thấy thông tin này trên website.'}`;
       const tail = /KHONGNGUON/.test(q) ? '' : `\nNGUỒN: ${first ? '1, 2' : 'không'}`;
       const reply = () => json(200, { id: 'mock', object: 'chat.completion', model: body.model, choices: [{ index: 0, message: { role: 'assistant', content: answer + tail }, finish_reason: 'stop' }], usage: { prompt_tokens: 10, completion_tokens: 10, total_tokens: 20 } });
-      if (/CHAM/.test(q)) setTimeout(reply, 3000); else reply();
+      if (/CHAMMOT/.test(q)) { if (once('c')) setTimeout(reply, 4000); else reply(); } else if (/CHAM/.test(q)) setTimeout(reply, 3000); else reply();
     });
   });
   return new Promise(resolve => server.listen(port, '127.0.0.1', () => resolve({ server, calls, port: server.address().port, url: `http://127.0.0.1:${server.address().port}`, close: () => new Promise(r => server.close(r)) })));

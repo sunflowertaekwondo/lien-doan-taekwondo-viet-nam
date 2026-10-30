@@ -99,6 +99,8 @@ Khung chat "Hỏi LinhKate" ở góc phải mọi trang: LinhKate xưng "em", l�
 
 **Cài khóa (làm một lần, KHÔNG ghi khóa vào mã nguồn):** Vercel → dự án `lien-doan-taekwondo-viet-nam` → Settings → Environment Variables → thêm `KIRA_API_KEY` = khóa dạng `kira_…` (chọn Production) → Deployments → Redeploy. Chưa cài khóa thì website tự ẩn nút chat. Muốn tắt chatbot: xóa biến này rồi Redeploy.
 
-Biến tùy chọn: `KIRA_MODEL` (mặc định `kira-chatbox`, model dành cho chatbox website; có thể đổi `kira-3.5-flash`), `CHAT_RPM` (số câu/phút/người, mặc định 10), `CHAT_DAILY_PER_IP` (60), `CHAT_DAILY_CAP` (3000 câu/ngày cho cả website — chặn tốn tiền khi bị lạm dụng), `CHAT_MAX_TOKENS` (600).
+Biến tùy chọn: `KIRA_MODEL` (mặc định `kira-chatbox`, model dành cho chatbox website; có thể đổi `kira-3.5-flash`), `CHAT_RPM` (số câu/phút/người, mặc định 10), `CHAT_DAILY_PER_IP` (60), `CHAT_DAILY_CAP` (3000 câu/ngày cho cả website — chặn tốn tiền khi bị lạm dụng), `CHAT_MAX_TOKENS` (600), `CHAT_ATTEMPT_MS` (13000: mỗi lần gọi Kira chậm hơn mức này thì thử lại 1 lần), `CHAT_PAUSE_MS` (10 phút: khi Kira báo hết số dư hoặc từ chối khóa, trợ lý tự ẩn nút chat rồi thử lại sau).
+
+**Chi phí:** mỗi câu hỏi tốn khoảng 2–3 nghìn token đầu vào. Tài khoản Kira cần còn gói hoặc số dư ví (gói Standard 50.000đ/tháng cho 5 triệu token ≈ vài nghìn câu hỏi); hết số dư thì chatbot tự ẩn, các phần khác của website không ảnh hưởng. LinhKate còn tự loại số điện thoại/email/đường dẫn không có trên website khỏi câu trả lời (`api/_lib/guard.mjs`).
 
 Chạy thử trên máy: `CHAT_MOCK=1 node serve.mjs` (Kira giả, không tốn tiền) hoặc `KIRA_API_KEY=… node serve.mjs` (Kira thật; đừng lưu khóa vào tệp trong dự án). Đổi giọng điệu/quy tắc của LinhKate: sửa `api/_lib/prompt.mjs`.

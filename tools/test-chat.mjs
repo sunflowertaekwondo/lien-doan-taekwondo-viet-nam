@@ -77,10 +77,38 @@ export async function runApiTests({ dist = 'dist' } = {}) {
     t('Kira lỗi 500: trả 502 kèm số điện thoại/email Văn phòng, không lộ chi tiết lỗi', r.code === 502 && /Văn phòng/.test(r.body.answer) && !/exploded/.test(JSON.stringify(r.body)), r.body.answer);
     r = await ask(h, 'LOI429');
     t('Kira quá tải 429: báo khách chờ ít phút', r.code === 429 && /chờ/.test(r.body.answer));
-    r = await ask(mk({ CHAT_TIMEOUT_MS: '700' }), 'CHAM');
-    t('Kira chậm quá thời hạn: trả 504 lịch sự', r.code === 504 && /Văn phòng/.test(r.body.answer));
-    r = await ask(mk({ KIRA_API_KEY: 'khoa-sai' }), 'xin chào');
-    t('Khóa sai (401 từ Kira): không lộ lỗi cho khách', r.code === 502 && !/Invalid|khoa-sai/.test(JSON.stringify(r.body)));
+    r = await ask(mk({ CHAT_TIMEOUT_MS: '9000', CHAT_ATTEMPT_MS: '600' }), 'CHAM');
+    t('Kira chậm quá thời hạn (cả hai lần thử): trả 504 lịch sự kèm liên hệ', r.code === 504 && /Văn phòng/.test(r.body.answer));
+    const slow = mk({ CHAT_ATTEMPT_MS: '1000' }), before = mock.calls.length;
+    r = await ask(slow, 'CHAMMOT xin chào');
+    t('Lần gọi đầu chậm → tự thử lại 1 lần và trả lời được', r.code === 200 && r.body.ok && mock.calls.length - before === 2, `${r.code} calls=${mock.calls.length - before}`);
+    const b2 = mock.calls.length;
+    r = await ask(h, 'RONGMOT xin chào');
+    t('Kira trả nội dung rỗng → tự thử lại và trả lời được', r.code === 200 && r.body.ok && mock.calls.length - b2 === 2, `${r.code} calls=${mock.calls.length - b2}`);
+    const bad401 = mk({ KIRA_API_KEY: 'khoa-sai' });
+    r = await ask(bad401, 'xin chào');
+    t('Khóa sai (401 từ Kira): không lộ lỗi cho khách, báo trợ lý chưa hoạt động', r.code === 503 && r.body.code === 'auth' && !/Invalid|khoa-sai/.test(JSON.stringify(r.body)));
+    const g401 = await call(bad401, { method: 'GET' });
+    t('Sau khi Kira từ chối khóa: GET báo ready=false để website tự ẩn nút chat', g401.body.ready === false);
+    const quota = mk(), bq = mock.calls.length;
+    r = await ask(quota, 'LOI402 xin chào');
+    const gq = await call(quota, { method: 'GET' });
+    const r2 = await ask(quota, 'câu tiếp theo');
+    t('Hết số dư Kira (402): báo chưa hoạt động, tự ẩn nút chat, không gọi Kira thêm', r.code === 503 && r.body.code === 'quota' && gq.body.ready === false && r2.body.code === 'paused' && mock.calls.length - bq === 1, `${r.body.code}/${gq.body.ready}/${r2.body.code}/${mock.calls.length - bq}`);
+
+    // --- ra soat thong tin lien he bia
+    r = await ask(h, 'BIAMAIL cho em xin liên hệ');
+    t('Mô hình bịa email/số điện thoại/đường dẫn: bị loại khỏi câu trả lời, thay bằng liên hệ chính thức', r.body.ok && !/giamdoc@|3824 9999|vtf-gia/.test(r.body.answer) && /\+84 812040357/.test(r.body.answer) && /219 Lý Thường Kiệt/.test(r.body.answer), r.body.answer);
+
+    // --- cau hoi theo so Dieu, hinh/lien ket trong ngu canh
+    mock.calls.length = 0;
+    r = await ask(h, 'Còn Điều 9 nói gì?');
+    const sys9 = mock.calls[0]?.messages?.[0]?.content || '';
+    t('Hỏi "Điều 9": đoạn có tiêu đề Điều 9 được đưa lên đầu ngữ cảnh', sys9.indexOf('Điều 9. Hội viên, tiêu chuẩn hội viên') > -1 && sys9.indexOf('Điều 9. Hội viên, tiêu chuẩn hội viên') < sys9.indexOf('[2]'));
+    mock.calls.length = 0;
+    await ask(h, 'Kỷ niệm chương 30 năm của Liên đoàn');
+    const sysK = mock.calls[0]?.messages?.[0]?.content || '';
+    t('Ngữ cảnh ghi rõ hình ảnh đi kèm (để mô hình không nói "website không có hình") và dặn không tự giới thiệu lại', /Hình ảnh trên website, hệ thống sẽ hiển thị bên dưới/.test(sysK) && /KHÔNG tự giới thiệu lại/.test(sysK) && /THÔNG TIN LIÊN HỆ CHÍNH THỨC/.test(sysK));
 
     // --- gioi han tan suat
     const lim = mk({ CHAT_RPM: '3' }), same = { 'x-forwarded-for': '203.0.113.7' };

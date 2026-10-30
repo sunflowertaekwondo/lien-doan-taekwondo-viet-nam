@@ -34,6 +34,8 @@ export const CASES = [
   ['Ban trọng tài Đại hội Thể thao toàn quốc môn Taekwondo', [DH]],
   ['Trọng tài giải Taekwondo Vĩnh Long', ['/lich-thi-dau']],
   ['Thông tư tiêu chuẩn tuyển chọn huấn luyện viên đội tuyển', ['/van-ban']],
+  ['Còn Điều 9 nói gì?', ['/dieu-le']],
+  ['Điều 12 Điều lệ quy định thủ tục kết nạp hội viên thế nào', ['/dieu-le']],
 ];
 
 export function runEval(dist, { k = 3, verbose = false } = {}) {

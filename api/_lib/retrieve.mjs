@@ -27,7 +27,8 @@ export function buildIndex(kb) {
     const tf = new Map();
     for (const t of body) tf.set(t, (tf.get(t) || 0) + 1);
     for (const t of head) tf.set(t, (tf.get(t) || 0) + 3);   // tieu de trang/muc co trong so cao
-    return { c, tf, len: body.length + head.length * 3, flat: ' ' + [...head, ...body].join(' ') + ' ' };
+    const dieu = new Set([...c.t.matchAll(/(?:^|\n)Điều (\d+)\./g)].map(m => m[1]));   // cac "Điều N." co dong tieu de trong doan
+    return { c, tf, dieu, len: body.length + head.length * 3, flat: ' ' + [...head, ...body].join(' ') + ' ' };
   });
   const df = new Map();
   for (const d of docs) for (const t of d.tf.keys()) df.set(t, (df.get(t) || 0) + 1);
@@ -54,6 +55,7 @@ export function search(index, question, { k = 6, history = [] } = {}) {
   if (cur.kept.length < 3) for (const q of prevQs) { const p = queryTerms(q); for (const t of p.kept) add(t, 0.45); for (const t of p.extra) add(t, 0.3); }
   const bigrams = [];
   for (let i = 0; i + 1 < cur.base.length; i++) if (!STOP.has(cur.base[i]) && !STOP.has(cur.base[i + 1])) bigrams.push(cur.base[i] + ' ' + cur.base[i + 1]);
+  const dm = /\bdieu\s*(\d{1,2})\b/.exec(fold(question));   // "Điều 9 nói gì" -> đoạn có tiêu đề Điều 9 lên đầu
   const k1 = 1.4, b = 0.75;
   const scored = [];
   for (const d of index.docs) {
@@ -66,6 +68,7 @@ export function search(index, question, { k = 6, history = [] } = {}) {
       s += w * idf * (tf * (k1 + 1)) / (tf + k1 * (1 - b + b * d.len / index.avg));
     }
     for (const bg of bigrams) if (d.flat.includes(' ' + bg + ' ')) s += 1.2;
+    if (dm && d.dieu.has(dm[1])) s += 25;
     if (s > 0) scored.push({ c: d.c, score: s });
   }
   scored.sort((x, y) => y.score - x.score);

@@ -5,6 +5,7 @@
 // - POST /api/chat  { messages: [{role, content}] } -> { ok, answer, sources, links, images }
 import { buildIndex, search } from './_lib/retrieve.mjs';
 import { systemPrompt, chatMessages, parseAnswer, NAME } from './_lib/prompt.mjs';
+import { allowedFacts, guardAnswer } from './_lib/guard.mjs';
 import { plain, clip, tokens } from './_lib/text.mjs';
 
 const ORIGIN_OK = /^https?:\/\/(localhost(:\d+)?|127\.0\.0\.1(:\d+)?|(www\.)?tkdai\.vn|lien-doan-taekwondo-viet-nam[a-z0-9-]*\.vercel\.app)$/i;
@@ -15,7 +16,10 @@ const cfg = env => ({
   base: (env.KIRA_BASE_URL || 'https://kiraai.vn/api/v1').replace(/\/$/, ''),
   model: env.KIRA_MODEL || 'kira-chatbox',
   rpm: num(env.CHAT_RPM, 10), perDay: num(env.CHAT_DAILY_PER_IP, 60), cap: num(env.CHAT_DAILY_CAP, 3000),
-  maxTokens: num(env.CHAT_MAX_TOKENS, 600), timeout: num(env.CHAT_TIMEOUT_MS, 25000),
+  maxTokens: num(env.CHAT_MAX_TOKENS, 600),
+  budget: num(env.CHAT_TIMEOUT_MS, 27000),      // tong thoi gian cho phep (Vercel Function toi da 30 giay)
+  attempt: num(env.CHAT_ATTEMPT_MS, 13000),     // thoi gian toi da cho moi lan goi; cham hon thi thu lai 1 lan
+  pauseMs: num(env.CHAT_PAUSE_MS, 10 * 60e3),   // het so du / khoa sai: tam dung de website an nut chat
 });
 
 const SAY = {
@@ -67,11 +71,13 @@ async function getKb(req, deps) {
 const uniq = (arr, f) => { const s = new Set(); return arr.filter(x => { const k = f(x); if (s.has(k)) return false; s.add(k); return true; }); };
 const srcTitle = c => c.pt + (c.h && c.h !== c.pt ? ' › ' + c.h : '');
 const srcUrl = c => c.p + (c.a ? '#' + c.a : '');
+const textOf = r => { let t = r?.choices?.[0]?.message?.content; if (Array.isArray(t)) t = t.map(p => (typeof p === 'string' ? p : p?.text || '')).join(''); return typeof t === 'string' ? t : ''; };
 
 export function createHandler(deps = {}) {
   const env = deps.env || process.env;
   const doFetch = deps.fetch || fetch;
   const now = deps.now || (() => Date.now());
+  let pausedUntil = 0;         // > 0: Kira bao het so du hoac khoa sai -> tam an tro ly, do goi lien tuc
   return async function handler(req, res) {
     const send = (code, body) => { res.status(code).json(body); };
     res.setHeader('Cache-Control', 'no-store');
@@ -79,9 +85,10 @@ export function createHandler(deps = {}) {
     const c = cfg(env);
     const origin = req.headers.origin;
     if (origin && !ORIGIN_OK.test(origin)) return send(403, { ok: false, code: 'origin', answer: SAY.origin });
+    const paused = now() < pausedUntil;
     if (req.method === 'GET') {
       res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=60, stale-while-revalidate=60');
-      return send(200, { ok: true, ready: Boolean(c.key), name: NAME });
+      return send(200, { ok: true, ready: Boolean(c.key) && !paused, name: NAME });
     }
     if (req.method !== 'POST') { res.setHeader('Allow', 'GET, POST'); return send(405, { ok: false, code: 'method', answer: SAY.bad }); }
 
@@ -94,7 +101,7 @@ export function createHandler(deps = {}) {
     const last = msgs[msgs.length - 1];
     if (!last || last.role !== 'user' || last.content.length > 500) return send(400, { ok: false, code: 'bad', answer: SAY.bad });
     const history = msgs.slice(0, -1).slice(-8);
-    if (!c.key) return send(503, { ok: false, code: 'not_configured', answer: SAY.off });
+    if (!c.key || paused) return send(503, { ok: false, code: paused ? 'paused' : 'not_configured', answer: SAY.off });
     const fwd = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim();
     if (limited(fwd || req.socket?.remoteAddress || 'unknown', c, now())) { res.setHeader('Retry-After', '60'); return send(429, { ok: false, code: 'busy', answer: SAY.busy }); }
 
@@ -103,33 +110,48 @@ export function createHandler(deps = {}) {
     try { kbc = await getKb(req, deps); }
     catch (e) { console.error('chat: khong doc duoc chat-kb.json:', e.message); return send(502, { ok: false, code: 'kb', answer: SAY.fail }); }
     const site = kbc.kb.site || {};
-    const top = search(kbc.index, last.content, { k: 6, history });
+    const top = search(kbc.index, last.content, { k: 5, history });
     const chunks = top.map(r => r.c);
 
-    // ---- goi Kira AI
+    // ---- goi Kira AI (toi da 2 lan neu cham / loi may chu / tra noi dung rong; khong thu lai khi loi 4xx)
     const messages = chatMessages({ system: systemPrompt({ site, now: new Date(now()), chunks }), history, question: last.content });
-    let data;
-    try {
-      const r = await doFetch(`${c.base}/chat/completions`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${c.key}` },
-        body: JSON.stringify({ model: c.model, messages, temperature: 0.3, max_tokens: c.maxTokens, stream: false }),
-        signal: AbortSignal.timeout(c.timeout),
-      });
-      data = await r.json().catch(() => null);
-      if (!r.ok) {
-        console.error(`chat: Kira tra ${r.status}: ${clip(String(data?.error?.message || data?.error?.code || ''), 160)}`);
-        const busy = r.status === 429 || r.status === 402;
-        return send(busy ? 429 : 502, { ok: false, code: busy ? 'busy' : 'upstream', answer: busy ? SAY.busy : SAY.fail + contactLine(site) });
+    const t0 = Date.now();
+    let raw = '', lastErr = null;
+    for (let attempt = 1; attempt <= 2 && !raw; attempt++) {
+      const left = c.budget - (Date.now() - t0);
+      if (left < 3000) break;
+      try {
+        const r = await doFetch(`${c.base}/chat/completions`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${c.key}` },
+          body: JSON.stringify({ model: c.model, messages, temperature: 0.3, max_tokens: c.maxTokens, stream: false }),
+          signal: AbortSignal.timeout(Math.min(c.attempt, left)),
+        });
+        const data = await r.json().catch(() => null);
+        if (!r.ok) {
+          const msg = clip(String(data?.error?.message || data?.error?.code || ''), 160);
+          console.error(`chat: Kira tra ${r.status} (lan ${attempt}): ${msg}`);
+          if (r.status === 402 || r.status === 401 || r.status === 403) { pausedUntil = now() + c.pauseMs; return send(503, { ok: false, code: r.status === 402 ? 'quota' : 'auth', answer: SAY.off }); }
+          if (r.status === 429) return send(429, { ok: false, code: 'busy', answer: SAY.busy });
+          lastErr = { status: r.status };
+          if (r.status < 500) break;      // loi tu phia yeu cau: thu lai cung vo ich
+          continue;
+        }
+        raw = textOf(data).trim();
+        if (!raw) { console.error(`chat: Kira tra noi dung rong (lan ${attempt})`); lastErr = { status: 'empty' }; }
+      } catch (e) {
+        console.error(`chat: loi goi Kira (lan ${attempt}):`, e.name, e.message);
+        lastErr = { status: e.name === 'TimeoutError' ? 'timeout' : 'network' };
       }
-    } catch (e) {
-      console.error('chat: loi goi Kira:', e.name, e.message);
-      return send(504, { ok: false, code: 'timeout', answer: SAY.fail + contactLine(site) });
     }
-    let raw = data?.choices?.[0]?.message?.content;
-    if (Array.isArray(raw)) raw = raw.map(p => (typeof p === 'string' ? p : p?.text || '')).join('');
+    if (!raw) return send(lastErr?.status === 'timeout' ? 504 : 502, { ok: false, code: lastErr?.status === 'timeout' ? 'timeout' : 'upstream', answer: SAY.fail + contactLine(site) });
+
+    // ---- ra soat: khong cho phep so dien thoai/email/duong dan ngoai noi dung website
     const parsed = parseAnswer(plain(raw));
-    if (!parsed.answer) { console.error('chat: Kira tra noi dung rong'); return send(502, { ok: false, code: 'empty', answer: SAY.fail + contactLine(site) }); }
+    const facts = allowedFacts([site.dienThoai, site.email, site.diaChi, site.url, ...chunks.map(x => x.t + ' ' + x.l.map(l => l.h).join(' '))].filter(Boolean));
+    const guarded = guardAnswer(parsed.answer, facts, site);
+    if (guarded.fixed) console.error('chat: da loai thong tin lien he khong co tren website khoi cau tra loi');
+    if (!guarded.answer) return send(502, { ok: false, code: 'empty', answer: SAY.fail + contactLine(site) });
 
     // ---- lien ket + hinh anh lien quan (lay tu chinh cac doan website da dung, khong de mo hinh tu bia)
     let used = parsed.used.map(n => chunks[n - 1]).filter(Boolean);
@@ -139,7 +161,7 @@ export function createHandler(deps = {}) {
     const qTok = new Set(tokens(last.content).filter(t => t.length > 1));   // hinh nao co chu thich khop cau hoi nhat thi dua len truoc
     const rank = alt => tokens(alt).filter(t => qTok.has(t)).length;
     const images = uniq(used.flatMap(x => x.i.map(i => ({ src: i.s, alt: i.a, url: srcUrl(x) }))), i => i.src).sort((x, y) => rank(y.alt) - rank(x.alt)).slice(0, 2);
-    return send(200, { ok: true, answer: clip(parsed.answer, 1600), sources, links, images, model: c.model });
+    return send(200, { ok: true, answer: guarded.answer, sources, links, images, model: c.model });
   };
 }
 
