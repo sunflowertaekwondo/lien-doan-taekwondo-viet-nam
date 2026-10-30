@@ -104,6 +104,21 @@ check(`${internal.length} liên kết nội bộ (kể cả #anchor, PDF, RSS) �
   check(`Văn bản quản lý thể thao: ${vb.length} văn bản có hàng trên trang /van-ban, PDF phục vụ đúng từng byte, số hiệu và tệp không trùng`, vb.length >= 1 && bad.length === 0 && new Set(vb.map(v => v.so)).size === vb.length && new Set(vb.map(v => v.pdf)).size === vb.length, bad.join(', '));
 }
 
+// tab Dieu le & Van ban: moi tep PDF co du 2 nut - Xem (mo tab moi) va Tai ve (thuoc tinh download)
+{
+  const bad = []; let n = 0;
+  for (const p of ['/dieu-le', '/van-ban']) {
+    const html = await (await fetch(BASE + p)).text(), by = new Map();
+    for (const m of html.matchAll(/<a\s[^>]*href="(\/docs\/[^"]+\.pdf)"[^>]*>/g)) {
+      const e = by.get(m[1]) || { xem: 0, dl: 0 };
+      if (/\sdownload(\s|=|>)/.test(m[0])) e.dl++; else if (/target="_blank"/.test(m[0])) e.xem++;
+      by.set(m[1], e);
+    }
+    for (const [f, e] of by) { n++; if (e.xem < 1 || e.dl < 1) bad.push(`${p} ${f}`); }
+  }
+  check(`Tab Điều lệ & Văn bản: ${n} tệp PDF đều có đủ nút Xem (mở tab mới) và Tải về (download)`, n >= 4 && bad.length === 0, bad.join(' | '));
+}
+
 // tep may doc: sitemap, robots, RSS, manifest, service worker, anh chia se
 {
   const txt = async p => { const r = await fetch(BASE + p); return { s: r.status, t: await r.text(), ct: r.headers.get('content-type') || '' }; };

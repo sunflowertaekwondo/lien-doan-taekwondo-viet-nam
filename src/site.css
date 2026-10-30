@@ -256,14 +256,20 @@ html:has(.tabs) { scroll-padding-top: calc(var(--hdr) + 62px + var(--sp-4)); }
 
 .docs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-4); }
 .doc { display: flex; align-items: center; gap: var(--sp-4); padding: var(--sp-4) var(--sp-5); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); color: inherit; text-decoration: none; transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out); }
-.doc:hover { color: inherit; border-color: var(--link); box-shadow: var(--shadow-1); }
+.doc:hover { border-color: var(--link); box-shadow: var(--shadow-1); }
 .doc-ic { flex: none; width: 52px; height: 56px; border-radius: var(--r-md); background: var(--accent); color: var(--on-accent); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; }
 .doc-ic .ic { width: 22px; height: 22px; }
 .doc-ic small { font-size: 10px; font-weight: 800; letter-spacing: .5px; }
 .doc strong { display: block; color: var(--heading); line-height: 1.35; }
 .doc small { color: var(--muted); }
 .doc .doc-ic small { color: var(--on-accent); }
-.doc .doc-go { margin-left: auto; width: 22px; height: 22px; color: var(--muted); }
+.doc { flex-wrap: wrap; }
+.doc .doc-t { flex: 1 1 200px; min-width: 0; }
+.doc .dl-pair { margin-left: auto; }
+.dl-pair { display: inline-flex; flex-wrap: wrap; gap: 6px; vertical-align: top; }
+.dl-pair .dl { margin: 0; }
+.dl.dl-view { background: transparent; color: var(--link); box-shadow: inset 0 0 0 2px var(--link); }
+.dl.dl-view:hover { background: var(--surface-2); color: var(--link); }
 
 /* tin tuc */
 .news-card { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
@@ -546,6 +552,8 @@ abbr[title] { text-decoration: underline dotted; text-underline-offset: 3px; cur
   .has-sub:hover .sub:not(.open), .has-sub:focus-within .sub:not(.open) { display: none; }
   body.nav-open { overflow: hidden; }
   .numlist, .g2, .steps, .docs { grid-template-columns: 1fr; }
+  .doc .dl-pair { margin-left: 0; width: 100%; }
+  .doc .dl-pair .dl { flex: 1 1 0; justify-content: center; }
   .tree { padding: var(--sp-5) var(--sp-3); }
   .tree ul { display: block; padding: 0 0 0 20px; }
   .tree > ul { padding-left: 0; }

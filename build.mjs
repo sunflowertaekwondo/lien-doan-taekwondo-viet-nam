@@ -312,9 +312,13 @@ function articleBody(a) {
 }
 const fullArticle = n => `<details class="full"><summary>Toàn văn Điều ${n}. ${esc(ART[n].tieuDe)}</summary><div class="full-body">${articleBody(ART[n])}</div></details>`;
 const PDF_DL = '/docs/dieu-le-vtf-nhiem-ky-vi.pdf', PDF_QD = '/docs/qd-2-qd-bnv-phe-duyet-dieu-le.pdf';
+// Moi tep PDF o Dieu le & Van ban co 2 nut: Xem (mo trong tab moi) + Tai ve (buoc tai xuong)
+const attrText = t => String(t).replace(/<[^>]+>/g, '').replace(/"/g, '&quot;');
+const fileBtns = (href, what) => `<span class="dl-pair"><a class="dl dl-view" href="${href}" target="_blank" rel="noopener" aria-label="Xem: ${attrText(what)}">${icon('eye')}Xem</a><a class="dl" href="${href}" download aria-label="Tải về: ${attrText(what)}">${icon('download')}Tải về</a></span>`;
+const docCard = (href, title, sub) => `<div class="doc"><span class="doc-ic">${icon('file')}<small>PDF</small></span><span class="doc-t"><strong>${title}</strong><small>${sub}</small></span>${fileBtns(href, title)}</div>`;
 const docCards = () => `<div class="docs">
-          <a class="doc" href="${PDF_DL}" target="_blank" rel="noopener"><span class="doc-ic">${icon('file')}<small>PDF</small></span><span><strong>Điều lệ (sửa đổi, bổ sung) Liên đoàn Taekwondo Việt Nam</strong><small>Đại hội nhiệm kỳ VI thông qua ngày ${DL.daiHoiThongQua.ngay} · 604 KB</small></span>${icon('download', 'doc-go')}</a>
-          <a class="doc" href="${PDF_QD}" target="_blank" rel="noopener"><span class="doc-ic">${icon('file')}<small>PDF</small></span><span><strong>Quyết định số ${nw(DL.pheDuyet.so)} phê duyệt Điều lệ</strong><small>${DL.pheDuyet.coQuan}, ngày ${DL.pheDuyet.ngay} · 614 KB</small></span>${icon('download', 'doc-go')}</a>
+          ${docCard(PDF_DL, 'Điều lệ (sửa đổi, bổ sung) Liên đoàn Taekwondo Việt Nam', `Đại hội nhiệm kỳ VI thông qua ngày ${DL.daiHoiThongQua.ngay} · 604 KB`)}
+          ${docCard(PDF_QD, `Quyết định số ${nw(DL.pheDuyet.so)} phê duyệt Điều lệ`, `${DL.pheDuyet.coQuan}, ngày ${DL.pheDuyet.ngay} · 614 KB`)}
         </div>`;
 
 const built = [];
@@ -384,7 +388,7 @@ const thu = iso => THU[new Date(iso + 'T00:00:00Z').getUTCDay()];
 const extA = (href, label, cls = 'btn btn-red') => `<a class="${cls}" href="${esc(href)}" target="_blank" rel="noopener">${label} ${icon('external')}</a>`;
 const dhRange = `${viDate(DH.batDau).slice(0, 5)}–${viDate(DH.ketThuc)}`;
 const dhLive = BUILD_DATE <= DH.ketThuc; // het Dai hoi thi bo bang thong bao o trang chu
-const pdfCard = (href, title, sub) => `<a class="doc" href="${href}" target="_blank" rel="noopener"><span class="doc-ic">${icon('file')}<small>PDF</small></span><span><strong>${title}</strong><small>${sub}</small></span>${icon('download', 'doc-go')}</a>`;
+const pdfCard = (href, title, sub) => docCard(href, title, sub);
 const mb = kb => `${Math.round(kb / 100) / 10} MB`;
 // van ban Dai hoi theo thu tu ban hanh - dung o trang Dai hoi (Tai lieu) va trang Van ban phap ly
 const dhDocCards = () => [
@@ -980,14 +984,14 @@ const formNhanTin = () => vfForm('nhantin', 'nt', [
     seenSo.add(v.so); v.bytes = fs.statSync(f).size;
   }
   const fsz = b => (b >= 1048576 ? `${Math.round(b / 104857.6) / 10} MB` : `${Math.round(b / 1024)} KB`);
-  const vbqRows = VBQ.map(v => `<tr>${td('Số, ký hiệu', v.so.length <= 22 ? nw(v.so) : esc(v.so))}${td('Ngày', viDate(v.ngay))}${td('Trích yếu', `${esc(v.trichYeu)}${v.ghiChu ? `<br><small>${esc(v.ghiChu)}</small>` : ''}`)}${td('Cơ quan', esc(v.coQuan))}${td('Tệp', `<a class="dl" href="/docs/${esc(v.pdf)}" target="_blank" rel="noopener">${icon('download')}PDF</a><br><small class="nw">${v.trang} trang · ${fsz(v.bytes)}</small>`)}</tr>`).join('\n          ');
+  const vbqRows = VBQ.map(v => `<tr>${td('Số, ký hiệu', v.so.length <= 22 ? nw(v.so) : esc(v.so))}${td('Ngày', viDate(v.ngay))}${td('Trích yếu', `${esc(v.trichYeu)}${v.ghiChu ? `<br><small>${esc(v.ghiChu)}</small>` : ''}`)}${td('Cơ quan', esc(v.coQuan))}${td('Tệp', `${fileBtns('/docs/' + esc(v.pdf), esc(v.so))}<br><small class="nw">${v.trang} trang · ${fsz(v.bytes)}</small>`)}</tr>`).join('\n          ');
   shell({
     file: 'van-ban.html', path: '/van-ban', active: '/dieu-le', title: 'Văn bản pháp lý', desc: m.desc, ogImage: `og-${m.og}.jpg`, crumbs,
     hero: pageHero(crumbs, 'Văn bản pháp lý'),
     body: [
       sec('danh-sach', 'Danh sách văn bản', `<table class="table docs-table"><thead><tr><th scope="col">Số, ký hiệu</th><th scope="col">Ngày</th><th scope="col">Trích yếu</th><th scope="col">Cơ quan</th><th scope="col">Hiệu lực</th><th scope="col">Tệp</th></tr></thead><tbody>
-          <tr>${td('Số, ký hiệu', nw(DL.pheDuyet.so))}${td('Ngày', DL.pheDuyet.ngay)}${td('Trích yếu', 'Quyết định về việc phê duyệt Điều lệ (sửa đổi, bổ sung) Liên đoàn Taekwondo Việt Nam')}${td('Cơ quan', 'Bộ Nội vụ')}${td('Hiệu lực', '<span class="status ok">Còn hiệu lực</span>')}${td('Tệp', `<a class="dl" href="${PDF_QD}" target="_blank" rel="noopener">${icon('download')}PDF</a>`)}</tr>
-          <tr>${td('Số, ký hiệu', 'Điều lệ')}${td('Ngày', DL.daiHoiThongQua.ngay)}${td('Trích yếu', `Điều lệ (sửa đổi, bổ sung) Liên đoàn Taekwondo Việt Nam – Đại hội nhiệm kỳ ${DL.daiHoiThongQua.nhiemKy} thông qua (8 chương, 29 điều)`)}${td('Cơ quan', 'Đại hội Liên đoàn')}${td('Hiệu lực', '<span class="status ok">Còn hiệu lực</span>')}${td('Tệp', `<a class="dl" href="/dieu-le">${icon('book')}Xem</a> <a class="dl" href="${PDF_DL}" target="_blank" rel="noopener">${icon('download')}PDF</a>`)}</tr>
+          <tr>${td('Số, ký hiệu', nw(DL.pheDuyet.so))}${td('Ngày', DL.pheDuyet.ngay)}${td('Trích yếu', 'Quyết định về việc phê duyệt Điều lệ (sửa đổi, bổ sung) Liên đoàn Taekwondo Việt Nam')}${td('Cơ quan', 'Bộ Nội vụ')}${td('Hiệu lực', '<span class="status ok">Còn hiệu lực</span>')}${td('Tệp', fileBtns(PDF_QD, `Quyết định số ${DL.pheDuyet.so}`))}</tr>
+          <tr>${td('Số, ký hiệu', 'Điều lệ')}${td('Ngày', DL.daiHoiThongQua.ngay)}${td('Trích yếu', `Điều lệ (sửa đổi, bổ sung) Liên đoàn Taekwondo Việt Nam – Đại hội nhiệm kỳ ${DL.daiHoiThongQua.nhiemKy} thông qua (8 chương, 29 điều)`)}${td('Cơ quan', 'Đại hội Liên đoàn')}${td('Hiệu lực', '<span class="status ok">Còn hiệu lực</span>')}${td('Tệp', `${fileBtns(PDF_DL, 'Điều lệ Liên đoàn')}<br><small><a href="/dieu-le">Đọc toàn văn trên web</a></small>`)}</tr>
           <tr class="old">${td('Số, ký hiệu', nw(DL.thayThe.so))}${td('Ngày', DL.thayThe.ngay)}${td('Trích yếu', `Điều lệ Liên đoàn phê duyệt kèm Quyết định số ${nw(DL.thayThe.so)} ngày ${DL.thayThe.ngay}; được thay thế theo ${dieuLink(29, 'Điều 29, khoản 2')} Điều lệ hiện hành`)}${td('Cơ quan', 'Bộ Nội vụ')}${td('Hiệu lực', '<span class="status off">Đã được thay thế</span>')}${td('Tệp', '—')}</tr>
         </tbody></table>${REVIEW_DATE ? `<p class="note">${icon('info')}<span>Tình trạng hiệu lực ghi theo các văn bản Liên đoàn cung cấp, rà soát ngày <time datetime="${REVIEW_DATE}">${viDate(REVIEW_DATE)}</time>.</span></p>` : ''}`),
       sec('can-cu', 'Căn cứ phê duyệt Điều lệ', `<ul class="bullets">
