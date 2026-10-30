@@ -41,3 +41,38 @@ export function guardAnswer(answer, allowed, site = {}) {
   }
   return { answer: clip(out, 1600), fixed };
 }
+
+// --- sua loi chinh ta nho cua mo hinh khi nhac lai dia chi/ten chinh thuc (vd. "Ly Thuong Khet" -> "Ly Thuong Kiet") ---
+const lev = (a, b) => {
+  const m = a.length, n = b.length;
+  if (Math.abs(m - n) > 3) return 99;
+  let prev = Array.from({ length: n + 1 }, (_, j) => j);
+  for (let i = 1; i <= m; i++) {
+    const cur = [i];
+    for (let j = 1; j <= n; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    prev = cur;
+  }
+  return prev[n];
+};
+// canon: cac cum tu chinh thuc (dia chi, ten don vi). Neu cau tra loi co doan gan giong (sai toi da 2 ky tu) thi thay bang dung chinh thuc.
+export function snapToCanon(answer, canon) {
+  let out = answer;
+  for (const phrase of canon.filter(p => p && p.split(/\s+/).length >= 3)) {
+    const n = phrase.split(/\s+/).length;
+    const words = out.split(/(\s+)/);   // giu nguyen khoang trang
+    for (let i = 0; i < words.length; i += 2) {
+      const win = [];
+      for (let k = i, c = 0; k < words.length && c < n; k += 2, c++) win.push(words[k]);
+      if (win.length < n) break;
+      const lead = win[0].match(/^[*_(]+/)?.[0] || '', tail = win[win.length - 1].match(/[.,;:!?*_)]+$/)?.[0] || '';   // giu dau **dam** va dau cau quanh cum tu
+      const cand = (lead + win.join(' ') + tail).slice(lead.length, (lead + win.join(' ') + tail).length - tail.length).replace(/^[*_(]+/, '').replace(/[.,;:!?*_)]+$/, '');
+      const want = phrase.replace(/[.,;:!?]+$/, '');
+      if (cand !== want && lev(cand.toLowerCase(), want.toLowerCase()) <= 2) {
+        words.splice(i, n * 2 - 1, lead + want + tail);
+        out = words.join('');
+        break;
+      }
+    }
+  }
+  return out;
+}

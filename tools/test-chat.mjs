@@ -100,6 +100,9 @@ export async function runApiTests({ dist = 'dist' } = {}) {
     r = await ask(h, 'BIAMAIL cho em xin liên hệ');
     t('Mô hình bịa email/số điện thoại/đường dẫn: bị loại khỏi câu trả lời, thay bằng liên hệ chính thức', r.body.ok && !/giamdoc@|3824 9999|vtf-gia/.test(r.body.answer) && /\+84 812040357/.test(r.body.answer) && /219 Lý Thường Kiệt/.test(r.body.answer), r.body.answer);
 
+    r = await ask(h, 'TYPODIACHI địa chỉ văn phòng');
+    t('Mô hình viết sai chính tả địa chỉ chính thức ("Khệt") → tự sửa đúng "Lý Thường Kiệt"', r.body.ok && /Số 219 Lý Thường Kiệt, phường Phú Thọ/.test(r.body.answer) && !/Khệt/.test(r.body.answer), r.body.answer);
+
     // --- cau hoi theo so Dieu, hinh/lien ket trong ngu canh
     mock.calls.length = 0;
     r = await ask(h, 'Còn Điều 9 nói gì?');

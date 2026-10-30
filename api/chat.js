@@ -5,7 +5,7 @@
 // - POST /api/chat  { messages: [{role, content}] } -> { ok, answer, sources, links, images }
 import { buildIndex, search } from './_lib/retrieve.mjs';
 import { systemPrompt, chatMessages, parseAnswer, NAME } from './_lib/prompt.mjs';
-import { allowedFacts, guardAnswer } from './_lib/guard.mjs';
+import { allowedFacts, guardAnswer, snapToCanon } from './_lib/guard.mjs';
 import { plain, clip, tokens } from './_lib/text.mjs';
 
 const ORIGIN_OK = /^https?:\/\/(localhost(:\d+)?|127\.0\.0\.1(:\d+)?|(www\.)?tkdai\.vn|lien-doan-taekwondo-viet-nam[a-z0-9-]*\.vercel\.app)$/i;
@@ -149,7 +149,8 @@ export function createHandler(deps = {}) {
     // ---- ra soat: khong cho phep so dien thoai/email/duong dan ngoai noi dung website
     const parsed = parseAnswer(plain(raw));
     const facts = allowedFacts([site.dienThoai, site.email, site.diaChi, site.url, ...chunks.map(x => x.t + ' ' + x.l.map(l => l.h).join(' '))].filter(Boolean));
-    const guarded = guardAnswer(parsed.answer, facts, site);
+    const diaChiDuong = String(site.diaChi || '').split(',').slice(0, 1).join(',');   // "Số 219 Lý Thường Kiệt"
+    const guarded = guardAnswer(snapToCanon(parsed.answer, [site.diaChi, diaChiDuong, site.ten]), facts, site);
     if (guarded.fixed) console.error('chat: da loai thong tin lien he khong co tren website khoi cau tra loi');
     if (!guarded.answer) return send(502, { ok: false, code: 'empty', answer: SAY.fail + contactLine(site) });
 

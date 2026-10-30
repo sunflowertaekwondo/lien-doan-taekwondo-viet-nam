@@ -21,6 +21,7 @@ export function startMockKira(port = 0) {
       const q = body.messages[body.messages.length - 1]?.content || '';
       if (/LOI402/.test(q)) return json(402, { error: { message: 'Insufficient VND wallet balance', type: 'insufficient_quota', code: 'vnd_balance_exhausted' } });
       if (/BIAMAIL/.test(q)) return json(200, { choices: [{ message: { role: 'assistant', content: 'Dạ anh/chị liên hệ số 028 3824 9999 hoặc email giamdoc@vtf-gia.vn. Em cũng xin gửi https://vtf-gia.example/ky-thi ạ. Văn phòng ở số 219 Lý Thường Kiệt.\nNGUỒN: 1' } }] });
+      if (/TYPODIACHI/.test(q)) return json(200, { choices: [{ message: { role: 'assistant', content: 'Dạ, Văn phòng ở **Số 219 Lý Thường Khệt, phường Phú Thọ, Thành phố Hồ Chí Minh, Việt Nam** ạ.\nNGUỒN: 1' } }] });
       const once = k => { const n = (counters.get(k + q) || 0) + 1; counters.set(k + q, n); return n === 1; };
       if (/RONGMOT/.test(q) && once('r')) return json(200, { choices: [{ message: { role: 'assistant', content: '' } }] });
       if (/LOI500/.test(q)) return json(500, { error: { message: 'upstream exploded', code: 'server_error' } });
