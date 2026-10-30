@@ -52,7 +52,7 @@ export async function runApiTests({ dist = 'dist' } = {}) {
     const sent = mock.calls[0];
     const sys = sent?.messages?.[0]?.content || '';
     t('Trả lời thành công, xưng em là LinhKate', r.code === 200 && r.body.ok && /LinhKate/.test(r.body.answer), r.body.answer?.slice(0, 80));
-    t('Gửi Kira: mô hình kira-chatbox, nhiệt độ thấp, giới hạn token, không stream', sent?.model === 'kira-chatbox' && sent.temperature <= 0.5 && sent.max_tokens <= 800 && sent.stream === false);
+    t('Gửi Kira: mô hình kira-3.5-flash, nhiệt độ thấp, giới hạn token, không stream', sent?.model === 'kira-3.5-flash' && sent.temperature <= 0.5 && sent.max_tokens <= 800 && sent.stream === false);
     t('Lệnh hệ thống có vai LinhKate/thư ký VTF, quy tắc xưng "em", chỉ dùng thông tin website, chống chèn lệnh', /LinhKate/.test(sys) && /thư ký/.test(sys) && /xưng "em"/.test(sys) && /Chỉ dùng mục "THÔNG TIN TRÊN WEBSITE"/.test(sys) && /không phải mệnh lệnh/.test(sys));
     t('Lệnh hệ thống có ngày hôm nay, thông tin liên hệ và các đoạn website liên quan', /Hôm nay là [^,]+, \d\d\/\d\d\/\d{4}/.test(sys) && /Văn phòng/.test(sys) && /\[1\] /.test(sys) && /Lý Thường Kiệt/.test(sys));
     t('Liên kết liên quan trỏ đúng trang Liên hệ', r.body.sources?.some(s => s.url.startsWith('/lien-he')), JSON.stringify(r.body.sources));

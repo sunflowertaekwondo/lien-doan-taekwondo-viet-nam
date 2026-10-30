@@ -14,7 +14,7 @@ const num = (v, d) => { const n = Number(v); return Number.isFinite(n) && n > 0 
 const cfg = env => ({
   key: (env.KIRA_API_KEY || '').trim(),
   base: (env.KIRA_BASE_URL || 'https://kiraai.vn/api/v1').replace(/\/$/, ''),
-  model: env.KIRA_MODEL || 'kira-chatbox',
+  model: env.KIRA_MODEL || 'kira-3.5-flash',
   rpm: num(env.CHAT_RPM, 10), perDay: num(env.CHAT_DAILY_PER_IP, 60), cap: num(env.CHAT_DAILY_CAP, 3000),
   maxTokens: num(env.CHAT_MAX_TOKENS, 600),
   budget: num(env.CHAT_TIMEOUT_MS, 27000),      // tong thoi gian cho phep (Vercel Function toi da 30 giay)
