@@ -114,7 +114,7 @@ export async function checkChat({ b, BASE, HERE, check, errors }) {
     if (gj?.ready) {
       const r = await fetch(BASE + '/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json', Origin: new URL(BASE).origin }, body: JSON.stringify({ messages: [{ role: 'user', content: 'Văn phòng Liên đoàn ở địa chỉ nào?' }] }) });
       const j = await r.json().catch(() => ({}));
-      check('Trợ lý LinhKate: câu hỏi thật tới Kira AI → trả lời tiếng Việt xưng "em", có liên kết liên quan', r.ok && j.ok && /\bem\b/i.test(j.answer) && j.answer.length > 30 && j.sources?.length > 0, JSON.stringify(j).slice(0, 220));
+      check('Trợ lý LinhKate: câu hỏi thật tới Kira AI → trả lời tiếng Việt lễ phép, không lộ dòng NGUỒN, có liên kết liên quan', r.ok && j.ok && /Dạ|anh\/chị|\bem\b/.test(j.answer) && !/Khệt|NGUỒN/.test(j.answer) && j.answer.length > 30 && j.sources?.length > 0, JSON.stringify(j).slice(0, 220));
     }
   }
 }
