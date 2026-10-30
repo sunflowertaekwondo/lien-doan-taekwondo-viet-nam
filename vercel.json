@@ -6,6 +6,7 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "trailingSlash": false,
+  "functions": { "api/chat.js": { "maxDuration": 30 } },
   "redirects": [
     { "source": "/:path(.*)", "has": [{ "type": "host", "value": "lien-doan-taekwondo-viet-nam.vercel.app" }], "destination": "https://tkdai.vn/:path", "permanent": true }
   ],

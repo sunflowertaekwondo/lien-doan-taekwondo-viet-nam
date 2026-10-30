@@ -85,3 +85,20 @@ Muốn thử bản có đường dẫn con như GitHub Pages: `SITE_BASE=/lien-d
 - **Font**: Be Vietnam Pro, giấy phép SIL Open Font License 1.1 (`src/fonts/OFL.txt`).
 - **Icon, ảnh chia sẻ, giao diện**: thiết kế riêng cho website này.
 - **Văn bản Điều lệ và Quyết định**: văn bản chính thức của Liên đoàn.
+
+## Trợ lý ảo LinhKate (chatbot, dùng API Kira AI)
+
+Khung chat "Hỏi LinhKate" ở góc phải mọi trang: LinhKate xưng "em", là thư ký VTF, trả lời **chỉ theo nội dung website**, kèm liên kết trang liên quan, tệp/liên kết có trong trang và hình ảnh đã đăng trên website.
+
+| Thành phần | Tệp |
+|---|---|
+| Giao diện khung chat | `src/chat.js`, `src/chat.css` (nút chỉ hiện khi máy chủ báo sẵn sàng) |
+| Máy chủ (Vercel Function) | `api/chat.js` + `api/_lib/*.mjs` — giữ khóa, tìm đoạn nội dung, gọi Kira, lọc kết quả |
+| Cơ sở kiến thức | `dist/chat-kb.json`, **tự tạo mỗi lần build** từ toàn bộ trang (`tools/build-chat-kb.mjs`), nên đăng tin/sửa trang xong là LinhKate biết ngay |
+| Kiểm thử | `tools/check-chat.mjs` (chạy trong `node check.mjs`), `tools/test-chat.mjs`, `tools/chat-eval.mjs`, Kira "giả" `tools/mock-kira.mjs` |
+
+**Cài khóa (làm một lần, KHÔNG ghi khóa vào mã nguồn):** Vercel → dự án `lien-doan-taekwondo-viet-nam` → Settings → Environment Variables → thêm `KIRA_API_KEY` = khóa dạng `kira_…` (chọn Production) → Deployments → Redeploy. Chưa cài khóa thì website tự ẩn nút chat. Muốn tắt chatbot: xóa biến này rồi Redeploy.
+
+Biến tùy chọn: `KIRA_MODEL` (mặc định `kira-chatbox`, model dành cho chatbox website; có thể đổi `kira-3.5-flash`), `CHAT_RPM` (số câu/phút/người, mặc định 10), `CHAT_DAILY_PER_IP` (60), `CHAT_DAILY_CAP` (3000 câu/ngày cho cả website — chặn tốn tiền khi bị lạm dụng), `CHAT_MAX_TOKENS` (600).
+
+Chạy thử trên máy: `CHAT_MOCK=1 node serve.mjs` (Kira giả, không tốn tiền) hoặc `KIRA_API_KEY=… node serve.mjs` (Kira thật; đừng lưu khóa vào tệp trong dự án). Đổi giọng điệu/quy tắc của LinhKate: sửa `api/_lib/prompt.mjs`.

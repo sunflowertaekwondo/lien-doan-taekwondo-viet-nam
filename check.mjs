@@ -278,6 +278,8 @@ check(`${internal.length} liên kết nội bộ (kể cả #anchor, PDF, RSS) �
   check('Token màu trong DESIGN.md khớp với CSS', colors.length >= 10 && mismatch.length === 0, mismatch.length ? mismatch.join(', ') : `${colors.length} token`);
 }
 { const r = await fetch(BASE + '/khong-co-trang-nay'); check('Trang không tồn tại trả 404 có giao diện VTF', r.status === 404 && /Liên đoàn Taekwondo Việt Nam/.test(await r.text()), String(r.status)); }
+// tro ly ao LinhKate (api/chat.mjs + src/chat.js): tim noi dung, may chu voi Kira gia, giao dien that, an khi chua co khoa
+{ const { checkChat } = await import('./tools/check-chat.mjs'); await checkChat({ b, BASE, HERE, check, errors }); }
 check('Không có lỗi JS', errors.length === 0, errors.slice(0, 3).join(' | '));
 await b.close();
 const fail = results.filter(x => !x).length;

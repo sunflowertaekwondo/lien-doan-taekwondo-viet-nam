@@ -10,6 +10,7 @@ import { fileURLToPath } from 'node:url';
 import { PAGES } from './src/meta.mjs';
 import { sprite, icon } from './src/icons.mjs';
 import { parseFrontMatter, renderMarkdown, plainText, clip, safeUrl } from './src/markdown.mjs';
+import { buildChatKb } from './tools/build-chat-kb.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const DIST = process.env.SITE_OUT ? path.resolve(process.env.SITE_OUT) : path.join(HERE, 'dist');
@@ -80,13 +81,16 @@ for (const e of fs.readdirSync(DIST)) {
 }
 for (const d of ['assets', 'docs', 'fonts', 'img', 'tin-tuc']) fs.mkdirSync(path.join(DIST, d), { recursive: true });
 const fontsCss = fs.readFileSync(path.join(HERE, 'src', 'fonts', 'fonts.css'), 'utf8').replace(/url\("\.\.\/fonts\//g, `url("${BASE}/fonts/`);
-const css = fontsCss + '\n' + fs.readFileSync(path.join(HERE, 'src', 'site.css'), 'utf8');
+const css = fontsCss + '\n' + fs.readFileSync(path.join(HERE, 'src', 'site.css'), 'utf8') + '\n' + fs.readFileSync(path.join(HERE, 'src', 'chat.css'), 'utf8');
 const js = fs.readFileSync(path.join(HERE, 'src', 'site.js'), 'utf8');
+const chatJs = fs.readFileSync(path.join(HERE, 'src', 'chat.js'), 'utf8');   // tro ly ao LinhKate: chi hien nut khi /api/chat san sang
 // ma bam chi theo noi dung CSS + JS: lan chay tu dong hang ngay khong doi ten tep khi ma khong doi
 const HASH = crypto.createHash('sha1').update(css + js).digest('hex').slice(0, 10);
 const CSS_FILE = `assets/site.${HASH}.css`, JS_FILE = `assets/site.${HASH}.js`;
 fs.writeFileSync(path.join(DIST, CSS_FILE), css, 'utf8');
 fs.writeFileSync(path.join(DIST, JS_FILE), js, 'utf8');
+const CHAT_FILE = `assets/chat.${crypto.createHash('sha1').update(chatJs).digest('hex').slice(0, 10)}.js`;
+fs.writeFileSync(path.join(DIST, CHAT_FILE), chatJs, 'utf8');
 // Gói CMS: bo loc XSS + loi quet/ap noi dung (moi trang tai), gói admin (chi admin.html). Ma bam theo noi dung nhu CSS/JS.
 const cmsJs = fs.readFileSync(path.join(HERE, 'src', 'cms-sanitize.js'), 'utf8') + '\n' + fs.readFileSync(path.join(HERE, 'src', 'cms-core.js'), 'utf8');
 const adminJs = fs.readFileSync(path.join(HERE, 'src', 'admin.js'), 'utf8');
@@ -259,6 +263,7 @@ ${ogCard ? `
   ${CMS_ENDPOINT ? `<link rel="preconnect" href="${esc(new URL(CMS_ENDPOINT).origin)}" crossorigin>
   ` : ''}<script defer src="/${CMS_FILE}" data-endpoint="${esc(CMS_ENDPOINT)}" data-base="${BASE}"></script>
   <script defer src="/${JS_FILE}" data-base="${BASE}"></script>
+  <script defer src="/${CHAT_FILE}" data-base="${BASE}"></script>
   ${lds.map(ld).join('\n  ')}
 </head>
 <body>
@@ -1081,6 +1086,7 @@ shell({
             ${FORMS_ON ? `<li>Website có <strong>ba biểu mẫu</strong>: đăng ký gia nhập hội viên, liên hệ và đăng ký nhận tin; thông tin bạn gửi qua đó được mô tả ở mục "Thông tin bạn gửi qua biểu mẫu". Ngoài ba biểu mẫu này, website không có đăng nhập dành cho người truy cập và không thu thập họ tên, email hay số điện thoại của bạn. Có một trang quản trị riêng cho người được Liên đoàn giao quyền cập nhật nội dung.</li>` : `<li>Website là trang thông tin: <strong>không có biểu mẫu</strong>, không có đăng nhập dành cho người truy cập, không thu thập họ tên, email hay số điện thoại của người truy cập. Chỉ có một trang quản trị riêng cho người được Liên đoàn giao quyền cập nhật nội dung.</li>`}
             <li><strong>Không dùng cookie theo dõi</strong>, không cài công cụ quảng cáo hay đo lường của bên thứ ba. Phông chữ được phục vụ trực tiếp từ website, không tải từ dịch vụ bên ngoài.</li>${CMS_ENDPOINT ? `
             <li>Khi mở trang, trình duyệt của bạn tải thêm phần nội dung do Liên đoàn chỉnh sửa từ <strong>Google Apps Script</strong> (script.google.com); ảnh do Liên đoàn đăng có thể được tải từ <strong>Google Drive</strong>, và video (nếu trang có) được nhúng từ <strong>YouTube</strong> (youtube-nocookie.com). Các dịch vụ này có thể ghi nhật ký kỹ thuật (địa chỉ IP, thời gian) theo chính sách của họ; website không gửi cho họ thông tin nào về bạn.</li>` : ''}
+            <li><strong>Trợ lý ảo LinhKate</strong> (khi đang hoạt động): nội dung câu hỏi bạn nhập được gửi tới máy chủ của website và tới nhà cung cấp dịch vụ trí tuệ nhân tạo <strong>Kira AI</strong> (kiraai.vn) để soạn câu trả lời. Website không lưu lại cuộc trò chuyện; lịch sử chỉ nằm trong tab trình duyệt của bạn đến khi bạn đóng tab hoặc bấm "Làm mới". Nhà cung cấp có thể ghi nhật ký kỹ thuật theo chính sách của họ. Xin đừng nhập số căn cước, mật khẩu hay thông tin cá nhân khác vào khung chat; câu trả lời của AI có thể chưa đầy đủ, thông tin chính thức xem ở Điều lệ và các văn bản trên website.</li>
             <li>Trình duyệt của bạn chỉ lưu <strong>lựa chọn giao diện sáng/tối</strong> (localStorage) và <strong>bộ nhớ đệm</strong> giúp trang mở nhanh, đọc được khi mất mạng. Bạn có thể xóa trong phần cài đặt trình duyệt.</li>
             <li>Nhà cung cấp lưu trữ website có thể ghi nhật ký truy cập kỹ thuật (địa chỉ IP, thời gian) theo chính sách của họ để vận hành và bảo đảm an toàn dịch vụ.</li>
           </ul>
@@ -1148,7 +1154,7 @@ fs.writeFileSync(path.join(DIST, 'sitemap.xml'), `<?xml version="1.0" encoding="
 ${built.map(b => `  <url><loc>${xmlEsc(abs(b.path))}</loc>${b.lastmod ? `<lastmod>${b.lastmod}</lastmod>` : ''}</url>`).join('\n')}
 </urlset>
 `, 'utf8');
-fs.writeFileSync(path.join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${abs('/sitemap.xml')}\n`, 'utf8');
+fs.writeFileSync(path.join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /api/\nSitemap: ${abs('/sitemap.xml')}\n`, 'utf8');
 const rfc822 = iso => new Date(iso + 'T08:00:00+07:00').toUTCString();
 fs.writeFileSync(path.join(DIST, 'rss.xml'), `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -1185,8 +1191,15 @@ fs.writeFileSync(path.join(DIST, 'sw.js'), fs.readFileSync(path.join(HERE, 'src'
   .replace(/__VERSION__/g, () => SW_VERSION).replace(/__BASE__/g, () => BASE).replace('"__PRECACHE__"', () => JSON.stringify(PRECACHE)), 'utf8');
 
 // cau hinh Vercel: vercel.json o goc (Vercel build tu GitHub) la nguon duy nhat; ban trong dist/ (tai thang len Vercel) bo cac lenh build
-const { buildCommand: _b, installCommand: _i, outputDirectory: _o, framework: _f, ...vercelServe } = JSON.parse(fs.readFileSync(path.join(HERE, 'vercel.json'), 'utf8'));
+const { buildCommand: _b, installCommand: _i, outputDirectory: _o, framework: _f, functions: _fn, ...vercelServe } = JSON.parse(fs.readFileSync(path.join(HERE, 'vercel.json'), 'utf8'));
 fs.writeFileSync(path.join(DIST, 'vercel.json'), JSON.stringify(vercelServe, null, 2), 'utf8');
 fs.writeFileSync(path.join(DIST, '.nojekyll'), '', 'utf8');
+
+// Co so kien thuc cho tro ly AI LinhKate (api/chat.mjs doc tep chat-kb.json tu chinh website): chi trich lai chu co tren cac trang
+{
+  const lienHe = [`Liên đoàn Taekwondo Việt Nam (${cfg.tenVietTat || 'VTF'}) – thông tin liên hệ Văn phòng.`, cfg.diaChi && `Địa chỉ trụ sở: ${cfg.diaChi}.`, cfg.dienThoai && `Điện thoại: ${cfg.dienThoai}.`, cfg.email && `Email: ${cfg.email}.`, SITE_URL && `Website: ${SITE_URL}.`].filter(Boolean).join('\n');
+  buildChatKb({ dist: DIST, siteUrl: SITE_URL, log: true, site: { ten: cfg.tenTiengViet, vietTat: cfg.tenVietTat, diaChi: cfg.diaChi, dienThoai: cfg.dienThoai, email: cfg.email, url: SITE_URL },
+    extraChunks: [{ p: '/lien-he', pt: 'Liên hệ', h: 'Thông tin liên hệ Văn phòng Liên đoàn', t: lienHe }] });
+}
 
 console.log(JSON.stringify({ out: path.relative(HERE, DIST) || '.', base: BASE || '/', siteUrl: SITE_URL, hash: HASH, pages: built.map(b => b.path), news: news.length }, null, 1));
