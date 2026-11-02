@@ -1,8 +1,8 @@
 {
  "_ghi_chu": "TU DONG tao boi tools/sync-check-in.mjs tu bang dang ky cua BTC (moi gio, chi ghi khi co thay doi). Chi gom gio, don vi, so the, co thi Quyen, trang thai. KHONG chua ho ten HLV, CCCD, so dien thoai, email. Dung sua tay: chay lai lenh.",
  "nguon": "https://docs.google.com/spreadsheets/d/1il-aEu2-id8FnGEbMgHwt8IImpnZl94-RRgR6trbVBk/edit?gid=0#gid=0",
- "layNgay": "2026-10-31",
- "layLuc": "2026-10-31T19:32",
+ "layNgay": "2026-11-02",
+ "layLuc": "2026-11-02T13:05",
  "ngay": "2026-11-23",
  "lich": [
   {
@@ -179,20 +179,33 @@
   {
    "tt": 20,
    "gio": "11:10",
-   "donVi": ""
+   "donVi": "LÀO CAI",
+   "theBtcHlv": 2,
+   "theVdv": 6,
+   "quyen": "Không",
+   "trangThai": "PENDING"
   },
   {
    "tt": 21,
+   "gio": "11:20",
+   "donVi": "CÀ MAU",
+   "theBtcHlv": null,
+   "theVdv": null,
+   "quyen": "Không",
+   "trangThai": "PENDING"
+  },
+  {
+   "tt": 22,
    "gio": "11:30",
    "donVi": ""
   },
   {
-   "tt": 22,
+   "tt": 23,
    "gio": "11:40",
    "donVi": ""
   },
   {
-   "tt": 23,
+   "tt": 24,
    "gio": "11:50",
    "donVi": ""
   },
@@ -200,8 +213,13 @@
    "nghi": "12:00 - 13:00"
   },
   {
-   "tt": 24,
+   "tt": 25,
    "gio": "13:00",
+   "donVi": ""
+  },
+  {
+   "tt": 26,
+   "gio": "13:10",
    "donVi": "ĐẮK LẮK",
    "theBtcHlv": 2,
    "theVdv": 1,
@@ -209,32 +227,27 @@
    "trangThai": "PENDING"
   },
   {
-   "tt": 25,
-   "gio": "13:10",
-   "donVi": ""
-  },
-  {
-   "tt": 26,
+   "tt": 27,
    "gio": "13:20",
    "donVi": ""
   },
   {
-   "tt": 27,
+   "tt": 28,
    "gio": "13:30",
    "donVi": ""
   },
   {
-   "tt": 28,
+   "tt": 29,
    "gio": "13:40",
    "donVi": ""
   },
   {
-   "tt": 29,
+   "tt": 30,
    "gio": "13:50",
    "donVi": ""
   },
   {
-   "tt": 30,
+   "tt": 31,
    "gio": "14:00",
    "donVi": "ĐỒNG THÁP",
    "theBtcHlv": 4,
@@ -243,17 +256,17 @@
    "trangThai": "PENDING"
   },
   {
-   "tt": 31,
+   "tt": 32,
    "gio": "14:10",
    "donVi": ""
   },
   {
-   "tt": 32,
+   "tt": 33,
    "gio": "14:20",
    "donVi": ""
   },
   {
-   "tt": 33,
+   "tt": 34,
    "gio": "14:30",
    "donVi": "SƠN LA",
    "theBtcHlv": 3,
@@ -262,7 +275,7 @@
    "trangThai": "PENDING"
   },
   {
-   "tt": 34,
+   "tt": 35,
    "gio": "14:40",
    "donVi": ""
   },
