@@ -4,7 +4,7 @@
 // - GET  /api/chat  -> { ready } (website chi hien nut chat khi ready = true)
 // - POST /api/chat  { messages: [{role, content}] } -> { ok, answer, sources, links, images }
 import { buildIndex, search } from './_lib/retrieve.mjs';
-import { systemPrompt, chatMessages, parseAnswer, NAME } from './_lib/prompt.mjs';
+import { systemPrompt, chatMessages, parseAnswer, renderChunk, NAME, NO_INFO } from './_lib/prompt.mjs';
 import { allowedFacts, guardAnswer, snapToCanon } from './_lib/guard.mjs';
 import { plain, clip, tokens } from './_lib/text.mjs';
 
@@ -24,6 +24,9 @@ const cfg = env => ({
   pauseMs: num(env.CHAT_PAUSE_MS, 10 * 60e3),   // het so du / khoa sai: tam dung de website an nut chat
 });
 
+const SMALLTALK = /^Dạ[^.!?\n]{0,40}(?:chào|cảm ơn|không có gì|rất vui)/i;   // chao hoi / cam on: khong co nguon la binh thuong
+const isRefusal = p => NO_INFO.test(p.answer) || (p.hasLine && !p.used.length && !SMALLTALK.test(p.answer));   // cau tra loi dang "chua co thong tin"
+const NUDGE_SCORE = 18;   // diem tim kiem toi thieu de coi la "da co doan phu hop" khi hoi lai
 const SAY = {
   origin: 'Dạ, yêu cầu này không đến từ website của Liên đoàn nên em chưa thể trả lời ạ.',
   bad: 'Dạ, em chưa đọc được câu hỏi. Anh/chị vui lòng nhập lại ngắn gọn giúp em ạ.',
@@ -112,46 +115,70 @@ export function createHandler(deps = {}) {
     try { kbc = await getKb(req, deps); }
     catch (e) { console.error('chat: khong doc duoc chat-kb.json:', e.message); return send(502, { ok: false, code: 'kb', answer: SAY.fail }); }
     const site = kbc.kb.site || {};
-    const top = search(kbc.index, last.content, { k: 5, history });
+    const top = search(kbc.index, last.content, { k: 7, history });
     const chunks = top.map(r => r.c);
 
     // ---- goi Kira AI (toi da 2 lan neu cham / loi may chu / tra noi dung rong; khong thu lai khi loi 4xx)
-    const messages = chatMessages({ system: systemPrompt({ site, now: new Date(now()), chunks }), history, question: last.content });
     const t0 = Date.now();
-    let raw = '', lastErr = null;
     // Thuc te: Kira dong thoi co luc bao "Unable to connect to the AI model server" (500) vai phut. Thu toi da 3 lan, lan sau doi sang mo hinh du phong.
     const models = [...new Set([c.model, ...c.fallback])];
-    let usedModel = c.model;
-    for (let attempt = 1; attempt <= 3 && !raw; attempt++) {
-      const left = c.budget - (Date.now() - t0);
-      if (left < 3000) break;
-      if (attempt > 1) await new Promise(r => setTimeout(r, c.backoff * (attempt - 1)));
-      const model = models[Math.min(attempt - 1, models.length - 1)];
-      try {
-        const r = await doFetch(`${c.base}/chat/completions`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${c.key}` },
-          body: JSON.stringify({ model, messages, temperature: 0.3, max_tokens: c.maxTokens, stream: false }),
-          signal: AbortSignal.timeout(Math.min(c.attempt, left)),
-        });
-        const data = await r.json().catch(() => null);
-        if (!r.ok) {
-          const msg = clip(String(data?.error?.message || data?.error?.code || ''), 160);
-          console.error(`chat: Kira tra ${r.status} (lan ${attempt}, ${model}): ${msg}`);
-          if (r.status === 402 || r.status === 401 || r.status === 403) { pausedUntil = now() + c.pauseMs; return send(503, { ok: false, code: r.status === 402 ? 'quota' : 'auth', answer: SAY.off }); }
-          if (r.status === 429) return send(429, { ok: false, code: 'busy', answer: SAY.busy });
-          lastErr = { status: r.status };
-          if (r.status < 500 && ![400, 404, 422].includes(r.status)) break;      // loi tu phia yeu cau khac: thu lai vo ich; 400/404/422 co the do mo hinh nay -> thu mo hinh khac
-          continue;
+    let usedModel = c.model, lastErr = null;
+    // tra ve { raw } hoac { sent: true } khi da tra loi khach (loi het so du / khoa sai / qua tai)
+    const callKira = async messages => {
+      let raw = '';
+      for (let attempt = 1; attempt <= 3 && !raw; attempt++) {
+        const left = c.budget - (Date.now() - t0);
+        if (left < 3000) break;
+        if (attempt > 1) await new Promise(r => setTimeout(r, c.backoff * (attempt - 1)));
+        const model = models[Math.min(attempt - 1, models.length - 1)];
+        try {
+          const r = await doFetch(`${c.base}/chat/completions`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${c.key}` },
+            body: JSON.stringify({ model, messages, temperature: 0.2, max_tokens: c.maxTokens, stream: false }),
+            signal: AbortSignal.timeout(Math.min(c.attempt, left)),
+          });
+          const data = await r.json().catch(() => null);
+          if (!r.ok) {
+            const msg = clip(String(data?.error?.message || data?.error?.code || ''), 160);
+            console.error(`chat: Kira tra ${r.status} (lan ${attempt}, ${model}): ${msg}`);
+            if (r.status === 402 || r.status === 401 || r.status === 403) { pausedUntil = now() + c.pauseMs; send(503, { ok: false, code: r.status === 402 ? 'quota' : 'auth', answer: SAY.off }); return { sent: true }; }
+            if (r.status === 429) { send(429, { ok: false, code: 'busy', answer: SAY.busy }); return { sent: true }; }
+            lastErr = { status: r.status };
+            if (r.status < 500 && ![400, 404, 422].includes(r.status)) break;      // loi tu phia yeu cau khac: thu lai vo ich; 400/404/422 co the do mo hinh nay -> thu mo hinh khac
+            continue;
+          }
+          raw = textOf(data).trim();
+          if (raw) usedModel = model; else { console.error(`chat: Kira tra noi dung rong (lan ${attempt}, ${model})`); lastErr = { status: 'empty' }; }
+        } catch (e) {
+          console.error(`chat: loi goi Kira (lan ${attempt}, ${model}):`, e.name, e.message);
+          lastErr = { status: e.name === 'TimeoutError' ? 'timeout' : 'network' };
         }
-        raw = textOf(data).trim();
-        if (raw) usedModel = model; else { console.error(`chat: Kira tra noi dung rong (lan ${attempt}, ${model})`); lastErr = { status: 'empty' }; }
-      } catch (e) {
-        console.error(`chat: loi goi Kira (lan ${attempt}, ${model}):`, e.name, e.message);
-        lastErr = { status: e.name === 'TimeoutError' ? 'timeout' : 'network' };
       }
-    }
+      return { raw };
+    };
+    let call = await callKira(chatMessages({ system: systemPrompt({ site, now: new Date(now()), chunks }), history, question: last.content }));
+    if (call.sent) return;
+    let raw = call.raw;
     if (!raw) return send(lastErr?.status === 'timeout' ? 504 : 502, { ok: false, code: lastErr?.status === 'timeout' ? 'timeout' : 'upstream', answer: SAY.fail + contactLine(site) });
+    // mo hinh doi khi tu choi nham ("chua co thong tin") du da tim duoc doan phu hop:
+    //  1) hoi lai 1 lan, dua thang cac doan lien quan nhat vao tin nhan cua khach (chi khi con du thoi gian)
+    //  2) van tu choi -> may chu tu trich lai dung noi dung tren website (khong de khach nhan cau "chua co" khi website da co)
+    const strong = top[0] && top[0].score >= NUDGE_SCORE;
+    let via = 'model';
+    if (strong && isRefusal(parseAnswer(plain(raw))) && c.budget - (Date.now() - t0) > 9000) {
+      const msgs2 = chatMessages({ system: systemPrompt({ site, now: new Date(now()), chunks, nudge: true }), history, question: last.content });
+      msgs2[msgs2.length - 1].content = `${last.content}\n\n[Các đoạn sau của website chắc chắn liên quan tới câu hỏi trên; hãy dựa vào chúng để trả lời]\n` + chunks.slice(0, 3).map(renderChunk).join(`\n\n`);
+      const again = await callKira(msgs2);
+      if (again.sent) return;
+      if (again.raw) { raw = again.raw; via = 'retry'; }
+    }
+    if (strong && isRefusal(parseAnswer(plain(raw)))) {
+      const pick = chunks.filter((x, i) => top[i].score >= top[0].score * 0.6).slice(0, 2);
+      raw = `Dạ, em gửi anh/chị thông tin liên quan trên website ạ:\n` + pick.map(x => `**${x.h || x.pt}**\n${clip(x.t, 520)}`).join(`\n\n`) + `\nNGUỒN: ${pick.map((x, i) => i + 1).join(', ')}`;
+      via = 'extract';
+      console.error('chat: mo hinh tu choi nham, da tu trich lai noi dung website');
+    }
 
     // ---- ra soat: khong cho phep so dien thoai/email/duong dan ngoai noi dung website
     const parsed = parseAnswer(plain(raw));
@@ -169,7 +196,7 @@ export function createHandler(deps = {}) {
     const qTok = new Set(tokens(last.content).filter(t => t.length > 1));   // hinh nao co chu thich khop cau hoi nhat thi dua len truoc
     const rank = alt => tokens(alt).filter(t => qTok.has(t)).length;
     const images = uniq(used.flatMap(x => x.i.map(i => ({ src: i.s, alt: i.a, url: srcUrl(x) }))), i => i.src).sort((x, y) => rank(y.alt) - rank(x.alt)).slice(0, 2);
-    return send(200, { ok: true, answer: guarded.answer, sources, links, images, model: usedModel });
+    return send(200, { ok: true, answer: guarded.answer, sources, links, images, model: usedModel, via, topScore: Math.round((top[0]?.score || 0) * 10) / 10 });
   };
 }
 

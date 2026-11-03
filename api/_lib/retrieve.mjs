@@ -27,6 +27,10 @@ const SYN = [
   [/lich|giai dau|khi nao|bao gio|thoi gian|ngay nao|sap toi/, 'lich thi dau thoi gian dia diem'],
   [/check ?in|khung gio|diem danh/, 'check in khung gio dang ky'],
   [/trong tai|giam khao|giam sat/, 'trong tai giam khao ban trong tai'],
+  [/dai hoi.*(the thao|toan quoc)|the thao toan quoc|dhtt|dai hoi x\b|dai hoi lan thu x|sea games|tdtt toan quoc/, 'dai hoi the thao toan quoc chuong trinh lich hoat dong taekwondo'],
+  [/doi khang|dong doi|hang can|\bkg\b|can kiem tra|can chinh thuc|can van dong vien|can vdv|trao thuong|khen thuong/, 'doi khang hang can can kiem tra can chinh thuc trao thuong chuong trinh thi dau'],
+  [/farewell|tiec chia tay|tiec tat nien|bua tiec/, 'farewell party khach san de nhat chuong trinh'],
+  [/hop lanh doi|lanh doi|boc tham|tap huan trong tai/, 'hop lanh doi boc tham tap huan trong tai chuong trinh'],
   [/chu tich|ai la|lanh dao|ban chap hanh|tong thu ky|pho chu tich/, 'ban chap hanh lanh dao co cau to chuc chu tich'],
   [/dieu le|quy dinh|van ban|nghi dinh|thong tu|phap ly|quyet dinh/, 'dieu le van ban quyet dinh nghi dinh'],
   [/ky niem chuong|vinh danh|tri an|huy chuong/, 'ky niem chuong tri an ton vinh vinh danh'],
@@ -77,6 +81,11 @@ export function search(index, question, { k = 6, history = [] } = {}) {
   for (let i = 0; i + 1 < cur.base.length; i++) if (!STOP.has(cur.base[i]) && !STOP.has(cur.base[i + 1])) bigrams.push(cur.base[i] + ' ' + cur.base[i + 1]);
   const fq = fold(question);
   const dm = /\bdieu\s*(\d{1,2})\b/.exec(fq);   // "Điều 9 nói gì" -> đoạn có tiêu đề Điều 9 lên đầu
+  // hoi ve mot ngay cu the ("ngay 29/11", "29/11/2026", "ngay 29 thang 11") -> uu tien doan co dung ngay do
+  const dates = new Set();
+  for (const m of fq.matchAll(/\b(\d{1,2})\s*[\/.-]\s*(\d{1,2})\b/g)) dates.add(`${+m[1]}/${+m[2]}`);
+  for (const m of fq.matchAll(/\bngay\s*(\d{1,2})\s*thang\s*(\d{1,2})\b/g)) dates.add(`${+m[1]}/${+m[2]}`);
+  const dateRes = [...dates].map(d => { const [dd, mm] = d.split('/'); return new RegExp(`(?<!\\d)0?${dd}\\s*/\\s*0?${mm}(?!\\d)|ngày 0?${dd} tháng 0?${mm}(?!\\d)`); });
   const k1 = 1.4, b = 0.75;
   const scored = [];
   for (const d of index.docs) {
@@ -90,6 +99,7 @@ export function search(index, question, { k = 6, history = [] } = {}) {
     }
     for (const bg of bigrams) if (d.flat.includes(' ' + bg + ' ')) s += 1.2;
     if (dm && d.dieu.has(dm[1])) s += 25;
+    if (s > 0 && dateRes.length && dateRes.some(re => re.test(d.c.t))) s += 8;
     if (s > 0) for (const [qre, dre, w] of INTENT) if (qre.test(fq) && dre.test(d.c.t)) s += w;
     if (s > 0) scored.push({ c: d.c, score: s });
   }

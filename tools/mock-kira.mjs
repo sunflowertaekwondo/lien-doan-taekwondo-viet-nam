@@ -1,6 +1,6 @@
 // mock-kira.mjs - may chu Kira AI "gia" (chuan OpenAI /chat/completions) de kiem thu tro ly LinhKate ma khong ton tien that.
 // Dung: node tools/mock-kira.mjs [cong]   hoac import { startMockKira } tu tests.
-// Hanh vi: sai khoa -> 401; cau hoi co "LOI500" -> 500; "LOI429" -> 429; "CHAM" -> tre 3 giay; "KHONGNGUON" -> khong co dong NGUON;
+// Hanh vi: sai khoa -> 401; cau hoi co "LOI500" -> 500; "LOI429" -> 429; "CHAM" -> tre 3 giay; "KHONGNGUON" -> khong co dong NGUON; "TUCHOINHAM" -> tu choi 'chua co thong tin' tru khi he thong nhac lai (kiem tra co hoi lai 1 lan);
 //          con lai tra loi mau co xung ho "em", trich doan [1] cua ngu canh va ket thuc bang "NGUON: 1, 2".
 import http from 'node:http';
 
@@ -25,6 +25,8 @@ export function startMockKira(port = 0) {
       if (/PRIMARYDOWN/.test(q) && body.model === 'kira-3.5-flash') return json(500, { error: { message: 'Unable to connect to the AI model server. Please try again shortly.', type: 'api_error', code: 'provider_error' } });
       const once = k => { const n = (counters.get(k + q) || 0) + 1; counters.set(k + q, n); return n === 1; };
       if (/RONGMOT/.test(q) && once('r')) return json(200, { choices: [{ message: { role: 'assistant', content: '' } }] });
+      if (/TUCHOIMAI/.test(q)) return json(200, { choices: [{ message: { role: 'assistant', content: 'Dạ, em chưa ghi nhận thông tin này trên website ạ.'+String.fromCharCode(10)+'NGUỒN: không' } }] });
+      if (/TUCHOINHAM/.test(q) && !/LƯU Ý QUAN TRỌNG/.test(sys)) return json(200, { choices: [{ message: { role: 'assistant', content: 'Dạ, em chưa thấy thông tin này trên website ạ.\nNGUỒN: không' } }] });
       if (/LOI500/.test(q)) return json(500, { error: { message: 'upstream exploded', code: 'server_error' } });
       if (/LOI429/.test(q)) return json(429, { error: { message: 'rate limit', code: 'rate_limit' } });
       if (/HTMLTAG/.test(q)) return json(200, { choices: [{ message: { role: 'assistant', content: 'Dạ <b>chào</b> anh<script>alert(1)</script> <img src=x onerror=alert(2)>\nNGUỒN: không' } }] });

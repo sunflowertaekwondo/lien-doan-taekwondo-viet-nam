@@ -112,6 +112,11 @@ export function parsePage(html, pageUrl, siteUrl) {
       prev.i.push(...c.i); prev.l.push(...c.l);
     } else merged.push(c);
   }
+  // doan "ngay thi dau" (vd "Chủ nhật 29/11/2026 Đã điều chỉnh"): gan ten Dai hoi + tu "chuong trinh/lich" de hoi chung chung van tim ra
+  for (const c of merged) {
+    const dm = /^((?:Thứ \S+|Chủ nhật)) (\d{2}\/\d{2}\/\d{4})(?: Đã điều chỉnh)?\n/.exec(c.t);
+    if (dm) { c.h = `Chương trình thi đấu ngày ${dm[2]} (${dm[1]})`; c.t = `${h1 || title} – lịch hoạt động và chương trình thi đấu ngày ${dm[2]} (${dm[1]}):\n` + c.t.slice(dm[0].length); }
+  }
   chunks.length = 0; chunks.push(...merged);
   // dan dau: tong quan trang
   const first = { a: '', h: h1 || title, t: `${h1 || title}${desc ? '\n' + desc : ''}`, i: [], l: [] };

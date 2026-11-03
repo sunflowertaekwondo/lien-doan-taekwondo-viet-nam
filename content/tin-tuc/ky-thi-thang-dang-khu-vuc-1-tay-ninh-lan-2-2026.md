@@ -1,5 +1,5 @@
 ---
-title: Kỳ thi thăng đẳng Taekwondo quốc gia khu vực 1 tỉnh Tây Ninh lần 2 năm 2026
+title: Kỳ thi thăng đẳng Taekwondo quốc gia khu vực 2 tỉnh Tây Ninh lần 2 năm 2026
 date: 2026-10-28
 category: Thông báo
 summary: Kỳ thi diễn ra ngày 08 tháng 11 năm 2026 tại Nhà thi đấu Thể thao tỉnh Tây Ninh (Số 26 Hoàng Lê Kha, phường Tân Ninh, tỉnh Tây Ninh). Có link đăng ký, danh sách tham dự, kết quả và Hội đồng Giám khảo.
