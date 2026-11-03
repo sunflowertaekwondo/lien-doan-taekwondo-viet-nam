@@ -107,7 +107,7 @@ export function parsePage(html, pageUrl, siteUrl) {
   const merged = [];
   for (const c of chunks) {
     const prev = merged[merged.length - 1];
-    if (prev && prev.t.length < 380 && prev.t.length + c.t.length < MAX_CHUNK * 1.15) {
+    if (prev && prev.a === c.a && prev.t.length < 380 && prev.t.length + c.t.length < MAX_CHUNK * 1.15) {   // chi gop trong cung mot muc (neo), khong nuot dau muc ke tiep
       prev.t += '\n' + (c.h && c.h !== prev.h && !c.t.startsWith(c.h) ? c.h + '\n' : '') + c.t;
       prev.i.push(...c.i); prev.l.push(...c.l);
     } else merged.push(c);
