@@ -613,7 +613,7 @@ const checkInTable = () => {
     organizer: { '@type': 'Organization', name: `Ban Tổ chức ${DH.ten}` },
     superEvent: { '@type': 'SportsEvent', name: DH.ten, url: CTT.url } };
   const dl = DH.nguon.dieuLe, st = DH.nguon.soTay;
-  const BTC = DH.banToChuc, BTT = DH.banTrongTai, nTT = BTT.thanhVien.length;
+  const BTC = DH.banToChuc, BTT = DH.banTrongTai, nTT = BTT.thanhVien.length, KD = DH.khanDai;
   const demGT = g => BTT.thanhVien.filter(t => t.gioiTinh === g).length, nDonVi = new Set(BTT.thanhVien.map(t => t.donVi)).size;
   const qdSrc = q => `Quyết định số ${nw(q.so)} ngày ${q.ngay} của Trưởng Ban Tổ chức ${esc(DH.ten)}`;
   const srcDL = `Điều lệ môn Taekwondo ban hành kèm Quyết định số ${nw(dl.so)} ngày ${dl.ngay}`;
@@ -621,7 +621,7 @@ const checkInTable = () => {
     file: 'dai-hoi-the-thao-toan-quoc-2026.html', path: DH_PATH, active: '/lich-thi-dau', title: m.title, desc: m.desc, ogImage: `og-${m.og}.jpg`, crumbs, extraLd: [dhLd],
     hero: pageHero(crumbs, DH.ten, `Môn ${esc(DH.mon)} · ${dhRange} · ${esc(DH.diaDiem)}`),
     body: `
-    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#chuong-trinh">Chương trình</a><a href="#ban-to-chuc-trong-tai">Ban tổ chức, trọng tài</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#quy-dinh">Quy định</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
+    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#chuong-trinh">Chương trình</a><a href="#khan-dai">Khán đài</a><a href="#ban-to-chuc-trong-tai">Ban tổ chức, trọng tài</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#quy-dinh">Quy định</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
       sec('tong-quan', 'Tổng quan', `<ul class="cal-stats">
           <li><b>${dhRange}</b><span>thời gian</span></li>
           <li><b>${nTong}</b><span>nội dung thi đấu</span></li>
@@ -636,13 +636,31 @@ const checkInTable = () => {
         <h3 class="sub-h">Mốc thời gian</h3>
         <ol class="ms-list">${moc.map(([d, e, t, s]) => `<li data-end="${e}"><time datetime="${d}"><b>${viDate(d).slice(0, 5)}</b><small>${thu(d)}</small></time><span class="ms-body"><strong>${esc(t)}</strong>${s ? `<small>${esc(s)}</small>` : ''}</span><span class="ms-state" aria-live="off"></span></li>`).join('')}</ol>
         ${src(`${srcDL}; ${esc(st.ten)}`)}`, `Thông tin thi đấu môn ${esc(DH.mon)} tại ${esc(DH.ten)}, theo Điều lệ môn và Sổ tay Check-in của Ban Tổ chức.`),
-      sec('chuong-trinh', 'Chương trình tổ chức thi đấu', `<div class="prog">${DH.chuongTrinh.map(d => `
+      sec('chuong-trinh', 'Chương trình tổ chức thi đấu', `<figure class="dh-poster"><a href="/img/${DH.lichHinh.file}.webp" target="_blank" rel="noopener"><picture><img src="/img/${DH.lichHinh.file}.webp" width="${DH.lichHinh.w}" height="${DH.lichHinh.h}" alt="${esc(DH.lichHinh.alt)}" loading="lazy"></picture></a><figcaption>Lịch hoạt động môn Taekwondo do Ban Tổ chức Đại hội công bố (bấm vào hình để xem cỡ lớn)</figcaption></figure>
+        <div class="prog">${DH.chuongTrinh.map(d => `
           <div class="prog-day${d.dieuChinh ? ' is-updated' : ''}"><h3><span>${thu(d.ngay)}</span> ${viDate(d.ngay)}${d.dieuChinh ? ' <small class="upd">Đã điều chỉnh</small>' : ''}</h3>
             <ul class="prog-items">${d.muc.map(([g, t]) => `<li><span class="pg-time">${esc(g)}</span><span>${esc(t)}</span></li>`).join('')}</ul>
           </div>`).join('')}
         </div>
         <p class="note">${icon('info')}<span>${esc(DH.dieuChinh.noiDung)} ngày ${viDate(DH.dieuChinh.ngay)}. ${esc(DH.chuongTrinhGhiChu)}. Địa điểm: ${esc(DH.diaDiem)}.</span></p>
-        ${src(`${srcDL}; ngày 23/11 và 24/11 theo cập nhật của Liên đoàn ngày ${viDate(DH.dieuChinh.ngay)}`)}`, '', 'alt'),
+        <h3 class="sub-h">Cân vận động viên</h3>
+        <ul class="bullets">
+          <li><strong>Cân kiểm tra vận động viên:</strong> ${esc(DH.can.kiemTra)}.</li>
+          <li><strong>Cân chính thức:</strong> ${esc(DH.can.chinhThuc)}, tiến hành trước ngày thi đấu chính thức 01 ngày.</li>
+          <li>${esc(DH.can.traoThuong)}</li>
+        </ul>
+        ${src(`${srcDL}; Lịch hoạt động chính thức môn Taekwondo của Ban Tổ chức Đại hội, cập nhật ngày ${viDate(DH.dieuChinh.ngay)}`)}`, '', 'alt'),
+      sec('khan-dai', KD.tieuDe, `<p><strong>Kính gửi:</strong></p>
+        <ul class="bullets">${KD.kinhGui.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+        <p>${esc(KD.moDau)}</p>
+        <ul class="kd-legend">${KD.phanKhu.map(k => `<li><span class="kd-sw ${esc(k.lop)}" aria-hidden="true"></span><span><strong>${esc(k.khan)}</strong>${esc(k.danhCho)}</span></li>`).join('')}</ul>
+        ${KD.hinh.map(h => `<figure class="dh-poster kd-fig"><a href="/img/${h.file}.webp" target="_blank" rel="noopener"><picture><img src="/img/${h.file}.webp" width="${h.w}" height="${h.h}" alt="${esc(h.alt)}" loading="lazy"></picture></a><figcaption>${esc(h.chuThich)}</figcaption></figure>`).join('')}
+        <h3 class="sub-h">Quy định ra vào và sử dụng chỗ ngồi</h3>
+        <ul class="bullets"><li><strong>${esc(KD.loiVao.ten)}:</strong> ${esc(KD.loiVao.noiDung)}</li></ul>
+        <h3 class="sub-h">Đúng khu vực quy định</h3>
+        <ul class="bullets">${KD.dungKhuVuc.map(([k, v]) => `<li><strong>${esc(k)}:</strong> ${esc(v)}</li>`).join('')}</ul>
+        <p class="note">${icon('info')}<span>${esc(KD.ketThuc)} <strong>${esc(KD.camOn)}</strong></span></p>
+        ${src(`Thông báo của Ban Tổ chức về phân khu khán đài và quy định ra vào nhà thi đấu, môn ${esc(DH.mon)}, ${esc(DH.tenNgan)}; đăng ngày ${viDate(KD.ngayDang)}`)}`),
       sec('ban-to-chuc-trong-tai', 'Ban Tổ chức và Ban Trọng tài', `<h3 class="sub-h">Ban Tổ chức môn Taekwondo (${BTC.thanhVien.length} thành viên)</h3>
         <p>${esc(BTC.nhiemVu)}</p>
         <table class="table docs-table roster"><thead><tr><th scope="col">TT</th><th scope="col">Họ và tên</th><th scope="col">Đơn vị công tác</th><th scope="col">Chức vụ trong Ban Tổ chức</th></tr></thead><tbody>${BTC.thanhVien.map((t, i) => `

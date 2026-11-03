@@ -44,6 +44,25 @@ export const CASES = [
   ['Thi lên 4 đẳng cần độ tuổi tối thiểu bao nhiêu', ['/van-ban'], '18 tuổi'],
   ['Tiêu chuẩn tuyển chọn huấn luyện viên đội tuyển Taekwondo quốc gia', ['/van-ban'], 'huấn luyện viên'],
   ['Điều 12 Điều lệ quy định thủ tục kết nạp hội viên thế nào', ['/dieu-le']],
+  // Đại hội TDTT toàn quốc: hỏi chung chung, hỏi theo ngày, theo nội dung (mô hình từng trả lời nhầm "chưa có thông tin")
+  ['Lịch thi đấu Taekwondo Đại hội Thể thao toàn quốc lần thứ X', [DH], '29/11'],
+  ['Đại hội thể thao toàn quốc môn Taekwondo, đối kháng đồng đội thi ngày nào và mấy giờ?', [DH], 'đồng đội'],
+  ['Ngày 29/11 Đại hội thể thao toàn quốc có nội dung gì?', [DH], 'Farewell'],
+  ['Ngày 25/11 thi gì', [DH], 'quyền'],
+  ['Hạng cân nam thi ngày 27/11', [DH], '58kg'],
+  ['Cân chính thức mấy giờ', [DH], '10:00 – 12:00'],
+  ['Họp lãnh đội lúc mấy giờ ở đâu', [DH], 'Họp Lãnh đội'],
+  ['Tập huấn trọng tài ngày nào', [DH], 'Tập huấn'],
+  ['Tiệc chia tay Farewell Party ở khách sạn nào', [DH], 'Đệ Nhất'],
+  ['Lễ trao thưởng diễn ra khi nào', [DH], 'trao thưởng'],
+  ['Thi đấu ở đâu, địa chỉ nhà thi đấu Đại hội', [DH], 'Nguyễn Văn Lượng'],
+  // phân khu khán đài, lối vào (thông báo của Ban Tổ chức 03/11/2026)
+  ['Khán giả cổ động viên ngồi khán đài màu gì ở Đại hội?', [DH], 'Khán đài Tím'],
+  ['Khu vực VIP, khách mời ngồi ở đâu', [DH], 'VIP'],
+  ['Đoàn TP. Hồ Chí Minh ngồi khán đài nào', [DH], 'Xanh lá'],
+  ['HLV VĐV các đoàn ngồi khu nào trong nhà thi đấu', [DH], 'Xanh ngọc'],
+  ['Vào nhà thi đấu cần mang thẻ gì, có cửa riêng không', [DH], 'Thẻ Đại hội'],
+  ['Sơ đồ khán đài nhà thi đấu Đại hội Thể thao toàn quốc', [DH], 'Khán đài Xanh dương'],
 ];
 
 export function runEval(dist, { k = 5, verbose = false } = {}) {

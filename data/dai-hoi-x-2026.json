@@ -4,7 +4,7 @@
  "tenNgan": "Đại hội Thể thao toàn quốc lần thứ X",
  "mon": "Taekwondo",
  "batDau": "2026-11-23",
- "ketThuc": "2026-11-30",
+ "ketThuc": "2026-11-29",
  "diaDiem": "Nhà thi đấu TDTT phường An Hội Đông, Tp. Hồ Chí Minh",
  "diaDiemTen": "Nhà thi đấu TDTT phường An Hội Đông",
  "diaChi": "5A đường Nguyễn Văn Lượng, phường An Hội Đông, TP. HCM",
@@ -123,7 +123,7 @@
    "muc": [
     [
      "08:00 – 15:00",
-     "Check-in, nhận thẻ thi đấu, kiểm tra schema, nộp nhạc thi quyền sáng tạo"
+     "Các đoàn check-in, nhận thẻ thi đấu, kiểm tra schema, nộp nhạc thi quyền sáng tạo (Phòng họp Lầu 1)"
     ]
    ],
    "dieuChinh": true
@@ -132,16 +132,16 @@
    "ngay": "2026-11-24",
    "muc": [
     [
-     "Sáng",
-     "Tập huấn Trọng tài: lý thuyết"
+     "08:00 – 11:00",
+     "Tập huấn Trọng tài: lý thuyết (Phòng họp Lầu 1)"
     ],
     [
-     "Chiều",
-     "Tập huấn Trọng tài: thực hành"
+     "13:30 – 16:30",
+     "Tập huấn Trọng tài: thực hành (Sân 2)"
     ],
     [
-     "14:00",
-     "Họp Lãnh đội, bốc thăm xếp lịch (Phòng họp Lầu 1)"
+     "14:00 – 16:00",
+     "Họp Lãnh đội, bốc thăm xếp lịch (Phòng họp Lầu 1)"
     ]
    ],
    "dieuChinh": true
@@ -150,125 +150,109 @@
    "ngay": "2026-11-25",
    "muc": [
     [
-     "09h00 – 18h30",
-     "Thi đấu các nội dung quyền"
+     "09:00 – 17:00",
+     "Thi đấu tất cả các nội dung quyền (Sân 2)"
     ],
     [
-     "10h00 – 12h00",
+     "10:00 – 12:00",
      "Cân chính thức các VĐV thi đấu ngày 26/11"
     ],
     [
-     "18h30 – 19h30",
-     "Phát khen thưởng"
+     "Cuối ngày",
+     "Lễ trao thưởng"
     ]
-   ]
+   ],
+   "dieuChinh": true
   },
   {
    "ngay": "2026-11-26",
    "muc": [
     [
-     "08h00 – 8h30",
+     "08:00 – 08:30",
      "Cân kiểm tra vận động viên"
     ],
     [
-     "9h00 – 18h00",
-     "Thi đấu vòng loại đối kháng các hạng cân: Nam: 54kg, 68kg, trên 87kg; Nữ: 46kg, 57kg, 73kg"
+     "09:00 – 19:00",
+     "Thi đấu đối kháng các hạng cân: Nam: 54kg, 68kg, trên 87kg; Nữ: 46kg, 57kg, 73kg"
     ],
     [
-     "10h00 – 12h00",
+     "10:00 – 12:00",
      "Cân chính thức các VĐV thi đấu ngày 27/11"
     ],
     [
-     "18h00 – 20h00",
-     "Thi đấu bán kết, chung kết"
-    ],
-    [
-     "20h15",
-     "Phát khen thưởng"
+     "Cuối ngày",
+     "Lễ trao thưởng"
     ]
-   ]
+   ],
+   "dieuChinh": true
   },
   {
    "ngay": "2026-11-27",
    "muc": [
     [
-     "08h00 – 8h30",
+     "08:00 – 08:30",
      "Cân kiểm tra vận động viên"
     ],
     [
-     "9h00 – 18h00",
-     "Thi đấu vòng loại đối kháng các hạng cân: Nam: 58kg, 74kg, 80kg; Nữ: 49kg, 67kg"
+     "09:00 – 19:00",
+     "Thi đấu đối kháng các hạng cân: Nam: 58kg, 74kg, 80kg; Nữ: 49kg, 67kg"
     ],
     [
-     "10h00 – 12h00",
+     "10:00 – 12:00",
      "Cân chính thức các VĐV thi đấu ngày 28/11"
     ],
     [
-     "18h00 – 20h00",
-     "Thi đấu bán kết, chung kết"
-    ],
-    [
-     "20h15",
-     "Phát khen thưởng"
+     "Cuối ngày",
+     "Lễ trao thưởng"
     ]
-   ]
+   ],
+   "dieuChinh": true
   },
   {
    "ngay": "2026-11-28",
    "muc": [
     [
-     "08h00 – 8h30",
+     "08:00 – 08:30",
      "Cân kiểm tra vận động viên"
     ],
     [
-     "9h00 – 18h00",
-     "Thi đấu vòng loại đối kháng các hạng cân: Nam: 63kg, 87kg; Nữ: 53kg, 62kg, trên 73kg"
+     "09:00 – 19:00",
+     "Thi đấu đối kháng các hạng cân: Nam: 63kg, 87kg; Nữ: 53kg, 62kg, trên 73kg"
     ],
     [
-     "10h00 – 11h30",
+     "10:00 – 12:00",
      "Cân chính thức các VĐV thi đấu ngày 29/11"
     ],
     [
-     "18h00 – 20h00",
-     "Thi đấu bán kết, chung kết"
-    ],
-    [
-     "20h15",
-     "Phát khen thưởng"
+     "Cuối ngày",
+     "Lễ trao thưởng"
     ]
-   ]
+   ],
+   "dieuChinh": true
   },
   {
    "ngay": "2026-11-29",
    "muc": [
     [
-     "08h00 – 18h00",
-     "Thi đấu đối kháng đồng [đội]"
+     "09:00 – 17:00",
+     "Thi đấu đối kháng đồng đội"
     ],
     [
-     "18h30 – 20h00",
-     "Thi đấu bán kết, chung kết"
+     "Cuối ngày",
+     "Lễ trao thưởng"
     ],
     [
-     "20h15",
-     "Phát khen thưởng"
+     "18:00",
+     "Farewell Party – Khách sạn Đệ Nhất"
     ]
-   ]
-  },
-  {
-   "ngay": "2026-11-30",
-   "muc": [
-    [
-     "",
-     "Các đoàn ra về"
-    ]
-   ]
+   ],
+   "dieuChinh": true
   }
  ],
- "chuongTrinhGhiChu": "Lịch thi đấu có thể thay đổi tùy theo tình hình thực tế",
+ "chuongTrinhGhiChu": "Các nội dung đối kháng cá nhân thi đấu trên cả 3 sân; lịch thi đấu chi tiết thứ tự các hạng cân và vị trí sân sẽ được Ban Tổ chức thông báo tại buổi Họp lãnh đội. Lịch thi đấu có thể thay đổi tùy theo tình hình thực tế",
  "dieuChinh": {
-  "ngay": "2026-10-24",
-  "noiDung": "Chương trình ngày 23/11 và 24/11 đã được điều chỉnh theo cập nhật của Liên đoàn"
+  "ngay": "2026-10-31",
+  "noiDung": "Chương trình đã được cập nhật theo Lịch hoạt động chính thức môn Taekwondo do Ban Tổ chức Đại hội công bố"
  },
  "checkIn": {
   "gioiThieu": "Nhằm chuẩn bị tốt nhất công tác tổ chức và tiếp đón các đoàn tham dự môn Taekwondo tại Đại hội Thể thao toàn quốc lần X - 2026, Ban Tổ chức triển khai biểu mẫu đăng ký lịch check-in dành cho các đơn vị. Trong quá trình check-in, các đơn vị sẽ nhận thẻ thi đấu và kiểm tra schema, truy cập thử theo các email đã đăng ký và nộp nhạc thi quyền sáng tạo.",
@@ -343,7 +327,7 @@
  },
  "hopLanhDoi": {
   "ngay": "2026-11-24",
-  "gio": "14:00",
+  "gio": "14:00 – 16:00",
   "noi": "Phòng họp Lầu 1, Nhà thi đấu TDTT phường An Hội Đông, TP. HCM"
  },
  "lienKet": {
@@ -761,6 +745,78 @@
   ]
  },
  "_hieuDinh": "Sua loi chinh ta ro rang so voi ban goc: QD94 \"UBND phuong An Hoi Dong\" -> \"phuong (co dau huyen)\"; QD173 don vi \"Dak lak\" -> \"Dak Lak\" (dau sac). Con lai chep nguyen van; so va ngay QD 94, 173 doc tu ban scan (viet tay/dong dau).",
+ "khanDai": {
+  "_ghi_chu": "Thong bao phan khu khan dai va quy dinh ra vao nha thi dau cua Ban To chuc (khong ghi so van ban). Noi dung chep dung chu tu thong bao; bo bieu tuong cam xuc. 'lop' la vip/hcm/cdv/hlv, ung voi mau trong chu giai cua so do (mau dat trong src/site.css, .kd-sw). Ngay dang yyyy-mm-dd.",
+  "tieuDe": "Thông báo phân khu khán đài và quy định ra vào nhà thi đấu",
+  "ngayDang": "2026-11-03",
+  "kinhGui": [
+   "Lãnh đội, Huấn luyện viên, Vận động viên các đoàn tham dự giải;",
+   "Quý vị đại biểu, khách mời cùng toàn thể quý khán giả, cổ động viên đến theo dõi và cổ vũ."
+  ],
+  "moDau": "Nhằm bảo đảm an ninh trật tự, tạo điều kiện thuận lợi cho công tác chuyên môn cũng như mang đến trải nghiệm theo dõi, cổ vũ tốt nhất cho khán giả, Ban Tổ chức xin thông báo quy định phân khu chỗ ngồi trên khán đài theo màu sắc như sau:",
+  "phanKhu": [
+   {
+    "lop": "vip",
+    "khan": "Khán đài Xanh dương",
+    "danhCho": "Đại biểu & Khách mời (VIP)"
+   },
+   {
+    "lop": "hcm",
+    "khan": "Khán đài Xanh lá",
+    "danhCho": "Đoàn HLV/VĐV TP. Hồ Chí Minh"
+   },
+   {
+    "lop": "cdv",
+    "khan": "Khán đài Tím",
+    "danhCho": "Toàn thể Quý khán giả & Cổ động viên"
+   },
+   {
+    "lop": "hlv",
+    "khan": "Toàn bộ Khán đài Xanh ngọc",
+    "danhCho": "HLV & VĐV các đoàn tham dự"
+   }
+  ],
+  "loiVao": {
+   "ten": "Lối vào riêng biệt",
+   "noiDung": "Mỗi khu vực đều được bố trí lối đi và cửa vào riêng, có bảng chỉ dẫn chi tiết ngay tại sảnh chính nhà thi đấu. (BTC sẽ đăng bản đồ kèm hướng dẫn thông tin chi tiết các lối vào)"
+  },
+  "dungKhuVuc": [
+   [
+    "Đối với HLV/VĐV các đoàn tham dự giải đấu",
+    "Vui lòng đeo hoặc xuất trình Thẻ Đại hội chính thức do BTC cấp khi di chuyển qua các cửa kiểm soát."
+   ],
+   [
+    "Đối với quý khán giả, cổ động viên",
+    "Vui lòng di chuyển theo hướng dẫn vào đúng khu vực Khán đài Tím dành riêng cho cổ động viên."
+   ],
+   [
+    "Ngồi đúng vị trí",
+    "Đề nghị toàn thể quý vị ngồi đúng khu vực được phân bổ; tuyệt đối không tự ý di chuyển sang các khu vực chức năng khác."
+   ],
+   [
+    "Hỗ trợ & Kiểm soát",
+    "Lực lượng an ninh và tình nguyện viên sẽ túc trực tại các lối vào để hỗ trợ hướng dẫn chỗ ngồi và kiểm soát an ninh chung."
+   ]
+  ],
+  "ketThuc": "Sự hiện diện và cổ vũ nhiệt tình, văn minh của quý khán giả, cổ động viên là nguồn động lực cho các vận động viên cống hiến những trận đấu hay nhất. BTC rất mong nhận được sự đồng hành, tuân thủ nghiêm túc từ các đoàn HLV/VĐV, cùng toàn thể quý khán giả, cổ động viên để cùng tạo nên một kỳ Đại hội an toàn, văn minh và thành công rực rỡ!",
+  "camOn": "Trân trọng cảm ơn sự hợp tác của toàn thể quý vị!",
+  "hinh": [
+   {
+    "file": "dai-hoi-x-2026-so-do-khan-dai-1",
+    "w": 2000,
+    "h": 1345,
+    "alt": "Sơ đồ 3D nhà thi đấu nhìn từ trên cao, có chú giải màu. Ba sân thi đấu Sân 1, Sân 2, Sân 3 nằm ở giữa. Dãy khán đài phía trên bên trái có màu tím (cổ động viên), xanh lá (đoàn TP. Hồ Chí Minh) và xanh dương nhạt ở giữa (V.I.P.). Khán đài màu xanh ngọc phía dưới bên phải dành cho HLV, VĐV các đoàn. Góc dưới bên phải ghi các khu vực TD, trọng tài, BTC và waiting area",
+    "chuThich": "Sơ đồ 1: toàn cảnh nhà thi đấu, có chú giải màu (bấm vào hình để xem cỡ lớn)"
+   },
+   {
+    "file": "dai-hoi-x-2026-so-do-khan-dai-2",
+    "w": 2000,
+    "h": 1180,
+    "alt": "Sơ đồ 3D nhà thi đấu nhìn từ phía khán đài: Sân 1, Sân 2, Sân 3 xếp cạnh nhau ở giữa. Khán đài xanh ngọc ở phía xa dành cho HLV, VĐV các đoàn. Phía gần là các khu tím (cổ động viên), xanh lá (đoàn TP. Hồ Chí Minh) và xanh dương nhạt (V.I.P.), cùng các bàn trọng tài và Ban Tổ chức quanh sân",
+    "chuThich": "Sơ đồ 2: nhìn từ khu khán đài về phía ba sân thi đấu (bấm vào hình để xem cỡ lớn)"
+   }
+  ]
+ },
  "congThongTin": {
   "ten": "Cổng thông tin Đại hội Thể thao toàn quốc lần thứ X năm 2026",
   "url": "https://congthongtindaihoi.indivisys.vn/vi",
@@ -782,5 +838,16 @@
     "https://congthongtindaihoi.indivisys.vn/vi/tin-tuc"
    ]
   ]
+ },
+ "can": {
+  "kiemTra": "08:00 – 08:30",
+  "chinhThuc": "10:00 – 12:00",
+  "traoThuong": "Lễ trao thưởng diễn ra vào cuối mỗi ngày thi đấu."
+ },
+ "lichHinh": {
+  "file": "dai-hoi-x-2026-lich-hoat-dong",
+  "w": 1200,
+  "h": 1500,
+  "alt": "Lịch hoạt động môn Taekwondo, Đại hội Thể thao toàn quốc lần thứ X năm 2026 tại Nhà thi đấu TDTT phường An Hội Đông, TP. HCM (5A Nguyễn Văn Lượng): 23/11 check-in, nhận thẻ thi đấu và kiểm tra schema; 24/11 tập huấn trọng tài và họp lãnh đội; 25/11 các nội dung quyền; 26/11 đến 28/11 đối kháng cá nhân; 29/11 đối kháng đồng đội và Farewell Party lúc 18:00 tại Khách sạn Đệ Nhất"
  }
 }
