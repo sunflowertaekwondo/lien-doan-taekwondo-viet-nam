@@ -196,7 +196,7 @@ export function createHandler(deps = {}) {
     const qTok = new Set(tokens(last.content).filter(t => t.length > 1));   // hinh nao co chu thich khop cau hoi nhat thi dua len truoc
     const rank = alt => tokens(alt).filter(t => qTok.has(t)).length;
     const images = uniq(used.flatMap(x => x.i.map(i => ({ src: i.s, alt: i.a, url: srcUrl(x) }))), i => i.src).sort((x, y) => rank(y.alt) - rank(x.alt)).slice(0, 2);
-    return send(200, { ok: true, answer: guarded.answer, sources, links, images, model: usedModel, via, topScore: Math.round((top[0]?.score || 0) * 10) / 10 });
+    return send(200, { ok: true, answer: guarded.answer, sources, links, images, model: usedModel, via, topScore: Math.round((top[0]?.score || 0) * 10) / 10, kbChunks: kbc.kb.chunks.length, top: top.slice(0, 3).map(r => `${r.c.p}#${r.c.a}:${Math.round(r.score)}`) });
   };
 }
 
