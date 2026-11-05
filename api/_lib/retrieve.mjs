@@ -27,6 +27,7 @@ const SYN = [
   [/lich|giai dau|khi nao|bao gio|thoi gian|ngay nao|sap toi/, 'lich thi dau thoi gian dia diem'],
   [/check ?in|khung gio|diem danh/, 'check in khung gio dang ky'],
   [/trong tai|giam khao|giam sat/, 'trong tai giam khao ban trong tai'],
+  [/dai hoi.*(cac buoc|chuan bi|can lam gi|tham gia)|(cac buoc|chuan bi|can lam gi).*dai hoi/, 'lo trinh giai doan truoc dai hoi check in nop nhac chuong trinh'],
   [/dai hoi.*(the thao|toan quoc)|the thao toan quoc|dhtt|dai hoi x\b|dai hoi lan thu x|sea games|tdtt toan quoc/, 'dai hoi the thao toan quoc chuong trinh lich hoat dong taekwondo'],
   [/doi khang|dong doi|hang can|\bkg\b|can kiem tra|can chinh thuc|can van dong vien|can vdv|trao thuong|khen thuong/, 'doi khang hang can can kiem tra can chinh thuc trao thuong chuong trinh thi dau'],
   [/farewell|tiec chia tay|tiec tat nien|bua tiec/, 'farewell party khach san de nhat chuong trinh'],

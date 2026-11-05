@@ -622,13 +622,20 @@ const checkInTable = () => {
     file: 'dai-hoi-the-thao-toan-quoc-2026.html', path: DH_PATH, active: '/lich-thi-dau', title: m.title, desc: m.desc, ogImage: `og-${m.og}.jpg`, crumbs, extraLd: [dhLd],
     hero: pageHero(crumbs, DH.ten, `Môn ${esc(DH.mon)} · ${dhRange} · ${esc(DH.diaDiem)}`),
     body: `
-    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#chuong-trinh">Chương trình</a><a href="#khan-dai">Khán đài</a><a href="#trao-huy-chuong">Trao huy chương</a><a href="#ban-to-chuc-trong-tai">Ban tổ chức, trọng tài</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#quy-dinh">Quy định</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
+    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#quy-dinh">Quy định</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#chuong-trinh">Chương trình</a><a href="#khan-dai">Khán đài</a><a href="#trao-huy-chuong">Trao huy chương</a><a href="#ban-to-chuc-trong-tai">Ban tổ chức, trọng tài</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
       sec('tong-quan', 'Tổng quan', `<ul class="cal-stats">
           <li><b>${dhRange}</b><span>thời gian</span></li>
           <li><b>${nTong}</b><span>nội dung thi đấu</span></li>
           <li><a class="stat-link" href="#ban-to-chuc-trong-tai"><b>${nTT}</b><span>trọng tài</span></a></li>
           <li><b>WT</b><span>luật thi đấu</span></li>
         </ul>
+        <h3 class="sub-h">Lộ trình theo giai đoạn</h3>
+        <ol class="steps dh-flow">
+          <li><b>Trước Đại hội</b><span>Đọc <a href="#quy-dinh">quy định chung</a> và <a href="#noi-dung-thi-dau">nội dung thi đấu</a>; đăng ký <a href="#email-schema">email truy cập schema</a> trước ${esc(DH.schema.hanChotChu)}; xem <a href="#san-tap">đăng ký sân tập</a>.</span></li>
+          <li><b>Ngày ${viDate(DH.checkIn.ngay).slice(0, 5)}: đến Đại hội</b><span><a href="#check-in">Check-in</a> nhận thẻ thi đấu, <a href="#nop-nhac">nộp nhạc quyền sáng tạo</a> tại bàn check-in; họp lãnh đội ngày ${viDate(DH.hopLanhDoi.ngay).slice(0, 5)}.</span></li>
+          <li><b>Các ngày thi đấu</b><span>Xem <a href="#chuong-trinh">chương trình theo ngày</a>, <a href="#khan-dai">phân khu khán đài và lối vào</a>, <a href="#trao-huy-chuong">hướng dẫn trao huy chương</a>.</span></li>
+          <li><b>Tổ chức và tài liệu</b><span><a href="#ban-to-chuc-trong-tai">Ban Tổ chức, Ban Trọng tài</a> và <a href="#tai-lieu">tài liệu của Đại hội</a>.</span></li>
+        </ol>
         <div class="grid g2">
           <div class="card"><h3>${icon('pin')} Địa điểm</h3><p><strong>${esc(DH.diaDiemTen)}</strong><br>${esc(DH.diaChi)}</p><p class="more"><a class="ref" href="${mapsUrl(DH.diaChi)}" target="_blank" rel="noopener">${icon('pin')}Xem bản đồ</a></p></div>
           <div class="card"><h3>${icon('calendar')} Đăng ký trước ${esc(DH.schema.hanChotChu)}</h3><p>Mỗi đơn vị đăng ký HLV đại diện, khung giờ check-in và 5 email truy cập hệ thống schema thi đấu theo biểu mẫu của Ban Tổ chức.</p><div class="btns">${extA(DH.lienKet.dangKy, 'Đăng ký')}${extA(DH.lienKet.khungGio, 'Xem khung giờ còn trống', 'btn btn-outline')}</div></div>
@@ -637,6 +644,71 @@ const checkInTable = () => {
         <h3 class="sub-h">Mốc thời gian</h3>
         <ol class="ms-list">${moc.map(([d, e, t, s]) => `<li data-end="${e}"><time datetime="${d}"><b>${viDate(d).slice(0, 5)}</b><small>${thu(d)}</small></time><span class="ms-body"><strong>${esc(t)}</strong>${s ? `<small>${esc(s)}</small>` : ''}</span><span class="ms-state" aria-live="off"></span></li>`).join('')}</ol>
         ${src(`${srcDL}; ${esc(st.ten)}`)}`, `Thông tin thi đấu môn ${esc(DH.mon)} tại ${esc(DH.ten)}, theo Điều lệ môn và Sổ tay Check-in của Ban Tổ chức.`),
+      sec('quy-dinh', 'Quy định chung', `<h3 class="sub-h">Đối tượng và điều kiện tham dự</h3>
+        <ol class="numlist one">${DH.doiTuong.map(t => `<li>${esc(t)}</li>`).join('')}</ol>
+        <h3 class="sub-h">Đăng ký thi đấu</h3>
+        <ul class="bullets">
+          <li>Đăng ký sơ bộ (số lượng tham gia): trước ngày ${viDate(DH.dangKy.soBo)}. Đăng ký chính thức: trước ngày ${viDate(DH.dangKy.chinhThuc)} (theo mẫu kèm Điều lệ).</li>
+          <li>Đăng ký được gửi về: ${esc(DH.dangKy.noiNhan)}. Email: <a href="mailto:${esc(DH.dangKy.email)}">${esc(DH.dangKy.email)}</a>, số điện thoại: <a href="tel:${esc(DH.dangKy.dienThoai.replace(/\D/g, ''))}">${esc(DH.dangKy.dienThoai)}</a>.</li>
+        </ul>
+        <h3 class="sub-h">Kinh phí, luật thi đấu, doping</h3>
+        <ul class="bullets">
+          <li><strong>Kinh phí tham dự:</strong> ${esc(DH.kinhPhi)}</li>
+          <li><strong>Luật thi đấu:</strong> ${esc(DH.luat)}</li>
+          <li><strong>Doping:</strong> ${esc(DH.doping)}</li>
+        </ul>
+        <h3 class="sub-h">Khen thưởng và kỷ luật</h3>
+        <ul class="bullets">
+          <li><strong>Khen thưởng:</strong> ${esc(DH.khenThuongDieu)} ${esc(DH.khenThuong)}</li>
+          <li><strong>Kỷ luật:</strong> ${esc(DH.kyLuat)}</li>
+        </ul>
+        <h3 class="sub-h">Giải quyết khiếu nại</h3>
+        <ul class="bullets">${DH.khieuNai.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+        ${src(`${srcDL}, mục I, III, IV, VII–X`)}`, '', 'alt'),
+      sec('noi-dung-thi-dau', `${nTong} nội dung thi đấu`, `<p>${esc(DH.doiKhangThietBi)}</p>
+        <h3 class="sub-h">Đối kháng cá nhân (${nCaNhan} nội dung)</h3>
+        ${Object.entries(DH.doiKhangCaNhan).map(([g, ws]) => `<div class="wc-row"><span class="wc-g">${esc(g)}</span><ul class="chips wc">${ws.map(w => `<li>${esc(w)}</li>`).join('')}</ul></div>`).join('')}
+        <h3 class="sub-h">Đối kháng đồng đội (${DH.doiKhangDongDoi.length} nội dung)</h3>
+        <table class="table docs-table"><thead><tr><th scope="col">Nội dung</th><th scope="col">Thành phần</th><th scope="col">Trọng lượng</th></tr></thead><tbody>${DH.doiKhangDongDoi.map(r => `<tr><td data-label="Nội dung">${esc(r.noiDung)}</td><td data-label="Thành phần">${esc(r.thanhPhan)}</td><td data-label="Trọng lượng">${esc(r.gioiHan)}</td></tr>`).join('')}</tbody></table>
+        <ul class="bullets">${DH.doiKhangDongDoiLuat.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+        <h3 class="sub-h">Quyền (${DH.quyen.length} nội dung)</h3>
+        <ul class="chips">${DH.quyen.map(q => `<li>${esc(q)}${DH.quyenSoVdv[q] ? ` (${esc(DH.quyenSoVdv[q])})` : ''}</li>`).join('')}</ul>
+        <h3 class="sub-h">Thể thức thi đấu</h3>
+        <ul class="bullets">${DH.theThuc.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+        <h3 class="sub-h">Số nội dung mỗi đơn vị được đăng ký</h3>
+        <ul class="bullets">${DH.dangKy.quyDinh.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+        ${src(`${srcDL}, mục III, V, VI`)}`),
+      sec('email-schema', 'Đăng ký email truy cập schema thi đấu', `<p>${esc(DH.schema.muc[0])}</p>
+        <p class="deadline">${icon('calendar')}<span>Hạn đăng ký: <strong>${esc(DH.schema.hanChotChu)}/${DH.schema.hanChot.slice(0, 4)}</strong></span></p>
+        <div class="btns">${extA(DH.lienKet.dangKy, 'Bấm đăng ký tại đây')}</div>
+        <p>${esc(DH.schema.muc[1])}</p>
+        <ul class="contact-list">${DH.lienHeBtc.map(c => telA(c.ten, c.dienThoai)).join('')}</ul>
+        ${src(esc(st.ten))}`, '', 'alt'),
+      sec('san-tap', 'Đăng ký sân tập', `<div class="grid g2">
+          <div class="card"><h3>${icon('pin')} Địa điểm</h3><p><strong>${esc(DH.diaDiemTen)}</strong><br>${esc(DH.diaChi)}</p></div>
+          <div class="card"><h3>${icon('phone')} Liên hệ</h3><ul class="contact-list">${telA(DH.sanTap.lienHe.ten, DH.sanTap.lienHe.dienThoai, DH.sanTap.lienHe.vaiTro)}</ul></div>
+        </div>
+        <p class="note">${icon('info')}<span><strong>Lưu ý:</strong> ${esc(DH.sanTap.luuY)}</span></p>
+        ${src(esc(st.ten))}`),
+      sec('check-in', 'Check-in và nhận thẻ thi đấu', `<p>${esc(DH.checkIn.gioiThieu)}</p>
+        <div class="grid g2">
+          <div class="card"><h3>${icon('calendar')} Thời gian</h3><p><strong>${esc(DH.checkIn.gio)}/${DH.checkIn.ngay.slice(0, 4)}</strong> (${thu(DH.checkIn.ngay)})</p></div>
+          <div class="card"><h3>${icon('pin')} Địa điểm</h3><p><strong>${esc(DH.checkIn.phong)}</strong><br>${esc(DH.diaChi)}</p></div>
+        </div>
+        <ol class="steps">${DH.checkIn.quyTrinh.map(([b, s], i) => `<li><b>${esc(b)}</b><span>${esc(s)}${i === 0 ? ` <strong>Đăng ký qua biểu mẫu của Ban Tổ chức, hạn ${esc(DH.schema.hanChotChu)}.</strong>` : ''}</span></li>`).join('')}</ol>
+        <p class="note">${icon('info')}<span><strong>Lưu ý:</strong> ${esc(DH.checkIn.canhBao)}</span></p>
+        <p class="note">${icon('info')}<span>${esc(DH.checkIn.luuY)}</span></p>
+        <h3 class="sub-h">Khung giờ check-in</h3>
+        <p>${esc(DH.checkIn.khungGio)} Hạn đăng ký: <strong>${esc(DH.schema.hanChotChu)}/${DH.schema.hanChot.slice(0, 4)}</strong>.</p>
+        <div class="btns">${extA(DH.lienKet.khungGio, 'Xem khung giờ còn trống', 'btn btn-outline')}${extA(DH.lienKet.dangKy, 'Đăng ký khung giờ')}</div>
+        ${checkInTable()}
+        <h3 class="sub-h">Thay đổi thông tin đã đăng ký</h3>
+        <p>${esc(DH.checkIn.thayDoi)}</p>
+        <ul class="contact-list">${DH.lienHeBtc.map(c => telA(c.ten, c.dienThoai)).join('')}</ul>
+        ${src(esc(st.ten))}`, '', 'alt'),
+      sec('nop-nhac', 'Nộp nhạc thi quyền sáng tạo', `<p>${esc(DH.nhac.gioiThieu)}</p>
+        <table class="table kv"><tbody>${DH.nhac.muc.map(([k, v]) => `<tr><th scope="row">${esc(k)}</th><td>${esc(v)}</td></tr>`).join('')}</tbody></table>
+        ${src(esc(st.ten))}`),
       sec('chuong-trinh', 'Chương trình tổ chức thi đấu', `<figure class="dh-poster"><a href="/img/${DH.lichHinh.file}.webp" target="_blank" rel="noopener"><picture><img src="/img/${DH.lichHinh.file}.webp" width="${DH.lichHinh.w}" height="${DH.lichHinh.h}" alt="${esc(DH.lichHinh.alt)}" loading="lazy"></picture></a><figcaption>Lịch hoạt động môn Taekwondo do Ban Tổ chức Đại hội công bố (bấm vào hình để xem cỡ lớn)</figcaption></figure>
         <div class="prog">${DH.chuongTrinh.map(d => `
           <div class="prog-day${d.dieuChinh ? ' is-updated' : ''}"><h3><span>${thu(d.ngay)}</span> ${viDate(d.ngay)}${d.dieuChinh ? ' <small class="upd">Đã điều chỉnh</small>' : ''}</h3>
@@ -644,6 +716,7 @@ const checkInTable = () => {
           </div>`).join('')}
         </div>
         <p class="note">${icon('info')}<span>${esc(DH.dieuChinh.noiDung)} ngày ${viDate(DH.dieuChinh.ngay)}. ${esc(DH.chuongTrinhGhiChu)}. Địa điểm: ${esc(DH.diaDiem)}.</span></p>
+        <p class="note">${icon('info')}<span>Xem thêm: <a href="#khan-dai">phân khu khán đài và quy định ra vào nhà thi đấu</a>; <a href="#trao-huy-chuong">hướng dẫn lễ trao huy chương</a> (lễ trao thưởng diễn ra vào cuối mỗi ngày thi đấu).</span></p>
         <h3 class="sub-h">Cân vận động viên</h3>
         <ul class="bullets">
           <li><strong>Cân kiểm tra vận động viên:</strong> ${esc(DH.can.kiemTra)}.</li>
@@ -700,71 +773,6 @@ const checkInTable = () => {
           </tbody></table>
         </div></details>
         ${src(`${qdSrc(BTT.qd)} (danh sách kèm theo)`)}`),
-      sec('noi-dung-thi-dau', `${nTong} nội dung thi đấu`, `<p>${esc(DH.doiKhangThietBi)}</p>
-        <h3 class="sub-h">Đối kháng cá nhân (${nCaNhan} nội dung)</h3>
-        ${Object.entries(DH.doiKhangCaNhan).map(([g, ws]) => `<div class="wc-row"><span class="wc-g">${esc(g)}</span><ul class="chips wc">${ws.map(w => `<li>${esc(w)}</li>`).join('')}</ul></div>`).join('')}
-        <h3 class="sub-h">Đối kháng đồng đội (${DH.doiKhangDongDoi.length} nội dung)</h3>
-        <table class="table docs-table"><thead><tr><th scope="col">Nội dung</th><th scope="col">Thành phần</th><th scope="col">Trọng lượng</th></tr></thead><tbody>${DH.doiKhangDongDoi.map(r => `<tr><td data-label="Nội dung">${esc(r.noiDung)}</td><td data-label="Thành phần">${esc(r.thanhPhan)}</td><td data-label="Trọng lượng">${esc(r.gioiHan)}</td></tr>`).join('')}</tbody></table>
-        <ul class="bullets">${DH.doiKhangDongDoiLuat.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
-        <h3 class="sub-h">Quyền (${DH.quyen.length} nội dung)</h3>
-        <ul class="chips">${DH.quyen.map(q => `<li>${esc(q)}${DH.quyenSoVdv[q] ? ` (${esc(DH.quyenSoVdv[q])})` : ''}</li>`).join('')}</ul>
-        <h3 class="sub-h">Thể thức thi đấu</h3>
-        <ul class="bullets">${DH.theThuc.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
-        <h3 class="sub-h">Số nội dung mỗi đơn vị được đăng ký</h3>
-        <ul class="bullets">${DH.dangKy.quyDinh.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
-        ${src(`${srcDL}, mục III, V, VI`)}`),
-      sec('check-in', 'Check-in và nhận thẻ thi đấu', `<p>${esc(DH.checkIn.gioiThieu)}</p>
-        <div class="grid g2">
-          <div class="card"><h3>${icon('calendar')} Thời gian</h3><p><strong>${esc(DH.checkIn.gio)}/${DH.checkIn.ngay.slice(0, 4)}</strong> (${thu(DH.checkIn.ngay)})</p></div>
-          <div class="card"><h3>${icon('pin')} Địa điểm</h3><p><strong>${esc(DH.checkIn.phong)}</strong><br>${esc(DH.diaChi)}</p></div>
-        </div>
-        <ol class="steps">${DH.checkIn.quyTrinh.map(([b, s], i) => `<li><b>${esc(b)}</b><span>${esc(s)}${i === 0 ? ` <strong>Đăng ký qua biểu mẫu của Ban Tổ chức, hạn ${esc(DH.schema.hanChotChu)}.</strong>` : ''}</span></li>`).join('')}</ol>
-        <p class="note">${icon('info')}<span><strong>Lưu ý:</strong> ${esc(DH.checkIn.canhBao)}</span></p>
-        <p class="note">${icon('info')}<span>${esc(DH.checkIn.luuY)}</span></p>
-        <h3 class="sub-h">Khung giờ check-in</h3>
-        <p>${esc(DH.checkIn.khungGio)} Hạn đăng ký: <strong>${esc(DH.schema.hanChotChu)}/${DH.schema.hanChot.slice(0, 4)}</strong>.</p>
-        <div class="btns">${extA(DH.lienKet.khungGio, 'Xem khung giờ còn trống', 'btn btn-outline')}${extA(DH.lienKet.dangKy, 'Đăng ký khung giờ')}</div>
-        ${checkInTable()}
-        <h3 class="sub-h">Thay đổi thông tin đã đăng ký</h3>
-        <p>${esc(DH.checkIn.thayDoi)}</p>
-        <ul class="contact-list">${DH.lienHeBtc.map(c => telA(c.ten, c.dienThoai)).join('')}</ul>
-        ${src(esc(st.ten))}`, '', 'alt'),
-      sec('nop-nhac', 'Nộp nhạc thi quyền sáng tạo', `<p>${esc(DH.nhac.gioiThieu)}</p>
-        <table class="table kv"><tbody>${DH.nhac.muc.map(([k, v]) => `<tr><th scope="row">${esc(k)}</th><td>${esc(v)}</td></tr>`).join('')}</tbody></table>
-        ${src(esc(st.ten))}`),
-      sec('email-schema', 'Đăng ký email truy cập schema thi đấu', `<p>${esc(DH.schema.muc[0])}</p>
-        <p class="deadline">${icon('calendar')}<span>Hạn đăng ký: <strong>${esc(DH.schema.hanChotChu)}/${DH.schema.hanChot.slice(0, 4)}</strong></span></p>
-        <div class="btns">${extA(DH.lienKet.dangKy, 'Bấm đăng ký tại đây')}</div>
-        <p>${esc(DH.schema.muc[1])}</p>
-        <ul class="contact-list">${DH.lienHeBtc.map(c => telA(c.ten, c.dienThoai)).join('')}</ul>
-        ${src(esc(st.ten))}`, '', 'alt'),
-      sec('san-tap', 'Đăng ký sân tập', `<div class="grid g2">
-          <div class="card"><h3>${icon('pin')} Địa điểm</h3><p><strong>${esc(DH.diaDiemTen)}</strong><br>${esc(DH.diaChi)}</p></div>
-          <div class="card"><h3>${icon('phone')} Liên hệ</h3><ul class="contact-list">${telA(DH.sanTap.lienHe.ten, DH.sanTap.lienHe.dienThoai, DH.sanTap.lienHe.vaiTro)}</ul></div>
-        </div>
-        <p class="note">${icon('info')}<span><strong>Lưu ý:</strong> ${esc(DH.sanTap.luuY)}</span></p>
-        ${src(esc(st.ten))}`),
-      sec('quy-dinh', 'Quy định chung', `<h3 class="sub-h">Đối tượng và điều kiện tham dự</h3>
-        <ol class="numlist one">${DH.doiTuong.map(t => `<li>${esc(t)}</li>`).join('')}</ol>
-        <h3 class="sub-h">Đăng ký thi đấu</h3>
-        <ul class="bullets">
-          <li>Đăng ký sơ bộ (số lượng tham gia): trước ngày ${viDate(DH.dangKy.soBo)}. Đăng ký chính thức: trước ngày ${viDate(DH.dangKy.chinhThuc)} (theo mẫu kèm Điều lệ).</li>
-          <li>Đăng ký được gửi về: ${esc(DH.dangKy.noiNhan)}. Email: <a href="mailto:${esc(DH.dangKy.email)}">${esc(DH.dangKy.email)}</a>, số điện thoại: <a href="tel:${esc(DH.dangKy.dienThoai.replace(/\D/g, ''))}">${esc(DH.dangKy.dienThoai)}</a>.</li>
-        </ul>
-        <h3 class="sub-h">Kinh phí, luật thi đấu, doping</h3>
-        <ul class="bullets">
-          <li><strong>Kinh phí tham dự:</strong> ${esc(DH.kinhPhi)}</li>
-          <li><strong>Luật thi đấu:</strong> ${esc(DH.luat)}</li>
-          <li><strong>Doping:</strong> ${esc(DH.doping)}</li>
-        </ul>
-        <h3 class="sub-h">Khen thưởng và kỷ luật</h3>
-        <ul class="bullets">
-          <li><strong>Khen thưởng:</strong> ${esc(DH.khenThuongDieu)} ${esc(DH.khenThuong)}</li>
-          <li><strong>Kỷ luật:</strong> ${esc(DH.kyLuat)}</li>
-        </ul>
-        <h3 class="sub-h">Giải quyết khiếu nại</h3>
-        <ul class="bullets">${DH.khieuNai.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
-        ${src(`${srcDL}, mục I, III, IV, VII–X`)}`, '', 'alt'),
       sec('tai-lieu', 'Tài liệu', `<div class="docs">
           ${dhDocCards()}
         </div>`, '', 'alt'),

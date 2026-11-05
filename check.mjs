@@ -220,6 +220,7 @@ check(`${internal.length} liên kết nội bộ (kể cả #anchor, PDF, RSS) �
     hc: { tab: Boolean(document.querySelector('nav.tabs a[href="#trao-huy-chuong"]')), nhom: document.querySelectorAll('#trao-huy-chuong .grid.g2 .card').length, buoc: document.querySelectorAll('#trao-huy-chuong ol.numlist li').length,
       img: [...document.querySelectorAll('#trao-huy-chuong figure img')].filter(i => i.alt.length > 40 && i.getAttribute('width') && i.getAttribute('height') && /^\/img\/.+\.webp$/.test(i.getAttribute('src'))).map(i => i.getAttribute('src')),
       pdf: [...document.querySelectorAll('#trao-huy-chuong a[href$=".pdf"], #tai-lieu a[href$=".pdf"]')].map(x => x.getAttribute('href')) },
+    order: { tabs: [...document.querySelectorAll('nav.tabs a')].map(x => x.getAttribute('href').slice(1)), secs: [...document.querySelectorAll('main section[id]')].map(x => x.id), flow: [...document.querySelectorAll('#tong-quan ol.dh-flow a[href^="#"], #chuong-trinh a[href^="#"]')].map(x => x.getAttribute('href').slice(1)) },
     kd: { tab: Boolean(document.querySelector('nav.tabs a[href="#khan-dai"]')), legend: document.querySelectorAll('#khan-dai .kd-legend li').length,
       figs: [...document.querySelectorAll('#khan-dai figure img')].filter(i => i.alt.length > 40 && i.getAttribute('width') && i.getAttribute('height') && /^\/img\/.+\.webp$/.test(i.getAttribute('src'))).map(i => i.getAttribute('src')) },
     text: document.querySelector('main').innerText,
@@ -235,8 +236,9 @@ check(`${internal.length} liên kết nội bộ (kể cả #anchor, PDF, RSS) �
     && r.btc === DH.banToChuc.thanhVien.length && r.btt.join('|') === DH.banTrongTai.thanhVien.map(t => t.ten).join('|')
     && [DH.congThongTin.url, ...DH.congThongTin.trang.map(t => t[1])].every(u => r.portal.includes(u)) // Cong thong tin Dai hoi
     && r.kd.tab && r.kd.legend === DH.khanDai.phanKhu.length && r.kd.figs.length === DH.khanDai.hinh.length && kdImgs.every(Boolean)
+    && r.order.tabs.length >= 12 && r.order.tabs.join('|') === r.order.secs.filter(i => r.order.tabs.includes(i)).join('|') && r.order.flow.length >= 8 && r.order.flow.every(i => r.order.secs.includes(i)) // thu tu tab = thu tu muc; lien ket lo trinh tro dung muc
     && r.hc.tab && r.hc.nhom === DH.huyChuong.buoc1.nhom.length + 1 && r.hc.buoc === DH.huyChuong.buoc2.cacBuoc.length && r.hc.img.length === 1 && r.hc.pdf.filter(h => h === DH.nguon.huyChuong.pdf).length >= 2 && hcFiles.every(Boolean); // phan khu khan dai: chu giai, 2 so do tai duoc
-  check('Trang Đại hội Thể thao toàn quốc X: khớp dữ liệu Điều lệ, Sổ tay, QĐ Ban Tổ chức + Ban Trọng tài; SportsEvent, mốc thời gian; phân khu khán đài và 2 sơ đồ; hướng dẫn trao huy chương', ok, missing.length ? 'thiếu: ' + missing.slice(0, 3).join(' / ') : `${r.weights} hạng cân, ${r.teams} đồng đội, ${r.days.length} ngày, BTC ${r.btc}, trọng tài ${r.btt.length}`);
+  check('Trang Đại hội Thể thao toàn quốc X: khớp dữ liệu Điều lệ, Sổ tay, QĐ Ban Tổ chức + Ban Trọng tài; SportsEvent, mốc thời gian; phân khu khán đài và 2 sơ đồ; hướng dẫn trao huy chương; thứ tự mục theo lộ trình', ok, missing.length ? 'thiếu: ' + missing.slice(0, 3).join(' / ') : `${r.weights} hạng cân, ${r.teams} đồng đội, ${r.days.length} ngày, BTC ${r.btc}, trọng tài ${r.btt.length}`);
   await ctx.close();
 }
 

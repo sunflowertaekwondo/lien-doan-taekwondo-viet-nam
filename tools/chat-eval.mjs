@@ -70,6 +70,9 @@ export const CASES = [
   ['Lễ trao huy chương cần mấy lễ tân, mấy MC?', [DH], 'lễ tân'],
   ['Khu vực chờ của vận động viên đạt huy chương ở đâu', [DH], 'chờ'],
   ['Tải hướng dẫn trao huy chương Đại hội', [DH], 'huy chương'],
+  // lộ trình theo giai đoạn (Tổng quan)
+  ['Đoàn em cần chuẩn bị những gì trước khi đến Đại hội?', [DH], 'Trước Đại hội'],
+  ['Các bước tham gia Đại hội từ đăng ký đến ngày thi đấu', [DH], 'Lộ trình'],
 ];
 
 export function runEval(dist, { k = 5, verbose = false } = {}) {
