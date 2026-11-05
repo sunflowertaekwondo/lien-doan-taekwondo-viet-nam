@@ -22,6 +22,12 @@
    "coQuan": "Ban Tổ chức",
    "pdf": "/docs/dai-hoi-x-2026-so-tay-check-in-taekwondo.pdf",
    "kb": 2391
+  },
+  "huyChuong": {
+   "ten": "Hướng dẫn trao huy chương – Yêu cầu lễ trao huy chương, Đại hội Thể thao toàn quốc lần thứ X năm 2026",
+   "trang": 8,
+   "pdf": "/docs/dai-hoi-x-2026-huong-dan-trao-huy-chuong.pdf",
+   "kb": 365
   }
  },
  "doiTuong": [
@@ -849,5 +855,89 @@
   "w": 1200,
   "h": 1500,
   "alt": "Lịch hoạt động môn Taekwondo, Đại hội Thể thao toàn quốc lần thứ X năm 2026 tại Nhà thi đấu TDTT phường An Hội Đông, TP. HCM (5A Nguyễn Văn Lượng): 23/11 check-in, nhận thẻ thi đấu và kiểm tra schema; 24/11 tập huấn trọng tài và họp lãnh đội; 25/11 các nội dung quyền; 26/11 đến 28/11 đối kháng cá nhân; 29/11 đối kháng đồng đội và Farewell Party lúc 18:00 tại Khách sạn Đệ Nhất"
+ },
+ "huyChuong": {
+  "_ghi_chu": "Quy trinh huong dan trao khen thuong (hinh) + Huong dan trao huy chuong (Word, da dang PDF o nguon.huyChuong). Chu o day chep tu hinh quy trinh; noi dung day du trong PDF. Ngay dang yyyy-mm-dd. Sau khi sua: node build.mjs",
+  "tieuDe": "Hướng dẫn trao huy chương và khen thưởng",
+  "ngayDang": "2026-11-05",
+  "gioiThieu": "Quy trình hướng dẫn trao khen thưởng của Đại hội gồm hai bước: chuẩn bị trao thưởng và thực hiện nghi thức trao. Bấm vào hình để xem cỡ lớn. Nội dung đầy đủ (địa điểm, nhân sự, đại biểu trao huy chương, kịch bản và lời dẫn của MC) có trong tệp hướng dẫn ở cuối mục này.",
+  "hinh": {
+   "file": "dai-hoi-x-2026-quy-trinh-trao-khen-thuong",
+   "w": 1257,
+   "h": 1576,
+   "alt": "Hình quy trình hướng dẫn trao khen thưởng, Đại hội Thể thao toàn quốc lần thứ X năm 2026. Bước 01 chuẩn bị trao thưởng gồm năm nhóm: A nhóm sắp xếp huy chương, linh vật; B trưởng nhóm lễ tân và MC; C nhóm chuẩn bị cơ sở vật chất; D nhóm lễ tân hướng dẫn VĐV; E điều phối chính; kèm sơ đồ hoàn tất bố trí gồm bàn đại biểu, bàn huy chương, khu vực tác nghiệp của phóng viên và khu vực chờ của VĐV. Bước 02 thực hiện nghi thức trao gồm bảy bước, từ MC đọc thông tin VĐV đến chụp hình lưu niệm. Phần Lưu ý ở cuối hình",
+   "chuThich": "Quy trình hướng dẫn trao khen thưởng (bấm vào hình để xem cỡ lớn)"
+  },
+  "buoc1": {
+   "ten": "Bước 1. Chuẩn bị trao thưởng",
+   "moTa": "Tổ chức các nhóm chuẩn bị đầy đủ hiện vật, kết quả, nhân sự và mặt bằng trước khi trao thưởng.",
+   "nhom": [
+    {
+     "ten": "A. Nhóm sắp xếp huy chương, linh vật",
+     "y": [
+      "04 lễ tân sắp xếp và bưng huy chương, giấy chứng nhận, linh vật, cờ thưởng.",
+      "01 cán bộ bộ môn/tổ trọng tài phối hợp sắp xếp giấy chứng nhận theo từng nội dung."
+     ]
+    },
+    {
+     "ten": "B. Trưởng nhóm lễ tân và MC",
+     "y": [
+      "Liên hệ trưởng bộ môn để nhận danh sách kết quả thi đấu.",
+      "Lấy tên VĐV, thứ hạng, tên đơn vị để MC đọc khi trao thưởng.",
+      "Kiểm tra danh sách đại biểu được mời lên trao giải."
+     ]
+    },
+    {
+     "ten": "C. Nhóm chuẩn bị CSVC",
+     "y": [
+      "Di chuyển bàn ghế, khay trao, bục và sắp xếp khu vực chuẩn bị.",
+      "Kiểm tra âm thanh, ánh sáng và các điều kiện bảo đảm khác."
+     ]
+    },
+    {
+     "ten": "D. Nhóm lễ tân hướng dẫn VĐV",
+     "y": [
+      "01 lễ tân đứng tại khu vực chờ VĐV.",
+      "Hướng dẫn VĐV xếp hàng và dẫn VĐV lên bục theo từng nội dung."
+     ]
+    },
+    {
+     "ten": "E. Điều phối chính",
+     "y": [
+      "Theo dõi, kiểm tra các nhóm.",
+      "Phụ trách kịch bản, tổ trật tự và xử lý tình huống phát sinh."
+     ]
+    }
+   ],
+   "hoanTat": {
+    "ten": "Hoàn tất bố trí",
+    "khu": [
+     "Bàn đại biểu, lãnh đạo, BTC (tham gia trao thưởng).",
+     "Bàn huy chương (huy chương, giấy chứng nhận, cờ toàn đoàn, linh vật, khay).",
+     "Khu vực tác nghiệp (phóng viên, nhiếp ảnh).",
+     "Khu vực chờ VĐV (đạt thành tích)."
+    ],
+    "ghiChu": "Bộ môn phân công nhân sự hỗ trợ sắp xếp VĐV theo từng nội dung."
+   }
+  },
+  "buoc2": {
+   "ten": "Bước 2. Thực hiện nghi thức trao",
+   "moTa": "Tiến hành nghi thức trao thưởng theo đúng thứ tự, đúng vị trí.",
+   "cacBuoc": [
+    "MC bắt đầu chương trình, đọc thông tin VĐV tiến lên trao thưởng.",
+    "VĐV được sắp xếp thứ tự, di chuyển lên khu vực nhận thưởng.",
+    "MC mời 02 lãnh đạo lên trao huy chương, giấy chứng nhận và linh vật.",
+    "Lãnh đạo 1 trao lần lượt huy chương đồng – bạc – vàng và giấy chứng nhận; lãnh đạo 2 đứng chờ bên cạnh.",
+    "Sau khi trao xong, lãnh đạo 1 lùi sang bên; lãnh đạo 2 tiến đến trao linh vật.",
+    "Chụp hình lưu niệm.",
+    "Các thành phần rời sân khấu theo hướng dẫn."
+   ]
+  },
+  "luuY": [
+   "Thực hiện đúng kịch bản, đúng thứ tự, đúng vị trí.",
+   "Phối hợp chặt chẽ giữa bộ môn, lễ tân, MC và điều phối.",
+   "Bảo đảm trang trọng, thống nhất và thuận lợi cho chụp hình.",
+   "Ưu tiên mời lãnh đạo sở, ban, ngành hoặc địa phương có VĐV đạt HCV tham gia trao thưởng."
+  ]
  }
 }

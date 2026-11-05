@@ -217,20 +217,26 @@ check(`${internal.length} liên kết nội bộ (kể cả #anchor, PDF, RSS) �
     btc: document.querySelectorAll('#ban-to-chuc-trong-tai table.roster:not(#tt-list) tbody tr').length,
     portal: [...document.querySelectorAll('a[href^="https://congthongtindaihoi.indivisys.vn/"]')].filter(a => a.target === '_blank' && /noopener/.test(a.rel)).map(a => a.href),
     btt: [...document.querySelectorAll('#tt-list tbody tr')].map(tr => tr.cells[1].textContent.trim()),
+    hc: { tab: Boolean(document.querySelector('nav.tabs a[href="#trao-huy-chuong"]')), nhom: document.querySelectorAll('#trao-huy-chuong .grid.g2 .card').length, buoc: document.querySelectorAll('#trao-huy-chuong ol.numlist li').length,
+      img: [...document.querySelectorAll('#trao-huy-chuong figure img')].filter(i => i.alt.length > 40 && i.getAttribute('width') && i.getAttribute('height') && /^\/img\/.+\.webp$/.test(i.getAttribute('src'))).map(i => i.getAttribute('src')),
+      pdf: [...document.querySelectorAll('#trao-huy-chuong a[href$=".pdf"], #tai-lieu a[href$=".pdf"]')].map(x => x.getAttribute('href')) },
     kd: { tab: Boolean(document.querySelector('nav.tabs a[href="#khan-dai"]')), legend: document.querySelectorAll('#khan-dai .kd-legend li').length,
       figs: [...document.querySelectorAll('#khan-dai figure img')].filter(i => i.alt.length > 40 && i.getAttribute('width') && i.getAttribute('height') && /^\/img\/.+\.webp$/.test(i.getAttribute('src'))).map(i => i.getAttribute('src')) },
     text: document.querySelector('main').innerText,
   }));
   const kdImgs = await Promise.all(r.kd.figs.map(async u => (await page.request.get(BASE + u)).ok()));
+  const hcFiles = await Promise.all([...r.hc.img, DH.nguon.huyChuong.pdf].map(async u => (await page.request.get(BASE + u)).ok()));
   const want = [DH.checkIn.gio, DH.schema.hanChotChu, DH.sanTap.lienHe.dienThoai, ...DH.lienHeBtc.map(c => c.dienThoai), ...DH.quyen, ...DH.theThuc.slice(1),
+    ...DH.huyChuong.buoc1.nhom.flatMap(g => [g.ten, ...g.y]), ...DH.huyChuong.buoc2.cacBuoc, ...DH.huyChuong.luuY, DH.huyChuong.buoc1.hoanTat.ghiChu,
     ...DH.khanDai.kinhGui, DH.khanDai.moDau, ...DH.khanDai.phanKhu.flatMap(k => [k.khan, k.danhCho]), DH.khanDai.loiVao.noiDung, ...DH.khanDai.dungKhuVuc.map(([k, v]) => `${k}: ${v}`), DH.khanDai.camOn];
   const missing = want.filter(w => !r.text.includes(w));
   const ok = r.ld && r.ld.startDate === DH.batDau && r.ld.endDate === DH.ketThuc && r.weights === 16 && r.teams === DH.doiKhangDongDoi.length
     && r.days.join(',') === DH.chuongTrinh.map(d => d.muc.length).join(',') && r.ext && r.marked > 0 && missing.length === 0
     && r.btc === DH.banToChuc.thanhVien.length && r.btt.join('|') === DH.banTrongTai.thanhVien.map(t => t.ten).join('|')
     && [DH.congThongTin.url, ...DH.congThongTin.trang.map(t => t[1])].every(u => r.portal.includes(u)) // Cong thong tin Dai hoi
-    && r.kd.tab && r.kd.legend === DH.khanDai.phanKhu.length && r.kd.figs.length === DH.khanDai.hinh.length && kdImgs.every(Boolean); // phan khu khan dai: chu giai, 2 so do tai duoc
-  check('Trang Đại hội Thể thao toàn quốc X: khớp dữ liệu Điều lệ, Sổ tay, QĐ Ban Tổ chức + Ban Trọng tài; SportsEvent, mốc thời gian; phân khu khán đài và 2 sơ đồ', ok, missing.length ? 'thiếu: ' + missing.slice(0, 3).join(' / ') : `${r.weights} hạng cân, ${r.teams} đồng đội, ${r.days.length} ngày, BTC ${r.btc}, trọng tài ${r.btt.length}`);
+    && r.kd.tab && r.kd.legend === DH.khanDai.phanKhu.length && r.kd.figs.length === DH.khanDai.hinh.length && kdImgs.every(Boolean)
+    && r.hc.tab && r.hc.nhom === DH.huyChuong.buoc1.nhom.length + 1 && r.hc.buoc === DH.huyChuong.buoc2.cacBuoc.length && r.hc.img.length === 1 && r.hc.pdf.filter(h => h === DH.nguon.huyChuong.pdf).length >= 2 && hcFiles.every(Boolean); // phan khu khan dai: chu giai, 2 so do tai duoc
+  check('Trang Đại hội Thể thao toàn quốc X: khớp dữ liệu Điều lệ, Sổ tay, QĐ Ban Tổ chức + Ban Trọng tài; SportsEvent, mốc thời gian; phân khu khán đài và 2 sơ đồ; hướng dẫn trao huy chương', ok, missing.length ? 'thiếu: ' + missing.slice(0, 3).join(' / ') : `${r.weights} hạng cân, ${r.teams} đồng đội, ${r.days.length} ngày, BTC ${r.btc}, trọng tài ${r.btt.length}`);
   await ctx.close();
 }
 

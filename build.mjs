@@ -401,6 +401,7 @@ const dhDocCards = () => [
   pdfCard(DH.banToChuc.qd.pdf, 'Quyết định thành lập Ban Tổ chức môn Taekwondo', `Số ${nw(DH.banToChuc.qd.so)} ngày ${DH.banToChuc.qd.ngay} · ${DH.banToChuc.thanhVien.length} thành viên · ${mb(DH.banToChuc.qd.kb)}`),
   pdfCard(DH.banTrongTai.qd.pdf, 'Quyết định thành lập Ban Trọng tài môn Taekwondo', `Số ${nw(DH.banTrongTai.qd.so)} ngày ${DH.banTrongTai.qd.ngay} · ${DH.banTrongTai.thanhVien.length} thành viên · ${mb(DH.banTrongTai.qd.kb)}`),
   pdfCard(DH.nguon.soTay.pdf, esc(DH.nguon.soTay.ten), `${esc(DH.nguon.soTay.coQuan)} · ${mb(DH.nguon.soTay.kb)}`),
+  pdfCard(DH.nguon.huyChuong.pdf, esc(DH.nguon.huyChuong.ten), `${DH.nguon.huyChuong.trang} trang · ${mb(DH.nguon.huyChuong.kb)}`),
 ].join('\n          ');
 // Cong thong tin Dai hoi (thong tin chung, lich, bang xep hang toan Dai hoi)
 const CTT = DH.congThongTin;
@@ -613,7 +614,7 @@ const checkInTable = () => {
     organizer: { '@type': 'Organization', name: `Ban Tổ chức ${DH.ten}` },
     superEvent: { '@type': 'SportsEvent', name: DH.ten, url: CTT.url } };
   const dl = DH.nguon.dieuLe, st = DH.nguon.soTay;
-  const BTC = DH.banToChuc, BTT = DH.banTrongTai, nTT = BTT.thanhVien.length, KD = DH.khanDai;
+  const BTC = DH.banToChuc, BTT = DH.banTrongTai, nTT = BTT.thanhVien.length, KD = DH.khanDai, HC = DH.huyChuong, HN = DH.nguon.huyChuong;
   const demGT = g => BTT.thanhVien.filter(t => t.gioiTinh === g).length, nDonVi = new Set(BTT.thanhVien.map(t => t.donVi)).size;
   const qdSrc = q => `Quyết định số ${nw(q.so)} ngày ${q.ngay} của Trưởng Ban Tổ chức ${esc(DH.ten)}`;
   const srcDL = `Điều lệ môn Taekwondo ban hành kèm Quyết định số ${nw(dl.so)} ngày ${dl.ngay}`;
@@ -621,7 +622,7 @@ const checkInTable = () => {
     file: 'dai-hoi-the-thao-toan-quoc-2026.html', path: DH_PATH, active: '/lich-thi-dau', title: m.title, desc: m.desc, ogImage: `og-${m.og}.jpg`, crumbs, extraLd: [dhLd],
     hero: pageHero(crumbs, DH.ten, `Môn ${esc(DH.mon)} · ${dhRange} · ${esc(DH.diaDiem)}`),
     body: `
-    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#chuong-trinh">Chương trình</a><a href="#khan-dai">Khán đài</a><a href="#ban-to-chuc-trong-tai">Ban tổ chức, trọng tài</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#quy-dinh">Quy định</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
+    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#chuong-trinh">Chương trình</a><a href="#khan-dai">Khán đài</a><a href="#trao-huy-chuong">Trao huy chương</a><a href="#ban-to-chuc-trong-tai">Ban tổ chức, trọng tài</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#quy-dinh">Quy định</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
       sec('tong-quan', 'Tổng quan', `<ul class="cal-stats">
           <li><b>${dhRange}</b><span>thời gian</span></li>
           <li><b>${nTong}</b><span>nội dung thi đấu</span></li>
@@ -661,6 +662,21 @@ const checkInTable = () => {
         <ul class="bullets">${KD.dungKhuVuc.map(([k, v]) => `<li><strong>${esc(k)}:</strong> ${esc(v)}</li>`).join('')}</ul>
         <p class="note">${icon('info')}<span>${esc(KD.ketThuc)} <strong>${esc(KD.camOn)}</strong></span></p>
         ${src(`Thông báo của Ban Tổ chức về phân khu khán đài và quy định ra vào nhà thi đấu, môn ${esc(DH.mon)}, ${esc(DH.tenNgan)}; đăng ngày ${viDate(KD.ngayDang)}`)}`),
+      sec('trao-huy-chuong', HC.tieuDe, `<p>${esc(HC.gioiThieu)}</p>
+        <figure class="dh-poster kd-fig"><a href="/img/${HC.hinh.file}.webp" target="_blank" rel="noopener"><picture><img src="/img/${HC.hinh.file}.webp" width="${HC.hinh.w}" height="${HC.hinh.h}" alt="${esc(HC.hinh.alt)}" loading="lazy"></picture></a><figcaption>${esc(HC.hinh.chuThich)}</figcaption></figure>
+        <h3 class="sub-h">${esc(HC.buoc1.ten)}</h3>
+        <p>${esc(HC.buoc1.moTa)}</p>
+        <div class="grid g2">${HC.buoc1.nhom.map(g => `<div class="card"><h3>${esc(g.ten)}</h3><ul class="bullets">${g.y.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>`).join('')}
+          <div class="card"><h3>${esc(HC.buoc1.hoanTat.ten)}</h3><ul class="bullets">${HC.buoc1.hoanTat.khu.map(t => `<li>${esc(t)}</li>`).join('')}</ul><p>${esc(HC.buoc1.hoanTat.ghiChu)}</p></div>
+        </div>
+        <h3 class="sub-h">${esc(HC.buoc2.ten)}</h3>
+        <p>${esc(HC.buoc2.moTa)}</p>
+        <ol class="numlist one">${HC.buoc2.cacBuoc.map(t => `<li>${esc(t)}</li>`).join('')}</ol>
+        <h3 class="sub-h">Lưu ý</h3>
+        <ul class="bullets">${HC.luuY.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+        <h3 class="sub-h">Tệp hướng dẫn đầy đủ</h3>
+        <div class="docs">${pdfCard(HN.pdf, esc(HN.ten), `${HN.trang} trang · ${mb(HN.kb)}`)}</div>
+        ${src(`Quy trình hướng dẫn trao khen thưởng và hướng dẫn trao huy chương của ${esc(DH.ten)}; đăng ngày ${viDate(HC.ngayDang)}`)}`),
       sec('ban-to-chuc-trong-tai', 'Ban Tổ chức và Ban Trọng tài', `<h3 class="sub-h">Ban Tổ chức môn Taekwondo (${BTC.thanhVien.length} thành viên)</h3>
         <p>${esc(BTC.nhiemVu)}</p>
         <table class="table docs-table roster"><thead><tr><th scope="col">TT</th><th scope="col">Họ và tên</th><th scope="col">Đơn vị công tác</th><th scope="col">Chức vụ trong Ban Tổ chức</th></tr></thead><tbody>${BTC.thanhVien.map((t, i) => `

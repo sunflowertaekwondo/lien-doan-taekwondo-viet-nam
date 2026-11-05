@@ -63,6 +63,13 @@ export const CASES = [
   ['HLV VĐV các đoàn ngồi khu nào trong nhà thi đấu', [DH], 'Xanh ngọc'],
   ['Vào nhà thi đấu cần mang thẻ gì, có cửa riêng không', [DH], 'Thẻ Đại hội'],
   ['Sơ đồ khán đài nhà thi đấu Đại hội Thể thao toàn quốc', [DH], 'Khán đài Xanh dương'],
+  // hướng dẫn trao huy chương / khen thưởng
+  ['Quy trình trao huy chương ở Đại hội như thế nào?', [DH], 'trao'],
+  ['Ai là người trao huy chương và linh vật cho vận động viên?', [DH], 'lãnh đạo'],
+  ['Thứ tự trao huy chương đồng, bạc, vàng', [DH], 'đồng'],
+  ['Lễ trao huy chương cần mấy lễ tân, mấy MC?', [DH], 'lễ tân'],
+  ['Khu vực chờ của vận động viên đạt huy chương ở đâu', [DH], 'chờ'],
+  ['Tải hướng dẫn trao huy chương Đại hội', [DH], 'huy chương'],
 ];
 
 export function runEval(dist, { k = 5, verbose = false } = {}) {
