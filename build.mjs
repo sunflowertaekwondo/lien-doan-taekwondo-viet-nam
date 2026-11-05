@@ -1156,8 +1156,8 @@ shell({
   <script defer src="/${ADMIN_JS}" data-endpoint="${esc(CMS_ENDPOINT)}" data-base="${BASE}" data-logo="${LOGO_URL ? BASE + LOGO_URL : ''}"></script>
 </head>
 <body>
-  <div id="app"><p class="ad-loading">Đang tải trang quản trị…</p></div>
-  <noscript><p class="ad-loading">Trang quản trị cần bật JavaScript.</p></noscript>
+  <div id="app"><p class="qt-loading">Đang tải trang quản trị…</p></div>
+  <noscript><p class="qt-loading">Trang quản trị cần bật JavaScript.</p></noscript>
   <script type="application/json" id="cms-pages">${pagesJson}</script>
 </body>
 </html>

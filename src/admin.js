@@ -68,13 +68,13 @@
   // ------------------------------------------------------------ thong bao, hop thoai
   var toastEl, toastT;
   function toast(msg, bad) {
-    if (!toastEl) { toastEl = h('div', { class: 'ad-toast', role: 'status', 'aria-live': 'polite' }); document.body.appendChild(toastEl); }
-    toastEl.textContent = msg; toastEl.className = 'ad-toast show' + (bad ? ' bad' : '');
+    if (!toastEl) { toastEl = h('div', { class: 'qt-toast', role: 'status', 'aria-live': 'polite' }); document.body.appendChild(toastEl); }
+    toastEl.textContent = msg; toastEl.className = 'qt-toast show' + (bad ? ' bad' : '');
     clearTimeout(toastT); toastT = setTimeout(function () { toastEl.classList.remove('show'); }, bad ? 6000 : 2600);
   }
   function modal(title, body, buttons) { // buttons: [{text, cls, run -> false de giu hop thoai}]
-    var back = h('div', { class: 'ad-modal', role: 'dialog', 'aria-modal': 'true', 'aria-label': title });
-    var box = h('div', { class: 'ad-modal-box' }, [h('h2', { text: title }), body, h('div', { class: 'ad-modal-btns' }, buttons.map(function (b) {
+    var back = h('div', { class: 'qt-modal', role: 'dialog', 'aria-modal': 'true', 'aria-label': title });
+    var box = h('div', { class: 'qt-modal-box' }, [h('h2', { text: title }), body, h('div', { class: 'qt-modal-btns' }, buttons.map(function (b) {
       return h('button', { type: 'button', class: 'btn ' + (b.cls || 'btn-ghost'), text: b.text, onclick: function () { if (!b.run || b.run() !== false) back.remove(); } });
     }))]);
     back.appendChild(box); document.body.appendChild(back);
@@ -90,25 +90,25 @@
   // ------------------------------------------------------------ man hinh: chua cai may chu, dang nhap
   function viewSetup() {
     app.textContent = '';
-    app.appendChild(h('main', { class: 'ad-center' }, [h('div', { class: 'ad-card' }, [
-      LOGO ? h('img', { src: LOGO, alt: '', class: 'ad-logo' }) : null,
+    app.appendChild(h('main', { class: 'qt-center' }, [h('div', { class: 'qt-card' }, [
+      LOGO ? h('img', { src: LOGO, alt: '', class: 'qt-logo' }) : null,
       h('h1', { text: 'Chưa kết nối máy chủ lưu trữ' }),
       h('p', { text: 'Trang quản trị lưu nội dung vào Google Sheet qua Google Apps Script. Website chưa được khai báo địa chỉ máy chủ này.' }),
-      h('ol', { class: 'ad-steps' }, [
+      h('ol', { class: 'qt-steps' }, [
         h('li', { text: 'Tạo Google Sheet mới → Tiện ích mở rộng → Apps Script, dán toàn bộ nội dung tệp apps-script/Code.gs, chạy hàm setup.' }),
         h('li', { text: 'Dán tệp cai-dat-tai-khoan.gs (tạo sẵn trong thư mục _local), chạy hàm datTaiKhoanAdmin, rồi xóa tệp đó đi.' }),
         h('li', { text: 'Triển khai → Ứng dụng web → Thực thi: Tôi; Quyền truy cập: Bất kỳ ai. Sao chép địa chỉ kết thúc bằng /exec.' }),
         h('li', { text: 'Dán địa chỉ đó vào data/cms.json (trường "endpoint"), rồi đưa website lên lại.' }),
       ]),
-      h('p', { class: 'ad-muted', text: 'Hướng dẫn chi tiết từng bước: apps-script/HUONG-DAN.md' }),
+      h('p', { class: 'qt-muted', text: 'Hướng dẫn chi tiết từng bước: apps-script/HUONG-DAN.md' }),
     ])]));
   }
   function loginBox(done, intro) {
     var user = h('input', { id: 'lg-u', type: 'text', autocomplete: 'username', required: true, spellcheck: 'false', autocapitalize: 'none' });
     var pass = h('input', { id: 'lg-p', type: 'password', autocomplete: 'current-password', required: true });
-    var err = h('p', { class: 'ad-err', role: 'alert' });
+    var err = h('p', { class: 'qt-err', role: 'alert' });
     var btn = h('button', { class: 'btn btn-red', type: 'submit', text: 'Đăng nhập' });
-    var form = h('form', { class: 'ad-login', novalidate: true, onsubmit: function (e) {
+    var form = h('form', { class: 'qt-login', novalidate: true, onsubmit: function (e) {
       e.preventDefault(); err.textContent = '';
       if (!user.value.trim() || !pass.value) { err.textContent = 'Nhập tài khoản và mật khẩu.'; return; }
       btn.disabled = true; btn.textContent = 'Đang đăng nhập…';
@@ -118,7 +118,7 @@
         else { err.textContent = (r && r.message) || 'Không đăng nhập được.'; pass.value = ''; pass.focus(); }
       });
     } }, [
-      intro ? h('p', { class: 'ad-muted', text: intro }) : null,
+      intro ? h('p', { class: 'qt-muted', text: intro }) : null,
       h('label', { for: 'lg-u', text: 'Tài khoản' }), user,
       h('label', { for: 'lg-p', text: 'Mật khẩu' }), pass, err, btn,
     ]);
@@ -127,10 +127,10 @@
   function viewLogin() {
     app.textContent = '';
     var box = loginBox(function () { startApp(); });
-    app.appendChild(h('main', { class: 'ad-center' }, [h('div', { class: 'ad-card' }, [
-      LOGO ? h('img', { src: LOGO, alt: '', class: 'ad-logo' }) : null,
+    app.appendChild(h('main', { class: 'qt-center' }, [h('div', { class: 'qt-card' }, [
+      LOGO ? h('img', { src: LOGO, alt: '', class: 'qt-logo' }) : null,
       h('h1', { text: 'Quản trị website' }),
-      h('p', { class: 'ad-muted', text: 'Liên đoàn Taekwondo Việt Nam. Chỉ dành cho quản trị viên.' }),
+      h('p', { class: 'qt-muted', text: 'Liên đoàn Taekwondo Việt Nam. Chỉ dành cho quản trị viên.' }),
       box.form,
     ])]));
     box.focus();
@@ -147,10 +147,10 @@
   var el = {};
   function startApp() {
     app.textContent = '';
-    app.appendChild(h('div', { class: 'ad-loading', text: 'Đang tải nội dung…' }));
+    app.appendChild(h('div', { class: 'qt-loading', text: 'Đang tải nội dung…' }));
     Promise.all([post('whoami'), getContent()]).then(function (rs) {
       var who = rs[0], c = rs[1];
-      if (!who || !who.ok) { clearSession(); if (who && who.code === 'network') { app.textContent = ''; app.appendChild(h('div', { class: 'ad-center' }, [h('div', { class: 'ad-card' }, [h('p', { class: 'ad-err', text: who.message })])])); } else viewLogin(); return; }
+      if (!who || !who.ok) { clearSession(); if (who && who.code === 'network') { app.textContent = ''; app.appendChild(h('div', { class: 'qt-center' }, [h('div', { class: 'qt-card' }, [h('p', { class: 'qt-err', text: who.message })])])); } else viewLogin(); return; }
       if (!c || !c.ok) { toast((c && c.message) || 'Không tải được nội dung.', true); c = { rev: who.rev || 0, fields: {}, lists: {} }; }
       S.rev = c.rev || 0; S.base = { fields: c.fields || {}, lists: c.lists || {} }; S.work = clone(S.base);
       buildShell(); loadPage((PAGES[0] || { path: '/' }).path);
@@ -161,7 +161,7 @@
     app.textContent = '';
     var sel = h('select', { id: 'pg', 'aria-label': 'Chọn trang cần sửa', onchange: function () { loadPage(sel.value); } }, PAGES.map(function (p) { return h('option', { value: p.path, text: p.title + '  ·  ' + p.path }); }));
     var dev = function (name, label) { return h('button', { type: 'button', class: 'dev', 'data-dev': name, 'aria-pressed': name === S.device ? 'true' : 'false', text: label, onclick: function () { setDevice(name); } }); };
-    el.status = h('span', { class: 'ad-status', role: 'status', 'aria-live': 'polite' });
+    el.status = h('span', { class: 'qt-status', role: 'status', 'aria-live': 'polite' });
     el.undo = h('button', { type: 'button', class: 'btn btn-ghost', text: 'Hoàn tác', title: 'Bỏ mọi thay đổi chưa lưu', onclick: undo });
     el.save = h('button', { type: 'button', class: 'btn btn-red', text: 'Lưu tất cả', onclick: save });
     el.page = sel;
@@ -171,35 +171,35 @@
       h('button', { type: 'button', text: 'Đăng xuất', onclick: logout }),
     ])]);
     el.openLive = h('a', { class: 'btn btn-ghost', href: BASE + '/', target: '_blank', rel: 'noopener', text: 'Xem trang thật' });
-    var top = h('header', { class: 'ad-top' }, [
-      h('div', { class: 'ad-brand' }, [LOGO ? h('img', { src: LOGO, alt: '', class: 'ad-logo-s' }) : null, h('strong', { text: 'Quản trị website' })]),
+    var top = h('header', { class: 'qt-top' }, [
+      h('div', { class: 'qt-brand' }, [LOGO ? h('img', { src: LOGO, alt: '', class: 'qt-logo-s' }) : null, h('strong', { text: 'Quản trị website' })]),
       sel, h('div', { class: 'devs', role: 'group', 'aria-label': 'Kích thước xem trước' }, [dev('desktop', 'Máy tính'), dev('mobile', 'Điện thoại')]),
-      h('div', { class: 'ad-act' }, [el.status, el.undo, el.save]), usr,
+      h('div', { class: 'qt-act' }, [el.status, el.undo, el.save]), usr,
     ]);
-    var tabs = h('div', { class: 'ad-tabs', role: 'tablist' }, [
+    var tabs = h('div', { class: 'qt-tabs', role: 'tablist' }, [
       h('button', { type: 'button', role: 'tab', 'data-v': 'form', 'aria-selected': 'true', text: 'Chỉnh sửa', onclick: function () { setView('form'); } }),
       h('button', { type: 'button', role: 'tab', 'data-v': 'prev', 'aria-selected': 'false', text: 'Xem trước', onclick: function () { setView('prev'); } }),
     ]);
-    el.search = h('input', { type: 'search', class: 'ad-search', placeholder: 'Tìm chữ, liên kết, ảnh trong trang này…', 'aria-label': 'Tìm trong trang', oninput: debounce(runSearch, 180) });
-    el.tb = h('div', { class: 'ad-rte', role: 'toolbar', 'aria-label': 'Định dạng chữ' }, [
+    el.search = h('input', { type: 'search', class: 'qt-search', placeholder: 'Tìm chữ, liên kết, ảnh trong trang này…', 'aria-label': 'Tìm trong trang', oninput: debounce(runSearch, 180) });
+    el.tb = h('div', { class: 'qt-rte', role: 'toolbar', 'aria-label': 'Định dạng chữ' }, [
       h('button', { type: 'button', title: 'In đậm', 'data-t': 'b', html: null, onmousedown: keepFocus, onclick: function () { wrapSel('b'); } }, [h('b', { text: 'B' })]),
       h('button', { type: 'button', title: 'In nghiêng', onmousedown: keepFocus, onclick: function () { wrapSel('i'); } }, [h('i', { text: 'I' })]),
       h('button', { type: 'button', title: 'Gạch chân', onmousedown: keepFocus, onclick: function () { wrapSel('u'); } }, [h('u', { text: 'U' })]),
       h('button', { type: 'button', title: 'Chèn liên kết vào đoạn đang chọn', onmousedown: keepFocus, onclick: wrapLink, text: 'Liên kết' }),
-      h('span', { class: 'ad-muted', text: 'Bấm vào chữ/ảnh trong khung xem trước để sửa đúng ô đó.' }),
+      h('span', { class: 'qt-muted', text: 'Bấm vào chữ/ảnh trong khung xem trước để sửa đúng ô đó.' }),
     ]);
-    el.groups = h('div', { class: 'ad-groups' });
-    el.results = h('div', { class: 'ad-groups', hidden: true });
-    el.form = h('aside', { class: 'ad-form', 'aria-label': 'Chỉnh sửa nội dung' }, [h('div', { class: 'ad-tools' }, [el.search, el.tb]), el.groups, el.results]);
-    el.frame = h('iframe', { class: 'ad-frame', title: 'Xem trước trang', onload: onFrameLoad });
-    el.prev = h('section', { class: 'ad-prev', 'aria-label': 'Xem trước trực tiếp' }, [h('div', { class: 'ad-prev-bar' }, [h('span', { text: 'Xem trước trực tiếp: sửa là thấy ngay, chưa lưu lên website' }), el.openLive]), h('div', { class: 'ad-frame-wrap', 'data-device': S.device }, [el.frame])]);
-    el.main = h('div', { class: 'ad-main', 'data-view': 'form' }, [el.form, el.prev]);
+    el.groups = h('div', { class: 'qt-groups' });
+    el.results = h('div', { class: 'qt-groups', hidden: true });
+    el.form = h('aside', { class: 'qt-form', 'aria-label': 'Chỉnh sửa nội dung' }, [h('div', { class: 'qt-tools' }, [el.search, el.tb]), el.groups, el.results]);
+    el.frame = h('iframe', { class: 'qt-frame', title: 'Xem trước trang', onload: onFrameLoad });
+    el.prev = h('section', { class: 'qt-prev', 'aria-label': 'Xem trước trực tiếp' }, [h('div', { class: 'qt-prev-bar' }, [h('span', { text: 'Xem trước trực tiếp: sửa là thấy ngay, chưa lưu lên website' }), el.openLive]), h('div', { class: 'qt-frame-wrap', 'data-device': S.device }, [el.frame])]);
+    el.main = h('div', { class: 'qt-main', 'data-view': 'form' }, [el.form, el.prev]);
     app.appendChild(h('div', { class: 'ad' }, [top, tabs, el.main]));
     updateState();
   }
-  function setView(v) { el.main.dataset.view = v; [].forEach.call(document.querySelectorAll('.ad-tabs button'), function (b) { b.setAttribute('aria-selected', b.dataset.v === v ? 'true' : 'false'); }); }
+  function setView(v) { el.main.dataset.view = v; [].forEach.call(document.querySelectorAll('.qt-tabs button'), function (b) { b.setAttribute('aria-selected', b.dataset.v === v ? 'true' : 'false'); }); }
   function setDevice(d) {
-    S.device = d; el.prev.querySelector('.ad-frame-wrap').dataset.device = d;
+    S.device = d; el.prev.querySelector('.qt-frame-wrap').dataset.device = d;
     [].forEach.call(document.querySelectorAll('.devs .dev'), function (b) { b.setAttribute('aria-pressed', b.dataset.dev === d ? 'true' : 'false'); });
   }
   function debounce(fn, ms) { var t; return function () { var a = arguments, self = this; clearTimeout(t); t = setTimeout(function () { fn.apply(self, a); }, ms); }; }
@@ -207,7 +207,7 @@
   // ------------------------------------------------------------ xem truoc (iframe)
   function loadPage(path) {
     S.page = path; if (el.page) el.page.value = path;
-    el.groups.textContent = ''; el.groups.appendChild(h('p', { class: 'ad-muted pad', text: 'Đang mở trang…' }));
+    el.groups.textContent = ''; el.groups.appendChild(h('p', { class: 'qt-muted pad', text: 'Đang mở trang…' }));
     el.frame.src = BASE + path + (path.indexOf('?') < 0 ? '?' : '&') + 'cms-preview=1';
     el.openLive.href = BASE + path;
   }
@@ -215,7 +215,7 @@
   function onFrameLoad() {
     var w = el.frame.contentWindow, d, cms;
     try { d = el.frame.contentDocument; cms = w.VTFCMS; } catch (e) { cms = null; }
-    if (!cms || !cms.model) { el.groups.textContent = ''; el.groups.appendChild(h('p', { class: 'ad-err pad', text: 'Không đọc được trang để sửa. Hãy thử mở trang khác hoặc tải lại.' })); return; }
+    if (!cms || !cms.model) { el.groups.textContent = ''; el.groups.appendChild(h('p', { class: 'qt-err pad', text: 'Không đọc được trang để sửa. Hãy thử mở trang khác hoặc tải lại.' })); return; }
     S.cms = cms; S.M = cms.model;
     d.head.appendChild(h('style', { text: PREV_CSS }));
     var hov = null;
@@ -334,7 +334,7 @@
     inp.value = v;
     inp.addEventListener('input', function () { setValue(f, inp.value, row); });
     inp.addEventListener('focus', function () { el.tb.classList.remove('on'); S.lastTA = null; scrollPrev(f); });
-    if (k === 'video') return h('div', {}, [inp, h('p', { class: 'ad-muted vid', text: f.def.opt ? 'Khung video đang ẩn trên website cho đến khi bạn dán liên kết YouTube.' : '' })]);
+    if (k === 'video') return h('div', {}, [inp, h('p', { class: 'qt-muted vid', text: f.def.opt ? 'Khung video đang ẩn trên website cho đến khi bạn dán liên kết YouTube.' : '' })]);
     return inp;
   }
   function imgControl(f, row) {
@@ -343,11 +343,11 @@
     inp.addEventListener('input', function () { setValue(f, inp.value, row); });
     inp.addEventListener('focus', function () { el.tb.classList.remove('on'); S.lastTA = null; scrollPrev(f); });
     var pic = h('img', { alt: '', src: effectiveSrc(f) });
-    var st = h('p', { class: 'ad-muted up-st' });
+    var st = h('p', { class: 'qt-muted up-st' });
     var file = h('input', { type: 'file', accept: 'image/jpeg,image/png,image/webp,image/gif', hidden: true, onchange: function () { if (file.files[0]) upload(file.files[0]); file.value = ''; } });
     var btn = h('button', { type: 'button', class: 'btn btn-ghost sm', text: 'Tải ảnh lên', onclick: function () { file.click(); } });
     function upload(fl) {
-      st.className = 'ad-muted up-st'; st.textContent = 'Đang xử lý ảnh…'; btn.disabled = true; S.uploads++;
+      st.className = 'qt-muted up-st'; st.textContent = 'Đang xử lý ảnh…'; btn.disabled = true; S.uploads++;
       prepImage(fl).then(function (img) {
         st.textContent = 'Đang tải lên (' + Math.round(img.bytes / 1024) + ' KB)…';
         return api('upload', { name: fl.name, mime: img.mime, data: img.data });
@@ -361,7 +361,7 @@
     ['dragenter', 'dragover'].forEach(function (ev) { row.addEventListener(ev, function (e) { if (e.dataTransfer && [].indexOf.call(e.dataTransfer.types, 'Files') >= 0) { e.preventDefault(); row.classList.add('drop'); } }); });
     ['dragleave', 'drop'].forEach(function (ev) { row.addEventListener(ev, function () { row.classList.remove('drop'); }); });
     row.addEventListener('drop', function (e) { e.preventDefault(); if (e.dataTransfer.files[0]) upload(e.dataTransfer.files[0]); });
-    return h('div', { class: 'imgc' }, [h('div', { class: 'thumb' }, [pic]), h('div', { class: 'imgc-r' }, [inp, h('div', { class: 'imgc-b' }, [btn, h('span', { class: 'ad-muted', text: 'hoặc kéo ảnh thả vào ô này' })]), st, file])]);
+    return h('div', { class: 'imgc' }, [h('div', { class: 'thumb' }, [pic]), h('div', { class: 'imgc-r' }, [inp, h('div', { class: 'imgc-b' }, [btn, h('span', { class: 'qt-muted', text: 'hoặc kéo ảnh thả vào ô này' })]), st, file])]);
   }
 
   // dat gia tri mot o: rong/bang mac dinh = bo de; sai dinh dang = bao loi, khong de
@@ -421,7 +421,7 @@
       itemsBox.textContent = '';
       info.textContent = L.items.length + ' mục' + (L.stale ? ' · khối này đã thay đổi trên website nên thứ tự/số lượng đã sửa tạm bị bỏ qua' : '');
       L.items.forEach(function (it, i) { itemsBox.appendChild(itemEl(it, i)); });
-      if (!L.items.length) itemsBox.appendChild(h('p', { class: 'ad-muted pad', text: 'Danh sách đang trống (đã xóa hết mục).' }));
+      if (!L.items.length) itemsBox.appendChild(h('p', { class: 'qt-muted pad', text: 'Danh sách đang trống (đã xóa hết mục).' }));
     }
     function itemEl(it, i) {
       var sn = h('span', { class: 'sn' }), summary, body = h('div', { class: 'ib' }), filled = false;
@@ -490,7 +490,7 @@
       if (out.length < 40) out.push(f); else more++;
     });
     el.results.textContent = ''; el.results.hidden = false; el.groups.hidden = true;
-    el.results.appendChild(h('p', { class: 'ad-muted pad', text: out.length ? 'Tìm thấy ' + (out.length + more) + ' ô' + (more ? ' (hiện 40 ô đầu, hãy gõ cụ thể hơn)' : '') + ':' : 'Không có ô nào khớp.' }));
+    el.results.appendChild(h('p', { class: 'qt-muted pad', text: out.length ? 'Tìm thấy ' + (out.length + more) + ' ô' + (more ? ' (hiện 40 ô đầu, hãy gõ cụ thể hơn)' : '') + ':' : 'Không có ô nào khớp.' }));
     out.forEach(function (f) { el.results.appendChild(fieldRow(f)); });
   }
 
@@ -580,14 +580,14 @@
 
   function passwordDialog() {
     var o = h('input', { type: 'password', id: 'pw0', autocomplete: 'current-password' }), n = h('input', { type: 'password', id: 'pw1', autocomplete: 'new-password' }), c = h('input', { type: 'password', id: 'pw2', autocomplete: 'new-password' });
-    var err = h('p', { class: 'ad-err', role: 'alert' });
-    var body = h('div', { class: 'ad-login' }, [h('label', { for: 'pw0', text: 'Mật khẩu hiện tại' }), o, h('label', { for: 'pw1', text: 'Mật khẩu mới (tối thiểu 8 ký tự)' }), n, h('label', { for: 'pw2', text: 'Nhập lại mật khẩu mới' }), c, err]);
+    var err = h('p', { class: 'qt-err', role: 'alert' });
+    var body = h('div', { class: 'qt-login' }, [h('label', { for: 'pw0', text: 'Mật khẩu hiện tại' }), o, h('label', { for: 'pw1', text: 'Mật khẩu mới (tối thiểu 8 ký tự)' }), n, h('label', { for: 'pw2', text: 'Nhập lại mật khẩu mới' }), c, err]);
     modal('Đổi mật khẩu', body, [{ text: 'Hủy' }, { text: 'Đổi mật khẩu', cls: 'btn-red', run: function () {
       err.textContent = '';
       if (n.value.length < 8) { err.textContent = 'Mật khẩu mới tối thiểu 8 ký tự.'; return false; }
       if (n.value !== c.value) { err.textContent = 'Hai lần nhập mật khẩu mới không giống nhau.'; return false; }
       api('passwd', { old: o.value, pass: n.value }).then(function (r) {
-        if (r && r.ok) { toast(r.message); clearSession(); S.work = clone(S.base); viewLogin(); document.querySelector('.ad-modal') && document.querySelector('.ad-modal').remove(); }
+        if (r && r.ok) { toast(r.message); clearSession(); S.work = clone(S.base); viewLogin(); document.querySelector('.qt-modal') && document.querySelector('.qt-modal').remove(); }
         else toast((r && r.message) || 'Không đổi được mật khẩu.', true);
       });
       return false;

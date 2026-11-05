@@ -32,22 +32,22 @@ export async function checkAdmin({ b, BASE, ORIGIN, check }) {
   const frame = () => page.frames().find(f => f.url().includes('cms-preview=1'));
   const fvalue = (label, g) => page.evaluate(([label, g]) => { const grp = [...document.querySelectorAll('.grp')].find(x => x.dataset.g === g || x.querySelector('.gt').textContent.startsWith(g)); grp.open = true; grp._fill(); const r = [...grp.querySelectorAll('.fr')].find(x => x.querySelector('.fr-lb').textContent === label); return r && r.dataset.key; }, [label, g]);
   const setByKey = (key, v) => page.evaluate(([key, v]) => { const r = [...document.querySelectorAll('.fr')].find(x => x.dataset.key === key), i = r.querySelector('textarea, input[type=text]'); i.value = v; i.dispatchEvent(new Event('input', { bubbles: true })); return r.querySelector('.fr-err').textContent; }, [key, v]);
-  const status = () => page.evaluate(() => document.querySelector('.ad-status').textContent);
+  const status = () => page.evaluate(() => document.querySelector('.qt-status').textContent);
   const waitApp = () => page.waitForSelector('.grp', { timeout: 15000 });
 
   // ---- dang nhap
   await page.goto(BASE + '/admin.html', { waitUntil: 'load' });
   await page.waitForSelector('#lg-u');
   const noIdx = await page.evaluate(() => document.querySelector('meta[name=robots]').content);
-  await page.fill('#lg-u', 'quan-tri'); await page.fill('#lg-p', 'sai-mat-khau-1'); await page.click('.ad-login button[type=submit]');
-  await page.waitForFunction(() => /Sai tài khoản/.test((document.querySelector('.ad-err') || {}).textContent || ''));
-  await page.fill('#lg-p', 'Mat-khau-kiem-thu-1'); await page.click('.ad-login button[type=submit]');
+  await page.fill('#lg-u', 'quan-tri'); await page.fill('#lg-p', 'sai-mat-khau-1'); await page.click('.qt-login button[type=submit]');
+  await page.waitForFunction(() => /Sai tài khoản/.test((document.querySelector('.qt-err') || {}).textContent || ''));
+  await page.fill('#lg-p', 'Mat-khau-kiem-thu-1'); await page.click('.qt-login button[type=submit]');
   await waitApp();
-  check('Admin: đăng nhập sai báo lỗi, đúng vào được trang quản trị (noindex, chia đôi form + xem trước)', /noindex/.test(noIdx) && !!(await page.$('.ad-form')) && !!(await page.$('.ad-frame')) && /Đã lưu/.test(await status()), noIdx);
+  check('Admin: đăng nhập sai báo lỗi, đúng vào được trang quản trị (noindex, chia đôi form + xem trước)', /noindex/.test(noIdx) && !!(await page.$('.qt-form')) && !!(await page.$('.qt-frame')) && /Đã lưu/.test(await status()), noIdx);
 
   // ---- cau truc form tu trang that
-  await page.waitForFunction(() => { const f = document.querySelector('.ad-frame'); return f && f.contentWindow.VTFCMS && f.contentWindow.VTFCMS.model; });
-  const st = await page.evaluate(() => { const M = document.querySelector('.ad-frame').contentWindow.VTFCMS.model; return { groups: [...document.querySelectorAll('.grp .gt')].map(x => x.textContent), fields: Object.keys(M.fieldsByKey).length, lists: M.lists.length, kinds: [...new Set(Object.values(M.fieldsByKey).map(f => f.kind))].sort(), pages: [...document.querySelectorAll('#pg option')].length }; });
+  await page.waitForFunction(() => { const f = document.querySelector('.qt-frame'); return f && f.contentWindow.VTFCMS && f.contentWindow.VTFCMS.model; });
+  const st = await page.evaluate(() => { const M = document.querySelector('.qt-frame').contentWindow.VTFCMS.model; return { groups: [...document.querySelectorAll('.grp .gt')].map(x => x.textContent), fields: Object.keys(M.fieldsByKey).length, lists: M.lists.length, kinds: [...new Set(Object.values(M.fieldsByKey).map(f => f.kind))].sort(), pages: [...document.querySelectorAll('#pg option')].length }; });
   check('Admin: quét đủ chữ, liên kết, ảnh, mô tả ảnh, video, tiêu đề SEO; khối lặp; nhóm theo khu; liệt kê mọi trang', st.kinds.join() === 'alt,href,html,mt,md,src,t,video'.split(',').sort().join() && st.fields > 150 && st.lists >= 5 && st.groups.some(g => /Đầu trang/.test(g)) && st.groups.some(g => /Chân trang/.test(g)) && st.pages >= 12, JSON.stringify({ k: st.kinds, f: st.fields, l: st.lists, g: st.groups.length, p: st.pages }));
 
   // ---- sua truc tiep: xem truoc doi ngay, canh bao roi trang, hoan tac
@@ -57,8 +57,8 @@ export async function checkAdmin({ b, BASE, ORIGIN, check }) {
   const live = await frame().evaluate(() => document.querySelector('h1').textContent);
   const dirty1 = await status();
   const warn = await page.evaluate(() => { const e = new Event('beforeunload', { cancelable: true }); window.dispatchEvent(e); return e.defaultPrevented; });
-  await page.click('.ad-top .btn-ghost'); await page.click('.ad-modal .btn-red');
-  await page.waitForFunction(() => /Đã lưu/.test(document.querySelector('.ad-status').textContent));
+  await page.click('.qt-top .btn-ghost'); await page.click('.qt-modal .btn-red');
+  await page.waitForFunction(() => /Đã lưu/.test(document.querySelector('.qt-status').textContent));
   const undone = await frame().evaluate(() => document.querySelector('h1').textContent);
   const warn2 = await page.evaluate(() => { const e = new Event('beforeunload', { cancelable: true }); window.dispatchEvent(e); return e.defaultPrevented; });
   check('Admin: sửa là thấy ngay trong khung xem trước; cảnh báo khi rời trang lúc chưa lưu; Hoàn tác trả về bản đã lưu', h1 === H1_KEY && live === 'Tiêu đề thử nghiệm' && /1 thay đổi chưa lưu/.test(dirty1) && warn && undone === h1Def && !warn2, `${live} | ${dirty1} | warn=${warn}/${warn2}`);
@@ -69,7 +69,7 @@ export async function checkAdmin({ b, BASE, ORIGIN, check }) {
   check('Admin: bấm vào chữ trong khung xem trước thì mở và chọn đúng ô cần sửa', focus === H1_KEY, String(focus));
 
   // ---- chong XSS khi nhap
-  await page.evaluate(() => { document.querySelector('.ad-frame').contentWindow.__x = 0; });
+  await page.evaluate(() => { document.querySelector('.qt-frame').contentWindow.__x = 0; });
   const pRow = await fvalue('Đoạn văn', 'm0');
   await setByKey(pRow, 'A <b>đậm</b> <script>window.__x=1</script><img src=x onerror="window.__x=2"><a href="javascript:window.__x=3">bấm</a>');
   const badge = await frame().evaluate(() => ({ x: window.__x, bad: document.querySelectorAll('.hh-badge script, .hh-badge img, .hh-badge a, .hh-badge [onerror]').length, html: document.querySelector('.hh-badge').innerHTML }));
@@ -93,12 +93,12 @@ export async function checkAdmin({ b, BASE, ORIGIN, check }) {
   const fileInput = await page.evaluateHandle(key => [...document.querySelectorAll('.fr')].find(x => x.dataset.key === key).querySelector('input[type=file]'), logoRow);
   await fileInput.asElement().setInputFiles({ name: 'logo-moi.png', mimeType: 'image/png', buffer: PNG });
   await page.waitForFunction(key => /Đã tải lên/.test([...document.querySelectorAll('.fr')].find(x => x.dataset.key === key).querySelector('.up-st').textContent), logoRow, { timeout: 15000 });
-  const up = await page.evaluate(key => { const r = [...document.querySelectorAll('.fr')].find(x => x.dataset.key === key); return { v: r.querySelector('input[type=text]').value, prev: document.querySelector('.ad-frame').contentDocument.querySelector('.site-header img.logo-img').getAttribute('src') }; }, logoRow);
+  const up = await page.evaluate(key => { const r = [...document.querySelectorAll('.fr')].find(x => x.dataset.key === key); return { v: r.querySelector('input[type=text]').value, prev: document.querySelector('.qt-frame').contentDocument.querySelector('.site-header img.logo-img').getAttribute('src') }; }, logoRow);
   check('Admin: tải ảnh lên (chọn tệp) → lưu vào Drive, dán địa chỉ https vào ô, xem trước đổi ngay', emu.state.uploads.length === 1 && /^https:\/\/lh3\.googleusercontent\.com\/d\/D[0-9a-f]+$/.test(up.v) && up.prev === up.v, up.v);
 
   // ---- khoi lap: nhan doi, sua, doi cho, xoa
   const list = await page.evaluate(async () => {
-    const wait = ms => new Promise(r => setTimeout(r, ms)), d = () => document.querySelector('.ad-frame').contentDocument;
+    const wait = ms => new Promise(r => setTimeout(r, ms)), d = () => document.querySelector('.qt-frame').contentDocument;
     const g = [...document.querySelectorAll('.grp')].find(x => x.querySelector('.gt').textContent.startsWith('Tôn chỉ')); g.open = true; g._fill();
     const lst = g.querySelector('.lst'), items = () => lst.querySelectorAll(':scope > .lst-items > .li'), tit = () => [...d().querySelectorAll('#muc-dich .feature h3')].map(x => x.textContent);
     const btn = (i, t) => items()[i].querySelector('.ib-b[title="' + t + '"]');
@@ -106,7 +106,7 @@ export async function checkAdmin({ b, BASE, ORIGIN, check }) {
     const li = items()[1]; li.open = true; li._fill();
     const ta = [...li.querySelectorAll('.fr')].find(r => r.querySelector('.fr-lb').textContent === 'Tiêu đề nhỏ').querySelector('textarea'); ta.value = 'MỤC MỚI'; ta.dispatchEvent(new Event('input', { bubbles: true }));
     const dup = tit(); btn(1, 'Chuyển xuống').click(); await wait(50); const moved = tit();
-    btn(0, 'Xóa mục này').click(); await wait(80); document.querySelector('.ad-modal .btn-red').click(); await wait(120);
+    btn(0, 'Xóa mục này').click(); await wait(80); document.querySelector('.qt-modal .btn-red').click(); await wait(120);
     return { before, dup, moved, after: tit() };
   });
   check('Admin: khối lặp thêm / nhân đôi, sửa mục mới, đổi thứ tự, xóa; xem trước đổi ngay', list.before.length === 6 && list.dup.length === 7 && list.dup[1] === 'MỤC MỚI' && list.moved[2] === 'MỤC MỚI' && list.after.length === 6 && list.after[0] === list.before[1], JSON.stringify(list));
@@ -114,8 +114,8 @@ export async function checkAdmin({ b, BASE, ORIGIN, check }) {
   // ---- luu -> trang that hien dung (khoi lap, tieu de, video, anh)
   await setByKey(h1, 'Liên đoàn TKD – bản quản trị');
   await setByKey(vidKey, 'https://youtu.be/dQw4w9WgXcQ');
-  await page.evaluate(() => document.querySelector('.ad-top .btn-red').click());
-  await page.waitForFunction(() => /phiên bản 1/.test(document.querySelector('.ad-status').textContent), null, { timeout: 15000 });
+  await page.evaluate(() => document.querySelector('.qt-top .btn-red').click());
+  await page.waitForFunction(() => /phiên bản 1/.test(document.querySelector('.qt-status').textContent), null, { timeout: 15000 });
   const srv = emu.get();
   const pub = await ctx.newPage();
   await pub.goto(BASE + '/', { waitUntil: 'load' });
@@ -137,19 +137,19 @@ export async function checkAdmin({ b, BASE, ORIGIN, check }) {
 
   // ---- trang khac, giao dien dien thoai, dang xuat
   await page.evaluate(() => { const s = document.getElementById('pg'); s.value = '/lich-thi-dau'; s.dispatchEvent(new Event('change')); });
-  await page.waitForFunction(() => { const f = document.querySelector('.ad-frame'); return f.src.includes('lich-thi-dau') && f.contentWindow.VTFCMS && f.contentWindow.VTFCMS.model && f.contentWindow.VTFCMS.model.page === 'lich-thi-dau'; }, null, { timeout: 15000 });
+  await page.waitForFunction(() => { const f = document.querySelector('.qt-frame'); return f.src.includes('lich-thi-dau') && f.contentWindow.VTFCMS && f.contentWindow.VTFCMS.model && f.contentWindow.VTFCMS.model.page === 'lich-thi-dau'; }, null, { timeout: 15000 });
   await page.waitForFunction(() => document.querySelectorAll('.grp').length >= 3, null, { timeout: 15000 }).catch(() => {}); // form dung lai sau khi xem truoc nap xong; thieu thi check ben duoi bao loi kem so lieu
-  const other = await page.evaluate(() => ({ lists: document.querySelector('.ad-frame').contentWindow.VTFCMS.model.lists.length, groups: document.querySelectorAll('.grp').length }));
+  const other = await page.evaluate(() => ({ lists: document.querySelector('.qt-frame').contentWindow.VTFCMS.model.lists.length, groups: document.querySelectorAll('.grp').length }));
   const mob = await b.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: 'block' });
   await mob.route(u => u.origin === ORIGIN, async route => { if (route.request().resourceType() !== 'document') return route.continue(); const res = await route.fetch(); const ct = res.headers()['content-type'] || ''; if (!/text\/html/.test(ct)) return route.fulfill({ response: res }); return route.fulfill({ response: res, body: (await res.text()).replace(/data-endpoint="[^"]*"/g, `data-endpoint="${EP}"`) }); });
   await mob.route(u => u.href.startsWith(EP), async route => { const r = route.request(); const x = await emu.http(r.method(), r.url(), r.postData()); await route.fulfill({ status: x.status, headers: x.headers, body: x.body }); });
   const mp = await mob.newPage();
   await mp.goto(BASE + '/admin.html', { waitUntil: 'load' });
-  await mp.fill('#lg-u', 'quan-tri'); await mp.fill('#lg-p', 'Mat-khau-kiem-thu-1'); await mp.click('.ad-login button[type=submit]');
+  await mp.fill('#lg-u', 'quan-tri'); await mp.fill('#lg-p', 'Mat-khau-kiem-thu-1'); await mp.click('.qt-login button[type=submit]');
   await mp.waitForSelector('.grp', { timeout: 15000 });
-  const m1 = await mp.evaluate(() => ({ sw: document.documentElement.scrollWidth, iw: document.documentElement.clientWidth, tabs: getComputedStyle(document.querySelector('.ad-tabs')).display, form: getComputedStyle(document.querySelector('.ad-form')).display, prev: getComputedStyle(document.querySelector('.ad-prev')).display }));
-  await mp.click('.ad-tabs button[data-v=prev]');
-  const m2 = await mp.evaluate(() => ({ form: getComputedStyle(document.querySelector('.ad-form')).display, prev: getComputedStyle(document.querySelector('.ad-prev')).display, fw: document.querySelector('.ad-frame').getBoundingClientRect().width }));
+  const m1 = await mp.evaluate(() => ({ sw: document.documentElement.scrollWidth, iw: document.documentElement.clientWidth, tabs: getComputedStyle(document.querySelector('.qt-tabs')).display, form: getComputedStyle(document.querySelector('.qt-form')).display, prev: getComputedStyle(document.querySelector('.qt-prev')).display }));
+  await mp.click('.qt-tabs button[data-v=prev]');
+  const m2 = await mp.evaluate(() => ({ form: getComputedStyle(document.querySelector('.qt-form')).display, prev: getComputedStyle(document.querySelector('.qt-prev')).display, fw: document.querySelector('.qt-frame').getBoundingClientRect().width }));
   check('Admin: nhiều trang (mỗi trang một danh sách ô riêng); điện thoại 390px không tràn ngang, hai thẻ Chỉnh sửa / Xem trước', other.lists >= 1 && other.groups >= 3 && m1.sw <= m1.iw && m1.tabs === 'flex' && m1.form !== 'none' && m1.prev === 'none' && m2.form === 'none' && m2.prev !== 'none' && m2.fw > 300, JSON.stringify({ other, m1, m2 }));
   await mob.close();
   await page.click('.usr summary'); await page.click('.usr-menu button:last-child');
