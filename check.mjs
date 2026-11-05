@@ -85,11 +85,12 @@ const broken = [];
 for (const h of internal) {
   const [p, hash] = h.split('#');
   if (basePath && !(p === basePath || p.startsWith(basePath + '/'))) { broken.push(`thiếu ${basePath}: ${h}`); continue; }
-  const res = await fetch(ORIGIN + (p || '/'));
-  if (res.status !== 200) { broken.push(`${res.status} ${h}`); continue; }
+  const res = await fetch(ORIGIN + (p || '/'), { signal: AbortSignal.timeout(60000) });
+  if (res.status !== 200) { await res.body?.cancel(); broken.push(`${res.status} ${h}`); continue; }
   const ct = res.headers.get('content-type') || '';
   if (/\.pdf$/.test(p) && !/application\/pdf/.test(ct)) broken.push(`sai MIME ${h}`);
-  if (hash && /html/.test(ct) && !(await res.text()).includes(`id="${hash}"`)) broken.push(`thiếu #${hash} trên ${p}`);
+  if (hash && /html/.test(ct)) { if (!(await res.text()).includes(`id="${hash}"`)) broken.push(`thiếu #${hash} trên ${p}`); }
+  else await res.body?.cancel();
 }
 check(`${internal.length} liên kết nội bộ (kể cả #anchor, PDF, RSS) đều hợp lệ`, broken.length === 0, broken.slice(0, 5).join(' | '));
 
