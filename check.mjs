@@ -242,6 +242,51 @@ check(`${internal.length} liên kết nội bộ (kể cả #anchor, PDF, RSS) �
   await ctx.close();
 }
 
+// muc Phong chong doping tren trang Dai hoi X: khop data/doping-dai-hoi-x.json (So tay cua Tieu ban Kiem tra Doping)
+{
+  const DP = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'doping-dai-hoi-x.json'), 'utf8'));
+  const ctx = await b.newContext({ viewport: { width: 1280, height: 900 } });
+  await ctx.route(/kaspersky-labs|kis\.v2\.scr/, r => r.abort());
+  const page = await ctx.newPage();
+  await page.goto(BASE + '/dai-hoi-the-thao-toan-quoc-2026', { waitUntil: 'load' });
+  const r = await page.evaluate(() => {
+    const S = '#phong-chong-doping', q = s => [...document.querySelectorAll(S + ' ' + s)];
+    const ids = new Set([...document.querySelectorAll('[id]')].map(e => e.id));
+    return {
+      tab: Boolean(document.querySelector('nav.tabs a.hot[href="#phong-chong-doping"]')),
+      callout: Boolean(document.querySelector('#tong-quan a.dp-callout[href="#phong-chong-doping"]')),
+      motto: (q('.dp-motto')[0]?.textContent || '').replace(/\s+/g, ' ').trim(),
+      keys: q('.dp-key').length, nav: q('.dp-nav a').map(a => a.getAttribute('href').slice(1)), ids: [...ids],
+      nuoc: q('#dp-nuoc-tieu .dp-steps > li').length, mau: q('#dp-mau .dp-steps > li').length, sub: q('details.dp-sub').length, tieuban: q('table.roster tbody tr').length,
+      img: q('figure img, .dp-cover img').filter(i => i.alt.length > 40 && i.getAttribute('width') && i.getAttribute('height') && /^\/img\/.+\.webp$/.test(i.getAttribute('src'))).map(i => i.getAttribute('src')),
+      pdf: [...document.querySelectorAll(S + ' a[href^="/docs/"]')].map(a => a.getAttribute('href')),
+      ext: q('a[href^="https://"]').filter(a => !(a.target === '_blank' && /noopener/.test(a.rel))).length,
+      links: q('a.dp-link').map(a => a.href),
+      mail: q('a[href^="mailto:"]').map(a => a.getAttribute('href')),
+      text: (document.querySelector(S)?.textContent || '').replace(/\s+/g, ' '),
+      overflow: document.documentElement.scrollWidth > innerWidth,
+    };
+  });
+  const files = await Promise.all([DP.nguon.pdf, ...r.img].map(async u => (await page.request.get(BASE + u)).ok()));
+  const norm = t => t.replace(/\s+/g, ' ');
+  const want = [...DP.dieuCanNho.map(c => c.noiDung), ...DP.phamVi.map(x => x[1]), ...DP.tue.yeuCau, ...DP.tue.loiKhuyen.slice(0, 4), DP.tue.luuYBtc,
+    ...DP.thongBao.the.flatMap(c => c.y), ...DP.layMau.nuocTieu.buoc.flatMap(b => [b.ten, ...b.y]), ...DP.layMau.mau.buoc.flatMap(b => [b.ten, ...b.y]), ...DP.layMau.mau.thongSo.map(x => x[1]),
+    ...DP.quyen.quyen, ...DP.quyen.nghiaVu, ...DP.quyen.trachNhiemThuoc, ...DP.quyen.tranh, DP.quyen.khauHieuCuoi, ...DP.quyen.khuyenCao.y,
+    ...DP.danhMuc.luuY, ...DP.danhMuc.nhom.flatMap(n => n.muc.flatMap(m => [m.ten, ...m.doan.flatMap(d => d.p ? [d.p] : d.ul.filter(x => typeof x === 'string'))])),
+    ...DP.hauQua.the.map(c => c.moTa), ...DP.hauQua.quanLy.doan, ...DP.tieuBan.thanhVien.flatMap(t => [t[1], t[2]]), ...DP.tieuBan.thongDiep.doan,
+    ...DP.chuVietTat.map(x => x[1]), ...DP.khaiNiem.map(x => x[1])].map(norm);
+  const missing = want.filter(w => !r.text.includes(w));
+  const nMuc = DP.danhMuc.nhom.reduce((n, g) => n + g.muc.length, 0);
+  const ok = r.tab && r.callout && r.motto.toLowerCase() === 'play true' && r.keys === DP.dieuCanNho.length && r.nav.every(i => r.ids.includes(i)) && r.nav.length >= 8
+    && r.nuoc === DP.layMau.nuocTieu.buoc.length && r.mau === DP.layMau.mau.buoc.length && r.sub === nMuc && r.tieuban === DP.tieuBan.thanhVien.length
+    && r.img.length === 4 && r.pdf.length >= 3 && r.pdf.every(h => h === DP.nguon.pdf) && files.every(Boolean) && r.ext === 0
+    && DP.lienKet.every(l => r.links.includes(l.url)) && r.mail.includes('mailto:' + DP.tue.lienHe.hoiDongEmail) && r.mail.includes('mailto:' + DP.tue.lienHe.email)
+    && missing.length === 0 && !r.overflow;
+  check('Mục Phòng chống doping (Sổ tay): khớp dữ liệu từng chữ, 4 điều cần nhớ, hạn TUE, 6 + 7 bước lấy mẫu, danh mục cấm, hậu quả, Tiểu ban; hình có mô tả, PDF + 4 liên kết chính thức mở tab mới', ok,
+    missing.length ? 'thiếu: ' + missing.slice(0, 3).join(' / ') : JSON.stringify({ tab: r.tab, callout: r.callout, keys: r.keys, nuoc: r.nuoc, mau: r.mau, sub: r.sub, img: r.img.length, pdf: r.pdf.length, ext: r.ext, ov: r.overflow }));
+  await ctx.close();
+}
+
 // trang quan tri /admin.html: dang nhap, quet phan tu, xem truoc truc tiep, luu, khoi lap, anh, video, loc XSS (voi may chu Code.gs that)
 { const { checkAdmin } = await import('./check-admin.mjs'); await checkAdmin({ b, BASE, ORIGIN, check }); }
 

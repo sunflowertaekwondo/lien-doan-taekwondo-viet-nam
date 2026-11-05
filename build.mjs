@@ -11,6 +11,7 @@ import { PAGES } from './src/meta.mjs';
 import { sprite, icon } from './src/icons.mjs';
 import { parseFrontMatter, renderMarkdown, plainText, clip, safeUrl } from './src/markdown.mjs';
 import { buildChatKb } from './tools/build-chat-kb.mjs';
+import { renderDoping } from './src/doping.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const DIST = process.env.SITE_OUT ? path.resolve(process.env.SITE_OUT) : path.join(HERE, 'dist');
@@ -21,6 +22,7 @@ const cfg = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'site.json'), 'ut
 const DL = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'dieu-le.json'), 'utf8'));
 const LTD = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'lich-thi-dau.json'), 'utf8'));
 const DH = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'dai-hoi-x-2026.json'), 'utf8'));
+const DP = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'doping-dai-hoi-x.json'), 'utf8')); // muc Phong chong doping (So tay cua Tieu ban Kiem tra Doping)
 // lich check-in (tu dong tu bang cua BTC bang tools/sync-check-in.mjs; CHI cot an toan, khong co CCCD/SDT/email/ten HLV)
 const CIL_FILE = path.join(HERE, 'data', 'check-in-lich.json');
 const CIL = fs.existsSync(CIL_FILE) ? JSON.parse(fs.readFileSync(CIL_FILE, 'utf8')) : null;
@@ -402,6 +404,7 @@ const dhDocCards = () => [
   pdfCard(DH.banTrongTai.qd.pdf, 'Quyết định thành lập Ban Trọng tài môn Taekwondo', `Số ${nw(DH.banTrongTai.qd.so)} ngày ${DH.banTrongTai.qd.ngay} · ${DH.banTrongTai.thanhVien.length} thành viên · ${mb(DH.banTrongTai.qd.kb)}`),
   pdfCard(DH.nguon.soTay.pdf, esc(DH.nguon.soTay.ten), `${esc(DH.nguon.soTay.coQuan)} · ${mb(DH.nguon.soTay.kb)}`),
   pdfCard(DH.nguon.huyChuong.pdf, esc(DH.nguon.huyChuong.ten), `${DH.nguon.huyChuong.trang} trang · ${mb(DH.nguon.huyChuong.kb)}`),
+  pdfCard(DP.nguon.pdf, esc(DP.nguon.ten), `${DP.nguon.trang} trang · ${mb(DP.nguon.kb)}`),
 ].join('\n          ');
 // Cong thong tin Dai hoi (thong tin chung, lich, bang xep hang toan Dai hoi)
 const CTT = DH.congThongTin;
@@ -504,7 +507,7 @@ const purposes = [
     body: [
       dhLive && (c => sec('dai-hoi', `${DH.tenNgan} – ${DH.batDau.slice(0, 4)}`, `<div class="dh-banner" data-end="${DH.ketThuc}T23:59:59+07:00">
           <div class="dh-date"><b>${dhRange}</b><span>Môn ${esc(DH.mon)}</span></div>
-          <div class="dh-text"><p><strong>${esc(DH.diaDiemTen)}</strong><br>${esc(DH.diaChi)}</p><p>Check-in: ${esc(DH.checkIn.gio)}. Hạn đăng ký khung giờ check-in và email schema: ${esc(DH.schema.hanChotChu)}.</p></div>
+          <div class="dh-text"><p><strong>${esc(DH.diaDiemTen)}</strong><br>${esc(DH.diaChi)}</p><p>Check-in: ${esc(DH.checkIn.gio)}. Hạn đăng ký khung giờ check-in và email schema: ${esc(DH.schema.hanChotChu)}.</p><p>Quan trọng: đọc <a href="${DH_PATH}#phong-chong-doping">Sổ tay phòng chống doping</a> trước khi đến Đại hội.</p></div>
           <div class="btns"><a class="btn btn-red" href="${DH_PATH}">Thông tin thi đấu ${icon('arrow-right')}</a></div>
         </div>`, '', c)),
       LICH.length && (c => {
@@ -622,8 +625,9 @@ const checkInTable = () => {
     file: 'dai-hoi-the-thao-toan-quoc-2026.html', path: DH_PATH, active: '/lich-thi-dau', title: m.title, desc: m.desc, ogImage: `og-${m.og}.jpg`, crumbs, extraLd: [dhLd],
     hero: pageHero(crumbs, DH.ten, `Môn ${esc(DH.mon)} · ${dhRange} · ${esc(DH.diaDiem)}`),
     body: `
-    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#quy-dinh">Quy định</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#chuong-trinh">Chương trình</a><a href="#khan-dai">Khán đài</a><a href="#trao-huy-chuong">Trao huy chương</a><a href="#ban-to-chuc-trong-tai">Ban tổ chức, trọng tài</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
-      sec('tong-quan', 'Tổng quan', `<ul class="cal-stats">
+    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#quy-dinh">Quy định</a><a class="hot" href="#phong-chong-doping">Phòng chống doping</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#chuong-trinh">Chương trình</a><a href="#khan-dai">Khán đài</a><a href="#trao-huy-chuong">Trao huy chương</a><a href="#ban-to-chuc-trong-tai">Ban tổ chức, trọng tài</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
+      sec('tong-quan', 'Tổng quan', `<a class="dp-callout" href="#phong-chong-doping">${icon('shield')}<span><strong>Nội dung quan trọng: Sổ tay phòng chống doping – Play True</strong><span class="dp-co-t">Mọi VĐV tham dự đều có thể được kiểm tra doping “không báo trước”. HLV, VĐV đọc kỹ trước khi đến Đại hội.</span></span>${icon('arrow-right')}</a>
+        <ul class="cal-stats">
           <li><b>${dhRange}</b><span>thời gian</span></li>
           <li><b>${nTong}</b><span>nội dung thi đấu</span></li>
           <li><a class="stat-link" href="#ban-to-chuc-trong-tai"><b>${nTT}</b><span>trọng tài</span></a></li>
@@ -631,9 +635,9 @@ const checkInTable = () => {
         </ul>
         <h3 class="sub-h">Lộ trình theo giai đoạn</h3>
         <ol class="steps dh-flow">
-          <li><b>Trước Đại hội</b><span>Đọc <a href="#quy-dinh">quy định chung</a> và <a href="#noi-dung-thi-dau">nội dung thi đấu</a>; đăng ký <a href="#email-schema">email truy cập schema</a> trước ${esc(DH.schema.hanChotChu)}; xem <a href="#san-tap">đăng ký sân tập</a>.</span></li>
+          <li><b>Trước Đại hội</b><span>Đọc <a href="#quy-dinh">quy định chung</a>, <a href="#phong-chong-doping">Sổ tay phòng chống doping</a> (cần dùng thuốc thuộc Danh mục cấm: xin miễn trừ do điều trị) và <a href="#noi-dung-thi-dau">nội dung thi đấu</a>; đăng ký <a href="#email-schema">email truy cập schema</a> trước ${esc(DH.schema.hanChotChu)}; xem <a href="#san-tap">đăng ký sân tập</a>.</span></li>
           <li><b>Ngày ${viDate(DH.checkIn.ngay).slice(0, 5)}: đến Đại hội</b><span><a href="#check-in">Check-in</a> nhận thẻ thi đấu, <a href="#nop-nhac">nộp nhạc quyền sáng tạo</a> tại bàn check-in; họp lãnh đội ngày ${viDate(DH.hopLanhDoi.ngay).slice(0, 5)}.</span></li>
-          <li><b>Các ngày thi đấu</b><span>Xem <a href="#chuong-trinh">chương trình theo ngày</a>, <a href="#khan-dai">phân khu khán đài và lối vào</a>, <a href="#trao-huy-chuong">hướng dẫn trao huy chương</a>.</span></li>
+          <li><b>Các ngày thi đấu</b><span>Xem <a href="#chuong-trinh">chương trình theo ngày</a>, <a href="#khan-dai">phân khu khán đài và lối vào</a>, <a href="#trao-huy-chuong">hướng dẫn trao huy chương</a>; VĐV có thể được <a href="#phong-chong-doping">kiểm tra doping “không báo trước”</a>.</span></li>
           <li><b>Tổ chức và tài liệu</b><span><a href="#ban-to-chuc-trong-tai">Ban Tổ chức, Ban Trọng tài</a> và <a href="#tai-lieu">tài liệu của Đại hội</a>.</span></li>
         </ol>
         <div class="grid g2">
@@ -655,7 +659,7 @@ const checkInTable = () => {
         <ul class="bullets">
           <li><strong>Kinh phí tham dự:</strong> ${esc(DH.kinhPhi)}</li>
           <li><strong>Luật thi đấu:</strong> ${esc(DH.luat)}</li>
-          <li><strong>Doping:</strong> ${esc(DH.doping)}</li>
+          <li><strong>Doping:</strong> ${esc(DH.doping)} Xem <a href="#phong-chong-doping">Sổ tay phòng chống doping</a>.</li>
         </ul>
         <h3 class="sub-h">Khen thưởng và kỷ luật</h3>
         <ul class="bullets">
@@ -665,6 +669,7 @@ const checkInTable = () => {
         <h3 class="sub-h">Giải quyết khiếu nại</h3>
         <ul class="bullets">${DH.khieuNai.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
         ${src(`${srcDL}, mục I, III, IV, VII–X`)}`, '', 'alt'),
+      sec('phong-chong-doping', DP.tieuDe, renderDoping({ DP, esc, icon, src, extA, pdfCard, mb, BUILD_DATE })),
       sec('noi-dung-thi-dau', `${nTong} nội dung thi đấu`, `<p>${esc(DH.doiKhangThietBi)}</p>
         <h3 class="sub-h">Đối kháng cá nhân (${nCaNhan} nội dung)</h3>
         ${Object.entries(DH.doiKhangCaNhan).map(([g, ws]) => `<div class="wc-row"><span class="wc-g">${esc(g)}</span><ul class="chips wc">${ws.map(w => `<li>${esc(w)}</li>`).join('')}</ul></div>`).join('')}

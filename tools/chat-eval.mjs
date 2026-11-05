@@ -73,6 +73,23 @@ export const CASES = [
   // lộ trình theo giai đoạn (Tổng quan)
   ['Đoàn em cần chuẩn bị những gì trước khi đến Đại hội?', [DH], 'Trước Đại hội'],
   ['Các bước tham gia Đại hội từ đăng ký đến ngày thi đấu', [DH], 'Lộ trình'],
+  // phòng chống doping (Sổ tay của Tiểu ban Kiểm tra Doping)
+  ['VĐV có bị kiểm tra doping không báo trước không?', [DH], 'không báo trước'],
+  ['Cần dùng thuốc điều trị thì phải làm gì để không vi phạm doping?', [DH], 'Miễn trừ do điều trị'],
+  ['Hạn nộp hồ sơ miễn trừ do điều trị TUE là khi nào', [DH], '30/9/2026'],
+  ['Gửi hồ sơ TUE về email nào', [DH], 'VADA.TUEC'],
+  ['Quy trình lấy mẫu nước tiểu có mấy bước', [DH], 'Chia mẫu'],
+  ['Lấy mẫu máu cần ngồi nghỉ bao lâu', [DH], '10 phút'],
+  ['VĐV chưa thành niên bị kiểm tra doping thì cần ai đi cùng', [DH], 'đại diện'],
+  ['Salbutamol thuốc hen có bị cấm không', [DH], 'Salbutamol'],
+  ['Danh mục chất cấm 2026 của WADA tải ở đâu', [DH], 'Danh mục cấm 2026'],
+  ['Vi phạm doping bị xử lý thế nào, có bị tước huy chương không', [DH], 'huy chương'],
+  ['Thực phẩm bổ sung có an toàn với kiểm tra doping không', [DH], 'thực phẩm bổ sung'],
+  ['Ai là trưởng Tiểu ban Kiểm tra Doping', [DH], 'Lê Minh Hà'],
+  ['Tra cứu thuốc có bị cấm không ở đâu', [DH], 'GlobalDRO'],
+  ['Mẫu B là gì, khi nào được mở', [DH], 'Mẫu B'],
+  ['Nhà báo có được vào khu vực kiểm tra doping không', [DH], 'Nhà báo'],
+  ['Được hoãn kiểm tra doping để dự lễ trao huy chương không', [DH], 'trao giải'],
 ];
 
 export function runEval(dist, { k = 5, verbose = false } = {}) {

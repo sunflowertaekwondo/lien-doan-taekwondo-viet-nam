@@ -138,6 +138,10 @@ export function chunkDocText(raw) {
   };
   const reDieu = /^(Điều \d+\.|Chương [IVXLC]+\b)/, reKhoan = /^\d+\.\d+(\.\d+)*\.?\s+\S/;
   for (const line of lines) {
+    if (line.startsWith('## ')) {   // tieu de muc do nguoi soan danh dau: gop muc ngan vao muc sau, dat ten doan theo tieu de
+      if (cur.length > 300) flush();
+      hKhoan = line.slice(3).replace(/:$/, '').slice(0, 120); cur += line.slice(3) + '\n'; continue;
+    }
     if (reDieu.test(line)) { flush(); hDieu = line.slice(0, 120); hKhoan = ''; cur = line + '\n'; continue; }
     if (reKhoan.test(line) && line.length < 110 && /:$|^[^.;]*$/.test(line)) { if (cur.length > 300) flush(); hKhoan = line.replace(/:$/, ''); cur += line + '\n'; continue; }
     cur += line + '\n';
