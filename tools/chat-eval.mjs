@@ -88,6 +88,13 @@ export const CASES = [
   ['Ai là trưởng Tiểu ban Kiểm tra Doping', [DH], 'Lê Minh Hà'],
   ['Tra cứu thuốc có bị cấm không ở đâu', [DH], 'GlobalDRO'],
   ['Mẫu B là gì, khi nào được mở', [DH], 'Mẫu B'],
+  // kỷ cương, kỷ luật thi đấu (Công văn 263/CMKT)
+  ['Vận động viên bỏ cuộc thì phải làm thủ tục gì?', [DH], 'giải trình'],
+  ['Bỏ cuộc vì chấn thương cần giấy tờ gì?', [DH], 'Bác sĩ'],
+  ['Cho người khác mượn thẻ Đại hội có bị xử lý không?', [DH], 'mượn'],
+  ['Vi phạm kỷ luật thi đấu bị xử lý thế nào?', [DH], 'truất quyền'],
+  ['Công văn 263/CMKT nói về nội dung gì?', [DH], '263'],
+  ['Tự ý bỏ cuộc thì kết quả có bị hủy không?', [DH], 'hủy bỏ'],
   ['Nhà báo có được vào khu vực kiểm tra doping không', [DH], 'Nhà báo'],
   ['Được hoãn kiểm tra doping để dự lễ trao huy chương không', [DH], 'trao giải'],
 ];

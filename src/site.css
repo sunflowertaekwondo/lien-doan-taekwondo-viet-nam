@@ -883,3 +883,28 @@ abbr[title] { text-decoration: underline dotted; text-underline-offset: 3px; cur
   .dp-hero, .dp-slogan, .dp-callout, .dp-code, .dp-deadline, .dp-key-ic, .dp-steps > li::before { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .dp-hero, .dp-key, .dp-steps > li, .dp-sub, .dp-fig { break-inside: avoid; }
 }
+/* Ky cuong, ky luat thi dau (Cong van 263/CMKT, trang Dai hoi X) - lop "kc-" */
+.kc-doc { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--sp-6); align-items: center; margin: 0 0 var(--sp-6); padding: var(--sp-5) var(--sp-6); border-radius: var(--r-lg); border-left: 8px solid var(--accent); color: #fff; background: linear-gradient(120deg, var(--c-navy-900), var(--c-navy-700)); box-shadow: var(--shadow-1); }
+.kc-no { padding-right: var(--sp-6); border-right: 1px solid rgba(255, 255, 255, .3); }
+.kc-no b { display: block; font-size: var(--fs-2xl); line-height: 1.1; white-space: nowrap; }
+.kc-no small, .kc-title small { display: block; margin-top: 2px; color: var(--hero-text-2); font-size: var(--fs-sm); }
+.kc-title strong { display: block; font-size: var(--fs-lg); line-height: 1.35; }
+.kc-grid { margin-top: var(--sp-5); }
+.kc-card .n { font-size: var(--fs-md); }
+.kc-warn { border-left: 6px solid var(--accent); }
+.kc-sign { display: flex; flex-direction: column; align-items: flex-end; margin: var(--sp-6) 0 var(--sp-2); text-align: right; }
+.kc-sign span { font-weight: 800; letter-spacing: .5px; color: var(--heading); }
+.kc-sign strong { margin-top: var(--sp-2); font-size: var(--fs-lg); color: var(--heading); }
+.kc-sign small { color: var(--muted); font-size: var(--fs-sm); }
+.kc-to { margin: 0 0 var(--sp-2); color: var(--muted); font-size: var(--fs-sm); }
+@media (max-width: 700px) {
+  .kc-doc { grid-template-columns: minmax(0, 1fr); gap: var(--sp-3); padding: var(--sp-4) var(--sp-5); }
+  .kc-no { padding: 0 0 var(--sp-3); border-right: 0; border-bottom: 1px solid rgba(255, 255, 255, .3); }
+}
+@media print {
+  .kc-doc { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .kc-card, .kc-doc { break-inside: avoid; }
+}
+/* vien nhan manh: quy tac .section:not(.alt) .card dat vien trong suot nen phai khai bao lai mau theo tung canh */
+.section .card.dp-key { border-top-color: var(--accent); }
+.section .card.dp-avoid, .section .card.kc-warn { border-left-color: var(--accent); }

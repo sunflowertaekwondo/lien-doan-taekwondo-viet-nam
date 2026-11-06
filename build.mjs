@@ -405,6 +405,7 @@ const dhDocCards = () => [
   pdfCard(DH.nguon.soTay.pdf, esc(DH.nguon.soTay.ten), `${esc(DH.nguon.soTay.coQuan)} · ${mb(DH.nguon.soTay.kb)}`),
   pdfCard(DH.nguon.huyChuong.pdf, esc(DH.nguon.huyChuong.ten), `${DH.nguon.huyChuong.trang} trang · ${mb(DH.nguon.huyChuong.kb)}`),
   pdfCard(DP.nguon.pdf, esc(DP.nguon.ten), `${DP.nguon.trang} trang · ${mb(DP.nguon.kb)}`),
+  pdfCard(DH.nguon.congVan263.pdf, 'Công văn về tăng cường kỷ cương, kỷ luật thi đấu', `Số ${nw(DH.nguon.congVan263.so)} ngày ${DH.nguon.congVan263.ngay} · Tiểu ban Chuyên môn kỹ thuật · ${DH.nguon.congVan263.trang} trang · ${mb(DH.nguon.congVan263.kb)}`),
 ].join('\n          ');
 // Cong thong tin Dai hoi (thong tin chung, lich, bang xep hang toan Dai hoi)
 const CTT = DH.congThongTin;
@@ -617,7 +618,7 @@ const checkInTable = () => {
     organizer: { '@type': 'Organization', name: `Ban Tổ chức ${DH.ten}` },
     superEvent: { '@type': 'SportsEvent', name: DH.ten, url: CTT.url } };
   const dl = DH.nguon.dieuLe, st = DH.nguon.soTay;
-  const BTC = DH.banToChuc, BTT = DH.banTrongTai, nTT = BTT.thanhVien.length, KD = DH.khanDai, HC = DH.huyChuong, HN = DH.nguon.huyChuong;
+  const BTC = DH.banToChuc, BTT = DH.banTrongTai, nTT = BTT.thanhVien.length, KD = DH.khanDai, HC = DH.huyChuong, HN = DH.nguon.huyChuong, KC = DH.kyCuong, CV = DH.nguon.congVan263;
   const demGT = g => BTT.thanhVien.filter(t => t.gioiTinh === g).length, nDonVi = new Set(BTT.thanhVien.map(t => t.donVi)).size;
   const qdSrc = q => `Quyết định số ${nw(q.so)} ngày ${q.ngay} của Trưởng Ban Tổ chức ${esc(DH.ten)}`;
   const srcDL = `Điều lệ môn Taekwondo ban hành kèm Quyết định số ${nw(dl.so)} ngày ${dl.ngay}`;
@@ -625,7 +626,7 @@ const checkInTable = () => {
     file: 'dai-hoi-the-thao-toan-quoc-2026.html', path: DH_PATH, active: '/lich-thi-dau', title: m.title, desc: m.desc, ogImage: `og-${m.og}.jpg`, crumbs, extraLd: [dhLd],
     hero: pageHero(crumbs, DH.ten, `Môn ${esc(DH.mon)} · ${dhRange} · ${esc(DH.diaDiem)}`),
     body: `
-    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#quy-dinh">Quy định</a><a class="hot" href="#phong-chong-doping">Phòng chống doping</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#chuong-trinh">Chương trình</a><a href="#khan-dai">Khán đài</a><a href="#trao-huy-chuong">Trao huy chương</a><a href="#ban-to-chuc-trong-tai">Ban tổ chức, trọng tài</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
+    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#quy-dinh">Quy định</a><a href="#ky-cuong-thi-dau">Kỷ cương thi đấu</a><a class="hot" href="#phong-chong-doping">Phòng chống doping</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#chuong-trinh">Chương trình</a><a href="#khan-dai">Khán đài</a><a href="#trao-huy-chuong">Trao huy chương</a><a href="#ban-to-chuc-trong-tai">Ban tổ chức, trọng tài</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
       sec('tong-quan', 'Tổng quan', `<a class="dp-callout" href="#phong-chong-doping">${icon('shield')}<span><strong>Nội dung quan trọng: Sổ tay phòng chống doping – Play True</strong><span class="dp-co-t">Mọi VĐV tham dự đều có thể được kiểm tra doping “không báo trước”. HLV, VĐV đọc kỹ trước khi đến Đại hội.</span></span>${icon('arrow-right')}</a>
         <ul class="cal-stats">
           <li><b>${dhRange}</b><span>thời gian</span></li>
@@ -635,9 +636,9 @@ const checkInTable = () => {
         </ul>
         <h3 class="sub-h">Lộ trình theo giai đoạn</h3>
         <ol class="steps dh-flow">
-          <li><b>Trước Đại hội</b><span>Đọc <a href="#quy-dinh">quy định chung</a>, <a href="#phong-chong-doping">Sổ tay phòng chống doping</a> (cần dùng thuốc thuộc Danh mục cấm: xin miễn trừ do điều trị) và <a href="#noi-dung-thi-dau">nội dung thi đấu</a>; đăng ký <a href="#email-schema">email truy cập schema</a> trước ${esc(DH.schema.hanChotChu)}; xem <a href="#san-tap">đăng ký sân tập</a>.</span></li>
+          <li><b>Trước Đại hội</b><span>Đọc <a href="#quy-dinh">quy định chung</a>, <a href="#ky-cuong-thi-dau">kỷ cương, kỷ luật thi đấu</a>, <a href="#phong-chong-doping">Sổ tay phòng chống doping</a> (cần dùng thuốc thuộc Danh mục cấm: xin miễn trừ do điều trị) và <a href="#noi-dung-thi-dau">nội dung thi đấu</a>; đăng ký <a href="#email-schema">email truy cập schema</a> trước ${esc(DH.schema.hanChotChu)}; xem <a href="#san-tap">đăng ký sân tập</a>.</span></li>
           <li><b>Ngày ${viDate(DH.checkIn.ngay).slice(0, 5)}: đến Đại hội</b><span><a href="#check-in">Check-in</a> nhận thẻ thi đấu, <a href="#nop-nhac">nộp nhạc quyền sáng tạo</a> tại bàn check-in; họp lãnh đội ngày ${viDate(DH.hopLanhDoi.ngay).slice(0, 5)}.</span></li>
-          <li><b>Các ngày thi đấu</b><span>Xem <a href="#chuong-trinh">chương trình theo ngày</a>, <a href="#khan-dai">phân khu khán đài và lối vào</a>, <a href="#trao-huy-chuong">hướng dẫn trao huy chương</a>; VĐV có thể được <a href="#phong-chong-doping">kiểm tra doping “không báo trước”</a>.</span></li>
+          <li><b>Các ngày thi đấu</b><span>Xem <a href="#chuong-trinh">chương trình theo ngày</a>, <a href="#khan-dai">phân khu khán đài và lối vào</a>, <a href="#trao-huy-chuong">hướng dẫn trao huy chương</a>; VĐV có thể được <a href="#phong-chong-doping">kiểm tra doping “không báo trước”</a>; lưu ý quy định về <a href="#ky-cuong-thi-dau">thẻ Đại hội, rút lui, bỏ cuộc</a>.</span></li>
           <li><b>Tổ chức và tài liệu</b><span><a href="#ban-to-chuc-trong-tai">Ban Tổ chức, Ban Trọng tài</a> và <a href="#tai-lieu">tài liệu của Đại hội</a>.</span></li>
         </ol>
         <div class="grid g2">
@@ -664,11 +665,24 @@ const checkInTable = () => {
         <h3 class="sub-h">Khen thưởng và kỷ luật</h3>
         <ul class="bullets">
           <li><strong>Khen thưởng:</strong> ${esc(DH.khenThuongDieu)} ${esc(DH.khenThuong)}</li>
-          <li><strong>Kỷ luật:</strong> ${esc(DH.kyLuat)}</li>
+          <li><strong>Kỷ luật:</strong> ${esc(DH.kyLuat)} Xem <a href="#ky-cuong-thi-dau">Công văn số ${esc(CV.so)} về kỷ cương, kỷ luật thi đấu</a>.</li>
         </ul>
         <h3 class="sub-h">Giải quyết khiếu nại</h3>
         <ul class="bullets">${DH.khieuNai.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
         ${src(`${srcDL}, mục I, III, IV, VII–X`)}`, '', 'alt'),
+      sec('ky-cuong-thi-dau', KC.tieuDe, `<div class="kc-doc">
+          <div class="kc-no"><b>Số ${esc(CV.so)}</b><small>Hà Nội, ${esc(CV.ngay)}</small></div>
+          <div class="kc-title"><strong>${esc(CV.trichYeu)}</strong><small>${esc(CV.coQuan)}</small></div>
+        </div>
+        <p><strong>Kính gửi:</strong> ${esc(KC.kinhGui)}</p>
+        <p>${esc(KC.moDau)}</p>
+        <div class="grid g2 kc-grid">${KC.muc.map((m, i) => `<div class="card kc-card${m.nhan === 'canh-bao' ? ' kc-warn' : ''}"><span class="n">0${i + 1}</span><h3>${esc(m.ten)}</h3><ul class="bullets">${m.y.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>`).join('')}</div>
+        <p class="note">${icon('info')}<span>${esc(KC.ketThuc)}</span></p>
+        <p class="kc-sign"><span>${esc(KC.nguoiKy.chucDanh.toUpperCase())}</span><strong>${esc(KC.nguoiKy.ten)}</strong><small>${esc(KC.nguoiKy.chucVu)}</small></p>
+        <p class="kc-to"><b>Nơi nhận:</b> ${KC.noiNhan.map(esc).join(' ')}</p>
+        <h3 class="sub-h">Văn bản đầy đủ</h3>
+        <div class="docs">${pdfCard(CV.pdf, 'Công văn về tăng cường kỷ cương, kỷ luật thi đấu', `Số ${nw(CV.so)} ngày ${CV.ngay} · ${CV.trang} trang · ${mb(CV.kb)}`)}</div>
+        ${src(`Công văn số ${nw(CV.so)} ngày ${CV.ngay} của ${esc(CV.coQuan)}`)}`),
       sec('phong-chong-doping', DP.tieuDe, renderDoping({ DP, esc, icon, src, extA, pdfCard, mb, BUILD_DATE })),
       sec('noi-dung-thi-dau', `${nTong} nội dung thi đấu`, `<p>${esc(DH.doiKhangThietBi)}</p>
         <h3 class="sub-h">Đối kháng cá nhân (${nCaNhan} nội dung)</h3>

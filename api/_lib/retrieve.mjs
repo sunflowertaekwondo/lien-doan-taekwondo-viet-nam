@@ -37,6 +37,7 @@ const SYN = [
   [/ky niem chuong|vinh danh|tri an|huy chuong/, 'ky niem chuong tri an ton vinh vinh danh'],
   [/quyen han|nhiem vu|chuc nang/, 'quyen han nhiem vu'],
   [/doi tuyen|van dong vien|vdv|tuyen chon/, 'doi tuyen van dong vien tuyen chon'],
+  [/bo cuoc|rut lui|\bmuon the\b|cho muon the|ky cuong|nhuong diem|dan xep|truat quyen|\b263\b|cmkt/, 'ky cuong ky luat thi dau bo cuoc rut lui the dai hoi xu ly vi pham van ban giai trinh'],
   [/quyen rieng tu|du lieu ca nhan|bao mat|thong tin ca nhan/, 'quyen rieng tu du lieu ca nhan'],
   [/doping|chat cam|thuoc cam|phuong phap cam|\btue\b|mien tru|lay mau|xet nghiem|nuoc tieu|glucocorticoid|salbutamol|thuc pham (bo sung|chuc nang)/, 'doping'],
   [/\bmau (a|b)\b|lay mau|nuoc tieu|mau mau|ong mau/, 'doping niem phong phong xet nghiem'],

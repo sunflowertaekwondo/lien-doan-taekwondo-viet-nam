@@ -288,6 +288,32 @@ check(`${internal.length} liên kết nội bộ (kể cả #anchor, PDF, RSS) �
   await ctx.close();
 }
 
+// muc Ky cuong, ky luat thi dau (Cong van 263/CMKT): khop data/dai-hoi-x-2026.json, co tep PDF
+{
+  const DH = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'dai-hoi-x-2026.json'), 'utf8'));
+  const KC = DH.kyCuong, CV = DH.nguon.congVan263;
+  const ctx = await b.newContext({ viewport: { width: 1280, height: 900 } });
+  await ctx.route(/kaspersky-labs|kis\.v2\.scr/, r => r.abort());
+  const page = await ctx.newPage();
+  await page.goto(BASE + '/dai-hoi-the-thao-toan-quoc-2026', { waitUntil: 'load' });
+  const r = await page.evaluate(() => {
+    const S = '#ky-cuong-thi-dau';
+    return {
+      tab: Boolean(document.querySelector('nav.tabs a[href="#ky-cuong-thi-dau"]')), cards: document.querySelectorAll(S + ' .kc-card').length, warn: document.querySelectorAll(S + ' .kc-warn').length,
+      pdf: [...document.querySelectorAll('a[href^="/docs/"][href*="cv263"]')].map(a => a.getAttribute('href')), links: [...document.querySelectorAll('main a[href="#ky-cuong-thi-dau"]')].length,
+      text: (document.querySelector(S)?.textContent || '').replace(/\s+/g, ' '),
+    };
+  });
+  const pdfOk = (await page.request.get(BASE + CV.pdf)).ok();
+  const norm = t => t.replace(/\s+/g, ' ');
+  const want = [CV.so, CV.ngay, CV.trichYeu, KC.kinhGui, KC.moDau, KC.ketThuc, KC.nguoiKy.ten, KC.nguoiKy.chucVu, ...KC.noiNhan, ...KC.muc.flatMap(m => [m.ten, ...m.y])].map(norm);
+  const missing = want.filter(w => !r.text.includes(w));
+  const ok = r.tab && r.cards === KC.muc.length && r.warn === KC.muc.filter(m => m.nhan === 'canh-bao').length && r.pdf.length >= 3 && r.pdf.every(h => h === CV.pdf) && pdfOk && r.links >= 4 && missing.length === 0;
+  check('Mục Kỷ cương, kỷ luật thi đấu (Công văn 263/CMKT): khớp dữ liệu từng chữ, 4 nội dung, tệp PDF tải được, liên kết từ Tổng quan và Quy định', ok,
+    missing.length ? 'thiếu: ' + missing.slice(0, 3).join(' / ') : JSON.stringify({ tab: r.tab, cards: r.cards, warn: r.warn, pdf: r.pdf.length, links: r.links, pdfOk }));
+  await ctx.close();
+}
+
 // trang quan tri /admin.html: dang nhap, quet phan tu, xem truoc truc tiep, luu, khoi lap, anh, video, loc XSS (voi may chu Code.gs that)
 { const { checkAdmin } = await import('./check-admin.mjs'); await checkAdmin({ b, BASE, ORIGIN, check }); }
 

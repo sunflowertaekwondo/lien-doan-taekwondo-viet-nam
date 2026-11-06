@@ -28,6 +28,15 @@
    "trang": 8,
    "pdf": "/docs/dai-hoi-x-2026-huong-dan-trao-huy-chuong.pdf",
    "kb": 365
+  },
+  "congVan263": {
+   "so": "263/CMKT",
+   "ngay": "05/11/2026",
+   "coQuan": "Tiểu ban Chuyên môn kỹ thuật, Ban Tổ chức Đại hội Thể thao toàn quốc lần thứ X năm 2026",
+   "trichYeu": "Tăng cường kỷ cương, kỷ luật thi đấu và thực hiện nghiêm túc Điều lệ tại Đại hội Thể thao toàn quốc lần thứ X năm 2026",
+   "trang": 2,
+   "pdf": "/docs/dai-hoi-x-2026-cv263-cmkt-ky-cuong-ky-luat.pdf",
+   "kb": 396
   }
  },
  "doiTuong": [
@@ -340,6 +349,47 @@
   "dangKy": "https://docs.google.com/forms/d/e/1FAIpQLSfWPDyo_JmEs7v8LFhUITD9rWCC11cxE6PVPA9jdutMP3IDlg/viewform",
   "khungGio": "https://docs.google.com/spreadsheets/d/1n6LpLIBiJqdsl9-cFr29L7DG8N8sf7vWrT6LKikAE4w/edit?usp=sharing",
   "khungGioGoc": "https://docs.google.com/spreadsheets/d/1il-aEu2-id8FnGEbMgHwt8IImpnZl94-RRgR6trbVBk/edit?gid=0#gid=0"
+ },
+ "kyCuong": {
+  "tieuDe": "Kỷ cương, kỷ luật thi đấu",
+  "kinhGui": "Trưởng đoàn Thể thao các tỉnh, thành phố, ngành tham dự Đại hội Thể thao toàn quốc lần thứ X.",
+  "moDau": "Nhằm bảo đảm công tác tổ chức các môn thể thao trong chương trình Đại hội Thể thao toàn quốc lần thứ X năm 2026 diễn ra thành công, chất lượng và minh bạch; đồng thời kịp thời chấn chỉnh, khắc phục các hiện tượng tiêu cực và tình trạng bỏ cuộc, không tiếp tục thi đấu làm ảnh hưởng đến chuyên môn cũng như hình ảnh của Đại hội, Tiểu ban Chuyên môn kỹ thuật đề nghị các Đoàn thể thao nghiêm túc thực hiện các nội dung sau:",
+  "muc": [
+   {
+    "ten": "Tuân thủ Điều lệ và quy định thi đấu",
+    "y": [
+     "Tuyệt đối chấp hành các quy định tại Điều lệ của Đại hội và Điều lệ chuyên môn của từng môn thể thao.",
+     "Nghiêm chỉnh tuân thủ các quy định về phòng, chống Doping và ngăn chặn mọi hành vi gian lận, nhường điểm, dàn xếp kết quả thi đấu.",
+     "Phát huy tinh thần thể thao cao thượng, trách nhiệm nghề nghiệp; giữ gìn và nâng cao hình ảnh, uy tín của thể thao nước nhà thông qua tác phong công tác, thi đấu của huấn luyện viên, vận động viên và lực lượng trọng tài."
+    ]
+   },
+   {
+    "ten": "Quản lý nhân sự và sử dụng thẻ Đại hội",
+    "y": [
+     "Tất cả các thành viên của đoàn (Lãnh đội, Huấn luyện viên, Vận động viên, Bác sĩ, Nhân viên) phải sử dụng thẻ Đại hội được cấp đúng mục đích, đúng đối tượng và đúng khu vực quy định. Nghiêm cấm việc cho mượn hoặc sử dụng thẻ sai quy chế."
+    ]
+   },
+   {
+    "ten": "Siết chặt quy định về việc vận động viên rút lui, bỏ cuộc",
+    "nhan": "canh-bao",
+    "y": [
+     "Vận động viên đã đăng ký thi đấu nhưng bỏ cuộc phải có văn bản giải trình cụ thể, rõ ràng lý do và phải được sự xác nhận, ký tên của Lãnh đội hoặc Huấn luyện viên trưởng môn thể thao đó.",
+     "Trường hợp bỏ cuộc vì lý do chấn thương hoặc sức khỏe không đảm bảo, bắt buộc phải có văn bản kết luận, xác nhận chuyên môn bằng văn bản từ Bác sĩ hoặc Bộ phận y tế do Ban Tổ chức Đại hội chỉ định.",
+     "Mọi trường hợp tự ý bỏ cuộc mà không có lý do chính đáng hoặc hồ sơ minh chứng hợp lệ sẽ bị hủy bỏ toàn bộ kết quả thi đấu tại nội dung đó, đồng thời tước bỏ các quyền lợi liên quan (nếu có)."
+    ]
+   },
+   {
+    "ten": "Hình thức xử lý vi phạm",
+    "nhan": "canh-bao",
+    "y": [
+     "Căn cứ vào mức độ vi phạm, Ban Tổ chức sẽ xem xét xử lý nghiêm các huấn luyện viên, vận động viên và tập thể liên quan theo Quy chế kỷ luật của Đại hội, bao gồm truất quyền chỉ đạo, quyền thi đấu và thông báo công khai về đơn vị chủ quản.",
+     "Đối với các trường hợp vi phạm nghiêm trọng quy định thi đấu, có hành vi gian lận hoặc tự ý bỏ cuộc gây ảnh hưởng xấu đến uy tín giải đấu: Tiểu ban Chuyên môn kỹ thuật sẽ báo cáo, kiến nghị Cục Thể dục thể thao Việt Nam xem xét không triệu tập vào đội tuyển quốc gia, không cử tham gia thi đấu tại các giải thể thao quốc tế trong giai đoạn tiếp theo."
+    ]
+   }
+  ],
+  "ketThuc": "Tiểu ban Chuyên môn kỹ thuật Đại hội Thể thao toàn quốc lần thứ X năm 2026 trân trọng thông báo để Đoàn thể thao biết, chủ động quán triệt và nghiêm túc thực hiện.",
+  "nguoiKy": { "chucDanh": "Trưởng Tiểu ban", "ten": "Nguyễn Hồng Minh", "chucVu": "Phó Cục trưởng Cục Thể dục thể thao Việt Nam" },
+  "noiNhan": ["Như trên;", "Sở VH,TT&DL, Sở VH&TT các tỉnh, thành;", "Cục Quân huấn nhà trường, Bộ Quốc phòng;", "Cục Công tác chính trị, Bộ Công an."]
  },
  "banToChuc": {
   "qd": {
