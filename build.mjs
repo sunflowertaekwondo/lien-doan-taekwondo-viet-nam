@@ -750,7 +750,7 @@ const checkInTable = () => {
         <ul class="lv-key">${LV.tuyen.map(t => `<li><a class="lv-${esc(t.mau)}" href="#loi-vao-${t.so}"><span class="lv-n" aria-hidden="true">${t.so}</span><span><strong>${esc(t.nhom)}</strong><small>${esc(t.nhanMau)}</small></span>${icon('arrow-right')}</a></li>`).join('')}</ul>
         <figure class="lv-video">
           <video controls preload="none" playsinline width="${LV.video.w}" height="${LV.video.h}" poster="/img/${LV.video.bia}.webp" aria-label="${esc(LV.video.ten)}"><source src="/video/${LV.video.file}.mp4" type="video/mp4"><p>Trình duyệt chưa phát được video này. <a href="/video/${LV.video.file}.mp4" download>Tải video về máy</a>.</p></video>
-          <figcaption>${esc(LV.video.chuThich)} <a href="/video/${LV.video.file}.mp4" download>${icon('download')} Tải video (${LV_MB})</a></figcaption>
+          <figcaption>${esc(LV.video.chuThich)} <a href="/video/${LV.video.file}.mp4" download>${icon('download')} Tải video hướng dẫn (${LV_MB})</a></figcaption>
         </figure>
         ${LV.tuyen.map(t => `<article class="lv-route lv-${esc(t.mau)}" id="loi-vao-${t.so}" aria-labelledby="h-loi-vao-${t.so}">
           <div class="lv-text">

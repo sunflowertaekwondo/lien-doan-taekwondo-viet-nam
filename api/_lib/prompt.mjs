@@ -68,7 +68,7 @@ export function chatMessages({ system, history, question }) {
 export function parseAnswer(raw) {
   let text = String(raw ?? '').replace(/\r/g, '').trim();
   let used = [], hasLine = false;
-  const re = /(?:^|\n)[ \t>*_#-]*(?:NGUỒN|NGUON|Nguồn|nguồn)[ \t]*(?:[:：][ \t]*)?([^\n]*)$/;
+  const re = /(?:^|\n)[ \t>*_#-]*(?:NGUỒN|NGUON|Nguồn|nguồn|ngu[oòóỏõọồốổỗộờớởỡợ]n)[ \t]*(?:[:：][ \t]*)?([^\n]*)$/i;
   const m = re.exec(text);
   if (m) {
     hasLine = true;

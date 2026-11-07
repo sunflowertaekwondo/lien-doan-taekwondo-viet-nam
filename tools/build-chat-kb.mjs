@@ -79,7 +79,7 @@ export function parsePage(html, pageUrl, siteUrl) {
       if (href && !/^(#|javascript:|mailto:|tel:)/i.test(href)) {
         const abs = /^https?:/i.test(href) && !href.startsWith(siteUrl || '\u0000');
         const local = localHref(href, siteUrl);
-        if (abs || (local && /\.pdf($|#|\?)/i.test(local))) cur.l.push({ h: abs ? href : local, t: '' });
+        if (abs || (local && /\.(pdf|mp4)($|#|\?)/i.test(local))) cur.l.push({ h: abs ? href : local, t: '' });
       }
       cur._open = true; continue;
     }

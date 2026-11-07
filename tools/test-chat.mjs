@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createHandler } from '../api/chat.js';
 import { startMockKira, MOCK_KEY } from './mock-kira.mjs';
+import { parseAnswer } from '../api/_lib/prompt.mjs';
 
 function fakeRes() {
   const r = { code: 200, headers: {}, body: null, setHeader(k, v) { r.headers[k.toLowerCase()] = v; }, status(c) { r.code = c; return r; }, json(o) { r.body = o; return r; } };
@@ -139,6 +140,11 @@ export async function runApiTests({ dist = 'dist' } = {}) {
     const cap = mk({ CHAT_DAILY_CAP: '1' }); await call(cap, { body: { messages: [{ role: 'user', content: 'a' }] }, headers: ip() });
     r = await call(cap, { body: { messages: [{ role: 'user', content: 'b' }] }, headers: ip() });
     t('Trần tổng số câu hỏi mỗi ngày để bảo vệ chi phí (vượt trần: 429)', r.code === 429 && r.body.code === 'busy', String(r.code));
+    // --- dong NGUON do mo hinh go sai dau ("NGUỎN") van phai tach khoi cau tra loi; cau thuong co chu "nguon" giua dong khong bi cat
+    {
+      const p1 = parseAnswer('Dạ, vào cổng chính ạ.\n\nNGUỎN: 1, 3, 4'), p2 = parseAnswer('Dạ ạ.\nNguon: 2'), p3 = parseAnswer('Dạ, nguồn gốc của giải rất lâu đời ạ.');
+      t('Dòng nguồn mô hình gõ sai dấu (NGUỎN, Nguon) vẫn được tách; chữ "nguồn" giữa câu không bị cắt', p1.hasLine && p1.used.join() === '1,3,4' && !/NGU/i.test(p1.answer) && p2.hasLine && p2.used.join() === '2' && !p3.hasLine && /nguồn gốc/.test(p3.answer));
+    }
   } finally { await mock.close(); }
   return out;
 }
