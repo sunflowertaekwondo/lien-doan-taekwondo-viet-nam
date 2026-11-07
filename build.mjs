@@ -81,7 +81,7 @@ for (const e of fs.readdirSync(DIST)) {
   try { fs.rmSync(path.join(DIST, e), { recursive: true, force: true, maxRetries: 10, retryDelay: 100 }); }
   catch (err) { console.warn(`Chua xoa duoc ${e} (${err.code}), se ghi de`); }
 }
-for (const d of ['assets', 'docs', 'fonts', 'img', 'tin-tuc']) fs.mkdirSync(path.join(DIST, d), { recursive: true });
+for (const d of ['assets', 'docs', 'fonts', 'img', 'tin-tuc', 'video']) fs.mkdirSync(path.join(DIST, d), { recursive: true });
 const fontsCss = fs.readFileSync(path.join(HERE, 'src', 'fonts', 'fonts.css'), 'utf8').replace(/url\("\.\.\/fonts\//g, `url("${BASE}/fonts/`);
 const css = fontsCss + '\n' + fs.readFileSync(path.join(HERE, 'src', 'site.css'), 'utf8') + '\n' + fs.readFileSync(path.join(HERE, 'src', 'chat.css'), 'utf8');
 const js = fs.readFileSync(path.join(HERE, 'src', 'site.js'), 'utf8');
@@ -108,6 +108,8 @@ for (const f of fs.readdirSync(path.join(HERE, 'src', 'generated'))) fs.copyFile
 // anh noi dung (vd ky niem chuong trang chu) dat trong src/img/
 for (const f of fs.readdirSync(path.join(HERE, 'src', 'img'))) if (/\.(jpe?g|png|webp|svg)$/i.test(f)) fs.copyFileSync(path.join(HERE, 'src', 'img', f), path.join(DIST, 'img', f));
 for (const f of fs.readdirSync(path.join(HERE, 'data', 'docs'))) fs.copyFileSync(path.join(HERE, 'data', 'docs', f), path.join(DIST, 'docs', f));
+// video hướng dẫn (src/video -> /video), phát bằng thẻ <video>
+if (fs.existsSync(path.join(HERE, 'src', 'video'))) for (const f of fs.readdirSync(path.join(HERE, 'src', 'video'))) if (/\.(mp4|webm)$/i.test(f)) fs.copyFileSync(path.join(HERE, 'src', 'video', f), path.join(DIST, 'video', f));
 fs.copyFileSync(path.join(HERE, 'src', 'favicon.svg'), path.join(DIST, 'favicon.svg'));
 // Logo chinh thuc (tep dat trong src/): logo = ban chu toi cho nen sang, logoNenToi = ban chu trang cho nen toi (chan trang, giao dien toi)
 const pngSize = f => { const h = fs.readFileSync(f).subarray(0, 24); return h.toString('latin1', 12, 16) === 'IHDR' ? [h.readUInt32BE(16), h.readUInt32BE(20)] : null; };
@@ -508,7 +510,7 @@ const purposes = [
     body: [
       dhLive && (c => sec('dai-hoi', `${DH.tenNgan} – ${DH.batDau.slice(0, 4)}`, `<div class="dh-banner" data-end="${DH.ketThuc}T23:59:59+07:00">
           <div class="dh-date"><b>${dhRange}</b><span>Môn ${esc(DH.mon)}</span></div>
-          <div class="dh-text"><p><strong>${esc(DH.diaDiemTen)}</strong><br>${esc(DH.diaChi)}</p><p>Check-in: ${esc(DH.checkIn.gio)}. Hạn đăng ký khung giờ check-in và email schema: ${esc(DH.schema.hanChotChu)}.</p><p>Quan trọng: đọc <a href="${DH_PATH}#phong-chong-doping">Sổ tay phòng chống doping</a> trước khi đến Đại hội.</p></div>
+          <div class="dh-text"><p><strong>${esc(DH.diaDiemTen)}</strong><br>${esc(DH.diaChi)}</p><p>Check-in: ${esc(DH.checkIn.gio)}. Hạn đăng ký khung giờ check-in và email schema: ${esc(DH.schema.hanChotChu)}.</p><p>Quan trọng: đọc <a href="${DH_PATH}#phong-chong-doping">Sổ tay phòng chống doping</a> trước khi đến Đại hội.</p><p>Đường vào nhà thi đấu: xem <a href="${DH_PATH}#loi-vao-nha-thi-dau">hướng dẫn 3 lối vào</a> (video và bản đồ).</p></div>
           <div class="btns"><a class="btn btn-red" href="${DH_PATH}">Thông tin thi đấu ${icon('arrow-right')}</a></div>
         </div>`, '', c)),
       LICH.length && (c => {
@@ -618,7 +620,7 @@ const checkInTable = () => {
     organizer: { '@type': 'Organization', name: `Ban Tổ chức ${DH.ten}` },
     superEvent: { '@type': 'SportsEvent', name: DH.ten, url: CTT.url } };
   const dl = DH.nguon.dieuLe, st = DH.nguon.soTay;
-  const BTC = DH.banToChuc, BTT = DH.banTrongTai, nTT = BTT.thanhVien.length, KD = DH.khanDai, HC = DH.huyChuong, HN = DH.nguon.huyChuong, KC = DH.kyCuong, CV = DH.nguon.congVan263;
+  const BTC = DH.banToChuc, BTT = DH.banTrongTai, nTT = BTT.thanhVien.length, KD = DH.khanDai, HC = DH.huyChuong, HN = DH.nguon.huyChuong, KC = DH.kyCuong, CV = DH.nguon.congVan263, LV = DH.loiVaoNhaThiDau, LV_MB = mb(Math.round(fs.statSync(path.join(HERE, 'src', 'video', `${LV.video.file}.mp4`)).size / 1024));
   const demGT = g => BTT.thanhVien.filter(t => t.gioiTinh === g).length, nDonVi = new Set(BTT.thanhVien.map(t => t.donVi)).size;
   const qdSrc = q => `Quyết định số ${nw(q.so)} ngày ${q.ngay} của Trưởng Ban Tổ chức ${esc(DH.ten)}`;
   const srcDL = `Điều lệ môn Taekwondo ban hành kèm Quyết định số ${nw(dl.so)} ngày ${dl.ngay}`;
@@ -626,7 +628,7 @@ const checkInTable = () => {
     file: 'dai-hoi-the-thao-toan-quoc-2026.html', path: DH_PATH, active: '/lich-thi-dau', title: m.title, desc: m.desc, ogImage: `og-${m.og}.jpg`, crumbs, extraLd: [dhLd],
     hero: pageHero(crumbs, DH.ten, `Môn ${esc(DH.mon)} · ${dhRange} · ${esc(DH.diaDiem)}`),
     body: `
-    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#quy-dinh">Quy định</a><a href="#ky-cuong-thi-dau">Kỷ cương thi đấu</a><a class="hot" href="#phong-chong-doping">Phòng chống doping</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#chuong-trinh">Chương trình</a><a href="#khan-dai">Khán đài</a><a href="#trao-huy-chuong">Trao huy chương</a><a href="#ban-to-chuc-trong-tai">Ban tổ chức, trọng tài</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
+    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#quy-dinh">Quy định</a><a href="#ky-cuong-thi-dau">Kỷ cương thi đấu</a><a class="hot" href="#phong-chong-doping">Phòng chống doping</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#chuong-trinh">Chương trình</a><a href="#loi-vao-nha-thi-dau">Lối vào nhà thi đấu</a><a href="#khan-dai">Khán đài</a><a href="#trao-huy-chuong">Trao huy chương</a><a href="#ban-to-chuc-trong-tai">Ban tổ chức, trọng tài</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
       sec('tong-quan', 'Tổng quan', `<a class="dp-callout" href="#phong-chong-doping">${icon('shield')}<span><strong>Nội dung quan trọng: Sổ tay phòng chống doping – Play True</strong><span class="dp-co-t">Mọi VĐV tham dự đều có thể được kiểm tra doping “không báo trước”. HLV, VĐV đọc kỹ trước khi đến Đại hội.</span></span>${icon('arrow-right')}</a>
         <ul class="cal-stats">
           <li><b>${dhRange}</b><span>thời gian</span></li>
@@ -638,7 +640,7 @@ const checkInTable = () => {
         <ol class="steps dh-flow">
           <li><b>Trước Đại hội</b><span>Đọc <a href="#quy-dinh">quy định chung</a>, <a href="#ky-cuong-thi-dau">kỷ cương, kỷ luật thi đấu</a>, <a href="#phong-chong-doping">Sổ tay phòng chống doping</a> (cần dùng thuốc thuộc Danh mục cấm: xin miễn trừ do điều trị) và <a href="#noi-dung-thi-dau">nội dung thi đấu</a>; đăng ký <a href="#email-schema">email truy cập schema</a> trước ${esc(DH.schema.hanChotChu)}; xem <a href="#san-tap">đăng ký sân tập</a>.</span></li>
           <li><b>Ngày ${viDate(DH.checkIn.ngay).slice(0, 5)}: đến Đại hội</b><span><a href="#check-in">Check-in</a> nhận thẻ thi đấu, <a href="#nop-nhac">nộp nhạc quyền sáng tạo</a> tại bàn check-in; họp lãnh đội ngày ${viDate(DH.hopLanhDoi.ngay).slice(0, 5)}.</span></li>
-          <li><b>Các ngày thi đấu</b><span>Xem <a href="#chuong-trinh">chương trình theo ngày</a>, <a href="#khan-dai">phân khu khán đài và lối vào</a>, <a href="#trao-huy-chuong">hướng dẫn trao huy chương</a>; VĐV có thể được <a href="#phong-chong-doping">kiểm tra doping “không báo trước”</a>; lưu ý quy định về <a href="#ky-cuong-thi-dau">thẻ Đại hội, rút lui, bỏ cuộc</a>.</span></li>
+          <li><b>Các ngày thi đấu</b><span>Xem <a href="#chuong-trinh">chương trình theo ngày</a>, <a href="#loi-vao-nha-thi-dau">hướng dẫn 3 lối vào nhà thi đấu</a>, <a href="#khan-dai">phân khu khán đài</a>, <a href="#trao-huy-chuong">hướng dẫn trao huy chương</a>; VĐV có thể được <a href="#phong-chong-doping">kiểm tra doping “không báo trước”</a>; lưu ý quy định về <a href="#ky-cuong-thi-dau">thẻ Đại hội, rút lui, bỏ cuộc</a>.</span></li>
           <li><b>Tổ chức và tài liệu</b><span><a href="#ban-to-chuc-trong-tai">Ban Tổ chức, Ban Trọng tài</a> và <a href="#tai-lieu">tài liệu của Đại hội</a>.</span></li>
         </ol>
         <div class="grid g2">
@@ -735,7 +737,7 @@ const checkInTable = () => {
           </div>`).join('')}
         </div>
         <p class="note">${icon('info')}<span>${esc(DH.dieuChinh.noiDung)} ngày ${viDate(DH.dieuChinh.ngay)}. ${esc(DH.chuongTrinhGhiChu)}. Địa điểm: ${esc(DH.diaDiem)}.</span></p>
-        <p class="note">${icon('info')}<span>Xem thêm: <a href="#khan-dai">phân khu khán đài và quy định ra vào nhà thi đấu</a>; <a href="#trao-huy-chuong">hướng dẫn lễ trao huy chương</a> (lễ trao thưởng diễn ra vào cuối mỗi ngày thi đấu).</span></p>
+        <p class="note">${icon('info')}<span>Xem thêm: <a href="#loi-vao-nha-thi-dau">hướng dẫn 3 lối vào nhà thi đấu</a>; <a href="#khan-dai">phân khu khán đài và quy định ra vào nhà thi đấu</a>; <a href="#trao-huy-chuong">hướng dẫn lễ trao huy chương</a> (lễ trao thưởng diễn ra vào cuối mỗi ngày thi đấu).</span></p>
         <h3 class="sub-h">Cân vận động viên</h3>
         <ul class="bullets">
           <li><strong>Cân kiểm tra vận động viên:</strong> ${esc(DH.can.kiemTra)}.</li>
@@ -743,13 +745,32 @@ const checkInTable = () => {
           <li>${esc(DH.can.traoThuong)}</li>
         </ul>
         ${src(`${srcDL}; Lịch hoạt động chính thức môn Taekwondo của Ban Tổ chức Đại hội, cập nhật ngày ${viDate(DH.dieuChinh.ngay)}`)}`, '', 'alt'),
+      sec('loi-vao-nha-thi-dau', LV.tieuDe, `<p>${esc(LV.gioiThieu)}</p>
+        <p class="lv-where">${icon('pin')}<span><strong>${esc(DH.diaDiemTen)}</strong>, ${esc(DH.diaChi)}</span></p>
+        <ul class="lv-key">${LV.tuyen.map(t => `<li><a class="lv-${esc(t.mau)}" href="#loi-vao-${t.so}"><span class="lv-n" aria-hidden="true">${t.so}</span><span><strong>${esc(t.nhom)}</strong><small>${esc(t.nhanMau)}</small></span>${icon('arrow-right')}</a></li>`).join('')}</ul>
+        <figure class="lv-video">
+          <video controls preload="none" playsinline width="${LV.video.w}" height="${LV.video.h}" poster="/img/${LV.video.bia}.webp" aria-label="${esc(LV.video.ten)}"><source src="/video/${LV.video.file}.mp4" type="video/mp4"><p>Trình duyệt chưa phát được video này. <a href="/video/${LV.video.file}.mp4" download>Tải video về máy</a>.</p></video>
+          <figcaption>${esc(LV.video.chuThich)} <a href="/video/${LV.video.file}.mp4" download>${icon('download')} Tải video (${LV_MB})</a></figcaption>
+        </figure>
+        ${LV.tuyen.map(t => `<article class="lv-route lv-${esc(t.mau)}" id="loi-vao-${t.so}" aria-labelledby="h-loi-vao-${t.so}">
+          <div class="lv-text">
+            <div class="lv-h"><span class="lv-n" aria-hidden="true">${t.so}</span><h3 id="h-loi-vao-${t.so}">${esc(t.ten)}</h3></div>
+            <p class="lv-tag"><span class="lv-arrow" aria-hidden="true">${icon('arrow-right')}</span><span>Ký hiệu: <strong>${esc(t.nhanMau)}</strong></span></p>
+            <p class="lv-map">Nhãn trên bản đồ: <strong>${esc(t.nhanBanDo)}</strong></p>
+            <ol class="lv-steps">${t.buoc.map(b => `<li>${esc(b)}</li>`).join('')}</ol>
+          </div>
+          <figure class="lv-fig"><a href="/img/${t.hinh.file}.webp" target="_blank" rel="noopener"><picture><img src="/img/${t.hinh.file}.webp" width="${t.hinh.w}" height="${t.hinh.h}" alt="${esc(t.hinh.alt)}" loading="lazy"></picture></a><figcaption>${esc(t.hinh.chuThich)}</figcaption></figure>
+        </article>`).join('')}
+        <div id="loi-vao-luu-y"><h3 class="sub-h">Lưu ý</h3>
+        <p class="note">${icon('info')}<span><strong>${esc(KD.dungKhuVuc[0][0])}:</strong> ${esc(KD.dungKhuVuc[0][1])} Xem thêm <a href="#khan-dai">phân khu khán đài và quy định ra vào nhà thi đấu</a>.</span></p></div>
+        ${src(`Video “${esc(LV.video.ten)}” và nội dung hướng dẫn 3 lối vào, ${esc(DH.diaDiemTen)} (${esc(DH.diaChi)}); cập nhật ngày ${viDate(LV.ngayCapNhat)}`)}`),
       sec('khan-dai', KD.tieuDe, `<p><strong>Kính gửi:</strong></p>
         <ul class="bullets">${KD.kinhGui.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
         <p>${esc(KD.moDau)}</p>
         <ul class="kd-legend">${KD.phanKhu.map(k => `<li><span class="kd-sw ${esc(k.lop)}" aria-hidden="true"></span><span><strong>${esc(k.khan)}</strong>${esc(k.danhCho)}</span></li>`).join('')}</ul>
         ${KD.hinh.map(h => `<figure class="dh-poster kd-fig"><a href="/img/${h.file}.webp" target="_blank" rel="noopener"><picture><img src="/img/${h.file}.webp" width="${h.w}" height="${h.h}" alt="${esc(h.alt)}" loading="lazy"></picture></a><figcaption>${esc(h.chuThich)}</figcaption></figure>`).join('')}
         <h3 class="sub-h">Quy định ra vào và sử dụng chỗ ngồi</h3>
-        <ul class="bullets"><li><strong>${esc(KD.loiVao.ten)}:</strong> ${esc(KD.loiVao.noiDung)}</li></ul>
+        <ul class="bullets"><li><strong>${esc(KD.loiVao.ten)}:</strong> ${esc(KD.loiVao.noiDung)} <a class="kd-more" href="#loi-vao-nha-thi-dau">Đã đăng: xem hướng dẫn 3 lối vào kèm bản đồ và video</a></li></ul>
         <h3 class="sub-h">Đúng khu vực quy định</h3>
         <ul class="bullets">${KD.dungKhuVuc.map(([k, v]) => `<li><strong>${esc(k)}:</strong> ${esc(v)}</li>`).join('')}</ul>
         <p class="note">${icon('info')}<span>${esc(KD.ketThuc)} <strong>${esc(KD.camOn)}</strong></span></p>

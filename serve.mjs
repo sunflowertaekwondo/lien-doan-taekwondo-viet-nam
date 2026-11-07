@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 // SERVE_DIR: thu muc can phuc vu (mac dinh dist)
 const DIST = path.resolve(path.dirname(fileURLToPath(import.meta.url)), process.env.SERVE_DIR || 'dist');
 const PORT = Number(process.env.PORT || 8700);
-const MIME = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.pdf': 'application/pdf', '.png': 'image/png', '.jpg': 'image/jpeg', '.txt': 'text/plain; charset=utf-8', '.json': 'application/json; charset=utf-8', '.xml': 'application/xml; charset=utf-8', '.webmanifest': 'application/manifest+json', '.woff2': 'font/woff2' };
+const MIME = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.pdf': 'application/pdf', '.mp4': 'video/mp4', '.png': 'image/png', '.jpg': 'image/jpeg', '.txt': 'text/plain; charset=utf-8', '.json': 'application/json; charset=utf-8', '.xml': 'application/xml; charset=utf-8', '.webmanifest': 'application/manifest+json', '.woff2': 'font/woff2' };
 
 // Tro ly ao LinhKate: /api/chat chay dung ma cua Vercel (api/chat.mjs). CHAT_MOCK=1 -> dung Kira AI "gia" (kiem thu, khong ton tien); neu khong, can KIRA_API_KEY that.
 if (process.env.CHAT_MOCK) {
@@ -42,7 +42,17 @@ http.createServer((req, res) => {
     const f = path.normalize(path.join(DIST, c));
     if (!f.startsWith(DIST)) break;
     if (fs.existsSync(f) && fs.statSync(f).isFile()) {
-      res.writeHead(200, { 'Content-Type': MIME[path.extname(f)] || 'application/octet-stream' });
+      const size = fs.statSync(f).size, type = MIME[path.extname(f)] || 'application/octet-stream';
+      // Range: video (.mp4) phai tua duoc, giong Vercel (tra 206 khi trinh duyet xin mot doan)
+      const rg = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range || '');
+      if (rg && (rg[1] || rg[2])) {
+        const a = rg[1] === '' ? Math.max(0, size - Number(rg[2])) : Number(rg[1]);
+        const z = rg[1] === '' || rg[2] === '' ? size - 1 : Math.min(Number(rg[2]), size - 1);
+        if (a > z || a >= size) { res.writeHead(416, { 'Content-Range': `bytes */${size}` }); return res.end(); }
+        res.writeHead(206, { 'Content-Type': type, 'Accept-Ranges': 'bytes', 'Content-Range': `bytes ${a}-${z}/${size}`, 'Content-Length': z - a + 1 });
+        return pipeline(fs.createReadStream(f, { start: a, end: z }), res, () => {});
+      }
+      res.writeHead(200, { 'Content-Type': type, 'Accept-Ranges': 'bytes' });
       return pipeline(fs.createReadStream(f), res, () => {}); // pipeline dong tep ca khi trinh duyet huy tai giua chung
     }
   }

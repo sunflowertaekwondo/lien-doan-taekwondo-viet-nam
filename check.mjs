@@ -314,6 +314,45 @@ check(`${internal.length} liên kết nội bộ (kể cả #anchor, PDF, RSS) �
   await ctx.close();
 }
 
+// muc Huong dan loi vao nha thi dau: khop data/dai-hoi-x-2026.json, 3 tuyen, 3 anh ban do, video tai duoc va tua duoc (Range), lien ket tu Khan dai, Chuong trinh va lo trinh
+{
+  const DH = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'dai-hoi-x-2026.json'), 'utf8'));
+  const LV = DH.loiVaoNhaThiDau;
+  const ctx = await b.newContext({ viewport: { width: 1280, height: 900 } });
+  await ctx.route(/kaspersky-labs|kis\.v2\.scr/, r => r.abort());
+  const page = await ctx.newPage();
+  await page.goto(BASE + '/dai-hoi-the-thao-toan-quoc-2026', { waitUntil: 'load' });
+  const r = await page.evaluate(() => {
+    const S = '#loi-vao-nha-thi-dau';
+    const v = document.querySelector(S + ' video');
+    return {
+      tab: Boolean(document.querySelector('nav.tabs a[href="#loi-vao-nha-thi-dau"]')),
+      routes: [...document.querySelectorAll(S + ' article.lv-route')].map(a => a.id),
+      imgs: [...document.querySelectorAll(S + ' .lv-fig img')].map(i => ({ src: i.getAttribute('src'), altLen: i.alt.length, w: i.getAttribute('width'), h: i.getAttribute('height') })),
+      video: v ? { src: v.querySelector('source')?.getAttribute('src'), poster: v.getAttribute('poster'), controls: v.controls, label: v.getAttribute('aria-label') } : null,
+      links: [...document.querySelectorAll('main a[href="#loi-vao-nha-thi-dau"]')].length,
+      kdPointer: Boolean(document.querySelector('#khan-dai a.kd-more[href="#loi-vao-nha-thi-dau"]')),
+      text: (document.querySelector(S)?.textContent || '').replace(/\s+/g, ' '),
+    };
+  });
+  const imgOk = await Promise.all(r.imgs.map(async i => (await page.request.get(BASE + i.src)).ok()));
+  const posterOk = r.video ? (await page.request.get(BASE + r.video.poster)).ok() : false;
+  // video: tep that, dung kieu video/mp4, tra ve 206 khi xin mot doan (de tren dien thoai tua duoc)
+  const rg = r.video ? await page.request.get(BASE + r.video.src, { headers: { Range: 'bytes=0-1023' } }) : null;
+  const rgBody = rg ? await rg.body() : Buffer.alloc(0);
+  const videoOk = Boolean(rg) && rg.status() === 206 && /video\/mp4/.test(rg.headers()['content-type'] || '') && rgBody.length === 1024 && rgBody.subarray(4, 8).toString() === 'ftyp';
+  const norm = t => t.replace(/\s+/g, ' ');
+  const want = [LV.gioiThieu, LV.video.chuThich, ...LV.tuyen.flatMap(t => [t.ten, t.nhom, t.nhanMau, t.nhanBanDo, ...t.buoc])].map(norm);
+  const missing = want.filter(w => !r.text.includes(w));
+  const ok = r.tab && r.routes.join(',') === LV.tuyen.map(t => 'loi-vao-' + t.so).join(',') && r.imgs.length === LV.tuyen.length
+    && r.imgs.every((i, k) => i.altLen > 60 && i.w === String(LV.tuyen[k].hinh.w) && i.h === String(LV.tuyen[k].hinh.h) && i.src === `/img/${LV.tuyen[k].hinh.file}.webp`) && imgOk.every(Boolean)
+    && r.video && r.video.controls && r.video.src === `/video/${LV.video.file}.mp4` && r.video.poster === `/img/${LV.video.bia}.webp` && posterOk && videoOk
+    && r.links >= 3 && r.kdPointer && missing.length === 0;
+  check('Mục Hướng dẫn lối vào nhà thi đấu: khớp dữ liệu từng chữ, 3 tuyến (đỏ, xanh, vàng) kèm bản đồ, video tải và tua được (Range), liên kết từ Khán đài, Chương trình và lộ trình', ok,
+    missing.length ? 'thiếu: ' + missing.slice(0, 3).join(' / ') : JSON.stringify({ tab: r.tab, routes: r.routes.length, imgs: r.imgs.length, imgOk, posterOk, videoOk, links: r.links, kdPointer: r.kdPointer }));
+  await ctx.close();
+}
+
 // trang quan tri /admin.html: dang nhap, quet phan tu, xem truoc truc tiep, luu, khoi lap, anh, video, loc XSS (voi may chu Code.gs that)
 { const { checkAdmin } = await import('./check-admin.mjs'); await checkAdmin({ b, BASE, ORIGIN, check }); }
 

@@ -63,6 +63,13 @@ export const CASES = [
   ['HLV VĐV các đoàn ngồi khu nào trong nhà thi đấu', [DH], 'Xanh ngọc'],
   ['Vào nhà thi đấu cần mang thẻ gì, có cửa riêng không', [DH], 'Thẻ Đại hội'],
   ['Sơ đồ khán đài nhà thi đấu Đại hội Thể thao toàn quốc', [DH], 'Khán đài Xanh dương'],
+  // hướng dẫn 3 lối vào nhà thi đấu (video + bản đồ)
+  ['Huấn luyện viên và vận động viên vào nhà thi đấu bằng cửa nào?', [DH], 'rẽ trái'],
+  ['Khán giả cổ động viên đi vào nhà thi đấu bằng đường nào?', [DH], 'hẻm số 350'],
+  ['Trọng tài vào nhà thi đấu ở đâu', [DH], 'Phòng họp Chuyên môn'],
+  ['Đoàn TP. Hồ Chí Minh đi lối nào vào nhà thi đấu', [DH], 'Phòng họp Chuyên môn'],
+  ['Hầm để xe, bãi đỗ xe ở nhà thi đấu đi lối nào', [DH], 'hầm để xe'],
+  ['Mũi tên đỏ, xanh, vàng trên bản đồ lối vào nghĩa là gì', [DH], 'mũi tên'],
   // hướng dẫn trao huy chương / khen thưởng
   ['Quy trình trao huy chương ở Đại hội như thế nào?', [DH], 'trao'],
   ['Ai là người trao huy chương và linh vật cho vận động viên?', [DH], 'lãnh đạo'],

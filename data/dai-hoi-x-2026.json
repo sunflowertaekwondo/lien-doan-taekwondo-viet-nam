@@ -873,6 +873,81 @@
    }
   ]
  },
+ "loiVaoNhaThiDau": {
+  "_ghi_chu": "Huong dan 3 loi vao nha thi dau (video + noi dung huong dan do nguoi quan tri trang cung cap ngay 07/11/2026). Noi dung cac buoc chep dung chu tu loi doc trong video (da doi chieu bang nhan dang giong noi), chi chinh viet hoa dau cau. 'mau' la do/xanh/vang, ung voi mau mui ten tren ban do (mau trong src/site.css, .lv-do/.lv-xanh/.lv-vang). Video nen tu ban goc 2048x1170 xuong 1600x914 (src/video), 3 anh ban do la khung hinh cat tu video goc o giay 17 (do), 40 (xanh), 56 (vang), anh bia o giay 3.",
+  "tieuDe": "Hướng dẫn lối vào nhà thi đấu",
+  "ngayCapNhat": "2026-11-07",
+  "gioiThieu": "Nhà thi đấu có 3 lối vào, mỗi nhóm một lối, phân biệt bằng màu mũi tên trên bản đồ: đỏ cho huấn luyện viên và vận động viên các đoàn, xanh cho khán đài VIP và cổ động viên, vàng cho trọng tài và Đoàn Thành phố Hồ Chí Minh.",
+  "video": {
+   "ten": "Hướng dẫn lối vào nhà thi đấu",
+   "file": "dai-hoi-x-2026-huong-dan-loi-vao-nha-thi-dau",
+   "bia": "dai-hoi-x-2026-loi-vao-video-bia",
+   "w": 1600,
+   "h": 914,
+   "giay": 58,
+   "chuThich": "Video hướng dẫn 3 lối vào nhà thi đấu (58 giây, có lời đọc tiếng Việt và chữ trên hình)."
+  },
+  "tuyen": [
+   {
+    "so": 1,
+    "mau": "do",
+    "nhom": "Huấn luyện viên, vận động viên các đoàn",
+    "nhanMau": "Mũi tên ĐỎ",
+    "nhanBanDo": "LỐI VÀO HLV/VĐV",
+    "ten": "Lối vào khán đài dành cho huấn luyện viên và vận động viên của các đoàn",
+    "buoc": [
+     "Thầy cô và các bạn vận động viên di chuyển vào khuôn viên qua cổng chính ở đường Nguyễn Văn Lượng.",
+     "Rẽ trái theo lối đi nội bộ bên hông nhà thi đấu, rồi tiến thẳng đến cửa dành riêng cho huấn luyện viên và vận động viên."
+    ],
+    "hinh": {
+     "file": "dai-hoi-x-2026-loi-vao-1-hlv-vdv",
+     "w": 1800,
+     "h": 1028,
+     "alt": "Bản đồ nhà thi đấu nhìn từ trên cao. Mũi tên đỏ đi từ Cổng chính trên đường Nguyễn Văn Lượng, rẽ trái, chạy dọc bên hông trái nhà thi đấu rồi lên tới hai cửa Lối vào HLV/VĐV ở phía trên bên trái, có khoanh tròn đỏ. Mũi tên vàng và nét đứt xanh là hai lối vào còn lại.",
+     "chuThich": "Lối vào số 1, mũi tên đỏ (bấm vào hình để xem cỡ lớn)"
+    }
+   },
+   {
+    "so": 2,
+    "mau": "xanh",
+    "nhom": "Khán đài VIP và cổ động viên",
+    "nhanMau": "Mũi tên XANH",
+    "nhanBanDo": "LỐI VÀO CỔ ĐỘNG VIÊN",
+    "ten": "Lối vào khán đài VIP và cổ động viên",
+    "buoc": [
+     "Các quan chức và khán giả sẽ di chuyển vào khuôn viên từ đường Nguyễn Văn Lượng hoặc hẻm số 350 Nguyễn Văn Lượng.",
+     "Rẽ phải theo lối đi bên hông nhà thi đấu để di chuyển xuống hầm để xe hoặc tiến thẳng về bãi đỗ xe theo hướng dẫn.",
+     "Sau đó, lên khán đài qua các cửa dành riêng cho khán giả và cổ động viên."
+    ],
+    "hinh": {
+     "file": "dai-hoi-x-2026-loi-vao-2-khan-gia-vip",
+     "w": 1800,
+     "h": 1028,
+     "alt": "Bản đồ nhà thi đấu nhìn từ trên cao. Mũi tên xanh đi từ Cổng chính trên đường Nguyễn Văn Lượng, rẽ phải qua lối bên hông và khu Hầm gửi xe, rồi đi lên cửa Lối vào cổ động viên ở phía trên bên phải, có khoanh tròn xanh. Một nhánh khác nối từ Cổng phụ ở hẻm 350 Nguyễn Văn Lượng vào cùng lối này.",
+     "chuThich": "Lối vào số 2, mũi tên xanh (bấm vào hình để xem cỡ lớn)"
+    }
+   },
+   {
+    "so": 3,
+    "mau": "vang",
+    "nhom": "Trọng tài và Đoàn TP. Hồ Chí Minh",
+    "nhanMau": "Mũi tên VÀNG",
+    "nhanBanDo": "PHÒNG HỌP LẦU 1",
+    "ten": "Lối vào của trọng tài và Đoàn Thành phố Hồ Chí Minh",
+    "buoc": [
+     "Trọng tài và các thành viên đoàn thành phố sẽ di chuyển vào khuôn viên qua cổng chính (đường Nguyễn Văn Lượng).",
+     "Đi theo chỉ dẫn để vào trực tiếp sảnh lên Phòng họp Chuyên môn Lầu 1."
+    ],
+    "hinh": {
+     "file": "dai-hoi-x-2026-loi-vao-3-trong-tai-doan-hcm",
+     "w": 1800,
+     "h": 1028,
+     "alt": "Bản đồ nhà thi đấu nhìn từ trên cao. Mũi tên vàng đi thẳng từ Cổng chính trên đường Nguyễn Văn Lượng vào sảnh tòa nhà phía trước, tới Phòng họp Lầu 1 có khoanh tròn vàng. Hai lối còn lại vẽ bằng nét đứt đỏ và xanh.",
+     "chuThich": "Lối vào số 3, mũi tên vàng (bấm vào hình để xem cỡ lớn)"
+    }
+   }
+  ]
+ },
  "congThongTin": {
   "ten": "Cổng thông tin Đại hội Thể thao toàn quốc lần thứ X năm 2026",
   "url": "https://congthongtindaihoi.indivisys.vn/vi",

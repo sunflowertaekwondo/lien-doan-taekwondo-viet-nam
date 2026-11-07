@@ -908,3 +908,42 @@ abbr[title] { text-decoration: underline dotted; text-underline-offset: 3px; cur
 /* vien nhan manh: quy tac .section:not(.alt) .card dat vien trong suot nen phai khai bao lai mau theo tung canh */
 .section .card.dp-key { border-top-color: var(--accent); }
 .section .card.dp-avoid, .section .card.kc-warn { border-left-color: var(--accent); }
+/* Huong dan loi vao nha thi dau (trang Dai hoi X) - lop "lv-" */
+.lv-do { --lv-c: #d62828; --lv-on: #fff; }
+.lv-xanh { --lv-c: #1d4ed8; --lv-on: #fff; }
+.lv-vang { --lv-c: #f4b400; --lv-on: #1a1300; }
+[data-theme="dark"] .lv-xanh { --lv-c: #5b86ff; --lv-on: #0a1330; }
+.lv-where { display: flex; align-items: flex-start; gap: var(--sp-2); margin: 0 0 var(--sp-4); color: var(--text-2); }
+.lv-where .ic { margin-top: 4px; color: var(--accent-text); }
+.lv-key { list-style: none; padding: 0; margin: 0 0 var(--sp-6); display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--sp-3); }
+.lv-key a { display: flex; align-items: center; gap: var(--sp-3); height: 100%; padding: var(--sp-3) var(--sp-4); background: var(--surface); border: 1px solid var(--border); border-left: 6px solid var(--lv-c); border-radius: var(--r-md); color: var(--text); text-decoration: none; }
+.lv-key a:hover { box-shadow: var(--shadow-1); transform: translateY(-2px); }
+.lv-key strong { display: block; color: var(--heading); line-height: var(--lh-tight); }
+.lv-key small { display: block; margin-top: 2px; color: var(--muted); font-size: var(--fs-sm); }
+.lv-key > li > a > .ic { margin-left: auto; width: 20px; height: 20px; color: var(--muted); }
+.lv-n { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: var(--lv-c); color: var(--lv-on); font-weight: 800; font-size: var(--fs-lg); line-height: 1; }
+.lv-video { max-width: 960px; margin: 0 0 var(--sp-8); }
+.lv-video video { display: block; width: 100%; height: auto; aspect-ratio: 1600 / 914; border-radius: var(--r-lg); background: var(--c-navy-900); box-shadow: var(--shadow-1); }
+.lv-video figcaption { margin-top: var(--sp-2); font-size: var(--fs-sm); color: var(--muted); }
+.lv-video figcaption a { white-space: nowrap; font-weight: 600; }
+.lv-route { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--sp-6); align-items: start; margin: 0 0 var(--sp-6); padding: var(--sp-5) var(--sp-6); background: var(--surface); border: 1px solid var(--border); border-top: 8px solid var(--lv-c); border-radius: var(--r-lg); box-shadow: var(--shadow-1); scroll-margin-top: calc(var(--hdr) + 64px); }
+.lv-h { display: flex; align-items: flex-start; gap: var(--sp-3); }
+.lv-h h3 { margin: 0; font-size: var(--fs-lg); line-height: var(--lh-tight); }
+.lv-tag { display: flex; align-items: center; gap: var(--sp-2); margin: var(--sp-3) 0 0; font-size: var(--fs-sm); color: var(--text-2); }
+.lv-arrow { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 20px; border-radius: 4px; background: var(--lv-c); color: var(--lv-on); }
+.lv-arrow .ic { width: 16px; height: 16px; vertical-align: 0; }
+.lv-map { margin: var(--sp-1) 0 0; font-size: var(--fs-sm); color: var(--text-2); }
+.lv-steps { list-style: none; counter-reset: lv; margin: var(--sp-4) 0 0; padding: 0; }
+.lv-steps li { counter-increment: lv; position: relative; padding: var(--sp-3) 0 var(--sp-3) 36px; border-top: 1px solid var(--border); }
+.lv-steps li::before { content: counter(lv); position: absolute; left: 0; top: var(--sp-3); width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--lv-c); color: var(--heading); font-weight: 700; font-size: var(--fs-xs); display: flex; align-items: center; justify-content: center; }
+.lv-fig { margin: 0; }
+.lv-fig img { display: block; width: 100%; height: auto; border-radius: var(--r-md); border: 1px solid var(--border); }
+.lv-fig figcaption { margin-top: var(--sp-2); text-align: center; font-size: var(--fs-sm); color: var(--muted); }
+.kd-more { display: inline-block; margin-left: var(--sp-2); font-weight: 600; }
+@media (max-width: 860px) {
+  .lv-route { grid-template-columns: minmax(0, 1fr); gap: var(--sp-4); padding: var(--sp-4) var(--sp-4) var(--sp-5); }
+}
+@media print {
+  .lv-video { display: none; }
+  .lv-route { break-inside: avoid; box-shadow: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

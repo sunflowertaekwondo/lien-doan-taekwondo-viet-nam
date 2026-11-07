@@ -38,6 +38,15 @@ const SYN = [
   [/quyen han|nhiem vu|chuc nang/, 'quyen han nhiem vu'],
   [/doi tuyen|van dong vien|vdv|tuyen chon/, 'doi tuyen van dong vien tuyen chon'],
   [/bo cuoc|rut lui|\bmuon the\b|cho muon the|ky cuong|nhuong diem|dan xep|truat quyen|\b263\b|cmkt/, 'ky cuong ky luat thi dau bo cuoc rut lui the dai hoi xu ly vi pham van ban giai trinh'],
+  // duong vao nha thi dau (video 3 loi vao): "cua" (cua/cua) la tu bo qua; moi nhom di mot loi nen goi y theo nhom de dung tuyen len truoc
+  [/\bloi vao\b|\bcua vao\b|\bvao cua\b|\bcong (chinh|phu)\b|\bvao (nha thi dau|khuon vien|khan dai)\b|\b(vao|di) (bang )?(cua|cong|loi|duong)\b/, 'loi vao nha thi dau cong chinh'],
+  [/(?=.*(nha thi dau|khan dai|\bcua\b|\bcong\b|\bloi\b|\bduong\b|khuon vien))(?=.*(trong tai|\bhcm\b|ho chi minh|\btp\b))/, 'trong tai doan thanh pho ho chi minh phong hop chuyen mon lau 1 sanh mui ten vang'],
+  [/(?=.*(nha thi dau|khan dai|\bcua\b|\bcong\b|\bloi\b|\bduong\b|khuon vien))(?=.*(\bhlv\b|huan luyen vien|van dong vien|\bvdv\b))/, 'huan luyen vien van dong vien re trai cua rieng mui ten do'],
+  [/(?=.*(nha thi dau|khan dai|\bcua\b|\bcong\b|\bloi\b|\bduong\b|khuon vien))(?=.*(khan gia|co dong vien|\bvip\b|quan chuc|dai bieu|khach moi))/, 'khan gia co dong vien vip quan chuc hem 350 re phai ham de xe bai do xe mui ten xanh'],
+  [/\bhem 350\b|\bham (de|gui) xe\b|bai (do )?xe|\bdo xe\b|\bgui xe\b/, 'hem 350 ham de xe bai do xe khan gia'],
+  [/\bmui ten\b|\bky hieu\b/, 'mui ten do xanh vang ky hieu ban do'],
+  // the Dai hoi o cua vao nha thi dau ("the" mat dau thanh trung voi "the thao", nen can them tu goi y)
+  [/(?=.*\bthe\b)(?=.*(nha thi dau|khan dai|kiem soat|cua vao|vao cua|loi vao))/, 'xuat trinh deo the dai hoi chinh thuc cua kiem soat khu vuc quy dinh'],
   [/quyen rieng tu|du lieu ca nhan|bao mat|thong tin ca nhan/, 'quyen rieng tu du lieu ca nhan'],
   [/doping|chat cam|thuoc cam|phuong phap cam|\btue\b|mien tru|lay mau|xet nghiem|nuoc tieu|glucocorticoid|salbutamol|thuc pham (bo sung|chuc nang)/, 'doping'],
   [/\bmau (a|b)\b|lay mau|nuoc tieu|mau mau|ong mau/, 'doping niem phong phong xet nghiem'],
