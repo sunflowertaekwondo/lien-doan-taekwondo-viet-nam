@@ -1,8 +1,8 @@
 {
  "_ghi_chu": "TU DONG tao boi tools/sync-check-in.mjs tu bang dang ky cua BTC (moi gio, chi ghi khi co thay doi). Chi gom gio, don vi, so the, co thi Quyen, trang thai. KHONG chua ho ten HLV, CCCD, so dien thoai, email. Dung sua tay: chay lai lenh.",
  "nguon": "https://docs.google.com/spreadsheets/d/1il-aEu2-id8FnGEbMgHwt8IImpnZl94-RRgR6trbVBk/edit?gid=0#gid=0",
- "layNgay": "2026-11-04",
- "layLuc": "2026-11-04T04:00",
+ "layNgay": "2026-11-10",
+ "layLuc": "2026-11-10T00:30",
  "ngay": "2026-11-23",
  "lich": [
   {
@@ -238,7 +238,11 @@
   {
    "tt": 28,
    "gio": "13:30",
-   "donVi": ""
+   "donVi": "CÀ MAU",
+   "theBtcHlv": 10,
+   "theVdv": 9,
+   "quyen": null,
+   "trangThai": "PENDING"
   },
   {
    "tt": 29,
