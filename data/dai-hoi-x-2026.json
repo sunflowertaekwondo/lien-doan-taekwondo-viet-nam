@@ -948,6 +948,79 @@
    }
   ]
  },
+ "dieuPhoiVdv": {
+  "_ghi_chu": "Quy trinh 4 buoc dieu phoi van dong vien vao san thi dau (video thuyet minh + noi dung do nguoi quan tri trang cung cap ngay 11/11/2026). Noi dung cac buoc chep dung chu tu loi thuyet minh do nguoi quan tri gui (khong sua noi dung, chi tach thanh cac y theo tung buoc). 'mau' ung voi mau cham so/mui ten trong video: ngoc (buoc 1), xanh (mui ten xanh duong), do, vang; mau khai bao trong src/site.css (.lv-ngoc/.lv-xanh/.lv-do/.lv-vang). 'canNho' la phan tom tat lai 3 y tu chinh loi thuyet minh, khong them thong tin moi. Video nen tu ban goc 1920x1080 (85,8 MB) xuong 1600x900 (src/video), anh bia la khung hinh cat tu video goc o giay 13,8 (khung chu tieu de va 4 nhan buoc, khong dinh phu de).",
+  "tieuDe": "Quy trình 4 bước điều phối vận động viên vào sân thi đấu",
+  "ngayCapNhat": "2026-11-11",
+  "gioiThieu": "Chào mừng các đoàn vận động viên tham dự Giải đấu Taekwondo Đại hội Thể thao toàn quốc lần thứ X năm 2026. Để giải đấu diễn ra chuyên nghiệp, công bằng và đúng tiến độ, xin mời quý thầy cô, huấn luyện viên và các vận động viên cùng theo dõi quy trình 4 bước điều phối vào sân thi đấu.",
+  "video": {
+   "ten": "Quy trình 4 bước điều phối vận động viên vào sân thi đấu",
+   "file": "dai-hoi-x-2026-quy-trinh-4-buoc-dieu-phoi-vdv",
+   "bia": "dai-hoi-x-2026-dieu-phoi-vdv-video-bia",
+   "w": 1600,
+   "h": 900,
+   "giay": 93,
+   "chuThich": "Video hướng dẫn quy trình 4 bước điều phối vận động viên vào sân thi đấu (1 phút 33 giây, có lời đọc tiếng Việt và phụ đề trên hình)."
+  },
+  "buoc": [
+   {
+    "so": 1,
+    "mau": "ngoc",
+    "ngan": "Điểm danh và xét giáp",
+    "ten": "Điểm danh và kiểm tra xét giáp",
+    "nhan": "Địa điểm",
+    "ky": "Khu vực xét giáp (Đối kháng) hoặc Call Room (Quyền)",
+    "noiDung": [
+     "Hành trình bước lên thảm đấu bắt đầu từ khâu chuẩn bị.",
+     "Ở nội dung Đối kháng Kyorugi, Huấn luyện viên cần bám sát schema trận đấu. Vận động viên phải có mặt để Trọng tài điểm danh, tiến hành kiểm tra giáp và trang thiết bị bảo hộ trước 03 trận so với trận đang diễn ra trên thảm.",
+     "Đối với nội dung Quyền Poomsae, toàn bộ vận động viên thuộc nội dung chuẩn bị thi đấu phải tập trung tại khu vực Call Room trước giờ thi đấu 15 phút để điểm danh, kiểm tra võ phục và thẻ thi đấu."
+    ]
+   },
+   {
+    "so": 2,
+    "mau": "xanh",
+    "ngan": "Tập kết",
+    "ten": "Tập kết",
+    "nhan": "Ký hiệu",
+    "ky": "Mũi tên XANH DƯƠNG, đến khu vực Waiting Area",
+    "noiDung": [
+     "Sau khi hoàn tất mọi thủ tục tại Khu vực xét giáp hoặc Call Room, hãy đi theo chỉ dẫn của mũi tên màu xanh dương.",
+     "Vận động viên di chuyển vào khu vực Waiting Area dưới sự hướng dẫn của Điều phối viên.",
+     "Tại đây, hãy giữ trật tự, tập trung khởi động nhẹ và sẵn sàng tinh thần bước ra thảm khi có hiệu lệnh."
+    ]
+   },
+   {
+    "so": 3,
+    "mau": "do",
+    "ngan": "Tiến vào sân thi đấu",
+    "ten": "Tiến vào sân thi đấu",
+    "nhan": "Ký hiệu",
+    "ky": "Mũi tên ĐỎ, qua Cổng chào chính dành cho vận động viên",
+    "noiDung": [
+     "Khoảnh khắc tỏa sáng đã đến.",
+     "Theo hướng mũi tên màu đỏ, ngay khi MC xướng tên và có hướng dẫn của Điều phối viên, vận động viên hiên ngang tiến vào sàn đấu qua Cổng chào chính dành cho vận động viên, di chuyển thẳng vào vị trí quy định trên thảm đấu."
+    ]
+   },
+   {
+    "so": 4,
+    "mau": "vang",
+    "ngan": "Hoàn tất và rời sân",
+    "ten": "Hoàn tất thi đấu và rời sân",
+    "nhan": "Ký hiệu",
+    "ky": "Mũi tên VÀNG, theo lối Exit Route",
+    "noiDung": [
+     "Khi trận đấu hoặc bài thi khép lại, vận động viên di chuyển rời sân theo lối Exit Route, đi theo hướng mũi tên màu vàng.",
+     "Riêng đối với nội dung đối kháng, vận động viên cần di chuyển đến bàn Check-out để hoàn trả giáp."
+    ]
+   }
+  ],
+  "canNho": [
+   "Đối kháng Kyorugi: có mặt để Trọng tài điểm danh, kiểm tra giáp và trang thiết bị bảo hộ trước 03 trận so với trận đang diễn ra trên thảm.",
+   "Quyền Poomsae: tập trung tại khu vực Call Room trước giờ thi đấu 15 phút để điểm danh, kiểm tra võ phục và thẻ thi đấu.",
+   "Đối kháng: sau khi thi đấu, di chuyển đến bàn Check-out để hoàn trả giáp."
+  ],
+  "chuc": "Chúc các vận động viên thi đấu hết mình và đạt thành tích cao nhất!"
+ },
  "congThongTin": {
   "ten": "Cổng thông tin Đại hội Thể thao toàn quốc lần thứ X năm 2026",
   "url": "https://congthongtindaihoi.indivisys.vn/vi",

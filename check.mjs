@@ -353,6 +353,48 @@ check(`${internal.length} liên kết nội bộ (kể cả #anchor, PDF, RSS) �
   await ctx.close();
 }
 
+// muc Quy trinh 4 buoc dieu phoi VDV vao san thi dau: khop data/dai-hoi-x-2026.json tung chu, 4 buoc (ngoc, xanh, do, vang), video tai va tua duoc (Range), tab ngay sau Loi vao, lien ket tu Loi vao, Chuong trinh va lo trinh
+{
+  const DH = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'dai-hoi-x-2026.json'), 'utf8'));
+  const DV = DH.dieuPhoiVdv;
+  const ctx = await b.newContext({ viewport: { width: 1280, height: 900 } });
+  await ctx.route(/kaspersky-labs|kis\.v2\.scr/, r => r.abort());
+  const page = await ctx.newPage();
+  await page.goto(BASE + '/dai-hoi-the-thao-toan-quoc-2026', { waitUntil: 'load' });
+  const r = await page.evaluate(() => {
+    const S = '#dieu-phoi-vdv';
+    const v = document.querySelector(S + ' video');
+    const tabs = [...document.querySelectorAll('nav.tabs a')].map(x => x.getAttribute('href').slice(1));
+    const secs = [...document.querySelectorAll('main section[id]')].map(x => x.id);
+    const steps = [...document.querySelectorAll(S + ' article.dv-step')];
+    return {
+      tabAfterLv: tabs[tabs.indexOf('loi-vao-nha-thi-dau') + 1] === 'dieu-phoi-vdv' && secs[secs.indexOf('loi-vao-nha-thi-dau') + 1] === 'dieu-phoi-vdv',
+      steps: steps.map(a => a.id),
+      colors: steps.map(a => ([...a.classList].find(c => /^lv-(ngoc|xanh|do|vang)$/.test(c)) || '').slice(3)),
+      keyLinks: [...document.querySelectorAll(S + ' .lv-key a')].map(a => a.getAttribute('href').slice(1)),
+      video: v ? { src: v.querySelector('source')?.getAttribute('src'), poster: v.getAttribute('poster'), controls: v.controls, label: v.getAttribute('aria-label') } : null,
+      links: [...document.querySelectorAll('main a[href="#dieu-phoi-vdv"]')].length,
+      lvPointer: Boolean(document.querySelector('#loi-vao-luu-y a[href="#dieu-phoi-vdv"]')),
+      text: (document.querySelector(S)?.textContent || '').replace(/\s+/g, ' '),
+    };
+  });
+  const posterOk = r.video ? (await page.request.get(BASE + r.video.poster)).ok() : false;
+  // video: tep that, dung kieu video/mp4, tra ve 206 khi xin mot doan (de tren dien thoai tua duoc)
+  const rg = r.video ? await page.request.get(BASE + r.video.src, { headers: { Range: 'bytes=0-1023' } }) : null;
+  const rgBody = rg ? await rg.body() : Buffer.alloc(0);
+  const videoOk = Boolean(rg) && rg.status() === 206 && /video\/mp4/.test(rg.headers()['content-type'] || '') && rgBody.length === 1024 && rgBody.subarray(4, 8).toString() === 'ftyp';
+  const norm = t => t.replace(/\s+/g, ' ');
+  const want = [DV.gioiThieu, DV.video.chuThich, DV.chuc, ...DV.buoc.flatMap(t => [t.ten, t.nhan + ': ' + t.ky, ...t.noiDung]), ...DV.canNho].map(norm);
+  const missing = want.filter(w => !r.text.includes(w));
+  const ids = DV.buoc.map(t => 'dieu-phoi-' + t.so);
+  const ok = r.tabAfterLv && r.steps.join(',') === ids.join(',') && r.colors.join(',') === DV.buoc.map(t => t.mau).join(',') && r.keyLinks.join(',') === ids.join(',')
+    && r.video && r.video.controls && r.video.src === `/video/${DV.video.file}.mp4` && r.video.poster === `/img/${DV.video.bia}.webp` && posterOk && videoOk
+    && r.links >= 3 && r.lvPointer && missing.length === 0;
+  check('Mục Quy trình 4 bước điều phối VĐV vào sân thi đấu: khớp dữ liệu từng chữ, 4 bước (ngọc, xanh, đỏ, vàng), video tải và tua được (Range), tab ngay sau Lối vào, liên kết từ Lối vào, Chương trình và lộ trình', ok,
+    missing.length ? 'thiếu: ' + missing.slice(0, 3).join(' / ') : JSON.stringify({ tabAfterLv: r.tabAfterLv, steps: r.steps.length, colors: r.colors, keyLinks: r.keyLinks.length, posterOk, videoOk, links: r.links, lvPointer: r.lvPointer }));
+  await ctx.close();
+}
+
 // trang quan tri /admin.html: dang nhap, quet phan tu, xem truoc truc tiep, luu, khoi lap, anh, video, loc XSS (voi may chu Code.gs that)
 { const { checkAdmin } = await import('./check-admin.mjs'); await checkAdmin({ b, BASE, ORIGIN, check }); }
 

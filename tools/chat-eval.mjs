@@ -70,6 +70,14 @@ export const CASES = [
   ['Đoàn TP. Hồ Chí Minh đi lối nào vào nhà thi đấu', [DH], 'Phòng họp Chuyên môn'],
   ['Hầm để xe, bãi đỗ xe ở nhà thi đấu đi lối nào', [DH], 'hầm để xe'],
   ['Mũi tên đỏ, xanh, vàng trên bản đồ lối vào nghĩa là gì', [DH], 'mũi tên'],
+  // quy trình 4 bước điều phối vận động viên vào sân thi đấu (video thuyết minh)
+  ['Quy trình điều phối vận động viên vào sân thi đấu gồm mấy bước?', [DH], '4 bước'],
+  ['Kiểm tra giáp và trang thiết bị bảo hộ trước mấy trận so với trận đang diễn ra', [DH], '03 trận'],
+  ['Vận động viên thi Quyền Poomsae tập trung ở Call Room trước giờ thi bao lâu', [DH], '15 phút'],
+  ['Waiting Area là gì, vận động viên chờ ở đâu trước khi vào sân', [DH], 'Waiting Area'],
+  ['Vào sân thi đấu đi theo mũi tên màu gì', [DH], 'mũi tên màu đỏ'],
+  ['Thi đấu đối kháng xong trả giáp ở đâu', [DH], 'Check-out'],
+  ['Rời sân thi đấu đi lối nào', [DH], 'Exit Route'],
   // hướng dẫn trao huy chương / khen thưởng
   ['Quy trình trao huy chương ở Đại hội như thế nào?', [DH], 'trao'],
   ['Ai là người trao huy chương và linh vật cho vận động viên?', [DH], 'lãnh đạo'],

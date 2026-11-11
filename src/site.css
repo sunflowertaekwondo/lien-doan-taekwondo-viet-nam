@@ -913,6 +913,8 @@ abbr[title] { text-decoration: underline dotted; text-underline-offset: 3px; cur
 .lv-xanh { --lv-c: #1d4ed8; --lv-on: #fff; }
 .lv-vang { --lv-c: #f4b400; --lv-on: #1a1300; }
 [data-theme="dark"] .lv-xanh { --lv-c: #5b86ff; --lv-on: #0a1330; }
+.lv-ngoc { --lv-c: #0b7f72; --lv-on: #fff; }
+[data-theme="dark"] .lv-ngoc { --lv-c: #2dd4bf; --lv-on: #04201c; }
 .lv-where { display: flex; align-items: flex-start; gap: var(--sp-2); margin: 0 0 var(--sp-4); color: var(--text-2); }
 .lv-where .ic { margin-top: 4px; color: var(--accent-text); }
 .lv-key { list-style: none; padding: 0; margin: 0 0 var(--sp-6); display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--sp-3); }
@@ -939,6 +941,13 @@ abbr[title] { text-decoration: underline dotted; text-underline-offset: 3px; cur
 .lv-fig { margin: 0; }
 .lv-fig img { display: block; width: 100%; height: auto; border-radius: var(--r-md); border: 1px solid var(--border); }
 .lv-fig figcaption { margin-top: var(--sp-2); text-align: center; font-size: var(--fs-sm); color: var(--muted); }
+/* Quy trinh 4 buoc dieu phoi VDV vao san thi dau - dung lai lop "lv-", them "dv-" (khong co hinh ban do nen the buoc mot cot) */
+.dv-video video { aspect-ratio: 1600 / 900; }
+.lv-route.dv-step { grid-template-columns: minmax(0, 1fr); gap: var(--sp-3); }
+.dv-step .lv-tag { margin: 0; }
+.dv-body { margin-top: var(--sp-1); }
+.dv-body p { margin: 0 0 var(--sp-3); max-width: 72ch; }
+.dv-body p:last-child { margin-bottom: 0; }
 .kd-more { display: inline-block; margin-left: var(--sp-2); font-weight: 600; }
 @media (max-width: 860px) {
   .lv-route { grid-template-columns: minmax(0, 1fr); gap: var(--sp-4); padding: var(--sp-4) var(--sp-4) var(--sp-5); }

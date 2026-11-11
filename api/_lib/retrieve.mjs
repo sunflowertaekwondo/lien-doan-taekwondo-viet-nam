@@ -45,6 +45,10 @@ const SYN = [
   [/(?=.*(nha thi dau|khan dai|\bcua\b|\bcong\b|\bloi\b|\bduong\b|khuon vien))(?=.*(khan gia|co dong vien|\bvip\b|quan chuc|dai bieu|khach moi))/, 'khan gia co dong vien vip quan chuc hem 350 re phai ham de xe bai do xe mui ten xanh'],
   [/\bhem 350\b|\bham (de|gui) xe\b|bai (do )?xe|\bdo xe\b|\bgui xe\b/, 'hem 350 ham de xe bai do xe khan gia'],
   [/\bmui ten\b|\bky hieu\b/, 'mui ten do xanh vang ky hieu ban do'],
+  // quy trinh 4 buoc dieu phoi VDV vao san thi dau (video thuyet minh): xet giap, Call Room, Waiting Area, vao san, Exit Route, Check-out
+  [/\bxet giap\b|\bkiem tra giap\b|\b(hoan )?tra giap\b|\bcheck ?out\b|\bcall room\b|\bwaiting area\b|\bexit route\b|\bdieu phoi\b|\bquy trinh 4 buoc\b|\b4 buoc\b|\btap ket\b/, 'quy trinh 4 buoc dieu phoi van dong vien vao san thi dau xet giap call room waiting area check out exit route tap ket'],
+  [/\bvao san\b|\btien vao san\b|\bbuoc len tham\b|\bxuong ten\b|\bcong chao\b/, 'tien vao san thi dau cong chao chinh mui ten do mc xuong ten dieu phoi vien tham dau'],
+  [/\broi san\b|\bra khoi san\b|\bthi xong\b|\bhoan tat thi dau\b/, 'hoan tat thi dau roi san exit route mui ten vang check out hoan tra giap'],
   // the Dai hoi o cua vao nha thi dau ("the" mat dau thanh trung voi "the thao", nen can them tu goi y)
   [/(?=.*\bthe\b)(?=.*(nha thi dau|khan dai|kiem soat|cua vao|vao cua|loi vao))/, 'xuat trinh deo the dai hoi chinh thuc cua kiem soat khu vuc quy dinh'],
   [/quyen rieng tu|du lieu ca nhan|bao mat|thong tin ca nhan/, 'quyen rieng tu du lieu ca nhan'],
