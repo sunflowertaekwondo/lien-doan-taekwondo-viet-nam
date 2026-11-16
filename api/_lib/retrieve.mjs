@@ -49,6 +49,9 @@ const SYN = [
   [/\bxet giap\b|\bkiem tra giap\b|\b(hoan )?tra giap\b|\bcheck ?out\b|\bcall room\b|\bwaiting area\b|\bexit route\b|\bdieu phoi\b|\bquy trinh 4 buoc\b|\b4 buoc\b|\btap ket\b/, 'quy trinh 4 buoc dieu phoi van dong vien vao san thi dau xet giap call room waiting area check out exit route tap ket'],
   [/\bvao san\b|\btien vao san\b|\bbuoc len tham\b|\bxuong ten\b|\bcong chao\b/, 'tien vao san thi dau cong chao chinh mui ten do mc xuong ten dieu phoi vien tham dau'],
   [/\broi san\b|\bra khoi san\b|\bthi xong\b|\bhoan tat thi dau\b/, 'hoan tat thi dau roi san exit route mui ten vang check out hoan tra giap'],
+  // diem danh HLV, VDV, TT, TNV qua ung dung "Dai hoi The thao X" (ma QR ca nhan, tinh nguyen vien quet o cua)
+  [/\bung dung\b|\bapp\b|\bma qr\b|\bqr\b|\bquet ma\b|\bdang nhap\b|\bmat khau\b|\bcccd\b|\btai khoan\b|\btnv\b|\btinh nguyen vien\b|\bapp store\b|\bch play\b|\bgoogle play\b/, 'diem danh qua ung dung ma qr ca nhan dang nhap tai khoan cccd mat khau tinh nguyen vien quet ma cua ra vao nha thi dau app store ch play'],
+  [/(?=.*(trong tai|\btt\b|\bhlv\b|\bvdv\b|\btnv\b))(?=.*(ung dung|\bapp\b|\bqr\b|dang nhap|tai khoan))/, 'danh sach chinh thuc nhap len he thong cap tai khoan hlv vdv trong tai tt tnv phoi hop cuc bo mon'],
   // the Dai hoi o cua vao nha thi dau ("the" mat dau thanh trung voi "the thao", nen can them tu goi y)
   [/(?=.*\bthe\b)(?=.*(nha thi dau|khan dai|kiem soat|cua vao|vao cua|loi vao))/, 'xuat trinh deo the dai hoi chinh thuc cua kiem soat khu vuc quy dinh'],
   [/quyen rieng tu|du lieu ca nhan|bao mat|thong tin ca nhan/, 'quyen rieng tu du lieu ca nhan'],

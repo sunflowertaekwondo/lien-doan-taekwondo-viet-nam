@@ -1021,6 +1021,85 @@
   ],
   "chuc": "Chúc các vận động viên thi đấu hết mình và đạt thành tích cao nhất!"
  },
+ "diemDanhUngDung": {
+  "_ghi_chu": "Quy trinh diem danh HLV va VDV qua ung dung 'Dai hoi The thao X' (van ban + hinh 'Huong dan quy trinh tham gia' do nguoi quan tri trang gui ngay 17/11/2026). Noi dung chep dung van ban gui, chi (1) bo tien to 'Buoc 1/2/3' vi the buoc da co so, (2) sua dau phay thua 'giua Cuc, va Bo mon' thanh 'giua Cuc va Bo mon' va them dau cham cuoi cau. Dong 'Luu y: Vui long doi mat khau...' va dong 'vao muc Ho so, nhan QR cua toi' lay tu hinh huong dan (co ghi ro trong trang). Hai lien ket tai ung dung la ma QR tren hinh, da giai ma bang OpenCV va mo thu: dung la ung dung 'Dai Hoi The Thao X' cua IVS joint stock company tren App Store (id6815126084) va Google Play (com.ivs.daihoitheothaox); da bo tham so theo doi pcampaignid. Mat khau mac dinh Daihoi@123456 la mat khau chung ghi cong khai tren hinh huong dan; nguoi quan tri trang yeu cau cap nhat nguyen noi dung da gui nen duoc dang nguyen van, va da duoc nhac ve rui ro (de tim thay qua Google/chatbot) trong bao cao; muon an thi bo dong 'Mat khau' trong taiKhoan VA che mat khau tren chinh hinh (hinh cung hien mat khau).",
+  "tieuDe": "Quy trình điểm danh HLV & VĐV qua ứng dụng",
+  "ngayCapNhat": "2026-11-17",
+  "ungDung": {
+   "ten": "Đại hội Thể thao X",
+   "ios": {
+    "nhan": "App Store (iOS)",
+    "url": "https://apps.apple.com/vn/app/%C4%91%E1%BA%A1i-h%E1%BB%99i-th%E1%BB%83-thao-x/id6815126084?l=vi"
+   },
+   "android": {
+    "nhan": "CH Play (Android)",
+    "url": "https://play.google.com/store/apps/details?id=com.ivs.daihoitheothaox"
+   }
+  },
+  "phoiHop": {
+   "tieuDe": "Sự phối hợp chuẩn bị",
+   "noiDung": [
+    "Công tác điểm danh yêu cầu sự phối hợp chặt chẽ giữa Cục và Bộ môn.",
+    "Sau khi có danh sách chính thức, thông tin của HLV, VĐV, Trọng tài (TT) và TNV sẽ được nhập lên hệ thống để cấp tài khoản."
+   ]
+  },
+  "dangNhap": {
+   "tieuDe": "Hướng dẫn đăng nhập cho HLV, VĐV, TT, TNV",
+   "buoc": [
+    {
+     "so": 1,
+     "mau": "do",
+     "ten": "Tải ứng dụng",
+     "cuaHang": true,
+     "noiDung": [
+      "Tải ứng dụng Đại hội Thể thao X trên App Store (iOS) hoặc CH Play (Android)."
+     ]
+    },
+    {
+     "so": 2,
+     "mau": "xanh",
+     "ten": "Đăng nhập",
+     "noiDung": [
+      "Đăng nhập bằng thông tin:"
+     ],
+     "taiKhoan": [
+      [
+       "Tên đăng nhập",
+       "Số CCCD của bạn."
+      ],
+      [
+       "Mật khẩu",
+       "Daihoi@123456"
+      ]
+     ],
+     "luuY": "Lưu ý: Vui lòng đổi mật khẩu sau khi đăng nhập thành công"
+    },
+    {
+     "so": 3,
+     "mau": "ngoc",
+     "ten": "Cung cấp thông tin",
+     "noiDung": [
+      "Sau khi đăng nhập thành công, hệ thống sẽ cấp cho bạn 01 mã QR cá nhân dùng để điểm danh. Bạn có thể đổi MK sau khi đăng nhập lần đầu tiên."
+     ],
+     "ghiChu": "Theo hình hướng dẫn bên dưới: vào mục “Hồ sơ” và nhấn vào “QR của tôi”."
+    }
+   ]
+  },
+  "diemDanh": {
+   "tieuDe": "Quy trình điểm danh tại nhà thi đấu",
+   "noiDung": [
+    "Tất cả các cửa ra vào nhà thi đấu đều có Tình nguyện viên (TNV) túc trực để quét mã.",
+    "Thực hiện: Khi đến cửa, HLV, VĐV, TNV, TT hay BTC chỉ cần mở sẵn mã QR trên điện thoại đưa cho TNV quét để xác thực thông tin và vào khu vực thi đấu."
+   ]
+  },
+  "hinh": {
+   "file": "dai-hoi-x-2026-huong-dan-quy-trinh-tham-gia-ung-dung",
+   "w": 1915,
+   "h": 1068,
+   "alt": "Hình “Hướng dẫn quy trình tham gia” Đại hội Thể thao toàn quốc lần thứ X năm 2026, dành cho huấn luyện viên, vận động viên, trọng tài và tình nguyện viên, gồm 4 bước: 1 Tải ứng dụng bằng mã QR App Store hoặc Google Play; 2 Đăng nhập bằng tài khoản được cấp, tên đăng nhập là số CCCD, nhớ đổi mật khẩu sau khi đăng nhập; 3 Cung cấp thông tin: vào mục Hồ sơ và nhấn QR của tôi; 4 Xuất trình mã QR trên ứng dụng cho các bạn tình nguyện viên khi đến địa điểm thi đấu.",
+   "chuThich": "Hướng dẫn quy trình tham gia, dành cho Huấn luyện viên, Vận động viên, Trọng tài, Tình nguyện viên (bấm vào hình để xem cỡ lớn)"
+  }
+ },
  "congThongTin": {
   "ten": "Cổng thông tin Đại hội Thể thao toàn quốc lần thứ X năm 2026",
   "url": "https://congthongtindaihoi.indivisys.vn/vi",

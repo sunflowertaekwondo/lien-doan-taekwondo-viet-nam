@@ -78,6 +78,14 @@ export const CASES = [
   ['Vào sân thi đấu đi theo mũi tên màu gì', [DH], 'mũi tên màu đỏ'],
   ['Thi đấu đối kháng xong trả giáp ở đâu', [DH], 'Check-out'],
   ['Rời sân thi đấu đi lối nào', [DH], 'Exit Route'],
+  // điểm danh HLV, VĐV qua ứng dụng (mã QR cá nhân)
+  ['Điểm danh HLV VĐV bằng ứng dụng như thế nào?', [DH], 'mã QR'],
+  ['Tải ứng dụng Đại hội Thể thao X ở đâu, có trên iOS và Android không?', [DH], 'App Store'],
+  ['Đăng nhập ứng dụng Đại hội bằng tài khoản nào?', [DH], 'Số CCCD'],
+  ['Mật khẩu mặc định ứng dụng Đại hội là gì?', [DH], 'Mật khẩu'],
+  ['Tình nguyện viên quét mã QR ở cửa nhà thi đấu thế nào?', [DH], 'túc trực'],
+  ['Mã QR cá nhân lấy ở mục nào trong ứng dụng?', [DH], 'QR của tôi'],
+  ['Trọng tài có phải đăng nhập ứng dụng điểm danh không?', [DH], 'Trọng tài (TT)'],
   // hướng dẫn trao huy chương / khen thưởng
   ['Quy trình trao huy chương ở Đại hội như thế nào?', [DH], 'trao'],
   ['Ai là người trao huy chương và linh vật cho vận động viên?', [DH], 'lãnh đạo'],

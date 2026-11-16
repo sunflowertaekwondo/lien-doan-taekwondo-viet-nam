@@ -948,6 +948,17 @@ abbr[title] { text-decoration: underline dotted; text-underline-offset: 3px; cur
 .dv-body { margin-top: var(--sp-1); }
 .dv-body p { margin: 0 0 var(--sp-3); max-width: 72ch; }
 .dv-body p:last-child { margin-bottom: 0; }
+/* Diem danh bang ung dung (ma QR) - dung lai lop "lv-"/"dv-", them "dd-" */
+.dd-box { margin: 0 0 var(--sp-6); padding: var(--sp-4) var(--sp-5); max-width: 880px; background: var(--surface); border: 1px solid var(--border); border-left: 6px solid var(--accent-text); border-radius: var(--r-lg); }
+.dd-box p { margin: 0 0 var(--sp-3); }
+.dd-box p:last-child { margin-bottom: 0; }
+.dd-cred { margin: var(--sp-3) 0; display: grid; gap: var(--sp-2); max-width: 560px; }
+.dd-cred > div { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-2); padding: var(--sp-2) var(--sp-3); background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--lv-c); border-radius: var(--r-md); }
+.dd-cred dt { color: var(--muted); }
+.dd-cred dd { margin: 0; font-weight: 700; color: var(--heading); overflow-wrap: anywhere; }
+.dd-btns { margin: var(--sp-3) 0 0; }
+.dd-hint { margin: var(--sp-3) 0 0; font-size: var(--fs-sm); color: var(--muted); }
+.dd-fig { max-width: 1100px; }
 .kd-more { display: inline-block; margin-left: var(--sp-2); font-weight: 600; }
 @media (max-width: 860px) {
   .lv-route { grid-template-columns: minmax(0, 1fr); gap: var(--sp-4); padding: var(--sp-4) var(--sp-4) var(--sp-5); }

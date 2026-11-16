@@ -353,6 +353,47 @@ check(`${internal.length} liên kết nội bộ (kể cả #anchor, PDF, RSS) �
   await ctx.close();
 }
 
+// muc Diem danh HLV & VDV qua ung dung: khop data/dai-hoi-x-2026.json tung chu, 3 buoc dang nhap (do, xanh, ngoc), 2 lien ket tai ung dung dung dich, hinh huong dan, tab ngay truoc Loi vao, lien ket tu Loi vao, Chuong trinh va lo trinh
+{
+  const DH = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'dai-hoi-x-2026.json'), 'utf8'));
+  const DD = DH.diemDanhUngDung;
+  const ctx = await b.newContext({ viewport: { width: 1280, height: 900 } });
+  await ctx.route(/kaspersky-labs|kis\.v2\.scr/, r => r.abort());
+  const page = await ctx.newPage();
+  await page.goto(BASE + '/dai-hoi-the-thao-toan-quoc-2026', { waitUntil: 'load' });
+  const r = await page.evaluate(() => {
+    const S = '#diem-danh-ung-dung';
+    const tabs = [...document.querySelectorAll('nav.tabs a')].map(x => x.getAttribute('href').slice(1));
+    const secs = [...document.querySelectorAll('main section[id]')].map(x => x.id);
+    const steps = [...document.querySelectorAll(S + ' article.dv-step')];
+    const img = document.querySelector(S + ' .dd-fig img');
+    return {
+      tabBeforeLv: tabs[tabs.indexOf('diem-danh-ung-dung') + 1] === 'loi-vao-nha-thi-dau' && secs[secs.indexOf('diem-danh-ung-dung') + 1] === 'loi-vao-nha-thi-dau',
+      steps: steps.map(a => a.id),
+      colors: steps.map(a => ([...a.classList].find(c => /^lv-(ngoc|xanh|do|vang)$/.test(c)) || '').slice(3)),
+      stores: [...document.querySelectorAll(S + ' .dd-btns a')].map(a => ({ href: a.getAttribute('href'), blank: a.target === '_blank', rel: a.rel })),
+      img: img ? { src: img.getAttribute('src'), altLen: img.alt.length, w: img.getAttribute('width'), h: img.getAttribute('height') } : null,
+      links: [...document.querySelectorAll('main a[href="#diem-danh-ung-dung"]')].length,
+      lvPointer: Boolean(document.querySelector('#loi-vao-luu-y a[href="#diem-danh-ung-dung"]')),
+      text: (document.querySelector(S)?.textContent || '').replace(/\s+/g, ' '),
+    };
+  });
+  const imgOk = r.img ? (await page.request.get(BASE + r.img.src)).ok() : false;
+  const norm = t => t.replace(/\s+/g, ' ');
+  const want = [...DD.phoiHop.noiDung, DD.phoiHop.tieuDe, DD.dangNhap.tieuDe, DD.diemDanh.tieuDe, ...DD.diemDanh.noiDung, DD.hinh.chuThich,
+    ...DD.dangNhap.buoc.flatMap(t => [t.ten, ...t.noiDung, ...(t.taiKhoan || []).map(([k, v]) => k + ': ' + v), t.luuY || '', t.ghiChu || ''])].filter(Boolean).map(norm);
+  const missing = want.filter(w => !r.text.includes(w));
+  const ids = DD.dangNhap.buoc.map(t => 'diem-danh-' + t.so);
+  const storeOk = r.stores.length === 2 && r.stores[0].href === DD.ungDung.ios.url && r.stores[1].href === DD.ungDung.android.url && r.stores.every(s => s.blank && /noopener/.test(s.rel))
+    && /^https:\/\/apps\.apple\.com\//.test(DD.ungDung.ios.url) && /^https:\/\/play\.google\.com\/store\/apps\/details\?id=/.test(DD.ungDung.android.url);
+  const ok = r.tabBeforeLv && r.steps.join(',') === ids.join(',') && r.colors.join(',') === DD.dangNhap.buoc.map(t => t.mau).join(',') && storeOk
+    && r.img && r.img.src === `/img/${DD.hinh.file}.webp` && r.img.altLen > 60 && r.img.w === String(DD.hinh.w) && r.img.h === String(DD.hinh.h) && imgOk
+    && r.links >= 3 && r.lvPointer && missing.length === 0;
+  check('Mục Điểm danh HLV & VĐV qua ứng dụng: khớp dữ liệu từng chữ, 3 bước đăng nhập (đỏ, xanh, ngọc), 2 liên kết tải ứng dụng (App Store, CH Play), hình hướng dẫn, tab ngay trước Lối vào, liên kết từ Lối vào, Chương trình và lộ trình', ok,
+    missing.length ? 'thiếu: ' + missing.slice(0, 3).join(' / ') : JSON.stringify({ tabBeforeLv: r.tabBeforeLv, steps: r.steps.length, colors: r.colors, storeOk, imgOk, links: r.links, lvPointer: r.lvPointer }));
+  await ctx.close();
+}
+
 // muc Quy trinh 4 buoc dieu phoi VDV vao san thi dau: khop data/dai-hoi-x-2026.json tung chu, 4 buoc (ngoc, xanh, do, vang), video tai va tua duoc (Range), tab ngay sau Loi vao, lien ket tu Loi vao, Chuong trinh va lo trinh
 {
   const DH = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'dai-hoi-x-2026.json'), 'utf8'));
