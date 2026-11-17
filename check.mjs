@@ -353,6 +353,61 @@ check(`${internal.length} liên kết nội bộ (kể cả #anchor, PDF, RSS) �
   await ctx.close();
 }
 
+// muc Le Khai mac Dai hoi 21/11/2026: khop data/dai-hoi-x-2026.json tung chu, lich trinh 3 moc, 3 khu cho ngoi (so ghe va tong), 2 so do + 2 ap phich tai duoc, chu giai ban do, lien ket quy dinh (Drive), tab giua San tap va Check-in, dem nguoc, the nhac o Tong quan, lien ket tu Chuong trinh, Khan dai va lo trinh
+{
+  const DH = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'dai-hoi-x-2026.json'), 'utf8'));
+  const LK = DH.leKhaiMac, SDK = LK.soDoSuKien, SSK = LK.soDoSanKhau, QD = LK.quyDinh, AP = LK.apPhich;
+  const ctx = await b.newContext({ viewport: { width: 1280, height: 900 } });
+  await ctx.route(/kaspersky-labs|kis\.v2\.scr/, r => r.abort());
+  const page = await ctx.newPage();
+  await page.goto(BASE + '/dai-hoi-the-thao-toan-quoc-2026', { waitUntil: 'load' });
+  const r = await page.evaluate(() => {
+    const S = '#le-khai-mac';
+    const tabs = [...document.querySelectorAll('nav.tabs a')].map(x => x.getAttribute('href').slice(1));
+    const secs = [...document.querySelectorAll('main section[id]')].map(x => x.id);
+    const flat = li => li.textContent.replace(/\s+/g, ' ').trim();
+    const km = document.querySelector(S + ' .km-count-t');
+    const reg = document.querySelector(S + ' .km-reg a');
+    return {
+      tabs: [tabs.indexOf('san-tap'), tabs.indexOf('le-khai-mac'), tabs.indexOf('check-in')],
+      secs: [secs.indexOf('san-tap'), secs.indexOf('le-khai-mac'), secs.indexOf('check-in')],
+      zones: [...document.querySelectorAll(S + ' .km-zones li')].map(li => ({ cls: ([...li.classList].find(c => /^km-(do|luc|xanh)$/.test(c)) || '').slice(3), text: flat(li) })),
+      bars: [...document.querySelectorAll(S + ' .km-bar rect')].map(x => Number(x.getAttribute('width'))),
+      tl: [...document.querySelectorAll(S + ' .km-tl li')].map(flat),
+      imgs: [...document.querySelectorAll(S + ' img')].map(i => ({ src: i.getAttribute('src'), altLen: i.alt.length, w: i.getAttribute('width'), h: i.getAttribute('height') })),
+      legend: [...document.querySelectorAll(S + ' .km-lg li')].map(flat),
+      chips: [...document.querySelectorAll(S + ' .km-chips li')].map(flat),
+      reg: reg ? { href: reg.getAttribute('href'), blank: reg.target === '_blank', rel: reg.rel } : null,
+      count: km ? km.textContent.trim() : '',
+      callout: Boolean(document.querySelector('#tong-quan a.km-callout[href="#le-khai-mac"]')),
+      links: ['#chuong-trinh', '#khan-dai', '#tong-quan .dh-flow'].map(p => Boolean(document.querySelector(p + ' a[href="#le-khai-mac"]'))),
+      text: flat(document.querySelector(S) || document.body),
+    };
+  });
+  const imgOk = (await Promise.all(r.imgs.map(async i => (await page.request.get(BASE + i.src)).ok()))).every(Boolean);
+  const norm = t => t.replace(/\s+/g, ' ');
+  const tong = LK.choNgoi.khu.reduce((s, k) => s + k.ghe, 0);
+  const so = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  const want = [LK.tieuDe, ...LK.gioiThieu, LK.chuongTrinh.tieuDe, ...LK.chuongTrinh.buoc.flatMap(x => [x.gio, x.ten, x.ghiChu]), LK.choNgoi.tieuDe, LK.choNgoi.moTa,
+    ...LK.choNgoi.khu.flatMap(k => [k.ten, so(k.ghe), k.noiDung]), `${so(tong)} ghế`, SDK.tieuDe, SDK.hinh.chuThich, SDK.chuGiaiTieuDe, ...SDK.chuGiai.flatMap(g => [g.nhom, ...g.muc.map(m => m.ten)]),
+    SSK.tieuDe, SSK.moTa, SSK.hinh.chuThich, ...SSK.khu.map(k => k.ten), LK.luuY.tieuDe, ...LK.luuY.muc, QD.tieuDe, QD.moTa, QD.nhan, AP.tieuDe, ...AP.hinh.map(h => h.chuThich), LK.ketThuc,
+    LK.diaDiemTen, LK.diaChi].filter(Boolean).map(norm);
+  const missing = want.filter(w => !r.text.includes(w));
+  const imgsWant = [SDK.hinh, SSK.hinh, ...AP.hinh];
+  const imgsMatch = r.imgs.length === imgsWant.length && imgsWant.every((h, i) => r.imgs[i].src === `/img/${h.file}.webp` && r.imgs[i].altLen > 60 && r.imgs[i].w === String(h.w) && r.imgs[i].h === String(h.h));
+  const zonesOk = r.zones.length === 3 && r.zones.map(z => z.cls).join(',') === LK.choNgoi.khu.map(k => k.mau).join(',') && r.zones.every((z, i) => z.text.includes(so(LK.choNgoi.khu[i].ghe)) && z.text.includes(LK.choNgoi.khu[i].ten))
+    && r.bars.join(',') === LK.choNgoi.khu.map(k => k.ghe).join(',');
+  const adjacent = r.tabs[0] >= 0 && r.tabs[1] === r.tabs[0] + 1 && r.tabs[2] === r.tabs[1] + 1 && r.secs[1] === r.secs[0] + 1 && r.secs[2] === r.secs[1] + 1;
+  const regOk = r.reg && r.reg.href === QD.url && /^https:\/\/drive\.google\.com\/drive\/folders\//.test(QD.url) && r.reg.blank && /noopener/.test(r.reg.rel);
+  const tlOk = r.tl.length === LK.chuongTrinh.buoc.length && r.tl.every((t, i) => t.includes(LK.chuongTrinh.buoc[i].gio) && t.includes(LK.chuongTrinh.buoc[i].ten));
+  const legendN = SDK.chuGiai.reduce((s, g) => s + g.muc.length, 0);
+  const ok = adjacent && zonesOk && tlOk && imgsMatch && imgOk && regOk && r.legend.length === legendN && r.chips.length === SSK.khu.length
+    && /^(Còn \d+ ngày|Ngày mai|Hôm nay|Đang diễn ra|Đã diễn ra)$/.test(r.count) && r.links.every(Boolean) && r.callout && missing.length === 0;
+  check('Mục Lễ Khai mạc: khớp dữ liệu từng chữ, lịch trình 3 mốc, 3 khu chỗ ngồi (số ghế, tổng), 2 sơ đồ + 2 áp phích, chú giải bản đồ, liên kết quy định khán giả, tab giữa Sân tập và Check-in, đếm ngược, thẻ nhắc ở Tổng quan, liên kết từ Chương trình, Khán đài và lộ trình', ok,
+    missing.length ? 'thiếu: ' + missing.slice(0, 3).join(' / ') : JSON.stringify({ adjacent, zonesOk, tlOk, imgsMatch, imgOk, regOk, legend: r.legend.length, chips: r.chips.length, count: r.count, links: r.links, callout: r.callout }));
+  await ctx.close();
+}
+
 // muc Diem danh HLV & VDV qua ung dung: khop data/dai-hoi-x-2026.json tung chu, 3 buoc dang nhap (do, xanh, ngoc), 2 lien ket tai ung dung dung dich, hinh huong dan, tab ngay truoc Loi vao, lien ket tu Loi vao, Chuong trinh va lo trinh
 {
   const DH = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'dai-hoi-x-2026.json'), 'utf8'));

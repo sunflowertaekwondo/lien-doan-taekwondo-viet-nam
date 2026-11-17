@@ -510,7 +510,7 @@ const purposes = [
     body: [
       dhLive && (c => sec('dai-hoi', `${DH.tenNgan} – ${DH.batDau.slice(0, 4)}`, `<div class="dh-banner" data-end="${DH.ketThuc}T23:59:59+07:00">
           <div class="dh-date"><b>${dhRange}</b><span>Môn ${esc(DH.mon)}</span></div>
-          <div class="dh-text"><p><strong>${esc(DH.diaDiemTen)}</strong><br>${esc(DH.diaChi)}</p><p>Check-in: ${esc(DH.checkIn.gio)}. Hạn đăng ký khung giờ check-in và email schema: ${esc(DH.schema.hanChotChu)}.</p><p>Quan trọng: đọc <a href="${DH_PATH}#phong-chong-doping">Sổ tay phòng chống doping</a> trước khi đến Đại hội.</p><p>Đường vào nhà thi đấu: xem <a href="${DH_PATH}#loi-vao-nha-thi-dau">hướng dẫn 3 lối vào</a> (video và bản đồ).</p></div>
+          <div class="dh-text"><p><strong>${esc(DH.diaDiemTen)}</strong><br>${esc(DH.diaChi)}</p><p>Check-in: ${esc(DH.checkIn.gio)}. Hạn đăng ký khung giờ check-in và email schema: ${esc(DH.schema.hanChotChu)}.</p><p>Quan trọng: đọc <a href="${DH_PATH}#phong-chong-doping">Sổ tay phòng chống doping</a> trước khi đến Đại hội.</p><p>Đường vào nhà thi đấu: xem <a href="${DH_PATH}#loi-vao-nha-thi-dau">hướng dẫn 3 lối vào</a> (video và bản đồ).</p><p>Lễ Khai mạc ngày ${viDate(DH.leKhaiMac.ngay)}: xem <a href="${DH_PATH}#le-khai-mac">lịch trình, chỗ ngồi và sơ đồ khu vực</a>.</p></div>
           <div class="btns"><a class="btn btn-red" href="${DH_PATH}">Thông tin thi đấu ${icon('arrow-right')}</a></div>
         </div>`, '', c)),
       LICH.length && (c => {
@@ -606,10 +606,17 @@ const checkInTable = () => {
   // moc thoi gian: site.js danh dau "Đã qua" / "Sắp tới" theo ngay xem trang
   // han "truoc ngay X" -> het han cuoi ngay hom truoc
   const dayBefore = d => new Date(Date.parse(d + 'T00:00:00Z') - 864e5).toISOString().slice(0, 10);
+  const LK = DH.leKhaiMac, SDK = LK.soDoSuKien, SSK = LK.soDoSanKhau, QD = LK.quyDinh, AP = LK.apPhich;
+  const fmtSo = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  const tongGhe = LK.choNgoi.khu.reduce((s, k) => s + k.ghe, 0);
+  const kmFig = (h, cls = `dh-poster kd-fig km-fig${h.w === h.h ? ' km-sq' : ''}`) => `<figure class="${cls}"><a href="/img/${h.file}.webp" target="_blank" rel="noopener"><picture><img src="/img/${h.file}.webp" width="${h.w}" height="${h.h}" alt="${esc(h.alt)}" loading="lazy"></picture></a><figcaption>${esc(h.chuThich)}</figcaption></figure>`;
+  const kmBar = (() => { let x = 0; return `<svg class="km-bar" viewBox="0 0 ${tongGhe} 40" preserveAspectRatio="none" role="img" aria-label="${esc('Tỷ lệ số ghế: ' + LK.choNgoi.khu.map(k => `${k.ten} ${fmtSo(k.ghe)} ghế`).join(', '))}">${LK.choNgoi.khu.map(k => { const r = `<rect class="km-f-${esc(k.mau)}" x="${x}" y="0" width="${k.ghe}" height="40"/>`; x += k.ghe; return r; }).join('')}</svg>`; })();
+  const kmCallout = `<a class="dp-callout km-callout" href="#le-khai-mac" data-end="${LK.ngay}T23:59:59+07:00">${icon('calendar')}<span><strong>Sắp diễn ra: Lễ Khai mạc Đại hội, ${esc(thu(LK.ngay))} ${viDate(LK.ngay)}</strong><span class="dp-co-t">Đổi vòng tay và check-in ${esc(LK.chuongTrinh.buoc[0].gio)}; chương trình bắt đầu lúc ${esc(LK.gioBatDau)} tại ${esc(LK.diaDiemTen)}. Xem lịch trình, chỗ ngồi và sơ đồ khu vực.</span></span>${icon('arrow-right')}</a>`;
   const moc = [
     [DH.dangKy.soBo, end(dayBefore(DH.dangKy.soBo)), `Hạn đăng ký sơ bộ (trước ngày ${viDate(DH.dangKy.soBo)})`, 'Gửi Bộ môn Taekwondo, Cục Thể dục thể thao Việt Nam'],
     [DH.dangKy.chinhThuc, end(dayBefore(DH.dangKy.chinhThuc)), `Hạn đăng ký chính thức (trước ngày ${viDate(DH.dangKy.chinhThuc)})`, 'Gửi Bộ môn Taekwondo, Cục Thể dục thể thao Việt Nam'],
     [DH.schema.hanChot.slice(0, 10), `${DH.schema.hanChot}:00+07:00`, `Hạn đăng ký HLV đại diện, khung giờ check-in và 5 email truy cập schema (${DH.schema.hanChotChu})`, 'Theo biểu mẫu của Ban Tổ chức'],
+    [LK.ngay, end(LK.ngay), 'Lễ Khai mạc Đại hội Thể thao toàn quốc lần thứ X – 2026', `${LK.gioBatDau} tại ${LK.diaDiemTen}; check-in ${LK.chuongTrinh.buoc[0].gio}`],
     [DH.checkIn.ngay, end(DH.checkIn.ngay), 'Check-in, nhận thẻ thi đấu, nộp nhạc quyền sáng tạo', `${DH.checkIn.gio}`],
     [DH.hopLanhDoi.ngay, end(DH.hopLanhDoi.ngay), 'Họp lãnh đội, bốc thăm xếp lịch', `${DH.hopLanhDoi.gio} ngày ${viDate(DH.hopLanhDoi.ngay)}, ${DH.hopLanhDoi.noi}`],
     ...DH.chuongTrinh.filter(d => d.ngay >= '2026-11-25').map(d => [d.ngay, end(d.ngay), d.muc.find(([, t]) => /^Thi đấu (các nội dung quyền|vòng loại|đối kháng)/.test(t))?.[1] || d.muc[0][1], '']),
@@ -628,8 +635,8 @@ const checkInTable = () => {
     file: 'dai-hoi-the-thao-toan-quoc-2026.html', path: DH_PATH, active: '/lich-thi-dau', title: m.title, desc: m.desc, ogImage: `og-${m.og}.jpg`, crumbs, extraLd: [dhLd],
     hero: pageHero(crumbs, DH.ten, `Môn ${esc(DH.mon)} · ${dhRange} · ${esc(DH.diaDiem)}`),
     body: `
-    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#quy-dinh">Quy định</a><a href="#ky-cuong-thi-dau">Kỷ cương thi đấu</a><a class="hot" href="#phong-chong-doping">Phòng chống doping</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#chuong-trinh">Chương trình</a><a href="#diem-danh-ung-dung">Điểm danh bằng ứng dụng</a><a href="#loi-vao-nha-thi-dau">Lối vào nhà thi đấu</a><a href="#dieu-phoi-vdv">Điều phối VĐV vào sân</a><a href="#khan-dai">Khán đài</a><a href="#trao-huy-chuong">Trao huy chương</a><a href="#ban-to-chuc-trong-tai">Ban tổ chức, trọng tài</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
-      sec('tong-quan', 'Tổng quan', `<a class="dp-callout" href="#phong-chong-doping">${icon('shield')}<span><strong>Nội dung quan trọng: Sổ tay phòng chống doping – Play True</strong><span class="dp-co-t">Mọi VĐV tham dự đều có thể được kiểm tra doping “không báo trước”. HLV, VĐV đọc kỹ trước khi đến Đại hội.</span></span>${icon('arrow-right')}</a>
+    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#quy-dinh">Quy định</a><a href="#ky-cuong-thi-dau">Kỷ cương thi đấu</a><a class="hot" href="#phong-chong-doping">Phòng chống doping</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#le-khai-mac">Lễ Khai mạc</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#chuong-trinh">Chương trình</a><a href="#diem-danh-ung-dung">Điểm danh bằng ứng dụng</a><a href="#loi-vao-nha-thi-dau">Lối vào nhà thi đấu</a><a href="#dieu-phoi-vdv">Điều phối VĐV vào sân</a><a href="#khan-dai">Khán đài</a><a href="#trao-huy-chuong">Trao huy chương</a><a href="#ban-to-chuc-trong-tai">Ban tổ chức, trọng tài</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
+      sec('tong-quan', 'Tổng quan', `${kmCallout}<a class="dp-callout" href="#phong-chong-doping">${icon('shield')}<span><strong>Nội dung quan trọng: Sổ tay phòng chống doping – Play True</strong><span class="dp-co-t">Mọi VĐV tham dự đều có thể được kiểm tra doping “không báo trước”. HLV, VĐV đọc kỹ trước khi đến Đại hội.</span></span>${icon('arrow-right')}</a>
         <ul class="cal-stats">
           <li><b>${dhRange}</b><span>thời gian</span></li>
           <li><b>${nTong}</b><span>nội dung thi đấu</span></li>
@@ -639,6 +646,7 @@ const checkInTable = () => {
         <h3 class="sub-h">Lộ trình theo giai đoạn</h3>
         <ol class="steps dh-flow">
           <li><b>Trước Đại hội</b><span>Đọc <a href="#quy-dinh">quy định chung</a>, <a href="#ky-cuong-thi-dau">kỷ cương, kỷ luật thi đấu</a>, <a href="#phong-chong-doping">Sổ tay phòng chống doping</a> (cần dùng thuốc thuộc Danh mục cấm: xin miễn trừ do điều trị) và <a href="#noi-dung-thi-dau">nội dung thi đấu</a>; đăng ký <a href="#email-schema">email truy cập schema</a> trước ${esc(DH.schema.hanChotChu)}; xem <a href="#san-tap">đăng ký sân tập</a>; cài ứng dụng Đại hội Thể thao X và đăng nhập để có mã QR điểm danh (xem <a href="#diem-danh-ung-dung">điểm danh bằng ứng dụng</a>).</span></li>
+          <li><b>Ngày ${viDate(LK.ngay).slice(0, 5)}: Lễ Khai mạc</b><span>Khán giả xem <a href="#le-khai-mac">lịch trình, chỗ ngồi và sơ đồ khu vực Lễ Khai mạc</a> tại ${esc(LK.diaDiemTen)}: đổi vòng tay, check-in ${esc(LK.chuongTrinh.buoc[0].gio)}; chương trình bắt đầu lúc ${esc(LK.gioBatDau)}.</span></li>
           <li><b>Ngày ${viDate(DH.checkIn.ngay).slice(0, 5)}: đến Đại hội</b><span><a href="#check-in">Check-in</a> nhận thẻ thi đấu, <a href="#nop-nhac">nộp nhạc quyền sáng tạo</a> tại bàn check-in; họp lãnh đội ngày ${viDate(DH.hopLanhDoi.ngay).slice(0, 5)}.</span></li>
           <li><b>Các ngày thi đấu</b><span>Xem <a href="#chuong-trinh">chương trình theo ngày</a>, <a href="#diem-danh-ung-dung">điểm danh bằng mã QR trên ứng dụng</a>, <a href="#loi-vao-nha-thi-dau">hướng dẫn 3 lối vào nhà thi đấu</a>, <a href="#dieu-phoi-vdv">quy trình 4 bước điều phối vận động viên vào sân</a>, <a href="#khan-dai">phân khu khán đài</a>, <a href="#trao-huy-chuong">hướng dẫn trao huy chương</a>; VĐV có thể được <a href="#phong-chong-doping">kiểm tra doping “không báo trước”</a>; lưu ý quy định về <a href="#ky-cuong-thi-dau">thẻ Đại hội, rút lui, bỏ cuộc</a>.</span></li>
           <li><b>Tổ chức và tài liệu</b><span><a href="#ban-to-chuc-trong-tai">Ban Tổ chức, Ban Trọng tài</a> và <a href="#tai-lieu">tài liệu của Đại hội</a>.</span></li>
@@ -711,6 +719,44 @@ const checkInTable = () => {
         </div>
         <p class="note">${icon('info')}<span><strong>Lưu ý:</strong> ${esc(DH.sanTap.luuY)}</span></p>
         ${src(esc(st.ten))}`),
+      sec('le-khai-mac', LK.tieuDe, `<div class="km-hero">
+          <div class="km-date" aria-hidden="true"><span>${thu(LK.ngay)}</span><b>${viDate(LK.ngay).slice(0, 2)}</b><span>Tháng ${Number(LK.ngay.slice(5, 7))} · ${LK.ngay.slice(0, 4)}</span></div>
+          <div class="km-info">
+            <p class="km-eyebrow">${esc(DH.ten)}</p>
+            <p class="km-big">Lễ Khai mạc chính thức · <time datetime="${LK.ngay}T${LK.gioBatDau}:00+07:00">${esc(LK.gioBatDau)}</time></p>
+            <p class="km-where">${icon('pin')}<span><strong>${esc(LK.diaDiemTen)}</strong>, ${esc(LK.diaChi)}</span></p>
+            <p class="km-count" data-start="${LK.ngay}T${LK.gioBatDau}:00+07:00"><span class="km-count-t">${thu(LK.ngay)}, ${viDate(LK.ngay)}</span></p>
+          </div>
+        </div>
+        ${LK.gioiThieu.map(p => `<p>${esc(p)}</p>`).join('')}
+        <ul class="lv-key km-key">
+          <li><a class="lv-do" href="#khai-mac-lich-trinh"><span class="lv-n" aria-hidden="true">1</span><span><strong>Lịch trình trong ngày</strong><small>Check-in ${esc(LK.chuongTrinh.buoc[0].gio)}, khai mạc ${esc(LK.gioBatDau)}</small></span>${icon('arrow-right')}</a></li>
+          <li><a class="lv-xanh" href="#khai-mac-cho-ngoi"><span class="lv-n" aria-hidden="true">2</span><span><strong>Chỗ ngồi theo thứ tự check-in</strong><small>${LK.choNgoi.khu.length} khu, ${fmtSo(tongGhe)} ghế</small></span>${icon('arrow-right')}</a></li>
+          <li><a class="lv-vang" href="#khai-mac-so-do"><span class="lv-n" aria-hidden="true">3</span><span><strong>Sơ đồ khu vực</strong><small>Check-in, bãi giữ xe, sân khấu</small></span>${icon('arrow-right')}</a></li>
+          <li><a class="lv-ngoc" href="#khai-mac-luu-y"><span class="lv-n" aria-hidden="true">4</span><span><strong>Lưu ý và quy định</strong><small>Vòng tay, mã QR, quy định khán giả</small></span>${icon('arrow-right')}</a></li>
+        </ul>
+        <p class="note">${icon('info')}<span>Đây là thông tin dành cho khán giả xem Lễ Khai mạc toàn Đại hội. Thi đấu môn ${esc(DH.mon)} diễn ra từ ${viDate(DH.batDau)} đến ${viDate(DH.ketThuc)} tại ${esc(DH.diaDiemTen)}: xem <a href="#chuong-trinh">chương trình thi đấu</a> và <a href="#khan-dai">phân khu khán đài</a>.</span></p>
+        <h3 class="sub-h" id="khai-mac-lich-trinh">${esc(LK.chuongTrinh.tieuDe)}</h3>
+        <ol class="km-tl">${LK.chuongTrinh.buoc.map(b => `<li class="km-${esc(b.mau)}"><time class="km-tl-t">${esc(b.gio)}</time><span class="km-tl-b"><strong>${esc(b.ten)}</strong>${b.ghiChu ? `<small>${esc(b.ghiChu)}</small>` : ''}</span></li>`).join('')}</ol>
+        <h3 class="sub-h" id="khai-mac-cho-ngoi">${esc(LK.choNgoi.tieuDe)}</h3>
+        <p>${esc(LK.choNgoi.moTa)}</p>
+        ${kmBar}
+        <ol class="km-zones">${LK.choNgoi.khu.map(k => `<li class="km-${esc(k.mau)}"><span class="km-z-n" aria-hidden="true">${k.thuTu}</span><div><strong>${esc(k.ten)}</strong><span class="km-z-ghe"><b>${fmtSo(k.ghe)}</b> ghế</span><p>${esc(k.noiDung)}</p></div></li>`).join('')}</ol>
+        <p class="km-total">Tổng ${LK.choNgoi.khu.length} khu dành cho khán giả: <strong>${fmtSo(tongGhe)} ghế</strong>.</p>
+        <h3 class="sub-h" id="khai-mac-so-do">${esc(SDK.tieuDe)}</h3>
+        ${kmFig(SDK.hinh)}
+        <div class="km-legend" role="group" aria-label="${esc(SDK.chuGiaiTieuDe)}"><strong class="km-lg-title">${esc(SDK.chuGiaiTieuDe)}</strong>${SDK.chuGiai.map(g => `<div class="km-lg"><strong class="km-lg-h">${esc(g.nhom)}</strong><ul>${g.muc.map(m => `<li><span class="km-sw km-sw-${esc(m.sw)}" aria-hidden="true"></span><span>${esc(m.ten)}</span></li>`).join('')}</ul></div>`).join('')}</div>
+        <h3 class="sub-h" id="khai-mac-san-khau">${esc(SSK.tieuDe)}</h3>
+        <p>${esc(SSK.moTa)}</p>
+        ${kmFig(SSK.hinh)}
+        <ul class="km-chips">${SSK.khu.map(k => `<li><span class="km-sw km-sw-${esc(k.sw)}" aria-hidden="true"></span>${esc(k.ten)}</li>`).join('')}</ul>
+        <h3 class="sub-h" id="khai-mac-luu-y">${esc(LK.luuY.tieuDe)}</h3>
+        <ul class="km-rules">${LK.luuY.muc.map(t => `<li>${icon('check')}<span>${esc(t)}</span></li>`).join('')}</ul>
+        <div class="km-reg"><div><strong>${esc(QD.tieuDe)}</strong><p>${esc(QD.moTa)}</p></div>${extA(QD.url, esc(QD.nhan))}</div>
+        <h3 class="sub-h" id="khai-mac-ap-phich">${esc(AP.tieuDe)}</h3>
+        <div class="km-posters">${AP.hinh.map(h => kmFig(h, 'km-poster')).join('')}</div>
+        <p class="note">${icon('info')}<span><strong>${esc(LK.ketThuc)}</strong></span></p>
+        ${src(`Thông báo dành cho khán giả, sơ đồ khu vực sự kiện, sơ đồ khu vực sân khấu và áp phích Lễ Khai mạc ${esc(DH.ten)}; cập nhật ngày ${viDate(LK.ngayCapNhat)}`)}`),
       sec('check-in', 'Check-in và nhận thẻ thi đấu', `<p>${esc(DH.checkIn.gioiThieu)}</p>
         <div class="grid g2">
           <div class="card"><h3>${icon('calendar')} Thời gian</h3><p><strong>${esc(DH.checkIn.gio)}/${DH.checkIn.ngay.slice(0, 4)}</strong> (${thu(DH.checkIn.ngay)})</p></div>
@@ -737,7 +783,7 @@ const checkInTable = () => {
           </div>`).join('')}
         </div>
         <p class="note">${icon('info')}<span>${esc(DH.dieuChinh.noiDung)} ngày ${viDate(DH.dieuChinh.ngay)}. ${esc(DH.chuongTrinhGhiChu)}. Địa điểm: ${esc(DH.diaDiem)}.</span></p>
-        <p class="note">${icon('info')}<span>Xem thêm: <a href="#diem-danh-ung-dung">điểm danh bằng mã QR trên ứng dụng</a>; <a href="#loi-vao-nha-thi-dau">hướng dẫn 3 lối vào nhà thi đấu</a>; <a href="#dieu-phoi-vdv">quy trình 4 bước điều phối vận động viên vào sân thi đấu</a>; <a href="#khan-dai">phân khu khán đài và quy định ra vào nhà thi đấu</a>; <a href="#trao-huy-chuong">hướng dẫn lễ trao huy chương</a> (lễ trao thưởng diễn ra vào cuối mỗi ngày thi đấu).</span></p>
+        <p class="note">${icon('info')}<span>Xem thêm: <a href="#le-khai-mac">Lễ Khai mạc ngày ${viDate(LK.ngay).slice(0, 5)}</a> (trước ngày thi đấu đầu tiên); <a href="#diem-danh-ung-dung">điểm danh bằng mã QR trên ứng dụng</a>; <a href="#loi-vao-nha-thi-dau">hướng dẫn 3 lối vào nhà thi đấu</a>; <a href="#dieu-phoi-vdv">quy trình 4 bước điều phối vận động viên vào sân thi đấu</a>; <a href="#khan-dai">phân khu khán đài và quy định ra vào nhà thi đấu</a>; <a href="#trao-huy-chuong">hướng dẫn lễ trao huy chương</a> (lễ trao thưởng diễn ra vào cuối mỗi ngày thi đấu).</span></p>
         <h3 class="sub-h">Cân vận động viên</h3>
         <ul class="bullets">
           <li><strong>Cân kiểm tra vận động viên:</strong> ${esc(DH.can.kiemTra)}.</li>
@@ -807,6 +853,7 @@ const checkInTable = () => {
         <h3 class="sub-h">Đúng khu vực quy định</h3>
         <ul class="bullets">${KD.dungKhuVuc.map(([k, v]) => `<li><strong>${esc(k)}:</strong> ${esc(v)}</li>`).join('')}</ul>
         <p class="note">${icon('info')}<span>${esc(KD.ketThuc)} <strong>${esc(KD.camOn)}</strong></span></p>
+        <p class="note">${icon('info')}<span>Khán giả xem Lễ Khai mạc ngày ${viDate(LK.ngay).slice(0, 5)} tại ${esc(LK.diaDiemTen)}: xem <a href="#le-khai-mac">lịch trình, chỗ ngồi và sơ đồ khu vực Lễ Khai mạc</a>.</span></p>
         ${src(`Thông báo của Ban Tổ chức về phân khu khán đài và quy định ra vào nhà thi đấu, môn ${esc(DH.mon)}, ${esc(DH.tenNgan)}; đăng ngày ${viDate(KD.ngayDang)}`)}`),
       sec('trao-huy-chuong', HC.tieuDe, `<p>${esc(HC.gioiThieu)}</p>
         <figure class="dh-poster kd-fig"><a href="/img/${HC.hinh.file}.webp" target="_blank" rel="noopener"><picture><img src="/img/${HC.hinh.file}.webp" width="${HC.hinh.w}" height="${HC.hinh.h}" alt="${esc(HC.hinh.alt)}" loading="lazy"></picture></a><figcaption>${esc(HC.hinh.chuThich)}</figcaption></figure>

@@ -120,6 +120,16 @@ export const CASES = [
   ['Tự ý bỏ cuộc thì kết quả có bị hủy không?', [DH], 'hủy bỏ'],
   ['Nhà báo có được vào khu vực kiểm tra doping không', [DH], 'Nhà báo'],
   ['Được hoãn kiểm tra doping để dự lễ trao huy chương không', [DH], 'trao giải'],
+  // Le Khai mac 21/11/2026 (khan gia)
+  ['Lễ Khai mạc Đại hội Thể thao toàn quốc lần thứ X diễn ra khi nào, ở đâu?', [DH], 'Công viên Bờ sông Sài Gòn'],
+  ['Khán giả đổi vòng tay và check-in Lễ Khai mạc lúc mấy giờ?', [DH], '17:30'],
+  ['Chương trình Thảm xanh Đại lộ vinh quang bắt đầu lúc nào?', [DH], '18:00'],
+  ['Zone Toàn quốc có bao nhiêu ghế?', [DH], '360'],
+  ['Chỗ ngồi xem Lễ Khai mạc được xếp theo thứ tự nào, Zone nào đầy trước?', [DH], 'Zone Toàn quốc'],
+  ['Một mã QR đổi được mấy vòng tay tham dự Lễ Khai mạc?', [DH], '01 vòng tay'],
+  ['Bãi giữ xe khán giả xem Lễ Khai mạc nằm ở đâu?', [DH], 'Bãi giữ xe khán giả'],
+  ['Đến muộn sau 17:30 có được nhận vòng tay xem Lễ Khai mạc không?', [DH], 'từ chối'],
+  ['Quy định dành cho khán giả tham gia Lễ Khai mạc xem ở đâu?', [DH], 'QUY ĐỊNH'],
 ];
 
 export function runEval(dist, { k = 5, verbose = false } = {}) {

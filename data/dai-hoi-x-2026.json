@@ -1100,6 +1100,237 @@
    "chuThich": "Hướng dẫn quy trình tham gia, dành cho Huấn luyện viên, Vận động viên, Trọng tài, Tình nguyện viên (bấm vào hình để xem cỡ lớn)"
   }
  },
+ "leKhaiMac": {
+  "_ghi_chu": "Thong bao cho khan gia ve Le Khai mac Dai hoi The thao toan quoc lan thu X (van ban + 4 hinh do nguoi quan tri trang gui ngay 17/11/2026: so do khu vuc su kien, so do khu vuc san khau, thoi gian check-in, quy dinh khan gia). Noi dung chep dung van ban gui, chi (1) bo bieu tuong cam xuc, (2) doi 'X - 2026' thanh 'X – 2026' (gach noi dai), (3) doi 'so do dinh kem' thanh 'so do ben duoi' vi tren web khong co tep dinh kem, (4) viet hoa dau cau cac y cua danh sach. Cau 'Khan gia vui long co mat dung gio. BTC xin phep tu choi giai quyet cac truong hop den sau thoi gian quy dinh' va chu giai ban do chep tu hinh. Cac nhom cua chu giai ban do chi sap xep lai theo thu tu khan gia can dung, ten muc giu nguyen nhu tren hinh. 'tongGhe' va cac so tren thanh ti le do build tinh tu 'ghe' cua 3 khu. Ma QR tren hinh quy dinh la lien ket rut gon https://qrco.de/bh6EYQ, da giai ma bang OpenCV (python -X utf8 -I) va mo thu: chuyen toi thu muc Google Drive cong khai 'QUY DINH' (tai thoi diem 17/11/2026 co 1 tep QUYDINH_DHTTTQ_3.pdf, 50,2 MB, chu so huu trungtamnghethuat.hcmc). Tep PDF nay CHUA duoc tai ve nen noi dung ben trong chua dua len trang; neu can, nguoi quan tri gui tep de dua noi dung vao. 'mau' cua khu cho ngoi: do/luc/xanh ung voi 3 mau tren so do san khau (mau khai bao trong src/site.css, .km-).",
+  "tieuDe": "Lễ Khai mạc Đại hội Thể thao toàn quốc lần thứ X – 2026",
+  "ngay": "2026-11-21",
+  "gioBatDau": "19:00",
+  "diaDiemTen": "Công viên Bờ sông Sài Gòn",
+  "diaChi": "Phường An Khánh, Thành phố Hồ Chí Minh",
+  "ngayCapNhat": "2026-11-17",
+  "gioiThieu": [
+   "Hòa chung không khí thể thao sôi nổi trên cả nước, Lễ Khai mạc Đại hội Thể thao toàn quốc lần thứ X – 2026 hứa hẹn mang đến một đêm đầy cảm xúc với màn diễu hành của 37 đoàn thể thao, nghi thức rước và châm đuốc Đại hội, cùng những tiết mục nghệ thuật đặc sắc kết hợp công nghệ trình diễn hiện đại. Tất cả sẽ góp phần lan tỏa tinh thần thể thao và tiếp thêm khí thế cho các vận động viên trước hành trình tranh tài, chinh phục những thành tích mới.",
+   "Khán giả vui lòng tham khảo sơ đồ bên dưới để nắm rõ vị trí các khu vực, đồng thời thực hiện theo hướng dẫn của Ban Tổ chức và lực lượng điều phối tại sự kiện để quá trình đón tiếp, ổn định chỗ ngồi diễn ra thuận lợi."
+  ],
+  "chuongTrinh": {
+   "tieuDe": "Lịch trình ngày 21/11",
+   "buoc": [
+    {
+     "gio": "15:00 – 17:30",
+     "mau": "hong",
+     "ten": "Đổi vòng tay và check-in",
+     "ghiChu": "Khán giả vui lòng có mặt đúng giờ. BTC xin phép từ chối giải quyết các trường hợp đến sau thời gian quy định."
+    },
+    {
+     "gio": "18:00",
+     "mau": "xanh",
+     "ten": "Chương trình Thảm xanh – “Đại lộ vinh quang”",
+     "ghiChu": ""
+    },
+    {
+     "gio": "19:00",
+     "mau": "vang",
+     "ten": "Chương trình Lễ Khai mạc chính thức",
+     "ghiChu": ""
+    }
+   ]
+  },
+  "choNgoi": {
+   "tieuDe": "Chỗ ngồi theo thứ tự check-in",
+   "moTa": "Chỗ ngồi được bố trí theo thứ tự check-in, lần lượt tại các khu vực:",
+   "khu": [
+    {
+     "thuTu": 1,
+     "mau": "do",
+     "ten": "Zone Toàn quốc",
+     "ghe": 360,
+     "noiDung": "Dành cho khán giả check-in sớm nhất."
+    },
+    {
+     "thuTu": 2,
+     "mau": "luc",
+     "ten": "Zone Đại hội",
+     "ghe": 600,
+     "noiDung": "Tiếp nhận khán giả sau khi khu màu đỏ đủ chỗ."
+    },
+    {
+     "thuTu": 3,
+     "mau": "xanh",
+     "ten": "Zone Thể thao",
+     "ghe": 986,
+     "noiDung": "Tiếp nhận khán giả sau khi hai khu vực trên đủ chỗ."
+    }
+   ]
+  },
+  "soDoSuKien": {
+   "tieuDe": "Sơ đồ khu vực sự kiện",
+   "hinh": {
+    "file": "dai-hoi-x-2026-khai-mac-so-do-khu-vuc-su-kien",
+    "w": 1920,
+    "h": 1280,
+    "alt": "Sơ đồ khu vực sự kiện Lễ Khai mạc Đại hội Thể thao toàn quốc lần thứ X năm 2026 tại Công viên Bờ sông Sài Gòn: bên trái là bảng chú thích màu, bên phải là bản đồ có sân khấu, khu vực biểu diễn dưới nước, thảm xanh Đại lộ vinh quang, khu vực check-in, các bãi giữ xe, nhà vệ sinh, trạm y tế và hướng đi của khán giả.",
+    "chuThich": "Sơ đồ khu vực sự kiện (bấm vào hình để xem cỡ lớn)"
+   },
+   "chuGiaiTieuDe": "Chú thích trên sơ đồ",
+   "chuGiai": [
+    {
+     "nhom": "Lối đi và điểm đón khán giả",
+     "muc": [
+      {
+       "sw": "hong",
+       "ten": "Khu vực Check-in"
+      },
+      {
+       "sw": "xanh-dam",
+       "ten": "Thảm xanh “Đại lộ vinh quang”"
+      },
+      {
+       "sw": "cam",
+       "ten": "Cổng chào"
+      },
+      {
+       "sw": "mt-hong",
+       "ten": "Hướng đi khán giả"
+      },
+      {
+       "sw": "mt-xanh",
+       "ten": "Tuyến rước đuốc trên sông từ bến Nhà Rồng về đến sân khấu"
+      }
+     ]
+    },
+    {
+     "nhom": "Bãi giữ xe khán giả",
+     "muc": [
+      {
+       "sw": "xanh-nhat",
+       "ten": "Xe ô tô"
+      },
+      {
+       "sw": "vang",
+       "ten": "Xe gắn máy"
+      }
+     ]
+    },
+    {
+     "nhom": "Bãi giữ xe lãnh đạo, các đoàn và nhân viên",
+     "muc": [
+      {
+       "sw": "do",
+       "ten": "Khu vực xe ô tô VIP"
+      },
+      {
+       "sw": "luc-dam",
+       "ten": "Khu vực xe ô tô các đoàn"
+      },
+      {
+       "sw": "nau",
+       "ten": "Khu vực xe nhân viên"
+      }
+     ]
+    },
+    {
+     "nhom": "Tiện ích và an toàn",
+     "muc": [
+      {
+       "sw": "luc-sang",
+       "ten": "WC: nhà vệ sinh"
+      },
+      {
+       "sw": "tram-yt",
+       "ten": "Trạm y tế"
+      },
+      {
+       "sw": "luc",
+       "ten": "Xe cấp cứu"
+      },
+      {
+       "sw": "ngoc",
+       "ten": "Khu vực xe màu, xe y tế, xe PCCC"
+      }
+     ]
+    }
+   ]
+  },
+  "soDoSanKhau": {
+   "tieuDe": "Sơ đồ khu vực sân khấu",
+   "moTa": "Ba khu chỗ ngồi dành cho khán giả là Zone Toàn quốc (đỏ), Zone Đại hội (xanh lá) và Zone Thể thao (xanh dương). Các khu còn lại trên sơ đồ gồm Đại biểu, Khách mời, Nhà tài trợ, Báo chí và FOH.",
+   "hinh": {
+    "file": "dai-hoi-x-2026-khai-mac-so-do-san-khau",
+    "w": 1920,
+    "h": 1920,
+    "alt": "Sơ đồ khu vực sân khấu Lễ Khai mạc Đại hội Thể thao toàn quốc lần thứ X: sân khấu hình vòng cung ở phía trên; bên dưới là các khu Đại biểu màu cam, Khách mời màu tím kèm dải Nhà tài trợ, Zone Toàn quốc màu đỏ, Zone Đại hội màu xanh lá và Zone Thể thao màu xanh dương ở hai bên, Báo chí màu vàng và khu FOH màu xám ở giữa.",
+    "chuThich": "Sơ đồ khu vực sân khấu (bấm vào hình để xem cỡ lớn)"
+   },
+   "khu": [
+    {
+     "sw": "cam",
+     "ten": "Đại biểu"
+    },
+    {
+     "sw": "tim",
+     "ten": "Khách mời"
+    },
+    {
+     "sw": "tim-sang",
+     "ten": "Nhà tài trợ"
+    },
+    {
+     "sw": "do",
+     "ten": "Zone Toàn quốc"
+    },
+    {
+     "sw": "luc",
+     "ten": "Zone Đại hội"
+    },
+    {
+     "sw": "xanh",
+     "ten": "Zone Thể thao"
+    },
+    {
+     "sw": "vang",
+     "ten": "Báo chí"
+    },
+    {
+     "sw": "xam",
+     "ten": "FOH"
+    }
+   ]
+  },
+  "luuY": {
+   "tieuDe": "Một số lưu ý khi đăng ký và tham dự",
+   "muc": [
+    "Mỗi mã QR hợp lệ chỉ được quy đổi thành 01 vòng tay tham dự (tương ứng với 01 người tham dự). Mã QR đã được sử dụng để nhận vòng tay sẽ không thể tiếp tục quy đổi.",
+    "Khi đến nhận vòng tay, khán giả chỉ cần xuất trình mã QR được gửi qua email để Ban Tổ chức kiểm tra và xác nhận.",
+    "Khán giả vui lòng đến đúng khung giờ quy định và thực hiện theo hướng dẫn của Ban Tổ chức."
+   ]
+  },
+  "quyDinh": {
+   "tieuDe": "Quy định dành cho khán giả tham gia",
+   "moTa": "Áp phích Quy định dành cho khán giả có mã QR “Quét mã QR để xem chi tiết”. Mã này dẫn tới thư mục “QUY ĐỊNH” trên Google Drive; tại thời điểm cập nhật trang (17/11/2026), thư mục có 1 tệp PDF dung lượng khoảng 50 MB.",
+   "nhan": "Mở thư mục “QUY ĐỊNH” (Google Drive)",
+   "url": "https://drive.google.com/drive/folders/1kGNgDUh7A4mUcSqHo5M1Fna5colCMvnD?usp=drive_link"
+  },
+  "apPhich": {
+   "tieuDe": "Áp phích thông báo",
+   "hinh": [
+    {
+     "file": "dai-hoi-x-2026-khai-mac-thoi-gian",
+     "w": 1920,
+     "h": 1920,
+     "alt": "Áp phích thời gian Lễ Khai mạc Đại hội Thể thao toàn quốc lần thứ X: thời gian đổi vòng tay và check-in từ 15:00 đến 17:30 thứ Bảy 21.11.2026; thời gian bắt đầu chương trình 19:00 tại Công viên Bờ sông Sài Gòn, Phường An Khánh, Thành phố Hồ Chí Minh; khán giả vui lòng có mặt đúng giờ.",
+     "chuThich": "Thời gian đổi vòng tay, check-in và bắt đầu chương trình"
+    },
+    {
+     "file": "dai-hoi-x-2026-khai-mac-quy-dinh-khan-gia",
+     "w": 1920,
+     "h": 1920,
+     "alt": "Áp phích Quy định dành cho khán giả tham gia Lễ Khai mạc Đại hội Thể thao toàn quốc lần thứ X, có mã QR kèm dòng chữ Quét mã QR để xem chi tiết; mã QR dẫn tới thư mục Google Drive QUY ĐỊNH.",
+     "chuThich": "Quy định dành cho khán giả tham gia (quét mã QR để xem chi tiết)"
+    }
+   ]
+  },
+  "ketThuc": "Hẹn gặp quý khán giả tại Lễ Khai mạc, cùng chứng kiến thời khắc mở màn của Đại hội và hòa chung không khí sôi động của ngày hội thể thao lớn nhất cả nước!"
+ },
  "congThongTin": {
   "ten": "Cổng thông tin Đại hội Thể thao toàn quốc lần thứ X năm 2026",
   "url": "https://congthongtindaihoi.indivisys.vn/vi",

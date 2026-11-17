@@ -271,6 +271,20 @@
     else if (!nextSet) { li.classList.add('is-next'); tag.textContent = 'Sắp tới'; nextSet = true; }
   });
 
+  // ---- Le Khai mac: dem nguoc theo ngay (gio Viet Nam); the nhac o Tong quan tu an sau ngay dien ra (khong co JS thi giu dong ngay gio co san) ----
+  $$('.km-callout[data-end]').forEach(function (a) { if (Date.parse(a.dataset.end) < now) a.hidden = true; });
+  $$('.km-count[data-start]').forEach(function (el) {
+    var start = Date.parse(el.dataset.start), t = $('.km-count-t', el);
+    if (isNaN(start) || !t) return;
+    var vnNow = new Date(now + 7 * 36e5), vnEv = new Date(start + 7 * 36e5);
+    var days = Math.round((Date.UTC(vnEv.getUTCFullYear(), vnEv.getUTCMonth(), vnEv.getUTCDate()) - Date.UTC(vnNow.getUTCFullYear(), vnNow.getUTCMonth(), vnNow.getUTCDate())) / 864e5);
+    el.classList.add('is-live');
+    if (days > 1) t.textContent = 'Còn ' + days + ' ngày';
+    else if (days === 1) t.textContent = 'Ngày mai';
+    else if (days === 0) t.textContent = now < start ? 'Hôm nay' : 'Đang diễn ra';
+    else { t.textContent = 'Đã diễn ra'; el.classList.remove('is-live'); }
+  });
+
   // ---- loc danh sach (vd 50 trong tai) theo ten / don vi; go khong dau van tim duoc ----
   var foldText = function (s) { return s.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase(); };
   $$('.roster-filter').forEach(function (inp) {

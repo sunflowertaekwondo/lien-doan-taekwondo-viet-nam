@@ -52,6 +52,14 @@ const SYN = [
   // diem danh HLV, VDV, TT, TNV qua ung dung "Dai hoi The thao X" (ma QR ca nhan, tinh nguyen vien quet o cua)
   [/\bung dung\b|\bapp\b|\bma qr\b|\bqr\b|\bquet ma\b|\bdang nhap\b|\bmat khau\b|\bcccd\b|\btai khoan\b|\btnv\b|\btinh nguyen vien\b|\bapp store\b|\bch play\b|\bgoogle play\b/, 'diem danh qua ung dung ma qr ca nhan dang nhap tai khoan cccd mat khau tinh nguyen vien quet ma cua ra vao nha thi dau app store ch play'],
   [/(?=.*(trong tai|\btt\b|\bhlv\b|\bvdv\b|\btnv\b))(?=.*(ung dung|\bapp\b|\bqr\b|dang nhap|tai khoan))/, 'danh sach chinh thuc nhap len he thong cap tai khoan hlv vdv trong tai tt tnv phoi hop cuc bo mon'],
+  // Le Khai mac Dai hoi (21/11/2026, Cong vien Bo song Sai Gon): lich trinh khan gia, cho ngoi 3 zone, so do khu vuc, quy dinh khan gia
+  [/\bkhai mac\b|\bthao xanh\b|\bdai lo vinh quang\b|\bbo song sai gon\b|\ble khai\b|\bruoc duoc\b/, 'le khai mac khan gia cong vien bo song sai gon'],
+  [/\bvong tay\b|\bdoi vong\b|\bnhan vong\b/, 'vong tay khai mac khan gia ma qr email'],
+  [/\b(zone|zon)\b/, 'zone khai mac khan gia cho ngoi thu tu check in'],
+  [/\bkhu vuc su kien\b|\bkhu vuc san khau\b/, 'so do khu vuc su kien san khau khai mac'],
+  [/(?=.*(khai mac|bo song sai gon|khu vuc su kien))(?=.*(\bxe\b|do xe|gui xe|bai giu|bai do))/, 'bai giu xe khan gia o to xe gan may khu vuc xe vip cac doan nhan vien so do khu vuc su kien'],
+  [/(?=.*(khai mac|bo song sai gon|khu vuc su kien))(?=.*(\bwc\b|ve sinh|tram y te|cap cuu|pccc|y te))/, 'chu thich tren so do wc nha ve sinh tram y te xe cap cuu khu vuc xe mau xe y te pccc tien ich an toan'],
+  [/(?=.*(\bmuon\b|\btre\b|sau thoi gian))(?=.*(vong tay|khai mac|khan gia))/, 'khan gia vui long co mat dung gio btc tu choi giai quyet cac truong hop den sau thoi gian quy dinh doi vong tay'],
   // the Dai hoi o cua vao nha thi dau ("the" mat dau thanh trung voi "the thao", nen can them tu goi y)
   [/(?=.*\bthe\b)(?=.*(nha thi dau|khan dai|kiem soat|cua vao|vao cua|loi vao))/, 'xuat trinh deo the dai hoi chinh thuc cua kiem soat khu vuc quy dinh'],
   [/quyen rieng tu|du lieu ca nhan|bao mat|thong tin ca nhan/, 'quyen rieng tu du lieu ca nhan'],
@@ -66,6 +74,8 @@ const SYN = [
 const INTENT = [
   [/le phi|tien thi|hoc phi|phi thi|chi phi|bao nhieu tien|gia tien|muc thu|nop bao nhieu/, /\d{1,3}(?:\.\d{3})+\s*(?:đồng|đ)\b/, 12],
   [/\bkhi nao\b|\bbao gio\b|ngay nao|thoi gian|\blich\b/, /\b\d{1,2}\/\d{1,2}(?:\/\d{4})?\b|\bngày \d{1,2} tháng \d{1,2}\b/, 4],
+  [/\bso do\b.*\bkhan dai\b|\bkhan dai\b.*\bso do\b|phan khu khan dai/, /Khán đài Xanh dương/, 8],
+  [/\bdang nhap\b|\btai khoan\b|\bmat khau\b/, /Tên đăng nhập/, 10],
 ];
 
 export function buildIndex(kb) {
