@@ -1,8 +1,8 @@
 {
  "_ghi_chu": "TU DONG tao boi tools/sync-check-in.mjs tu bang dang ky cua BTC (moi gio, chi ghi khi co thay doi). Chi gom gio, don vi, so the, co thi Quyen, trang thai. KHONG chua ho ten HLV, CCCD, so dien thoai, email. Dung sua tay: chay lai lenh.",
  "nguon": "https://docs.google.com/spreadsheets/d/1il-aEu2-id8FnGEbMgHwt8IImpnZl94-RRgR6trbVBk/edit?gid=0#gid=0",
- "layNgay": "2026-11-12",
- "layLuc": "2026-11-12T18:12",
+ "layNgay": "2026-11-23",
+ "layLuc": "2026-11-23T09:45",
  "ngay": "2026-11-23",
  "lich": [
   {
@@ -12,7 +12,7 @@
    "theBtcHlv": 12,
    "theVdv": 22,
    "quyen": "Có",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 2,
@@ -21,7 +21,7 @@
    "theBtcHlv": 6,
    "theVdv": 12,
    "quyen": "Không",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 3,
@@ -30,7 +30,7 @@
    "theBtcHlv": 3,
    "theVdv": 5,
    "quyen": "Có",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 4,
@@ -39,7 +39,7 @@
    "theBtcHlv": 6,
    "theVdv": 22,
    "quyen": "Có",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 5,
@@ -48,7 +48,7 @@
    "theBtcHlv": 5,
    "theVdv": 10,
    "quyen": "Có",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 6,
@@ -57,7 +57,7 @@
    "theBtcHlv": 5,
    "theVdv": 17,
    "quyen": "Có",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 7,
@@ -66,7 +66,7 @@
    "theBtcHlv": 6,
    "theVdv": 13,
    "quyen": "Có",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 8,
@@ -75,7 +75,7 @@
    "theBtcHlv": 3,
    "theVdv": 6,
    "quyen": "Không",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 9,
@@ -84,7 +84,7 @@
    "theBtcHlv": 11,
    "theVdv": 8,
    "quyen": "Không",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 10,
@@ -93,7 +93,7 @@
    "theBtcHlv": 6,
    "theVdv": 16,
    "quyen": "Có",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 11,
@@ -102,7 +102,7 @@
    "theBtcHlv": 4,
    "theVdv": 3,
    "quyen": "Không",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 12,
@@ -111,7 +111,7 @@
    "theBtcHlv": 3,
    "theVdv": 5,
    "quyen": "Có",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 13,
