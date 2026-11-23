@@ -19,7 +19,7 @@ export const PAGES = [
   { path: '/co-cau-to-chuc', file: 'co-cau-to-chuc.html', og: 'co-cau-to-chuc', title: 'Cơ cấu tổ chức', ogTitle: 'Cơ cấu tổ chức',
     desc: 'Cơ cấu tổ chức Liên đoàn Taekwondo Việt Nam: sơ đồ và chức năng của Đại hội, Ban Chấp hành, Ban Thường vụ, Ban Kiểm tra, Tổng thư ký, Hội đồng kỹ thuật.' },
   { path: '/lich-thi-dau', file: 'lich-thi-dau.html', og: 'lich-thi-dau', title: 'Lịch thi đấu', ogTitle: `Lịch thi đấu Taekwondo ${DH.batDau.slice(0, 4)} – ${LICH.nam}`,
-    desc: `Lịch thi đấu Taekwondo tại Việt Nam: Đại hội Thể thao toàn quốc X (${dhNgay}) và ${LICH.giai.length} giải quốc gia, quốc tế năm ${LICH.nam}${duKien}, theo văn bản chính thức.` },
+    desc: `Lịch thi đấu Taekwondo Việt Nam: Đại hội Thể thao toàn quốc X (${dhNgay}) và ${LICH.giai.length + (LICH.khac || []).length} sự kiện năm ${LICH.nam}${duKien}: giải, kỳ thi, khóa đào tạo và giải quốc tế.` },
   { path: '/dai-hoi-the-thao-toan-quoc-2026', file: 'dai-hoi-the-thao-toan-quoc-2026.html', og: 'dai-hoi-x-2026', title: 'Đại hội Thể thao toàn quốc lần thứ X – Taekwondo', ogTitle: 'Taekwondo tại Đại hội Thể thao toàn quốc X',
     desc: 'Môn Taekwondo tại Đại hội Thể thao toàn quốc lần thứ X năm 2026 (23–30/11, Nhà thi đấu An Hội Đông, TP.HCM): chương trình, nội dung, check-in, đăng ký.' },
   { path: '/hoi-vien', file: 'hoi-vien.html', og: 'hoi-vien', title: 'Hội viên', ogTitle: 'Hội viên Liên đoàn',

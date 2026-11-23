@@ -245,7 +245,7 @@
     if (init) { q.value = init; run(false); }
   }
 
-  // ---- lich thi dau: loc theo cap giai (khong co JS thi hien du lich, an bo loc) ----
+  // ---- lich thi dau: loc theo nhom su kien (khong co JS thi hien du lich, an bo loc); thang het su kien thi lam mo o dong 12 thang ----
   $$('.cal-tools').forEach(function (tools) {
     var sec = tools.closest('section'), out = $('.cal-status', tools);
     tools.hidden = false;
@@ -255,8 +255,13 @@
       $$('button[data-cap]', tools).forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
       var cap = b.dataset.cap, n = 0;
       $$('.event', sec).forEach(function (ev) { var ok = !cap || ev.dataset.cap === cap; ev.hidden = !ok; if (ok) n++; });
-      $$('.tl-month', sec).forEach(function (m) { m.hidden = !$$('.event:not([hidden])', m).length; });
-      out.textContent = cap ? 'Đang hiện ' + n + ' giải ' + cap.toLowerCase() + '.' : 'Đang hiện tất cả ' + n + ' giải.';
+      $$('.tl-month', sec).forEach(function (m) {
+        var has = $$('.event:not([hidden])', m).length > 0;
+        m.hidden = !has;
+        var cell = m.id && $('.ln-m[data-m="' + m.id.replace('thang-', '') + '"]', sec);
+        if (cell) cell.classList.toggle('is-off', !has);
+      });
+      out.textContent = cap ? 'Đang hiện ' + n + ' sự kiện thuộc nhóm "' + cap + '".' : 'Đang hiện tất cả ' + n + ' sự kiện.';
     });
   });
 

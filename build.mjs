@@ -377,17 +377,104 @@ const withAbbr = s => Object.entries(LTD.vietTat || {}).reduce((h, [k, v]) => h.
 const evId = (l, g) => `giai-${l.nam}-${g.tt}`;
 const capTag = g => `<span class="cap cap-${CAP_CLS[g.cap]}">${esc(g.cap)}</span>`;
 const duKien = l => l.trangThai === 'Dự kiến';
-const byMonth = giai => [...new Set(giai.map(g => g.thang))].sort().map(t => [t, giai.filter(g => g.thang === t)]);
-const eventCard = (l, g) => `<li class="event" id="${evId(l, g)}" data-cap="${esc(g.cap)}"><article>
-              <p class="ev-top">${capTag(g)}</p>
-              <h4>${esc(g.ten)}</h4>
-              <dl class="ev-dl">
-                <div><dt>${icon('calendar')}Thời gian${duKien(l) ? ' dự kiến' : ''}</dt><dd>${esc(g.thoiGian)}</dd></div>
-                <div><dt>${icon('pin')}Địa điểm</dt><dd>${withAbbr(g.diaDiem)}</dd></div>${g.ghiChu ? `
-                <div><dt>${icon('info')}Ghi chú</dt><dd>${esc(g.ghiChu)}</dd></div>` : ''}
-              </dl>
+// ----- Lich nam: gop giai theo cong van ('giai') va su kien khac ('khac') thanh MOT danh sach, chia 4 nhom mau, chong trung -----
+const NHOM = [
+  { key: 'qg', ten: 'Giải quốc gia' },
+  { key: 'vn', ten: 'Quốc tế tại Việt Nam' },
+  { key: 'lh', ten: 'Hoạt động của Liên đoàn' },
+  { key: 'qt', ten: 'Quốc tế ở nước ngoài' },
+];
+const NHOM_KEY = Object.fromEntries(NHOM.map(n => [n.ten, n.key]));
+const CV_NHOM = { 'Quốc gia': 'Giải quốc gia', 'Quốc tế': 'Quốc tế tại Việt Nam' }; // giai theo cong van: cap -> nhom
+const TRANG_THAI = { 'Dự kiến': 'dk', 'Theo lịch WT': 'wt', 'Chờ xác nhận': 'cx' };
+const TT_ICON = { dk: 'calendar', wt: 'info', cx: 'clock' };
+const noAccent = s => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+const lichEvents = l => {
+  const cv = l.giai.map((g, i) => ({ i, cv: true, htmlId: evId(l, g), nhom: CV_NHOM[g.cap], ten: g.ten, thang: g.thang, batDau: g.batDau || '', thoiGian: g.thoiGian, diaDiem: g.diaDiem, ghiChu: g.ghiChu || '', boSung: g.boSung || null, noiDung: [], trangThai: duKien(l) ? 'Dự kiến' : '', nguon: [], phanLoai: '' }));
+  const khac = (l.khac || []).map((k, i) => ({ i: 100 + i, cv: false, id: k.id, htmlId: `giai-${l.nam}-${k.id}`, nhom: k.nhom, ten: k.ten, thang: k.thang, batDau: k.batDau || '', thoiGian: k.thoiGian, diaDiem: k.diaDiem || '', ghiChu: k.ghiChu || '', boSung: null, noiDung: k.noiDung || [], trangThai: k.trangThai, nguon: k.nguon || [], phanLoai: k.phanLoai || '' }));
+  const all = [...cv, ...khac], seenId = new Set(), seenTen = new Set();
+  for (const e of all) {
+    const where = `Lịch ${l.nam}, "${e.ten}"`;
+    if (!NHOM_KEY[e.nhom]) throw new Error(`${where}: "nhom" phải là một trong: ${NHOM.map(n => n.ten).join(' | ')}`);
+    if (!/^\d{4}-\d{2}$/.test(e.thang) || e.thang.slice(0, 4) !== String(l.nam)) throw new Error(`${where}: "thang" phải có dạng ${l.nam}-MM`);
+    if (e.batDau && (!/^\d{4}-\d{2}-\d{2}$/.test(e.batDau) || e.batDau.slice(0, 7) !== e.thang)) throw new Error(`${where}: "batDau" phải cùng tháng với "thang"`);
+    if (!e.cv) {
+      if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(e.id) || /^\d+$/.test(e.id)) throw new Error(`${where}: "id" phải là chữ thường, gạch nối, không chỉ gồm số`);
+      if (!TRANG_THAI[e.trangThai]) throw new Error(`${where}: "trangThai" phải là một trong: ${Object.keys(TRANG_THAI).join(' | ')}`);
+      if (!e.thoiGian || !e.nguon.length || !e.nguon.every(s => s.ten && (!s.url || /^https:\/\//.test(s.url)))) throw new Error(`${where}: cần "thoiGian" và "nguon" (mỗi nguồn có "ten"; "url" nếu có phải bắt đầu bằng https://)`);
+      if (e.nhom === 'Quốc tế ở nước ngoài' && !e.phanLoai) throw new Error(`${where}: sự kiện quốc tế cần "phanLoai"`);
+    }
+    if (seenId.has(e.htmlId)) throw new Error(`${where}: trùng id sự kiện "${e.htmlId}"`);
+    if (seenTen.has(noAccent(e.ten))) throw new Error(`${where}: trùng tên với một sự kiện khác trong lịch ${l.nam}`);
+    seenId.add(e.htmlId); seenTen.add(noAccent(e.ten));
+  }
+  const rank = Object.fromEntries(NHOM.map((n, i) => [n.ten, i])), day = e => (e.batDau ? Number(e.batDau.slice(8, 10)) : 99);
+  // theo thang, roi ngay (co ngay truoc), roi nhom (trong nuoc truoc), roi thu tu trong du lieu
+  return all.sort((a, b) => a.thang.localeCompare(b.thang) || day(a) - day(b) || rank[a.nhom] - rank[b.nhom] || a.i - b.i);
+};
+const nguonHtml = ns => ns.map(s => (s.url ? `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.ten)}${icon('external', 'ext')}</a>` : esc(s.ten))).join('; ');
+const lichCard = (l, e) => {
+  const k = NHOM_KEY[e.nhom], tt = TRANG_THAI[e.trangThai] || '';
+  const row = (label, ic, val, cls = '') => `
+                <div><dt>${icon(ic)}${label}</dt><dd${cls ? ` class="${cls}"` : ''}>${val}</dd></div>`;
+  return `<li class="event ev-${k}${tt === 'cx' ? ' is-cx' : ''}" id="${e.htmlId}" data-cap="${esc(e.nhom)}"><article>
+              <p class="ev-top"><span class="cap cap-g-${k}">${esc(e.nhom)}</span>${e.phanLoai ? `<span class="cap cap-sub">${esc(e.phanLoai)}</span>` : ''}${tt ? `<span class="st st-${tt}">${icon(TT_ICON[tt])}${esc(e.trangThai)}</span>` : ''}</p>
+              <h4>${esc(e.ten)}</h4>
+              <dl class="ev-dl">${row(`Thời gian${e.cv && duKien(l) ? ' dự kiến' : ''}`, 'calendar', `<span class="ev-when">${esc(e.thoiGian)}</span>`)}${row('Địa điểm', 'pin', e.diaDiem ? withAbbr(e.diaDiem) : '<span class="ev-tbd">Đang cập nhật</span>')}${e.noiDung.length ? row('Nội dung', 'book', `<ul class="ev-tags">${e.noiDung.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`) : ''}${e.boSung ? row(esc(e.boSung.nhan), 'info', esc(e.boSung.noiDung)) : ''}${e.ghiChu ? row('Ghi chú', 'info', esc(e.ghiChu), 'ev-note') : ''}
+              </dl>${e.nguon.length ? `
+              <p class="ev-src">Nguồn: ${nguonHtml(e.nguon)}</p>` : ''}
             </article></li>`;
+};
 const lichSource = l => `Công văn số ${nw(l.nguon.so)} ngày ${l.nguon.ngay} của ${esc(cfg.tenTiengViet)} (${esc(l.nguon.trichYeu)})`;
+// noi dung mot nam trong lich: bang tong quan (so lieu + 12 thang), bo loc, dong thoi gian theo thang, chu thich, nguon
+const lichNam = l => {
+  const ev = lichEvents(l), months = [...new Set(ev.map(e => e.thang))];
+  const stats = `<ul class="ln-stats">
+          <li class="ln-tot"><b>${ev.length}</b><span>sự kiện năm ${l.nam}</span></li>${NHOM.map(n => `
+          <li class="ln-${n.key}"><b>${ev.filter(e => e.nhom === n.ten).length}</b><span>${esc(n.ten)}</span></li>`).join('')}
+        </ul>`;
+  const strip = `<ol class="ln-months" aria-label="Các tháng trong năm ${l.nam}">${Array.from({ length: 12 }, (_, i) => {
+    const m = String(i + 1).padStart(2, '0'), es = ev.filter(e => e.thang === `${l.nam}-${m}`);
+    return es.length
+      ? `
+          <li class="ln-m" data-m="${l.nam}-${m}"><a href="#thang-${l.nam}-${m}" aria-label="Tháng ${i + 1}: ${es.length} sự kiện"><b>T${i + 1}</b><span class="ln-dots" aria-hidden="true">${es.map(e => `<i class="ln-dot ln-${NHOM_KEY[e.nhom]}"></i>`).join('')}</span><small>${es.length} sự kiện</small></a></li>`
+      : `
+          <li class="ln-m is-empty" data-m="${l.nam}-${m}"><span><b>T${i + 1}</b><small>Chưa có lịch</small></span></li>`;
+  }).join('')}
+        </ol>`;
+  const tools = `<div class="cal-tools" hidden>
+          <div class="seg" role="group" aria-label="Lọc theo nhóm sự kiện">
+            <button type="button" data-cap="" aria-pressed="true">Tất cả</button>${NHOM.map(n => `
+            <button type="button" data-cap="${esc(n.ten)}" aria-pressed="false"><i class="ln-dot ln-${n.key}" aria-hidden="true"></i>${esc(n.ten)}</button>`).join('')}
+          </div>
+          <p class="cal-status" role="status"></p>
+        </div>`;
+  const tl = `<ol class="timeline">${months.map(t => {
+    const gs = ev.filter(e => e.thang === t);
+    return `
+          <li class="tl-month" id="thang-${l.nam}-${t.slice(5)}">
+            <h3 class="tl-h"><span>Tháng ${Number(t.slice(5))}</span><small>${t.slice(0, 4)}</small><em class="tl-n">${gs.length} sự kiện</em></h3>
+            <ul class="events">${gs.map(e => lichCard(l, e)).join('')}</ul>
+          </li>`;
+  }).join('')}
+        </ol>`;
+  const legend = ev.some(e => !e.cv) ? `
+        <ul class="ln-legend" aria-label="Chú thích trạng thái">
+          <li><span class="st st-dk">${icon('calendar')}Dự kiến</span><span>Thời gian, địa điểm theo kế hoạch của Liên đoàn, có thể điều chỉnh.</span></li>
+          <li><span class="st st-wt">${icon('info')}Theo lịch WT</span><span>Ngày và nơi theo lịch sự kiện của World Taekwondo; WT có thể điều chỉnh.</span></li>
+          <li><span class="st st-cx">${icon('clock')}Chờ xác nhận</span><span>Chưa có thông báo chính thức về ngày hoặc địa điểm.</span></li>
+        </ul>` : '';
+  const nguonKhac = (l.nguonKhac || []).length ? `
+        <p class="source">${icon('book')}<span>Các mục còn lại: ${l.nguonKhac.map(s => esc(s.ten)).join('; ')}.</span></p>` : '';
+  return `<div class="ln-panel">
+        ${stats}
+        ${strip}
+      </div>
+        ${tools}
+        ${tl}${duKien(l) ? `
+        <p class="note">${icon('info')}<span>Thời gian, địa điểm là dự kiến; kế hoạch tổ chức có thể được điều chỉnh phù hợp với tình hình thực tế.</span></p>` : ''}${legend}
+        ${src(l.khac ? `Các giải tổ chức tại Việt Nam: ${lichSource(l)}` : lichSource(l))}${nguonKhac}`;
+};
 
 // ---------------- Dai hoi The thao toan quoc X (dung o trang chu, Lich thi dau, trang Dai hoi) ----------------
 const telA = (ten, so, vaiTro = '') => `<li>${icon('phone')}<span><strong>${esc(ten)}</strong>${vaiTro ? ` (${esc(vaiTro)})` : ''}: <a href="tel:${esc(so.replace(/[^\d+]/g, ''))}">${esc(so)}</a></span></li>`;
@@ -549,34 +636,21 @@ const purposes = [
   const m = metaFor('/lich-thi-dau'), crumbs = [['Lịch thi đấu', null]];
   shell({
     file: 'lich-thi-dau.html', path: '/lich-thi-dau', active: '/lich-thi-dau', title: 'Lịch thi đấu', desc: m.desc, ogImage: `og-${m.og}.jpg`, crumbs,
-    hero: pageHero(crumbs, 'Lịch thi đấu', 'Các giải Taekwondo quốc gia và quốc tế tổ chức tại Việt Nam, theo văn bản của Liên đoàn và Ban Tổ chức Đại hội Thể thao toàn quốc.'),
+    hero: pageHero(crumbs, 'Lịch thi đấu', 'Các giải, kỳ thi và hoạt động của Taekwondo Việt Nam, kèm các giải quốc tế lớn trong năm; theo văn bản của Liên đoàn, Ban Tổ chức Đại hội Thể thao toàn quốc và lịch của World Taekwondo.'),
     // Dai hoi 2026 dien ra truoc lich 2027 -> dat len dau; het Dai hoi thi chuyen xuong cuoi
-    body: [dhLive && 'dh', ...LICH, !dhLive && 'dh'].filter(Boolean).map((l, i) => l === 'dh' ? sec('nam-2026', `Năm ${DH.batDau.slice(0, 4)}`, lich2026(), 'Đại hội Thể thao toàn quốc và các giải địa phương có môn Taekwondo. Mỗi giải ghi nguồn văn bản; bấm "Xem schema thi đấu" để xem sơ đồ thi đấu của giải.', i % 2 ? 'alt' : '') : (() => {
-      const count = c => l.giai.filter(g => g.cap === c).length;
-      const places = new Set(l.giai.map(g => g.diaDiem.replace(/\s*\(.*\)$/, ''))).size;
-      return sec(`nam-${l.nam}`, `Năm ${l.nam}${duKien(l) ? ' (dự kiến)' : ''}`, `<ul class="cal-stats">
-          <li><b>${l.giai.length}</b><span>giải thi đấu</span></li>
-          <li><b>${count('Quốc gia')}</b><span>giải quốc gia</span></li>
-          <li><b>${count('Quốc tế')}</b><span>giải quốc tế</span></li>
-          <li><b>${places}</b><span>địa điểm</span></li>
-        </ul>
-        <div class="cal-tools" hidden>
-          <div class="seg" role="group" aria-label="Lọc theo cấp giải">
-            <button type="button" data-cap="" aria-pressed="true">Tất cả</button>
-            <button type="button" data-cap="Quốc gia" aria-pressed="false">Quốc gia</button>
-            <button type="button" data-cap="Quốc tế" aria-pressed="false">Quốc tế</button>
-          </div>
-          <p class="cal-status" role="status"></p>
-        </div>
-        <ol class="timeline">${byMonth(l.giai).map(([t, gs]) => `
-          <li class="tl-month">
-            <h3 class="tl-h"><span>Tháng ${Number(t.slice(5))}</span><small>${t.slice(0, 4)}</small></h3>
-            <ul class="events">${gs.map(g => eventCard(l, g)).join('')}</ul>
-          </li>`).join('')}
-        </ol>${duKien(l) ? `
-        <p class="note">${icon('info')}<span>Thời gian, địa điểm là dự kiến; kế hoạch tổ chức có thể được điều chỉnh phù hợp với tình hình thực tế.</span></p>` : ''}
-        ${src(lichSource(l))}`, `Lịch thi đấu các giải Taekwondo quốc gia và quốc tế năm ${l.nam} Liên đoàn báo cáo ${esc(l.nguon.kinhGui)}, đề nghị tổng hợp vào Hệ thống giải thi đấu thể thao năm ${l.nam}.`, i % 2 ? 'alt' : '');
-    })()).join(''),
+    body: (() => {
+      const parts = [dhLive && 'dh', ...LICH, !dhLive && 'dh'].filter(Boolean);
+      const nam = l => (l === 'dh' ? DH.batDau.slice(0, 4) : String(l.nam));
+      const tabs = `
+    <nav class="tabs" aria-label="Chọn năm"><div class="container">${parts.map(l => `<a href="#nam-${nam(l)}">Năm ${nam(l)}${l !== 'dh' && duKien(l) ? ' (dự kiến)' : ''}</a>`).join('')}</div></nav>`;
+      const lead = l => (l.khac
+        ? `Lịch giải đấu, kỳ thi và khóa đào tạo của Taekwondo Việt Nam năm ${l.nam}, kèm các giải quốc tế lớn ở nước ngoài. Các giải tổ chức tại Việt Nam theo Công văn số ${nw(l.nguon.so)} của Liên đoàn gửi ${esc(l.nguon.kinhGui)}.`
+        : `Lịch thi đấu các giải Taekwondo quốc gia và quốc tế năm ${l.nam} Liên đoàn báo cáo ${esc(l.nguon.kinhGui)}, đề nghị tổng hợp vào Hệ thống giải thi đấu thể thao năm ${l.nam}.`);
+      // Dai hoi 2026 dien ra truoc lich 2027 -> dat len dau; het Dai hoi thi chuyen xuong cuoi
+      return tabs + parts.map((l, i) => (l === 'dh'
+        ? sec(`nam-${nam(l)}`, `Năm ${nam(l)}`, lich2026(), 'Đại hội Thể thao toàn quốc và các giải địa phương có môn Taekwondo. Mỗi giải ghi nguồn văn bản; bấm "Xem schema thi đấu" để xem sơ đồ thi đấu của giải.', i % 2 ? 'alt' : '')
+        : sec(`nam-${l.nam}`, `Năm ${l.nam}${duKien(l) ? ' (dự kiến)' : ''}`, lichNam(l), lead(l), i % 2 ? 'alt' : ''))).join('');
+    })(),
   });
 }
 

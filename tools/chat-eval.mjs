@@ -130,6 +130,19 @@ export const CASES = [
   ['Bãi giữ xe khán giả xem Lễ Khai mạc nằm ở đâu?', [DH], 'Bãi giữ xe khán giả'],
   ['Đến muộn sau 17:30 có được nhận vòng tay xem Lễ Khai mạc không?', [DH], 'từ chối'],
   ['Quy định dành cho khán giả tham gia Lễ Khai mạc xem ở đâu?', [DH], 'QUY ĐỊNH'],
+  // Lich nam 2027: giai trong nuoc, hoat dong cua Lien doan, giai quoc te o nuoc ngoai
+  ['Lịch hoạt động và thi đấu của Taekwondo Việt Nam năm 2027 có những gì?', ['/lich-thi-dau']],
+  ['SEA Games 2027 tổ chức ở đâu, khi nào?', ['/lich-thi-dau'], 'Sarawak'],
+  ['Giải vô địch thế giới Taekwondo 2027 tổ chức ở đâu?', ['/lich-thi-dau'], 'Astana'],
+  ['Giải vô địch Đông Nam Á tháng 5 năm 2027', ['/lich-thi-dau'], 'Đông Nam Á'],
+  ['Khóa đào tạo trọng tài quốc gia năm 2027 khi nào?', ['/lich-thi-dau'], 'trọng tài quốc gia'],
+  ['Khóa bồi dưỡng huấn luyện viên toàn quốc năm 2027 vào tháng mấy?', ['/lich-thi-dau'], 'huấn luyện viên'],
+  ['Giải Virtual Taekwondo thế giới 2027 tổ chức ở đâu?', ['/lich-thi-dau'], 'Muju'],
+  ['Hanmadang 2027 biểu diễn công phá diễn ra khi nào?', ['/lich-thi-dau'], 'Hanmadang'],
+  ['Giải CJ Vietnam Open 2027 ngày nào?', ['/lich-thi-dau'], '20–21/8/2027'],
+  ['Giải vô địch Châu Á cadet junior 2027 tổ chức ở đâu?', ['/lich-thi-dau'], 'Chuncheon'],
+  ['Kỳ thi thăng đẳng Kukkiwon đặc biệt năm 2027 khi nào?', ['/lich-thi-dau'], 'Kukkiwon'],
+  ['Giải vô địch Taekwondo quốc gia 2027 tổ chức ở đâu?', ['/lich-thi-dau'], 'Đà Lạt'],
 ];
 
 export function runEval(dist, { k = 5, verbose = false } = {}) {

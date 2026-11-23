@@ -1,5 +1,5 @@
 {
- "_ghi_chu": "Lich thi dau Taekwondo tai Viet Nam. Moi nam mot muc trong 'lich' (nam moi nhat hien truoc). Chi dua thong tin tu van ban chinh thuc cua Lien doan va ghi nguon. 'thang' dang yyyy-mm de nhom va sap xep; 'cap' la 'Quốc gia' hoac 'Quốc tế'; 'ghiChu' de \"\" neu van ban de trong. Sau khi sua: node build.mjs (doi nam/so giai thi chay them node tools/og.mjs).",
+ "_ghi_chu": "Lich thi dau Taekwondo tai Viet Nam. Moi nam mot muc trong 'lich' (nam moi nhat hien truoc). Chi dua thong tin tu van ban chinh thuc cua Lien doan va ghi nguon. 'thang' dang yyyy-mm de nhom va sap xep; 'cap' la 'Quốc gia' hoac 'Quốc tế'; 'ghiChu' de \"\" neu van ban de trong. Muc 'giai' = giai theo cong van (them 'batDau' chi de sap xep, 'boSung' = {nhan, noiDung} cho dong thong tin them). Muc 'khac' = su kien khong thuoc cong van: hoat dong cua Lien doan va giai quoc te o nuoc ngoai; moi su kien co id (chu thuong, gach noi), nhom ('Hoạt động của Liên đoàn' hoac 'Quốc tế ở nước ngoài'), phanLoai (chi nhom quoc te: Thế giới, Châu Á, Đông Nam Á, Virtual Taekwondo, Biểu diễn & công phá), trangThai ('Dự kiến' | 'Theo lịch WT' | 'Chờ xác nhận'), noiDung (danh sach), nguon (danh sach {ten, url?}); diaDiem de \"\" thi web hien 'Đang cập nhật'. Build bao loi neu trung id hoac trung ten su kien. Sau khi sua: node build.mjs.",
  "vietTat": {
   "TTHLTTQG": "Trung tâm Huấn luyện thể thao quốc gia"
  },
@@ -56,8 +56,10 @@
      "cap": "Quốc tế",
      "thoiGian": "Tháng 8/2027",
      "thang": "2027-08",
+     "batDau": "2027-08-20",
      "diaDiem": "Tp. Hồ Chí Minh",
-     "ghiChu": ""
+     "ghiChu": "",
+     "boSung": { "nhan": "Theo lịch WT", "noiDung": "The 3rd CJ Vietnam Open: 20–21/8/2027, đối kháng (người lớn)" }
     },
     {
      "tt": "06",
@@ -67,6 +69,183 @@
      "thang": "2027-10",
      "diaDiem": "Đà Lạt (TTHLTTQG)",
      "ghiChu": "Đã có văn bản"
+    }
+   ],
+   "nguonKhac": [
+    { "ten": "Lịch sự kiện World Taekwondo năm 2027 (worldtaekwondo.org)" },
+    { "ten": "Thông tin do Liên đoàn Taekwondo Việt Nam cập nhật ngày 23/11/2026" },
+    { "ten": "Các nguồn báo chí ghi riêng ở từng mục" }
+   ],
+   "khac": [
+    {
+     "id": "tap-huan-thang-dang-bac-trung-nam",
+     "nhom": "Hoạt động của Liên đoàn",
+     "ten": "Khóa tập huấn chuyên môn và Kỳ thi thăng đẳng Khu vực Bắc – Trung – Nam",
+     "thang": "2027-03",
+     "thoiGian": "Tháng 3/2027",
+     "diaDiem": "",
+     "noiDung": ["Tập huấn chuyên môn", "Thi thăng đẳng"],
+     "trangThai": "Dự kiến",
+     "ghiChu": "",
+     "nguon": [{ "ten": "Liên đoàn Taekwondo Việt Nam, cập nhật ngày 23/11/2026" }]
+    },
+    {
+     "id": "heraklion-the-gioi-cadet",
+     "nhom": "Quốc tế ở nước ngoài",
+     "phanLoai": "Thế giới",
+     "ten": "Heraklion 2027 World Taekwondo Cadet Championships",
+     "thang": "2027-04",
+     "batDau": "2027-04-21",
+     "thoiGian": "21–25/4/2027",
+     "diaDiem": "Heraklion, Hy Lạp",
+     "noiDung": ["Đối kháng", "Lứa tuổi Cadet"],
+     "trangThai": "Theo lịch WT",
+     "ghiChu": "Giải vô địch thế giới lứa tuổi Cadet.",
+     "nguon": [{ "ten": "Lịch sự kiện World Taekwondo năm 2027" }]
+    },
+    {
+     "id": "vo-dich-dong-nam-a",
+     "nhom": "Quốc tế ở nước ngoài",
+     "phanLoai": "Đông Nam Á",
+     "ten": "Giải vô địch Đông Nam Á",
+     "thang": "2027-05",
+     "thoiGian": "Tháng 5/2027",
+     "diaDiem": "",
+     "noiDung": [],
+     "trangThai": "Chờ xác nhận",
+     "ghiChu": "Chưa có thông báo chính thức về ngày, địa điểm và nội dung thi. Kỳ gần nhất (lần thứ 17) tổ chức tháng 8/2025 tại Khánh Hòa.",
+     "nguon": [{ "ten": "Liên đoàn Taekwondo Việt Nam, cập nhật ngày 23/11/2026" }]
+    },
+    {
+     "id": "thi-thang-dang-kukkiwon-dac-biet",
+     "nhom": "Hoạt động của Liên đoàn",
+     "ten": "Kỳ thi thăng đẳng Kukkiwon đặc biệt",
+     "thang": "2027-05",
+     "thoiGian": "Tháng 5/2027",
+     "diaDiem": "",
+     "noiDung": ["Thi thăng đẳng Kukkiwon"],
+     "trangThai": "Dự kiến",
+     "ghiChu": "Tổ chức theo phê duyệt của Kukkiwon.",
+     "nguon": [{ "ten": "Liên đoàn Taekwondo Việt Nam, cập nhật ngày 23/11/2026" }]
+    },
+    {
+     "id": "dao-tao-trong-tai-quoc-gia",
+     "nhom": "Hoạt động của Liên đoàn",
+     "ten": "Khóa đào tạo, bồi dưỡng trọng tài quốc gia năm 2027",
+     "thang": "2027-06",
+     "thoiGian": "Tháng 6/2027",
+     "diaDiem": "",
+     "noiDung": ["Đào tạo, bồi dưỡng trọng tài"],
+     "trangThai": "Dự kiến",
+     "ghiChu": "Tổ chức nhân dịp Giải Taekwondo các Câu lạc bộ quốc gia (tháng 6/2027).",
+     "nguon": [{ "ten": "Liên đoàn Taekwondo Việt Nam, cập nhật ngày 23/11/2026" }]
+    },
+    {
+     "id": "virtual-taekwondo-muju",
+     "nhom": "Quốc tế ở nước ngoài",
+     "phanLoai": "Virtual Taekwondo",
+     "ten": "Muju Taekwondowon 2027 World Taekwondo Virtual Championships (lần thứ 3)",
+     "thang": "2027-06",
+     "thoiGian": "Tháng 6/2027",
+     "diaDiem": "Taekwondowon, Muju, Hàn Quốc",
+     "noiDung": ["Virtual Taekwondo"],
+     "trangThai": "Chờ xác nhận",
+     "ghiChu": "Giải vô địch thế giới Virtual Taekwondo. Chưa có ngày cụ thể.",
+     "nguon": [{ "ten": "MASTKD, 05/09/2026", "url": "https://www.mastkd.com/2026/09/muju-taekwondowon-to-host-2027-world-taekwondo-virtual-championships/" }]
+    },
+    {
+     "id": "astana-vo-dich-the-gioi",
+     "nhom": "Quốc tế ở nước ngoài",
+     "phanLoai": "Thế giới",
+     "ten": "Astana 2027 World Taekwondo Championships",
+     "thang": "2027-07",
+     "batDau": "2027-07-07",
+     "thoiGian": "7–13/7/2027",
+     "diaDiem": "Astana, Kazakhstan",
+     "noiDung": ["Đối kháng", "Người lớn"],
+     "trangThai": "Theo lịch WT",
+     "ghiChu": "Giải vô địch Taekwondo thế giới.",
+     "nguon": [{ "ten": "Lịch sự kiện World Taekwondo năm 2027" }]
+    },
+    {
+     "id": "chau-a-tre-cadet-junior",
+     "nhom": "Quốc tế ở nước ngoài",
+     "phanLoai": "Châu Á",
+     "ten": "Asian Junior & Cadet Championships",
+     "thang": "2027-07",
+     "batDau": "2027-07-21",
+     "thoiGian": "21–24/7/2027 (đối kháng); 25–27/7/2027 (quyền)",
+     "diaDiem": "Chuncheon, Hàn Quốc",
+     "noiDung": ["Đối kháng (Cadet, Junior)", "Quyền"],
+     "trangThai": "Theo lịch WT",
+     "ghiChu": "Giải vô địch Châu Á lứa tuổi Cadet và Junior.",
+     "nguon": [{ "ten": "Lịch sự kiện World Taekwondo năm 2027" }]
+    },
+    {
+     "id": "hanmadang-bieu-dien-cong-pha",
+     "nhom": "Quốc tế ở nước ngoài",
+     "phanLoai": "Biểu diễn & công phá",
+     "ten": "Biểu diễn và công phá thế giới 2027, tổ chức cùng 2027 World Taekwondo Hanmadang",
+     "thang": "2027-07",
+     "thoiGian": "Cuối tháng 7/2027 (5 ngày 4 đêm)",
+     "diaDiem": "Suncheon, Hàn Quốc",
+     "noiDung": ["Biểu diễn", "Công phá"],
+     "trangThai": "Chờ xác nhận",
+     "ghiChu": "Hanmadang do Kukkiwon và thành phố Suncheon đồng tổ chức, không phải giải của WT, có nội dung Quyền và Công phá. Chưa có thông báo riêng về giải vô địch thế giới biểu diễn, công phá năm 2027 (kỳ 2026 diễn ra ngày 13/7/2026 tại Chuncheon).",
+     "nguon": [{ "ten": "Liên đoàn Taekwondo Việt Nam, cập nhật ngày 23/11/2026" }, { "ten": "Asiae, 06/08/2026", "url": "https://view.asiae.co.kr/en/article/2026080607185876066" }]
+    },
+    {
+     "id": "sea-games-34",
+     "nhom": "Quốc tế ở nước ngoài",
+     "phanLoai": "Đông Nam Á",
+     "ten": "SEA Games 34 (SEA Games 2027) – môn Taekwondo",
+     "thang": "2027-09",
+     "batDau": "2027-09-18",
+     "thoiGian": "18–29/9/2027",
+     "diaDiem": "Malaysia (cụm Sarawak)",
+     "noiDung": ["Đối kháng", "Quyền"],
+     "trangThai": "Dự kiến",
+     "ghiChu": "18–29/9/2027 là thời gian của cả Đại hội; ngày thi đấu môn Taekwondo chưa công bố. Môn Virtual Taekwondo mới ở mức đề xuất, chưa được duyệt.",
+     "nguon": [{ "ten": "Liên đoàn Taekwondo Việt Nam, cập nhật ngày 23/11/2026" }, { "ten": "New Straits Times, 25/02/2026", "url": "https://www.nst.com.my/amp/sports/others/2026/02/1385307/high-tech-taekwondo-event-2027-sea-games" }]
+    },
+    {
+     "id": "chau-a-open-an-do",
+     "nhom": "Quốc tế ở nước ngoài",
+     "phanLoai": "Châu Á",
+     "ten": "9th Asian Taekwondo Open Championships",
+     "thang": "2027-10",
+     "thoiGian": "Tháng 10/2027",
+     "diaDiem": "Maharashtra, Ấn Độ",
+     "noiDung": ["Đối kháng", "Quyền"],
+     "trangThai": "Theo lịch WT",
+     "ghiChu": "Giải Open, không phải giải vô địch Châu Á chính thức. Lịch WT chỉ ghi tháng 10.",
+     "nguon": [{ "ten": "Lịch sự kiện World Taekwondo năm 2027" }]
+    },
+    {
+     "id": "samokov-vo-dich-the-gioi-u21",
+     "nhom": "Quốc tế ở nước ngoài",
+     "phanLoai": "Thế giới",
+     "ten": "Samokov 2027 World Taekwondo Under 21 Championships",
+     "thang": "2027-11",
+     "batDau": "2027-11-05",
+     "thoiGian": "5–8/11/2027",
+     "diaDiem": "Samokov, Bulgaria",
+     "noiDung": ["Đối kháng", "Dưới 21 tuổi"],
+     "trangThai": "Theo lịch WT",
+     "ghiChu": "Giải vô địch thế giới dưới 21 tuổi.",
+     "nguon": [{ "ten": "Lịch sự kiện World Taekwondo năm 2027" }]
+    },
+    {
+     "id": "dao-tao-hlv-toan-quoc",
+     "nhom": "Hoạt động của Liên đoàn",
+     "ten": "Khóa đào tạo, bồi dưỡng huấn luyện viên (HLV) toàn quốc năm 2027",
+     "thang": "2027-12",
+     "thoiGian": "Tháng 12/2027",
+     "diaDiem": "",
+     "noiDung": ["Đào tạo, bồi dưỡng HLV"],
+     "trangThai": "Dự kiến",
+     "ghiChu": "",
+     "nguon": [{ "ten": "Liên đoàn Taekwondo Việt Nam, cập nhật ngày 23/11/2026" }]
     }
    ]
   }

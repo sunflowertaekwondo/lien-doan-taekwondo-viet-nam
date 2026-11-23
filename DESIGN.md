@@ -12,6 +12,8 @@ tokens:
     red-600: "#DA251D"
     red-700: "#B91C14"
     red-800: "#991B1B"
+    teal-700: "#0F766E"
+    amber-700: "#B45309"
     gold-500: "#F4B400"
     slate-900: "#0F172A"
     slate-700: "#334155"
@@ -67,7 +69,7 @@ Không cuộn ngang ở 320–1920px (check.mjs đo 320, 390, 768, 820, 1440). H
 Nút (`.btn-red` chính, `.btn-ghost` trên nền tối, `.btn-outline` phụ) · thẻ (`.card`, `.card.feature` có icon, `.org`) · thẻ văn bản PDF (`.doc`) ·
 danh sách đánh số (`.numlist`) · chip điều kiện (`.chips`) · khối thu gọn (`.full`, `.faq-item`) · bảng (`.table`, `.kv`, `.docs-table`) ·
 các bước (`.steps`) · tab trong trang (`.tabs`, có đánh dấu mục đang xem) · sơ đồ cây (`.tree`) · thẻ tin (`.news-card`) · phân trang (`.pager`) ·
-ghi chú (`.note`) · lịch thi đấu (`.timeline` theo tháng, thẻ `.event`, nhãn cấp giải `.cap-qg` đỏ / `.cap-qt` xanh – luôn kèm chữ, bộ lọc `.seg` dùng `aria-pressed`, thống kê `.cal-stats`, lịch rút gọn trang chủ `.cal-mini`) · trạng thái rỗng (`.placeholder`) · thông báo (`.toast`, aria-live) · nút về đầu trang (`.to-top`).
+ghi chú (`.note`) · lịch thi đấu (`.timeline` theo tháng, thẻ `.event`, nhãn cấp giải `.cap-qg` đỏ / `.cap-qt` xanh – luôn kèm chữ, bộ lọc `.seg` dùng `aria-pressed`, thống kê `.cal-stats`, lịch rút gọn trang chủ `.cal-mini`; lịch năm có bảng tổng quan `.ln-panel` nền navy gồm số liệu `.ln-stats` và dải 12 tháng `.ln-months`, 4 nhóm màu: giải quốc gia đỏ, quốc tế tại Việt Nam xanh dương, hoạt động của Liên đoàn xanh ngọc `teal-700`, quốc tế ở nước ngoài hổ phách `amber-700` – màu luôn đi cùng tên nhóm; chip trạng thái `.st` Dự kiến / Theo lịch WT / Chờ xác nhận, thẻ "Chờ xác nhận" viền nét đứt) · trạng thái rỗng (`.placeholder`) · thông báo (`.toast`, aria-live) · nút về đầu trang (`.to-top`).
 Mọi phần tử bấm được: vùng chạm ≥ 44×44px (ngoại lệ duy nhất: mục lục Điều lệ là danh sách dày, ≥ 32px, vẫn đạt WCAG 2.5.8), có trạng thái hover/focus, `cursor: pointer`; chuyển động chỉ trên `transform`/`opacity`/màu, 150–220ms.
 
 ## 7. Icon
@@ -78,6 +80,7 @@ Bộ icon riêng `src/icons.mjs` (khung 24×24, nét 2px, bo tròn), dùng qua `
 - Tóm tắt điều khoản luôn kèm liên kết "Nguồn: Điều N".
 - Ngày hiển thị dd/mm/yyyy; trong mã máy dùng ISO (yyyy-mm-dd).
 - Lịch thi đấu: chép đúng chữ của văn bản nguồn (đã đối chiếu từng trường), ghi "dự kiến" khi văn bản ghi dự kiến, luôn có dòng "Nguồn: Công văn số …". Không suy diễn ý nghĩa cột Ghi chú.
+- Lịch năm gộp giải theo công văn (`giai`) với sự kiện khác (`khac`: hoạt động của Liên đoàn, giải quốc tế ở nước ngoài) thành một danh sách; mỗi sự kiện khác ghi nguồn riêng (liên kết ngoài mở tab mới). Một sự kiện chỉ xuất hiện một thẻ: bản build báo lỗi nếu trùng id hoặc trùng tên, và `check.mjs` kiểm lại trên trang. Ngày hoặc nơi chưa có thì ghi "Đang cập nhật" và trạng thái "Chờ xác nhận"; ngày lấy từ lịch World Taekwondo ghi trạng thái "Theo lịch WT" (WT có thể điều chỉnh).
 
 ## 9. Khả năng tiếp cận (bắt buộc)
 Skip link · một `h1` mỗi trang, tiêu đề không nhảy cấp · `lang="vi"` · mô tả alt cho ảnh nội dung · thông báo động qua `role="status"` ·

@@ -424,6 +424,105 @@ abbr[title] { text-decoration: underline dotted; text-underline-offset: 3px; cur
 .cm-body strong { color: var(--heading); line-height: 1.35; }
 .cm-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); color: var(--muted); font-size: var(--fs-sm); }
 
+/* ---- 7b2. LICH NAM (ln-): bang tong quan, 12 thang, 4 nhom mau, the su kien ---- */
+:root {
+  --c-teal-700: #0F766E; --c-amber-700: #B45309;
+  /* mau nhom tren nen sang (net the, cham) va ban sang hon tren nen navy (bang tong quan) */
+  --g-qg: var(--c-red-700); --g-vn: var(--c-blue-600); --g-lh: var(--c-teal-700); --g-qt: var(--c-amber-700);
+  --p-qg: #FF7A6E; --p-vn: #7BA5FF; --p-lh: #3DD6C0; --p-qt: #FFC857;
+}
+[data-theme="dark"] { --g-qg: #FF8A80; --g-vn: #8FB0FF; --g-lh: #4DD6C6; --g-qt: #FFC45C; }
+.ln-qg { --g: var(--g-qg); --gp: var(--p-qg); }
+.ln-vn { --g: var(--g-vn); --gp: var(--p-vn); }
+.ln-lh { --g: var(--g-lh); --gp: var(--p-lh); }
+.ln-qt { --g: var(--g-qt); --gp: var(--p-qt); }
+.ln-dot { display: inline-block; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--g, var(--muted)); }
+.ln-panel { position: relative; overflow: hidden; margin-bottom: var(--sp-8); padding: var(--sp-6); border-radius: var(--r-xl); color: #fff; background: radial-gradient(900px 360px at 92% -20%, rgba(29, 78, 216, .6), transparent 62%), linear-gradient(125deg, var(--c-navy-900) 0%, var(--c-navy-800) 62%, var(--c-navy-700) 100%); box-shadow: var(--shadow-2); }
+.ln-panel::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .05) 1px, transparent 1px); background-size: 40px 40px; -webkit-mask-image: linear-gradient(180deg, #000, transparent 90%); mask-image: linear-gradient(180deg, #000, transparent 90%); pointer-events: none; }
+.ln-panel > * { position: relative; }
+.ln-panel .ln-dot { background: var(--gp, #fff); }
+.ln-stats { list-style: none; display: grid; grid-template-columns: 1.15fr repeat(4, minmax(0, 1fr)); gap: var(--sp-3); }
+.ln-stats li { display: flex; flex-direction: column; gap: 2px; padding: var(--sp-4) var(--sp-4) var(--sp-3); border-radius: var(--r-md); border: 1px solid rgba(255, 255, 255, .16); border-top: 4px solid var(--gp, var(--c-gold-500)); background: rgba(255, 255, 255, .08); }
+.ln-stats b { font-size: var(--fs-3xl); font-weight: 800; line-height: 1; color: #fff; }
+.ln-stats span { font-size: var(--fs-sm); line-height: 1.35; color: var(--hero-text-2); }
+.ln-stats .ln-tot { background: #fff; border-color: #fff; border-top-color: var(--c-gold-500); }
+.ln-stats .ln-tot b { color: var(--c-navy-900); }
+.ln-stats .ln-tot span { color: var(--c-slate-700); font-weight: 600; }
+.ln-months { list-style: none; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--sp-2); margin-top: var(--sp-5); }
+.ln-m a, .ln-m > span { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; min-height: 84px; padding: var(--sp-2) 4px; border-radius: var(--r-md); border: 1px solid rgba(255, 255, 255, .2); background: rgba(255, 255, 255, .1); color: #fff; text-align: center; text-decoration: none; transition: transform var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out); }
+.ln-m a:hover { transform: translateY(-3px); background: rgba(255, 255, 255, .2); border-color: rgba(255, 255, 255, .55); color: #fff; }
+.ln-m a:focus-visible { outline-color: var(--c-gold-500); }
+.ln-m b { font-size: var(--fs-lg); font-weight: 800; line-height: 1; }
+.ln-m small { font-size: 12px; line-height: 1.2; color: var(--hero-text-2); }
+.ln-dots { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; max-width: 54px; }
+.ln-m.is-empty > span { border-style: dashed; background: transparent; opacity: .6; }
+.ln-m.is-off a { opacity: .38; }
+.timeline .tl-h { padding: var(--sp-3) var(--sp-4); border-radius: var(--r-lg); background: var(--c-navy-900); color: #fff; gap: 4px; box-shadow: var(--shadow-1); }
+[data-theme="dark"] .timeline .tl-h { background: var(--c-navy-700); }
+.timeline .tl-h span { color: #fff; font-size: var(--fs-xl); }
+.timeline .tl-h small { color: var(--c-gold-500); }
+.tl-n { align-self: flex-start; margin-top: 6px; padding: 2px 10px; border-radius: var(--r-pill); font-style: normal; font-size: 12px; font-weight: 700; letter-spacing: 0; background: rgba(255, 255, 255, .18); color: #fff; }
+.event.ev-qg article { border-left-color: var(--g-qg); }
+.event.ev-vn article { border-left-color: var(--g-vn); }
+.event.ev-lh article { border-left-color: var(--g-lh); }
+.event.ev-qt article { border-left-color: var(--g-qt); }
+.event[class*="ev-"] article { border-left-width: 6px; }
+.section .event.is-cx article { border-style: dashed dashed dashed solid; border-top-color: var(--muted); border-right-color: var(--muted); border-bottom-color: var(--muted); }
+.event[class*="ev-"] .ev-top { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.cap-g-qg { background: var(--c-red-800); }
+.cap-g-vn { background: var(--c-blue-700); }
+.cap-g-lh { background: var(--c-teal-700); }
+.cap-g-qt { background: var(--c-amber-700); }
+.cap-sub { background: transparent; color: var(--heading); box-shadow: inset 0 0 0 1.5px var(--muted); }
+.st { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: var(--r-pill); font-size: var(--fs-xs); font-weight: 700; line-height: 1.3; }
+.st .ic { width: 14px; height: 14px; flex: none; }
+.st-dk { background: var(--note-bg); box-shadow: inset 0 0 0 1px var(--note-border); color: var(--text); }
+.st-wt { background: color-mix(in srgb, var(--c-blue-700) 12%, var(--surface)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-blue-700) 38%, transparent); color: var(--link); }
+.st-cx { background: transparent; box-shadow: inset 0 0 0 1.5px var(--muted); color: var(--muted); }
+.ev-when { font-weight: 800; color: var(--heading); }
+.ev-dl dd.ev-note { font-weight: 500; color: var(--text-2); font-size: var(--fs-sm); line-height: 1.55; }
+.ev-tbd { color: var(--muted); font-style: italic; font-weight: 500; }
+.ev-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+.ev-tags li { padding: 2px 10px; border-radius: var(--r-pill); border: 1px solid var(--border); background: var(--surface); font-size: var(--fs-xs); font-weight: 600; color: var(--text); }
+.ev-qg .ev-dl dt .ic { color: var(--g-qg); } .ev-vn .ev-dl dt .ic { color: var(--g-vn); } .ev-lh .ev-dl dt .ic { color: var(--g-lh); } .ev-qt .ev-dl dt .ic { color: var(--g-qt); }
+.ev-src a .ext { width: 12px; height: 12px; margin-left: 3px; vertical-align: -1px; }
+.seg button .ln-dot { margin-right: 8px; vertical-align: 1px; }
+.seg button:has(.ln-qg)[aria-pressed="true"] { background: var(--c-red-800); border-color: var(--c-red-800); }
+.seg button:has(.ln-vn)[aria-pressed="true"] { background: var(--c-blue-700); border-color: var(--c-blue-700); }
+.seg button:has(.ln-lh)[aria-pressed="true"] { background: var(--c-teal-700); border-color: var(--c-teal-700); }
+.seg button:has(.ln-qt)[aria-pressed="true"] { background: var(--c-amber-700); border-color: var(--c-amber-700); }
+.seg button[aria-pressed="true"] .ln-dot { background: #fff; }
+.ln-legend { list-style: none; display: grid; gap: var(--sp-2); margin: var(--sp-5) 0; }
+.ln-legend li { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); font-size: var(--fs-sm); color: var(--muted); }
+@media (max-width: 1024px) {
+  .ln-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .ln-stats .ln-tot { grid-column: 1 / -1; flex-direction: row; align-items: baseline; gap: var(--sp-3); }
+  .ln-months { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  .ln-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ln-panel { padding: var(--sp-4); }
+}
+@media (max-width: 560px) {
+  .ln-months { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .timeline .tl-h { align-items: center; flex-direction: row; gap: var(--sp-3); }
+  .tl-n { margin: 0 0 0 auto; align-self: center; }
+}
+@media (forced-colors: active) { .ln-dot, .cap { forced-color-adjust: none; } }
+@media print {
+  .ln-panel { background: none; color: #000; border: 1px solid #999; box-shadow: none; }
+  .ln-panel::before { display: none; }
+  .ln-stats li, .ln-stats .ln-tot { background: none; border-color: #999; color: #000; }
+  .ln-stats b, .ln-stats span, .ln-stats .ln-tot b, .ln-stats .ln-tot span, .ln-m a, .ln-m > span, .ln-m small { color: #000; }
+  .ln-m a, .ln-m > span { border-color: #999; background: none; }
+  .timeline .tl-h, [data-theme="dark"] .timeline .tl-h { background: none; color: #000; box-shadow: none; padding: 0; }
+  .timeline .tl-h span { color: #000; }
+  .timeline .tl-h small { color: #444; }
+  .tl-n { background: none; color: #000; padding: 0; }
+  .ln-dot, .cap, .st { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .ln-panel .ln-dot { background: var(--g); }
+}
+
 /* ============ 7c. DAI HOI THE THAO TOAN QUOC ============ */
 .sub-h { font-size: var(--fs-xl); color: var(--heading); margin: var(--sp-8) 0 var(--sp-4); }
 .container > .btns + p { margin-top: var(--sp-5); }

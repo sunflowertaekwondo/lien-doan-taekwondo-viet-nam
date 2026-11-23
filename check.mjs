@@ -167,22 +167,64 @@ check(`${internal.length} liên kết nội bộ (kể cả #anchor, PDF, RSS) �
   await m.close();
 }
 
-// lich thi dau tren web khop du lieu (data/lich-thi-dau.json, da doi chieu tung chu voi cong van) + bo loc
+// lich thi dau tren web khop du lieu (data/lich-thi-dau.json): giai theo cong van + su kien khac, KHONG trung, bang 12 thang, bo loc theo nhom
 {
   const LTD = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'lich-thi-dau.json'), 'utf8'));
-  const want = LTD.lich.flatMap(l => l.giai.map(g => [g.ten, g.thoiGian, g.diaDiem, g.ghiChu].join(' | ')));
+  const L = LTD.lich.slice().sort((x, y) => y.nam - x.nam)[0], duKien = L.trangThai === 'Dự kiến';
+  const NHOM = ['Giải quốc gia', 'Quốc tế tại Việt Nam', 'Hoạt động của Liên đoàn', 'Quốc tế ở nước ngoài'], CV_NHOM = { 'Quốc gia': NHOM[0], 'Quốc tế': NHOM[1] };
+  const want = [
+    ...L.giai.map(g => ({ id: `giai-${L.nam}-${g.tt}`, nhom: CV_NHOM[g.cap], ten: g.ten, thang: g.thang, st: duKien ? 'Dự kiến' : '', tags: [], src: [], rows: { [duKien ? 'Thời gian dự kiến' : 'Thời gian']: g.thoiGian, 'Địa điểm': g.diaDiem, ...(g.boSung ? { [g.boSung.nhan]: g.boSung.noiDung } : {}), ...(g.ghiChu ? { 'Ghi chú': g.ghiChu } : {}) } })),
+    ...(L.khac || []).map(k => ({ id: `giai-${L.nam}-${k.id}`, nhom: k.nhom, ten: k.ten, thang: k.thang, st: k.trangThai, tags: k.noiDung || [], src: k.nguon.filter(s => s.url).map(s => s.url), rows: { 'Thời gian': k.thoiGian, 'Địa điểm': k.diaDiem || 'Đang cập nhật', ...(k.ghiChu ? { 'Ghi chú': k.ghiChu } : {}) } })),
+  ];
   const ctx = await b.newContext({ viewport: { width: 1280, height: 900 } });
   await ctx.route(/kaspersky-labs|kis\.v2\.scr/, r => r.abort());
   const page = await ctx.newPage();
   await page.goto(BASE + '/lich-thi-dau', { waitUntil: 'load' });
-  // giai theo cong van: id dang giai-NAM-TT (vd giai-2027-01); giai dia phuong: giai-NAM-<id>
-  const got = await page.$$eval('.event', els => els.filter(e => /^giai-\d{4}-\d{2}$/.test(e.id)).map(e => [e.querySelector('h4').textContent, ...[...e.querySelectorAll('dd')].map(d => d.textContent)].concat(e.querySelectorAll('dd').length < 3 ? [''] : []).join(' | ')));
-  const missing = want.filter(w => !got.includes(w));
+  const sort = o => JSON.stringify(Object.entries(o).sort());
+  const got = await page.$$eval(`#nam-${L.nam} .event`, els => els.map(e => ({
+    id: e.id, nhom: e.dataset.cap, ten: e.querySelector('h4').textContent.trim(), month: e.closest('.tl-month').id,
+    rows: Object.fromEntries([...e.querySelectorAll('dl > div')].filter(d => !d.querySelector('.ev-tags')).map(d => [d.querySelector('dt').textContent.trim(), d.querySelector('dd').textContent.trim()])),
+    st: ((e.querySelector('.st') || {}).textContent || '').trim(), tags: [...e.querySelectorAll('.ev-tags li')].map(x => x.textContent.trim()),
+    links: [...e.querySelectorAll('.ev-src a')].map(a => ({ href: a.href, ok: a.target === '_blank' && /noopener/.test(a.rel) })),
+  })));
+  const byId = new Map(got.map(g => [g.id, g])), bad = [];
+  for (const w of want) {
+    const g = byId.get(w.id);
+    if (!g) { bad.push('thiếu ' + w.id); continue; }
+    if (g.nhom !== w.nhom) bad.push(`${w.id}: nhóm "${g.nhom}"`);
+    if (g.ten !== w.ten) bad.push(`${w.id}: tên`);
+    if (sort(g.rows) !== sort(w.rows)) bad.push(`${w.id}: nội dung ${JSON.stringify(g.rows).slice(0, 80)}`);
+    if (g.st !== w.st) bad.push(`${w.id}: trạng thái "${g.st}"`);
+    if (JSON.stringify(g.tags) !== JSON.stringify(w.tags)) bad.push(`${w.id}: nội dung thi`);
+    if (JSON.stringify(g.links.map(x => x.href)) !== JSON.stringify(w.src) || !g.links.every(x => x.ok)) bad.push(`${w.id}: nguồn`);
+    if (g.month !== `thang-${L.nam}-${w.thang.slice(5)}`) bad.push(`${w.id}: tháng`);
+  }
+  check(`Lịch ${L.nam} trên web khớp dữ liệu: ${want.length} sự kiện (${L.giai.length} theo công văn + ${(L.khac || []).length} khác), từng trường, trạng thái, nguồn, tháng`, bad.length === 0 && got.length === want.length, bad.slice(0, 2).join(' / ') || `${got.length} thẻ`);
+  // khong trung: id, ten; giai CJ Vietnam Open (cong van + lich WT) chi mot the
+  const cj = await page.$$eval(`#nam-${L.nam} .event`, els => els.filter(e => /CJ Vietnam Open|Việt Nam mở rộng/i.test(e.textContent)).length);
+  const allIds = await page.$$eval('[id]', els => els.map(e => e.id));
+  check(`Lịch ${L.nam} không trùng sự kiện (id, tên, giải CJ Vietnam Open chỉ một thẻ) và không trùng id trên trang`, new Set(got.map(g => g.ten.toLowerCase())).size === got.length && new Set(got.map(g => g.id)).size === got.length && new Set(allIds).size === allIds.length && (L.nam !== 2027 || cj === 1), `${got.length} thẻ, CJ=${cj}, id trang ${allIds.length}`);
+  // bang tong quan: so lieu theo nhom + 12 thang (cham mau, lien ket toi thang)
+  const ov = await page.evaluate(nam => ({
+    stats: [...document.querySelectorAll(`#nam-${nam} .ln-stats li`)].map(li => [li.querySelector('span').textContent.trim(), Number(li.querySelector('b').textContent)]),
+    strip: [...document.querySelectorAll(`#nam-${nam} .ln-months .ln-m`)].map(li => ({ m: li.dataset.m, empty: li.classList.contains('is-empty'), dots: li.querySelectorAll('.ln-dot').length, href: li.querySelector('a') && li.querySelector('a').getAttribute('href') })),
+    heads: [...document.querySelectorAll(`#nam-${nam} .tl-month`)].map(m => [m.id, Number(m.querySelector('.tl-n').textContent.match(/\d+/)[0]), m.querySelectorAll('.event').length]),
+  }), L.nam);
+  const statOk = ov.stats.length === 5 && ov.stats[0][1] === want.length && NHOM.every((n, i) => ov.stats[i + 1][0] === n && ov.stats[i + 1][1] === want.filter(w => w.nhom === n).length);
+  const stripOk = ov.strip.length === 12 && ov.strip.every(s => { const n = want.filter(w => w.thang === s.m).length; return s.dots === n && s.empty === (n === 0) && (n === 0 ? !s.href : ov.heads.some(h => '#' + h[0] === s.href)); }) && ov.heads.every(h => h[1] === h[2]);
+  check(`Bảng tổng quan ${L.nam}: số liệu theo 4 nhóm khớp dữ liệu, 12 tháng có chấm màu và liên kết đúng tháng`, statOk && stripOk, JSON.stringify({ stats: ov.stats.map(s => s[1]), dots: ov.strip.map(s => s.dots) }));
+  // bo loc: moi nhom ra dung so su kien, thang het su kien bi lam mo, "Tat ca" tra lai du
+  const nMonths = new Set(want.map(w => w.thang)).size, filt = [];
+  for (const n of NHOM) {
+    await page.click(`#nam-${L.nam} .seg button[data-cap="${n}"]`);
+    filt.push(await page.evaluate(([nam, n]) => { const sec = document.getElementById('nam-' + nam), shown = [...sec.querySelectorAll('.event')].filter(e => !e.hidden); return { n: shown.length, all: shown.every(e => e.dataset.cap === n), off: sec.querySelectorAll('.ln-m.is-off').length, status: sec.querySelector('.cal-status').textContent }; }, [L.nam, n]));
+  }
+  await page.click(`#nam-${L.nam} .seg button[data-cap=""]`);
+  const all = await page.evaluate(nam => { const sec = document.getElementById('nam-' + nam); return { shown: [...sec.querySelectorAll('.event')].filter(e => !e.hidden).length, off: sec.querySelectorAll('.ln-m.is-off').length }; }, L.nam);
+  const filtOk = NHOM.every((n, i) => { const w = want.filter(x => x.nhom === n); return filt[i].n === w.length && filt[i].all && filt[i].status.includes(`Đang hiện ${w.length} `) && filt[i].off === nMonths - new Set(w.map(x => x.thang)).size; }) && all.shown === want.length && all.off === 0;
+  check(`Bộ lọc lịch ${L.nam} theo 4 nhóm ra đúng số sự kiện (${filt.map(f => f.n).join('/')}), tháng hết sự kiện được làm mờ, "Tất cả" trả lại đủ ${all.shown}`, filtOk, JSON.stringify({ filt: filt.map(f => [f.n, f.off]), all }));
   const local = await page.evaluate(ids => ids.map(([id, schema]) => { const e = document.getElementById(id); return !!e && !!e.querySelector(`a[href="${schema}"][target="_blank"]`); }), (LTD.giaiKhac || []).map(g => [`giai-${g.batDau.slice(0, 4)}-${g.id}`, g.schema]));
-  await page.click('.seg button[data-cap="Quốc tế"]');
-  const filt = await page.evaluate(() => ({ shown: [...document.querySelectorAll('.event')].filter(e => /^giai-\d{4}-\d{2}$/.test(e.id) && !e.hidden).map(e => e.dataset.cap), status: document.querySelector('.cal-status').textContent }));
-  const nQt = LTD.lich.flatMap(l => l.giai).filter(g => g.cap === 'Quốc tế').length;
-  check(`Lịch thi đấu trên web khớp dữ liệu (${want.length} giải + ${local.length} giải địa phương có link schema), lọc Quốc tế đúng`, missing.length === 0 && got.length === want.length && local.every(Boolean) && filt.shown.length === nQt && filt.shown.every(c => c === 'Quốc tế'), missing.length ? 'thiếu: ' + missing.slice(0, 2).join(' / ') : filt.status);
+  check(`Lịch giải địa phương: ${local.length} giải có nút link schema đúng`, local.every(Boolean), JSON.stringify(local));
   // danh sach trong tai giai dia phuong: lien ket #...-trong-tai mo bang, the giai chiem ca hang, du nguoi dung thu tu
   const withTT = (LTD.giaiKhac || []).filter(g => g.trongTai?.danhSach?.length);
   const p2 = await ctx.newPage();
