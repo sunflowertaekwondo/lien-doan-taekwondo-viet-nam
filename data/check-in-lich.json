@@ -2,7 +2,7 @@
  "_ghi_chu": "TU DONG tao boi tools/sync-check-in.mjs tu bang dang ky cua BTC (moi gio, chi ghi khi co thay doi). Chi gom gio, don vi, so the, co thi Quyen, trang thai. KHONG chua ho ten HLV, CCCD, so dien thoai, email. Dung sua tay: chay lai lenh.",
  "nguon": "https://docs.google.com/spreadsheets/d/1il-aEu2-id8FnGEbMgHwt8IImpnZl94-RRgR6trbVBk/edit?gid=0#gid=0",
  "layNgay": "2026-11-23",
- "layLuc": "2026-11-23T09:45",
+ "layLuc": "2026-11-23T19:44",
  "ngay": "2026-11-23",
  "lich": [
   {
@@ -120,7 +120,7 @@
    "theBtcHlv": 4,
    "theVdv": 20,
    "quyen": "Có",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 14,
@@ -129,7 +129,7 @@
    "theBtcHlv": 3,
    "theVdv": 7,
    "quyen": "Không",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 15,
@@ -138,7 +138,7 @@
    "theBtcHlv": 2,
    "theVdv": 12,
    "quyen": "Có",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 16,
@@ -147,7 +147,7 @@
    "theBtcHlv": 1,
    "theVdv": 7,
    "quyen": "Không",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 17,
@@ -156,7 +156,7 @@
    "theBtcHlv": 5,
    "theVdv": 16,
    "quyen": "Không",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 18,
@@ -165,7 +165,7 @@
    "theBtcHlv": 3,
    "theVdv": 10,
    "quyen": "Có",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 19,
@@ -174,7 +174,7 @@
    "theBtcHlv": 5,
    "theVdv": 21,
    "quyen": "Có",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 20,
@@ -183,7 +183,7 @@
    "theBtcHlv": 2,
    "theVdv": 6,
    "quyen": "Không",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 21,
@@ -197,7 +197,7 @@
    "theBtcHlv": 2,
    "theVdv": 1,
    "quyen": "Không",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 23,
@@ -206,7 +206,7 @@
    "theBtcHlv": 2,
    "theVdv": 12,
    "quyen": "Không",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 24,
@@ -238,7 +238,7 @@
    "theBtcHlv": 10,
    "theVdv": 9,
    "quyen": "Không",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 29,
@@ -257,7 +257,7 @@
    "theBtcHlv": 4,
    "theVdv": 13,
    "quyen": "Không",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 32,
@@ -266,7 +266,7 @@
    "theBtcHlv": 3,
    "theVdv": 12,
    "quyen": "Có",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 33,
@@ -275,7 +275,7 @@
    "theBtcHlv": 1,
    "theVdv": 8,
    "quyen": "Có",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 34,
@@ -284,7 +284,7 @@
    "theBtcHlv": 3,
    "theVdv": 6,
    "quyen": "Không",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   },
   {
    "tt": 35,
@@ -307,7 +307,7 @@
    "theBtcHlv": 3,
    "theVdv": 5,
    "quyen": "Không",
-   "trangThai": "PENDING"
+   "trangThai": "ĐÃ CHECKIN"
   }
  ]
 }
