@@ -1,0 +1,76 @@
+{
+  "_ghi_chu": "Ket qua thi dau mon Taekwondo - Dai hoi The thao toan quoc lan thu X. Moi noi dung co ket qua thi them mot muc vao 'noiDung' (theo thu tu hien thi); bang tong sap huy chuong, so lieu tren dau muc tu tinh tu day. hc: V = vang, B = bac, D = dong, TG = tham gia (khong tinh huy chuong). Anh: tep goc 'file' + '.jpg' (khung hien thi) va 'file' + '-full.jpg' (ban lon khi bam xem). Nho doi ngayCapNhatNoiDung trong data/site.json.",
+  "capNhat": "2026-11-26",
+  "tongNoiDung": 24,
+  "nguon": "Báo cáo thành tích của Ban Tổ chức (tkdvn1996.net) và Start List ngày 24/11/2026",
+  "anhCredit": "Liên đoàn Taekwondo Việt Nam",
+  "noiDung": [
+    {
+      "id": "quyen-ca-nhan-nam", "ten": "Quyền Cá nhân nam", "tenAnh": "Poomsae Individual – Male Individual", "loai": "vdv",
+      "ketQua": [
+        { "hc": "V", "ten": "Nguyễn Xuân Thành", "donVi": "Hà Nội", "ma": "HNOI" },
+        { "hc": "B", "ten": "Lưu Quyền Phước", "donVi": "Gia Lai", "ma": "GLAI" },
+        { "hc": "D", "ten": "Huỳnh Vĩ Nghi", "donVi": "Cần Thơ", "ma": "CTHO" },
+        { "hc": "D", "ten": "Nguyễn Quang Phúc", "donVi": "Hải Phòng", "ma": "HPHO" }
+      ],
+      "anh": [
+        { "file": "dai-hoi-x-2026-ket-qua-quyen-ca-nhan-nam-1", "w": 1600, "h": 662, "wl": 2000, "hl": 1125, "ratio": 2.417, "pos": "50% 50%", "alt": "Nguyễn Xuân Thành (Hà Nội) – Huy chương Vàng Quyền Cá nhân nam – Lễ trao huy chương" }
+      ]
+    },
+    {
+      "id": "quyen-ca-nhan-nu", "ten": "Quyền Cá nhân nữ", "tenAnh": "Poomsae Individual – Female Individual", "loai": "vdv",
+      "ketQua": [
+        { "hc": "V", "ten": "Nguyễn Phan Khánh Hân", "donVi": "Vĩnh Long", "ma": "VLON" },
+        { "hc": "B", "ten": "Châu Ngọc Tuyết Sang", "donVi": "TP. Hồ Chí Minh", "ma": "HCMI" },
+        { "hc": "D", "ten": "Huỳnh Thị Hoàng Thắm", "donVi": "Lâm Đồng", "ma": "LDON" },
+        { "hc": "D", "ten": "Đặng Thị Trúc Hào", "donVi": "Cần Thơ", "ma": "CTHO" }
+      ],
+      "anh": [
+        { "file": "dai-hoi-x-2026-ket-qua-quyen-ca-nhan-nu-1", "w": 1600, "h": 596, "wl": 2000, "hl": 1125, "pos": "55% 50%", "alt": "Nguyễn Phan Khánh Hân (Vĩnh Long) – Huy chương Vàng Quyền Cá nhân nữ – Phần thi quyền sáng tạo" },
+        { "file": "dai-hoi-x-2026-ket-qua-quyen-ca-nhan-nu-2", "w": 1086, "h": 1031, "wl": 2000, "hl": 1334, "pos": "50% 88%", "cap": "Niềm vui trên bục vinh quang", "alt": "Nguyễn Phan Khánh Hân (Vĩnh Long) – Huy chương Vàng Quyền Cá nhân nữ – Niềm vui trên bục vinh quang" },
+        { "file": "dai-hoi-x-2026-ket-qua-quyen-ca-nhan-nu-3", "w": 1600, "h": 595, "wl": 2000, "hl": 1125, "pos": "48% 50%", "cap": "Lễ trao huy chương", "alt": "Nguyễn Phan Khánh Hân (Vĩnh Long) – Huy chương Vàng Quyền Cá nhân nữ – Lễ trao huy chương" }
+      ]
+    },
+    {
+      "id": "quyen-doi-nam-nu", "ten": "Quyền Đôi nam nữ", "tenAnh": "Poomsae Pair – Senior Division", "loai": "vdv",
+      "ketQua": [
+        { "hc": "V", "ten": "Châu Tuyết Vân + Hồ Thanh Ân", "donVi": "TP. Hồ Chí Minh", "ma": "HCMI" },
+        { "hc": "B", "ten": "Nguyễn Thùy Trâm + Đặng Thành Long", "donVi": "Hà Nội", "ma": "HNOI" },
+        { "hc": "D", "ten": "Mao Thị Hồng Nhung + Nguyễn Thanh Phụng", "donVi": "Quân Đội", "ma": "QDOI" },
+        { "hc": "D", "ten": "Dương Tấn Đạt + Nguyễn Hồ Cẩm Giang", "donVi": "Vĩnh Long", "ma": "VLON" }
+      ],
+      "anh": [
+        { "file": "dai-hoi-x-2026-ket-qua-quyen-doi-nam-nu-1", "w": 1600, "h": 728, "wl": 2000, "hl": 1334, "pos": "50% 50%", "alt": "Châu Tuyết Vân + Hồ Thanh Ân (TP. Hồ Chí Minh) – Huy chương Vàng Quyền Đôi nam nữ – Phần thi Quyền đôi" },
+        { "file": "dai-hoi-x-2026-ket-qua-quyen-doi-nam-nu-2", "w": 1600, "h": 579, "wl": 2000, "hl": 1125, "pos": "50% 50%", "cap": "Lễ trao huy chương", "alt": "Châu Tuyết Vân + Hồ Thanh Ân (TP. Hồ Chí Minh) – Huy chương Vàng Quyền Đôi nam nữ – Lễ trao huy chương" }
+      ]
+    },
+    {
+      "id": "quyen-dong-doi-nam", "ten": "Quyền Đồng đội nam", "tenAnh": "Male Team Under 50", "loai": "doi",
+      "ketQua": [
+        { "hc": "V", "ten": "An Giang", "donVi": "An Giang" },
+        { "hc": "B", "ten": "TP. Hồ Chí Minh", "donVi": "TP. Hồ Chí Minh", "ma": "HCMI" },
+        { "hc": "D", "ten": "Hà Nội", "donVi": "Hà Nội", "ma": "HNOI" },
+        { "hc": "D", "ten": "Lâm Đồng", "donVi": "Lâm Đồng", "ma": "LDON" },
+        { "hc": "TG", "ten": "Quân Đội", "donVi": "Quân Đội" },
+        { "hc": "TG", "ten": "Quảng Ngãi", "donVi": "Quảng Ngãi" }
+      ],
+      "anh": [
+        { "file": "dai-hoi-x-2026-ket-qua-quyen-dong-doi-nam-1", "w": 1600, "h": 597, "wl": 2000, "hl": 1111, "ratio": 2.6, "pos": "50% 50%", "alt": "An Giang – Huy chương Vàng Quyền Đồng đội nam – Lễ trao huy chương" }
+      ]
+    },
+    {
+      "id": "quyen-dong-doi-nu", "ten": "Quyền Đồng đội nữ", "tenAnh": "Female Team Under 50", "loai": "doi",
+      "ketQua": [
+        { "hc": "V", "ten": "Lâm Đồng", "donVi": "Lâm Đồng", "ma": "LDON" },
+        { "hc": "B", "ten": "Quân Đội", "donVi": "Quân Đội", "ma": "QDOI" },
+        { "hc": "D", "ten": "An Giang", "donVi": "An Giang" },
+        { "hc": "D", "ten": "Hưng Yên", "donVi": "Hưng Yên" }
+      ],
+      "anh": [
+        { "file": "dai-hoi-x-2026-ket-qua-quyen-dong-doi-nu-1", "w": 1600, "h": 788, "wl": 2000, "hl": 1334, "pos": "50% 45%", "alt": "Lâm Đồng – Huy chương Vàng Quyền Đồng đội nữ – Lễ trao huy chương" },
+        { "file": "dai-hoi-x-2026-ket-qua-quyen-dong-doi-nu-2", "w": 968, "h": 506, "wl": 968, "hl": 506, "pos": "50% 40%", "cap": "Lâm Đồng – phần thi đồng đội", "alt": "Lâm Đồng – Huy chương Vàng Quyền Đồng đội nữ – Lâm Đồng – phần thi đồng đội" },
+        { "file": "dai-hoi-x-2026-ket-qua-quyen-dong-doi-nu-3", "w": 1600, "h": 592, "wl": 2000, "hl": 1125, "pos": "40% 50%", "cap": "Các đội nhận giải", "alt": "Lâm Đồng – Huy chương Vàng Quyền Đồng đội nữ – Các đội nhận giải" }
+      ]
+    }
+  ]
+}

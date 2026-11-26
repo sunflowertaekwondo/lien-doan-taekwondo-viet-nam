@@ -276,6 +276,27 @@
     else if (!nextSet) { li.classList.add('is-next'); tag.textContent = 'Sắp tới'; nextSet = true; }
   });
 
+  // ---- Ket qua thi dau Dai hoi X: bam anh de xem lon (khong co JS thi lien ket mo thang anh lon) ----
+  $$('.kq-dhx').forEach(function (r) {
+    var lb = $('.kq-lb', r), im = lb && $('img', lb), cp = lb && $('p', lb), bt = lb && $('button', lb), opener = null;
+    if (!lb || !im || !cp || !bt) return;
+    function close() { lb.hidden = true; im.removeAttribute('src'); if (opener) { opener.focus(); opener = null; } }
+    $$('.kq-zoom', r).forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault(); opener = a;
+        im.src = a.getAttribute('href'); im.alt = a.dataset.cap || ''; cp.textContent = (a.dataset.cap || '') + ' · Ảnh: Liên đoàn Taekwondo Việt Nam';
+        lb.hidden = false; bt.focus();
+      });
+    });
+    bt.addEventListener('click', close);
+    lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+    doc.addEventListener('keydown', function (e) {
+      if (lb.hidden) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'Tab') { e.preventDefault(); bt.focus(); } // chi co mot nut: giu phim Tab trong hop thoai
+    });
+  });
+
   // ---- Le Khai mac: dem nguoc theo ngay (gio Viet Nam); the nhac o Tong quan tu an sau ngay dien ra (khong co JS thi giu dong ngay gio co san) ----
   $$('.km-callout[data-end]').forEach(function (a) { if (Date.parse(a.dataset.end) < now) a.hidden = true; });
   $$('.km-count[data-start]').forEach(function (el) {

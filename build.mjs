@@ -12,6 +12,7 @@ import { sprite, icon } from './src/icons.mjs';
 import { parseFrontMatter, renderMarkdown, plainText, clip, safeUrl } from './src/markdown.mjs';
 import { buildChatKb } from './tools/build-chat-kb.mjs';
 import { renderDoping } from './src/doping.mjs';
+import { renderKetQua } from './src/ket-qua.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const DIST = process.env.SITE_OUT ? path.resolve(process.env.SITE_OUT) : path.join(HERE, 'dist');
@@ -23,6 +24,7 @@ const DL = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'dieu-le.json'), '
 const LTD = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'lich-thi-dau.json'), 'utf8'));
 const DH = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'dai-hoi-x-2026.json'), 'utf8'));
 const DP = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'doping-dai-hoi-x.json'), 'utf8')); // muc Phong chong doping (So tay cua Tieu ban Kiem tra Doping)
+const KQ = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'ket-qua-dai-hoi-x.json'), 'utf8')); // muc Ket qua thi dau (huy chuong, anh, bang tong sap)
 // lich check-in (tu dong tu bang cua BTC bang tools/sync-check-in.mjs; CHI cot an toan, khong co CCCD/SDT/email/ten HLV)
 const CIL_FILE = path.join(HERE, 'data', 'check-in-lich.json');
 const CIL = fs.existsSync(CIL_FILE) ? JSON.parse(fs.readFileSync(CIL_FILE, 'utf8')) : null;
@@ -83,7 +85,7 @@ for (const e of fs.readdirSync(DIST)) {
 }
 for (const d of ['assets', 'docs', 'fonts', 'img', 'tin-tuc', 'video']) fs.mkdirSync(path.join(DIST, d), { recursive: true });
 const fontsCss = fs.readFileSync(path.join(HERE, 'src', 'fonts', 'fonts.css'), 'utf8').replace(/url\("\.\.\/fonts\//g, `url("${BASE}/fonts/`);
-const css = fontsCss + '\n' + fs.readFileSync(path.join(HERE, 'src', 'site.css'), 'utf8') + '\n' + fs.readFileSync(path.join(HERE, 'src', 'chat.css'), 'utf8');
+const css = fontsCss + '\n' + fs.readFileSync(path.join(HERE, 'src', 'site.css'), 'utf8') + '\n' + fs.readFileSync(path.join(HERE, 'src', 'ket-qua.css'), 'utf8') + '\n' + fs.readFileSync(path.join(HERE, 'src', 'chat.css'), 'utf8');
 const js = fs.readFileSync(path.join(HERE, 'src', 'site.js'), 'utf8');
 const chatJs = fs.readFileSync(path.join(HERE, 'src', 'chat.js'), 'utf8');   // tro ly ao LinhKate: chi hien nut khi /api/chat san sang
 // ma bam chi theo noi dung CSS + JS: lan chay tu dong hang ngay khong doi ten tep khi ma khong doi
@@ -709,8 +711,8 @@ const checkInTable = () => {
     file: 'dai-hoi-the-thao-toan-quoc-2026.html', path: DH_PATH, active: '/lich-thi-dau', title: m.title, desc: m.desc, ogImage: `og-${m.og}.jpg`, crumbs, extraLd: [dhLd],
     hero: pageHero(crumbs, DH.ten, `Môn ${esc(DH.mon)} · ${dhRange} · ${esc(DH.diaDiem)}`),
     body: `
-    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a href="#quy-dinh">Quy định</a><a href="#ky-cuong-thi-dau">Kỷ cương thi đấu</a><a class="hot" href="#phong-chong-doping">Phòng chống doping</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#le-khai-mac">Lễ Khai mạc</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#chuong-trinh">Chương trình</a><a href="#diem-danh-ung-dung">Điểm danh bằng ứng dụng</a><a href="#loi-vao-nha-thi-dau">Lối vào nhà thi đấu</a><a href="#dieu-phoi-vdv">Điều phối VĐV vào sân</a><a href="#khan-dai">Khán đài</a><a href="#trao-huy-chuong">Trao huy chương</a><a href="#ban-to-chuc-trong-tai">Ban tổ chức, trọng tài</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
-      sec('tong-quan', 'Tổng quan', `${kmCallout}<a class="dp-callout" href="#phong-chong-doping">${icon('shield')}<span><strong>Nội dung quan trọng: Sổ tay phòng chống doping – Play True</strong><span class="dp-co-t">Mọi VĐV tham dự đều có thể được kiểm tra doping “không báo trước”. HLV, VĐV đọc kỹ trước khi đến Đại hội.</span></span>${icon('arrow-right')}</a>
+    <nav class="tabs" aria-label="Trong trang này"><div class="container"><a href="#tong-quan">Tổng quan</a><a class="hot" href="#ket-qua">Kết quả thi đấu</a><a href="#quy-dinh">Quy định</a><a href="#ky-cuong-thi-dau">Kỷ cương thi đấu</a><a class="hot" href="#phong-chong-doping">Phòng chống doping</a><a href="#noi-dung-thi-dau">Nội dung thi đấu</a><a href="#email-schema">Email schema</a><a href="#san-tap">Sân tập</a><a href="#le-khai-mac">Lễ Khai mạc</a><a href="#check-in">Check-in</a><a href="#nop-nhac">Nộp nhạc quyền</a><a href="#chuong-trinh">Chương trình</a><a href="#diem-danh-ung-dung">Điểm danh bằng ứng dụng</a><a href="#loi-vao-nha-thi-dau">Lối vào nhà thi đấu</a><a href="#dieu-phoi-vdv">Điều phối VĐV vào sân</a><a href="#khan-dai">Khán đài</a><a href="#trao-huy-chuong">Trao huy chương</a><a href="#ban-to-chuc-trong-tai">Ban tổ chức, trọng tài</a><a href="#tai-lieu">Tài liệu</a></div></nav>` + [
+      sec('tong-quan', 'Tổng quan', `<a class="dp-callout" href="#ket-qua">${icon('check')}<span><strong>Kết quả thi đấu: đã có ${KQ.noiDung.length}/${KQ.tongNoiDung} nội dung</strong><span class="dp-co-t">Huy chương, ảnh trao giải và bảng tổng sắp huy chương, cập nhật ngày ${viDate(KQ.capNhat)}.</span></span>${icon('arrow-right')}</a>${kmCallout}<a class="dp-callout" href="#phong-chong-doping">${icon('shield')}<span><strong>Nội dung quan trọng: Sổ tay phòng chống doping – Play True</strong><span class="dp-co-t">Mọi VĐV tham dự đều có thể được kiểm tra doping “không báo trước”. HLV, VĐV đọc kỹ trước khi đến Đại hội.</span></span>${icon('arrow-right')}</a>
         <ul class="cal-stats">
           <li><b>${dhRange}</b><span>thời gian</span></li>
           <li><b>${nTong}</b><span>nội dung thi đấu</span></li>
@@ -733,6 +735,7 @@ const checkInTable = () => {
         <h3 class="sub-h">Mốc thời gian</h3>
         <ol class="ms-list">${moc.map(([d, e, t, s]) => `<li data-end="${e}"><time datetime="${d}"><b>${viDate(d).slice(0, 5)}</b><small>${thu(d)}</small></time><span class="ms-body"><strong>${esc(t)}</strong>${s ? `<small>${esc(s)}</small>` : ''}</span><span class="ms-state" aria-live="off"></span></li>`).join('')}</ol>
         ${src(`${srcDL}; ${esc(st.ten)}`)}`, `Thông tin thi đấu môn ${esc(DH.mon)} tại ${esc(DH.ten)}, theo Điều lệ môn và Sổ tay Check-in của Ban Tổ chức.`),
+      sec('ket-qua', 'Kết quả thi đấu', renderKetQua({ KQ, esc, src, viDate })),
       sec('quy-dinh', 'Quy định chung', `<h3 class="sub-h">Đối tượng và điều kiện tham dự</h3>
         <ol class="numlist one">${DH.doiTuong.map(t => `<li>${esc(t)}</li>`).join('')}</ol>
         <h3 class="sub-h">Đăng ký thi đấu</h3>
