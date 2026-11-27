@@ -29,6 +29,7 @@ export function renderKetQua({ KQ, esc, src, viDate }) {
   const ten = s => esc(s).replace(/ \+ /g, '<br>+ ');
   const code = r => r.ma ? ` <span class="kq-code">${esc(r.ma)}</span>` : '';
   const chip = h => `<span class="kq-chip ${HC[h].chip}">${HC[h].nhan}</span>`;
+  const credit = KQ.anhLienKet ? `<a href="${esc(KQ.anhLienKet)}" target="_blank" rel="noopener">${esc(KQ.anhCredit)}</a>` : esc(KQ.anhCredit);
   const gal = e => {
     const n = Math.min(e.anh.length, 3), vang = e.ketQua.find(r => r.hc === 'V');
     const figs = e.anh.slice(0, 3).map((a, i) => {
@@ -39,7 +40,7 @@ export function renderKetQua({ KQ, esc, src, viDate }) {
         : (a.cap ? `<figcaption>${esc(a.cap)}</figcaption>` : '');
       return `<figure class="kq-ph${big ? ' big' : ''}"${big && n === 1 && a.ratio ? ` style="aspect-ratio:${a.ratio}"` : ''}>${img}${cap}</figure>`;
     }).join('');
-    return `<div class="kq-gal n${n}">${figs}</div><p class="kq-credit">Ảnh: ${esc(KQ.anhCredit)}</p>`;
+    return `<div class="kq-gal n${n}">${figs}</div><p class="kq-credit">Ảnh: ${credit}</p>`;
   };
   const bac = (e, h) => e.ketQua.filter(r => r.hc === h);
   const col = (e, h, cls) => `<div class="kq-pod-col ${cls}"><div class="kq-pod-people">${bac(e, h).map(r => `<div class="kq-pod-p"><div class="kq-pod-name">${ten(r.ten)}</div>${e.loai === 'vdv' ? `<div class="kq-pod-unit">${esc(r.donVi)}</div>` : ''}</div>`).join('')}</div><div class="kq-pod-step"><span class="kq-medal ${cls}" aria-hidden="true">${HC[h].so}</span></div></div>`;

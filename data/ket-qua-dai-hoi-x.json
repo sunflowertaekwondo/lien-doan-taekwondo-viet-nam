@@ -1,8 +1,9 @@
 {
   "_ghi_chu": "Ket qua thi dau mon Taekwondo - Dai hoi The thao toan quoc lan thu X. Moi noi dung co ket qua thi them mot muc vao 'noiDung' (theo thu tu hien thi); bang tong sap huy chuong, so lieu tren dau muc tu tinh tu day. hc: V = vang, B = bac, D = dong, TG = tham gia (khong tinh huy chuong). Anh: tep goc 'file' + '.jpg' (khung hien thi) va 'file' + '-full.jpg' (ban lon khi bam xem). Nho doi ngayCapNhatNoiDung trong data/site.json.",
-  "capNhat": "2026-11-26",
+  "capNhat": "2026-11-27",
   "tongNoiDung": 24,
-  "nguon": "Báo cáo thành tích của Ban Tổ chức (tkdvn1996.net) và Start List ngày 24/11/2026",
+  "nguon": "Báo cáo thành tích của Ban Tổ chức (tkdvn1996.net), Start List ngày 24/11/2026 và Danh sách huy chương Đại hội ngày 26/11/2026",
+  "anhLienKet": "https://www.facebook.com/sunflowertkd",
   "anhCredit": "Liên đoàn Taekwondo Việt Nam",
   "noiDung": [
     {
@@ -70,6 +71,80 @@
         { "file": "dai-hoi-x-2026-ket-qua-quyen-dong-doi-nu-1", "w": 1600, "h": 788, "wl": 2000, "hl": 1334, "pos": "50% 45%", "alt": "Lâm Đồng – Huy chương Vàng Quyền Đồng đội nữ – Lễ trao huy chương" },
         { "file": "dai-hoi-x-2026-ket-qua-quyen-dong-doi-nu-2", "w": 968, "h": 506, "wl": 968, "hl": 506, "pos": "50% 40%", "cap": "Lâm Đồng – phần thi đồng đội", "alt": "Lâm Đồng – Huy chương Vàng Quyền Đồng đội nữ – Lâm Đồng – phần thi đồng đội" },
         { "file": "dai-hoi-x-2026-ket-qua-quyen-dong-doi-nu-3", "w": 1600, "h": 592, "wl": 2000, "hl": 1125, "pos": "40% 50%", "cap": "Các đội nhận giải", "alt": "Lâm Đồng – Huy chương Vàng Quyền Đồng đội nữ – Các đội nhận giải" }
+      ]
+    },
+    {
+      "id": "doi-khang-nu-46kg", "ten": "Đối kháng Cá nhân nữ dưới 46kg", "tenAnh": "Kyorugi Individual – F-46kg", "loai": "vdv",
+      "ketQua": [
+        {"hc": "V", "ten": "Phạm Thị Kim Chi", "donVi": "TP. Hồ Chí Minh", "ma": "HCMI"},
+        {"hc": "B", "ten": "Lê Thị Ngọc Phương", "donVi": "An Giang", "ma": "AGIA"},
+        {"hc": "D", "ten": "Nguyễn Bảo An", "donVi": "Khánh Hòa", "ma": "KHOA"},
+        {"hc": "D", "ten": "Phạm Ngọc Ánh", "donVi": "Quảng Ninh", "ma": "QNIN"}
+      ],
+      "anh": [
+        {"file": "dai-hoi-x-2026-ket-qua-doi-khang-nu-46kg-1", "w": 1600, "h": 900, "wl": 2000, "hl": 1125, "ratio": 2.2, "pos": "50% 85%", "alt": "Phạm Thị Kim Chi (TP. Hồ Chí Minh) – Huy chương Vàng Đối kháng Cá nhân nữ dưới 46kg – Lễ trao huy chương"}
+      ]
+    },
+    {
+      "id": "doi-khang-nu-57kg", "ten": "Đối kháng Cá nhân nữ dưới 57kg", "tenAnh": "Kyorugi Individual – F-57kg", "loai": "vdv",
+      "ketQua": [
+        {"hc": "V", "ten": "Vũ Thị Dung", "donVi": "Hà Nội", "ma": "HNOI"},
+        {"hc": "B", "ten": "Phạm Ngọc Châm", "donVi": "Thanh Hóa", "ma": "THOA"},
+        {"hc": "D", "ten": "Nguyễn Yến Nhi", "donVi": "Cà Mau", "ma": "CMAU"},
+        {"hc": "D", "ten": "Huỳnh Thị Ái Nhi", "donVi": "Gia Lai", "ma": "GLAI"}
+      ],
+      "anh": [
+        {"file": "dai-hoi-x-2026-ket-qua-doi-khang-nu-57kg-1", "w": 1600, "h": 900, "wl": 2000, "hl": 1125, "pos": "50% 85%", "alt": "Vũ Thị Dung (Hà Nội) – Huy chương Vàng Đối kháng Cá nhân nữ dưới 57kg – Lễ trao huy chương"},
+        {"file": "dai-hoi-x-2026-ket-qua-doi-khang-nu-57kg-2", "w": 1600, "h": 900, "wl": 2000, "hl": 1125, "pos": "50% 85%", "cap": "Các VĐV đoạt giải", "alt": "Vũ Thị Dung (Hà Nội) – Huy chương Vàng Đối kháng Cá nhân nữ dưới 57kg – Các VĐV đoạt giải"}
+      ]
+    },
+    {
+      "id": "doi-khang-nu-73kg", "ten": "Đối kháng Cá nhân nữ dưới 73kg", "tenAnh": "Kyorugi Individual – F-73kg", "loai": "vdv",
+      "ketQua": [
+        {"hc": "V", "ten": "Nguyễn Thị Mỹ Dung", "donVi": "Đà Nẵng", "ma": "DNAN"},
+        {"hc": "B", "ten": "Nguyễn Thúy Hằng", "donVi": "Đồng Tháp", "ma": "DTHA"},
+        {"hc": "D", "ten": "Nguyễn Thị Hương", "donVi": "Thanh Hóa", "ma": "THOA"},
+        {"hc": "D", "ten": "Ma Ngọc Diệp", "donVi": "Thái Nguyên", "ma": "TNGU"}
+      ],
+      "anh": [
+        {"file": "dai-hoi-x-2026-ket-qua-doi-khang-nu-73kg-1", "w": 1600, "h": 900, "wl": 2000, "hl": 1125, "ratio": 2.2, "pos": "50% 85%", "alt": "Nguyễn Thị Mỹ Dung (Đà Nẵng) – Huy chương Vàng Đối kháng Cá nhân nữ dưới 73kg – Lễ trao huy chương"}
+      ]
+    },
+    {
+      "id": "doi-khang-nam-54kg", "ten": "Đối kháng Cá nhân nam dưới 54kg", "tenAnh": "Kyorugi Individual – M-54kg", "loai": "vdv",
+      "ketQua": [
+        {"hc": "V", "ten": "Nguyễn Hồng Trọng", "donVi": "TP. Hồ Chí Minh", "ma": "HCMI"},
+        {"hc": "B", "ten": "Ngô Trường Nguyên Đại", "donVi": "Đà Nẵng", "ma": "DNAN"},
+        {"hc": "D", "ten": "Tưởng Hoàng Thống", "donVi": "Đồng Tháp", "ma": "DTHA"},
+        {"hc": "D", "ten": "Hoàng Đức Anh", "donVi": "Cần Thơ", "ma": "CTHO"}
+      ],
+      "anh": [
+        {"file": "dai-hoi-x-2026-ket-qua-doi-khang-nam-54kg-1", "w": 1600, "h": 900, "wl": 2000, "hl": 1125, "ratio": 2.2, "pos": "50% 85%", "alt": "Nguyễn Hồng Trọng (TP. Hồ Chí Minh) – Huy chương Vàng Đối kháng Cá nhân nam dưới 54kg – Lễ trao huy chương"}
+      ]
+    },
+    {
+      "id": "doi-khang-nam-68kg", "ten": "Đối kháng Cá nhân nam dưới 68kg", "tenAnh": "Kyorugi Individual – M-68kg", "loai": "vdv",
+      "ketQua": [
+        {"hc": "V", "ten": "Phạm Đăng Quang", "donVi": "TP. Hồ Chí Minh", "ma": "HCMI"},
+        {"hc": "B", "ten": "Nguyễn Trần Tấn Sang", "donVi": "Quân Đội", "ma": "QDOI"},
+        {"hc": "D", "ten": "Nguyễn Trung Hiếu", "donVi": "Đồng Nai", "ma": "DNAI"},
+        {"hc": "D", "ten": "Trương Văn Hiếu", "donVi": "Gia Lai", "ma": "GLAI"}
+      ],
+      "anh": [
+        {"file": "dai-hoi-x-2026-ket-qua-doi-khang-nam-68kg-1", "w": 1600, "h": 900, "wl": 2000, "hl": 1125, "ratio": 2.2, "pos": "50% 85%", "alt": "Phạm Đăng Quang (TP. Hồ Chí Minh) – Huy chương Vàng Đối kháng Cá nhân nam dưới 68kg – Lễ trao huy chương"}
+      ]
+    },
+    {
+      "id": "doi-khang-nam-tren-87kg", "ten": "Đối kháng Cá nhân nam trên 87kg", "tenAnh": "Kyorugi Individual – M+87kg", "loai": "vdv",
+      "ketQua": [
+        {"hc": "V", "ten": "Lê Phi Hùng", "donVi": "Hà Nội", "ma": "HNOI"},
+        {"hc": "B", "ten": "Nguyễn Trường Chinh", "donVi": "Lâm Đồng", "ma": "LDON"},
+        {"hc": "D", "ten": "Vũ Tùng Quân", "donVi": "Quảng Ninh", "ma": "QNIN"},
+        {"hc": "D", "ten": "Nguyễn Thanh Trí", "donVi": "Vĩnh Long", "ma": "VLON"}
+      ],
+      "anh": [
+        {"file": "dai-hoi-x-2026-ket-qua-doi-khang-nam-tren-87kg-1", "w": 1600, "h": 900, "wl": 2000, "hl": 1125, "pos": "50% 85%", "alt": "Lê Phi Hùng (Hà Nội) – Huy chương Vàng Đối kháng Cá nhân nam trên 87kg – Lễ trao huy chương"},
+        {"file": "dai-hoi-x-2026-ket-qua-doi-khang-nam-tren-87kg-2", "w": 1600, "h": 900, "wl": 2000, "hl": 1125, "pos": "50% 85%", "cap": "Các VĐV đoạt giải", "alt": "Lê Phi Hùng (Hà Nội) – Huy chương Vàng Đối kháng Cá nhân nam trên 87kg – Các VĐV đoạt giải"}
       ]
     }
   ]
